@@ -1,0 +1,118 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/background"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:id="@+id/header"
+        android:layout_width="fill_parent"
+        android:layout_height="45dp"
+        android:background="@android:color/white" >
+
+        <Button
+            android:id="@+id/backbtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:background="@drawable/backbt" />
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textColor="@color/orange"
+            android:textSize="20sp" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="0.1dip"
+            android:layout_alignParentBottom="true"
+            android:background="@color/orange" />
+    </RelativeLayout>
+
+    <!-- 旧密码  新密码  提交 -->
+
+    <LinearLayout
+        android:id="@+id/getcodeview"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical" >
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="0.1dip"
+            android:layout_weight="1"
+            android:background="@color/gray_line" />
+
+        <EditText
+            android:id="@+id/pswedt_old"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@null"
+            android:hint="@string/input_old_pwd"
+            android:paddingLeft="25dp"
+            android:inputType="textPassword"
+            android:singleLine="true"
+            android:textColor="@color/blackgrey"
+            android:textSize="16sp" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="0.1dip"
+            android:layout_marginLeft="20dp"
+            android:background="@color/gray_line" />
+
+        <EditText
+            android:id="@+id/pswedt01"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@null"
+            android:hint="@string/input_new_code"
+            android:paddingLeft="25dp"
+            android:inputType="textPassword"
+            android:singleLine="true"
+            android:textColor="@color/blackgrey"
+            android:textSize="16sp" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="0.1dip"
+            android:layout_marginLeft="20dp"
+            android:background="@color/gray_line" />
+
+        <EditText
+            android:id="@+id/pswedt02"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@null"
+            android:hint="@string/sure_new_code"
+            android:paddingLeft="25dp"
+            android:inputType="textPassword"
+            android:singleLine="true"
+            android:textColor="@color/blackgrey"
+            android:textSize="16sp" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="0.1dip"
+            android:background="@color/gray_line" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/okbtn"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="80dp"
+        android:background="@drawable/orange_btn"
+        android:text="@string/submit"
+        android:textColor="@android:color/white"
+        android:textSize="19sp" />
+
+</LinearLayout>

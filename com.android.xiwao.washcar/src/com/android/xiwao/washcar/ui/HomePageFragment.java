@@ -1,0 +1,89 @@
+package com.android.xiwao.washcar.ui;
+
+import android.content.Context;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
+import android.widget.RelativeLayout.LayoutParams;
+import android.widget.TextView;
+
+import com.android.xiwao.washcar.Constants;
+import com.android.xiwao.washcar.R;
+
+public class HomePageFragment extends BaseFragment{
+	private Context mContext;
+	private Button washCarBtn;
+	private Button washCarWaxBtn;
+	private TextView title;
+	private RadioGroup radioGroup;
+	private RadioButton radioButton;
+		
+	private View view;
+
+	@Override  
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {  
+		mContext = getActivity();
+        view = inflater.inflate(R.layout.home_page, null); 
+        initContentView();
+        setHwView();
+        return view;  
+    }
+	
+	@Override
+	public void initContentView() {
+		// TODO Auto-generated method stub
+		radioGroup = (RadioGroup) getActivity().findViewById(R.id.rg_tab);
+		radioButton = (RadioButton) getActivity().findViewById(R.id.car_info);
+		washCarBtn = (Button)view.findViewById(R.id.wash_car);
+		washCarWaxBtn = (Button)view.findViewById(R.id.wash_car_wax);
+		title = (TextView)view.findViewById(R.id.title); 
+		
+		title.setText(this.getResources().getString(R.string.i_wash_car));
+		washCarBtn.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				radioButton.setChecked(true);
+				Fragment newFragment = new CarInfoEditFragment();
+				FragmentTransaction transaction =getFragmentManager().beginTransaction();
+				// Replace whatever is in thefragment_container view with this fragment,
+				// and add the transaction to the backstack
+				transaction.replace(R.id.content,newFragment);
+				transaction.addToBackStack(null);
+				//Ìá½»ÐÞ¸Ä
+				transaction.commit();
+			}
+		});
+	}
+	
+	public void setHwView(){
+		RelativeLayout.LayoutParams btnParams = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT
+				, LayoutParams.WRAP_CONTENT);
+//		btnParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+		btnParams.setMargins(0, 0, 0, (int)(Constants.displayHeight * 0.1f + 0.5f));
+		washCarBtn.setLayoutParams(btnParams);
+		
+		btnParams = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT
+				, LayoutParams.WRAP_CONTENT);
+//		btnParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+		btnParams.setMargins((int)(Constants.displayHeight * 0.1f + 0.5f), 0
+				, 0, (int)(Constants.displayHeight * 0.1f + 0.5f));
+		btnParams.addRule(RelativeLayout.RIGHT_OF, R.id.wash_car);
+		washCarWaxBtn.setLayoutParams(btnParams);
+		
+		RelativeLayout title = (RelativeLayout) view.findViewById(R.id.header);
+		RelativeLayout.LayoutParams titleParams = new RelativeLayout.LayoutParams(LayoutParams.FILL_PARENT
+				, (int)(Constants.displayHeight * 0.08f + 0.5f));
+		title.setLayoutParams(titleParams);
+	}
+}

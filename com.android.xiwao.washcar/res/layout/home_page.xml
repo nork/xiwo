@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal" >
+
+    <RelativeLayout
+        android:id="@+id/header"
+        android:layout_width="fill_parent"
+        android:layout_height="45dp"
+        android:background="@android:color/white" >
+
+        <Button
+            android:id="@+id/backbtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:background="@drawable/backbt" />
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textColor="@color/orange"
+            android:textSize="20sp" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="0.1dip"
+            android:layout_alignParentBottom="true"
+            android:background="@color/orange" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/btn_part"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/header"
+        android:background="@drawable/main_bg"
+        android:gravity="bottom|center_horizontal" >
+
+        <Button
+            android:id="@+id/wash_car"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/washcar_btn"
+            android:text="@string/wash_car"
+            android:textColor="@color/white"
+            android:textStyle="bold" >
+        </Button>
+
+        <Button
+            android:id="@+id/wash_car_wax"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/wash_car"
+            android:background="@drawable/washwaxcar_btn"
+            android:text="@string/wash_car_wax"
+            android:textColor="@color/white"
+            android:textStyle="bold" >
+        </Button>
+    </RelativeLayout>
+
+</RelativeLayout>

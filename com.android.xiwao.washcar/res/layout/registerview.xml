@@ -1,0 +1,316 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/background"
+    android:orientation="vertical" >
+
+    <!-- 表头  证大财富标签和返回按钮 -->
+
+    <RelativeLayout
+        android:id="@+id/header"
+        android:layout_width="fill_parent"
+        android:layout_height="45dp"
+        android:background="@android:color/white" >
+
+        <Button
+            android:id="@+id/backbtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:background="@drawable/backbt" />
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textColor="@color/orange"
+            android:textSize="20sp" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="0.1dip"
+            android:layout_alignParentBottom="true"
+            android:background="@color/orange" />
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <!-- 用手机号获取验证码视图 -->
+
+            <LinearLayout
+                android:id="@+id/getcodeview"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:orientation="vertical" 
+                android:visibility="visible">
+
+                <!-- 手机号码 -->
+                <LinearLayout
+                    android:id="@+id/input_part"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="fill_parent"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="20dp"
+                        android:text="@string/phone_num"
+                        android:textColor="@android:color/black"
+                        android:textSize="17sp" />
+
+                    <EditText
+                        android:id="@+id/teledt"
+                        android:layout_width="match_parent"
+                        android:layout_height="fill_parent"
+                        android:background="@null"
+                        android:digits="0123456789"
+                        android:hint="@string/please_phone"
+                        android:inputType="phone"
+                        android:maxLength="11"
+                        android:paddingLeft="10dp"
+                        android:singleLine="true"
+                        android:textSize="17sp" />
+                </LinearLayout>
+
+                <!-- 同意协议 -->
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal" >
+
+                    <ImageView
+                        android:id="@+id/agreebtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:background="@drawable/agree_radio"
+                        />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal" >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:text="@string/agree"
+                            android:textSize="18sp" 
+                            android:textColor="@android:color/black"/>
+
+                        <TextView
+                            android:id="@+id/agreetxt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:clickable="true"
+                            android:text="@string/agreement01"
+                            android:textColor="#0686f3"
+                            android:textSize="18sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/getcodebtn"
+                    android:layout_width="fill_parent"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/graybtn_bg"
+                    android:text="@string/send_code"
+                    android:textColor="@color/white"
+                    android:textSize="19sp" />
+            </LinearLayout>
+
+            <!-- 设置密码注册视图 -->
+
+            <LinearLayout
+                android:id="@+id/registerview"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:orientation="vertical"
+                android:visibility="gone" >
+
+                <!-- 验证码及密码 -->
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:orientation="vertical" >
+
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="0.1dip"
+                        android:layout_weight="1"
+                        android:background="@color/gray_line" />
+
+                    <LinearLayout
+                        android:id="@+id/code_input_part"
+                        android:layout_width="fill_parent"
+                        android:layout_height="50dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal" >
+
+                        <EditText
+                            android:id="@+id/codeedt"
+                            android:layout_width="0dip"
+                            android:layout_height="50dp"
+                            android:layout_weight="1"
+                            android:background="@null"
+                            android:digits="0123456789abcdefghigklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                            android:hint="@string/input_code"
+                            android:inputType="textVisiblePassword"
+                            android:maxLength="4"
+                            android:paddingLeft="25dp"
+                            android:singleLine="true"
+                            android:textColor="@color/blackgrey"
+                            android:textSize="16sp" />
+
+                        <Button
+                            android:id="@+id/getagin"
+                            android:layout_width="130dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="right|center_vertical"
+                            android:layout_marginRight="15dp"
+                            android:background="@drawable/orange_btn_bg"
+                            android:text="@string/get_code"
+                            android:textColor="@color/white"
+                            android:textSize="15sp" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="0.1dip"
+                        android:layout_marginLeft="25dp"
+                        android:background="@color/gray_line" />
+
+                    <EditText
+                        android:id="@+id/pswedt01"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:background="@null"
+                        android:digits="0123456789abcdefghigklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_"
+                        android:hint="@string/setpwd"
+                        android:maxLength="16"
+                        android:paddingLeft="25dp"
+                        android:inputType="textPassword"
+                        android:singleLine="true"
+                        android:textColor="@color/blackgrey"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="0.1dip"
+                        android:layout_marginLeft="25dp"
+                        android:background="@color/gray_line" />
+
+                    <EditText
+                        android:id="@+id/pswedt02"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:background="@null"
+                        android:digits="0123456789abcdefghigklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_"
+                        android:hint="@string/setpwdagin"
+                        android:maxLength="16"
+                        android:paddingLeft="25dp"
+                        android:inputType="textPassword"
+                        android:singleLine="true"
+                        android:textColor="@color/blackgrey"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="0.1dip"
+                        android:background="@color/gray_line" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/nick_name_part"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:orientation="vertical" >
+
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="0.1dip"
+                        android:layout_weight="1"
+                        android:background="@color/gray_line" />
+
+                    <EditText
+                        android:id="@+id/nick_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="fill_parent"
+                        android:background="@null"
+                        android:hint="@string/nick_name"
+                        android:maxLength="16"
+                        android:paddingLeft="25dp"
+                        android:singleLine="true"
+                        android:textColor="@color/blackgrey"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="0.1dip"
+                        android:background="@color/gray_line" />
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/registerbtn"
+                    android:layout_width="fill_parent"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="40dp"
+                    android:background="@drawable/orange_btn_bg"
+                    android:text="@string/register"
+                    android:textColor="@color/white"
+                    android:textSize="19sp" />
+            </LinearLayout>
+
+            <!-- 用户协议视图 -->
+
+            <LinearLayout
+                android:id="@+id/agreementview"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:orientation="vertical"
+                android:visibility="gone" >
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="25dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="20dp"
+                    android:lineSpacingExtra="5dp"
+                    android:text="@string/agreementtxt"
+                    android:textColor="@color/grey"
+                    android:textSize="16sp" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

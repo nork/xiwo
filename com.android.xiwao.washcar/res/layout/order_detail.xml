@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/background" >
+    <RelativeLayout
+        android:id="@+id/header"
+        android:layout_width="fill_parent"
+        android:layout_height="45dp"
+        android:background="@android:color/white" >
+
+        <Button
+            android:id="@+id/backbtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:background="@drawable/backbt" />
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textColor="@color/orange"
+            android:textSize="20sp" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="0.1dip"
+            android:layout_alignParentBottom="true"
+            android:background="@color/orange" />
+    </RelativeLayout>
+	<TableLayout android:layout_height="wrap_content"
+	    android:layout_width="fill_parent">
+	    <TableRow android:layout_height="wrap_content"
+	        android:layout_width="fill_parent"
+	        android:background="@color/white"
+	        android:paddingTop="10dp"
+	        android:paddingBottom="10dp">
+	        <TextView android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text="@string/serial_number"
+	            android:textColor="@android:color/black"
+	            android:layout_marginLeft="20dp"/>
+	        
+	        <TextView android:id="@+id/serial_number"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text="0025655122"
+	            android:layout_marginLeft="20dp"
+	            android:textColor="@android:color/black"/>
+	    </TableRow>
+	    <TableRow android:layout_height="wrap_content"
+	        android:layout_width="fill_parent"
+	        android:background="@color/white"
+	        android:layout_marginTop="1dp"
+	        android:paddingTop="10dp"
+	        android:paddingBottom="10dp">
+	        <TextView android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text="@string/transaction_amount"
+	            android:textColor="@android:color/black"
+	            android:layout_marginLeft="20dp"/>
+	        
+	        <TextView android:id="@+id/transaction_amount"
+	            android:layout_width="fill_parent"
+	            android:layout_height="wrap_content"
+	            android:text="-49.00"
+	            android:textColor="@android:color/black"
+	            android:textSize="30sp"
+	            android:layout_gravity="right"
+	            android:layout_marginLeft="50dp"
+	            />
+	    </TableRow>
+	    <TableRow android:layout_height="wrap_content"
+	        android:layout_width="fill_parent"
+	        android:background="@color/white"
+	        android:layout_marginTop="1dp"
+	        android:paddingTop="10dp"
+	        android:paddingBottom="10dp">
+	        <TextView android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text="@string/serial_number"
+	            android:textColor="@android:color/black"
+	            android:layout_marginLeft="20dp"/>
+	        
+	        <TextView android:id="@+id/serial_number"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text="0025655122"
+	            android:textColor="@android:color/black"
+	            android:layout_marginLeft="20dp"/>
+	    </TableRow>
+	    <TableRow android:layout_height="wrap_content"
+	        android:layout_width="fill_parent"
+	        android:background="@color/white"
+	        android:layout_marginTop="1dp"
+	        android:paddingTop="10dp"
+	        android:paddingBottom="10dp">
+	        <TextView android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text="@string/server_type"
+	            android:textColor="@android:color/black"
+	            android:layout_marginLeft="20dp"/>
+	        
+	        <TextView android:id="@+id/server_type"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text="@string/wash_car_wax"
+	            android:textColor="@android:color/black"
+	            android:layout_marginLeft="20dp"/>
+	    </TableRow>
+	    <TableRow android:layout_height="wrap_content"
+	        android:layout_width="fill_parent"
+	        android:background="@color/white"
+	        android:layout_marginTop="1dp"
+	        android:paddingTop="10dp"
+	        android:paddingBottom="10dp">
+	        <TextView android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text="@string/car_num"
+	            android:textColor="@android:color/black"
+	            android:layout_marginLeft="20dp"/>
+	        
+	        <TextView android:id="@+id/car_num"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text="川A888888"
+	            android:textColor="@android:color/black"
+	            android:layout_marginLeft="20dp"/>
+	    </TableRow>
+	    <TableRow android:layout_height="wrap_content"
+	        android:layout_width="fill_parent"
+	        android:background="@color/white"
+	        android:layout_marginTop="1dp"
+	        android:paddingTop="10dp"
+	        android:paddingBottom="10dp">
+	        <TextView android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text="@string/phone"
+	            android:textColor="@android:color/black"
+	            android:layout_marginLeft="20dp"/>
+	        
+	        <TextView android:id="@+id/phone"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text="13699423263"
+	            android:textColor="@android:color/black"
+	            android:layout_marginLeft="20dp"/>
+	    </TableRow>
+	    <TableRow android:layout_height="wrap_content"
+	        android:layout_width="fill_parent"
+	        android:background="@color/white"
+	        android:layout_marginTop="1dp"
+	        android:paddingTop="10dp"
+	        android:paddingBottom="10dp">
+	        <TextView android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text="@string/vip_customer"
+	            android:textColor="@android:color/black"
+	            android:layout_marginLeft="20dp"/>
+	        
+	        <TextView android:id="@+id/vip_customer"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text="黄培强"
+	            android:textColor="@android:color/black"
+	            android:layout_marginLeft="20dp"/>
+	    </TableRow>
+	    <TableRow android:layout_height="wrap_content"
+	        android:layout_width="fill_parent"
+	        android:background="@color/white"
+	        android:layout_marginTop="1dp"
+	        android:paddingTop="10dp"
+	        android:paddingBottom="10dp">
+	        <TextView android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text="@string/address"
+	            android:textColor="@android:color/black"
+	            android:layout_marginLeft="20dp"/>
+	        
+	        <TextView android:id="@+id/address"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text="上海"
+	            android:textColor="@android:color/black"
+	            android:layout_marginLeft="20dp"/>
+	    </TableRow>
+	</TableLayout>
+	
+	<LinearLayout android:id="@+id/button_group"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation="horizontal"
+	    android:layout_gravity="center_horizontal">
+	    
+	    <Button android:id="@+id/cannel_order"
+	        android:layout_height="wrap_content"
+	        android:layout_width="wrap_content"
+	        android:background="@drawable/blue_btn"
+	        android:text="@string/cannel_order"
+	        android:textColor="@color/white"/>
+	    
+	    <Button android:id="@+id/pay_now"
+	        android:layout_height="wrap_content"
+	        android:layout_width="wrap_content"
+	        android:background="@drawable/orange_btn"
+	        android:text="@string/pay_now"
+	        android:textColor="@color/white"/>
+	</LinearLayout>
+</LinearLayout>

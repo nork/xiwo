@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/background" >
+    <RelativeLayout
+        android:id="@+id/header"
+        android:layout_width="fill_parent"
+        android:layout_height="45dp"
+        android:background="@android:color/white" >
+
+        <Button
+            android:id="@+id/backbtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:background="@drawable/backbt" />
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textColor="@color/orange"
+            android:textSize="20sp" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="0.1dip"
+            android:layout_alignParentBottom="true"
+            android:background="@color/orange" />
+    </RelativeLayout>
+    
+    <RelativeLayout android:id="@+id/server_type"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:gravity="center_vertical"
+	    android:background="@color/white"
+	    >
+	    <TextView android:id="@+id/server_type_title"
+	        android:layout_height="wrap_content"
+	        android:layout_width="wrap_content"
+	        android:text="@string/server_type"
+	        android:textColor="@android:color/black"
+	        android:layout_centerVertical="true"
+	        android:layout_marginLeft="15dp"
+	        android:textSize="18sp"/>
+	    
+	    <Spinner android:id="@+id/spinner_server_type"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_toRightOf="@+id/server_type_title"
+	        android:layout_marginLeft="10dp"
+	        android:spinnerMode="dropdown"
+	        android:background="@null"
+	        android:layout_centerVertical="true"
+	        />
+		
+	</RelativeLayout>
+	<RelativeLayout android:id="@+id/car_num"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:gravity="center_vertical"
+	    android:background="@color/white"
+	    android:layout_marginTop="0.1dip"
+	    >
+	    <TextView android:id="@+id/car_num_title"
+	        android:layout_height="wrap_content"
+	        android:layout_width="wrap_content"
+	        android:text="@string/car_num"
+	        android:textColor="@android:color/black"
+	        android:layout_marginLeft="15dp"
+	        android:layout_centerVertical="true"
+	        android:textSize="18sp"/>
+	    
+	    <EditText android:id="@+id/car_num_edt"
+	        android:layout_height="wrap_content"
+	        android:layout_width="fill_parent"
+	        android:layout_toRightOf="@+id/car_num_title"
+	        android:layout_marginLeft="10dp"
+	        android:background="@null"
+	        android:layout_centerVertical="true"
+	        android:inputType="text"/>
+
+	</RelativeLayout>
+	<RelativeLayout android:id="@+id/website"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:gravity="center_vertical"
+	    android:background="@color/white"
+	    android:layout_marginTop="0.1dip"
+	    >
+	    <TextView android:layout_height="wrap_content"
+	        android:layout_width="wrap_content"
+	        android:text="@string/website"
+	        android:textColor="@android:color/black"
+	        android:layout_centerVertical="true"
+	        android:layout_marginLeft="15dp"
+	        android:textSize="18sp"/>
+
+	</RelativeLayout>
+	<RelativeLayout android:id="@+id/contact"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:gravity="center_vertical"
+	    android:background="@color/white"
+	    android:layout_marginTop="0.1dip"
+	    >
+	    <TextView android:id="@+id/contact_title"
+	        android:layout_height="wrap_content"
+	        android:layout_width="wrap_content"
+	        android:text="@string/contact_num"
+	        android:textColor="@android:color/black"
+	        android:layout_centerVertical="true"
+	        android:layout_marginLeft="15dp"
+	        android:textSize="18sp"/>
+		
+	    <EditText android:id="@+id/contact_edt"
+	        android:layout_height="wrap_content"
+	        android:layout_width="fill_parent"
+	        android:layout_toRightOf="@+id/contact_title"
+	        android:layout_marginLeft="10dp"
+	        android:layout_centerVertical="true"
+	        android:background="@null"
+	        android:inputType="number"/>
+	</RelativeLayout>
+		
+	<Button android:id="@+id/submit"
+	    android:layout_height="wrap_content"
+	    android:layout_width="wrap_content"
+	    android:background="@drawable/orange_btn"
+	    android:text="@string/submit"
+	    android:textSize="18sp"
+	    android:layout_gravity="center_horizontal"
+	    android:textColor="@color/white"/>
+
+</LinearLayout>

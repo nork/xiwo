@@ -1,0 +1,244 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/background"
+    android:orientation="vertical" >
+
+    <!-- 表头  证大财富标签和返回按钮 -->
+
+    <RelativeLayout
+        android:id="@+id/header"
+        android:layout_width="fill_parent"
+        android:layout_height="45dp"
+        android:background="@android:color/white" >
+
+        <Button
+            android:id="@+id/backbtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:background="@drawable/backbt" />
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textColor="@color/orange"
+            android:textSize="20sp" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="0.1dip"
+            android:layout_alignParentBottom="true"
+            android:background="@color/orange" />
+    </RelativeLayout>
+
+    <!-- 用手机号获取验证码视图 -->
+
+    <LinearLayout
+        android:id="@+id/getcodeview"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical" >
+
+        <!-- 手机号码 -->
+
+        <LinearLayout
+            android:id="@+id/tele_input_text"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="25dp"
+                android:text="@string/phone_num"
+                android:textColor="@android:color/black"
+                android:textSize="17sp" />
+
+            <EditText
+                android:id="@+id/teledt"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@null"
+                android:hint="@string/phone"
+                android:inputType="phone"
+                android:maxLength="11"
+                android:paddingLeft="10dp"
+                android:singleLine="true"
+                android:textColor="@color/blackgrey"
+                android:textSize="17sp" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/getcodebtn"
+            android:layout_width="fill_parent"
+            android:layout_height="40dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="50dp"
+            android:background="@drawable/orange_btn"
+            android:text="@string/send_code"
+            android:textColor="@color/white"
+            android:textSize="19sp" />
+    </LinearLayout>
+
+    <!-- 设置密码注册视图 -->
+
+    <LinearLayout
+        android:id="@+id/registerview"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical"
+        android:visibility="gone" >
+
+        <!-- 验证码及密码 -->
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="vertical" >
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="0.1dip"
+                android:layout_weight="1"
+                android:background="@color/gray_line" />
+
+            <LinearLayout
+                android:id="@+id/code_input_text"
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="20dp"
+                    android:text="@string/input_code"
+                    android:textColor="@android:color/black"
+                    android:textSize="17sp" />
+
+                <EditText
+                    android:id="@+id/codeedt"
+                    android:layout_width="0dip"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:inputType="phone"
+                    android:maxLength="4"
+                    android:paddingLeft="25dp"
+                    android:singleLine="true"
+                    android:textColor="@color/blackgrey"
+                    android:textSize="16sp" />
+
+                <Button
+                    android:id="@+id/getagin"
+                    android:layout_width="130dp"
+                    android:layout_height="35dp"
+                    android:layout_gravity="right|center_vertical"
+                    android:layout_marginRight="15dp"
+                    android:background="@null"
+                    android:text="@string/get_code"
+                    android:textColor="@color/buletext"
+                    android:textSize="15sp" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="0.1dip"
+                android:layout_marginLeft="20dp"
+                android:background="@color/gray_line" />
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="20dp"
+                    android:text="@string/input_new_pwd"
+                    android:textColor="@android:color/black"
+                    android:textSize="17sp" />
+
+                <EditText
+                    android:id="@+id/pswedt01"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="@null"
+                    android:paddingLeft="25dp"
+                    android:inputType="textPassword"
+                    android:singleLine="true"
+                    android:textColor="@color/blackgrey"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="0.1dip"
+                android:layout_marginLeft="20dp"
+                android:background="@color/gray_line" />
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="20dp"
+                    android:text="@string/sure_new_pwd"
+                    android:textColor="@android:color/black"
+                    android:textSize="17sp" />
+
+                <EditText
+                    android:id="@+id/pswedt02"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="@null"
+                    android:paddingLeft="25dp"
+                     android:inputType="textPassword"
+                    android:singleLine="true"
+                    android:textColor="@color/blackgrey"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="0.1dip"
+                android:background="@color/gray_line" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/registerbtn"
+            android:layout_width="fill_parent"
+            android:layout_height="40dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="40dp"
+            android:background="@drawable/orange_btn_bg"
+            android:text="@string/submit"
+            android:textColor="@color/white"
+            android:textSize="19sp" />
+    </LinearLayout>
+
+</LinearLayout>

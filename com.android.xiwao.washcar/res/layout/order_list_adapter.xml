@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white" 
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:paddingTop="5dp"
+    android:paddingBottom="5dp">
+    
+    <TextView android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:textColor="@android:color/black"
+        android:text="@string/serial_number"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        />
+	<TextView android:id="@+id/serial_number"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:textColor="@android:color/black"
+	    android:layout_centerHorizontal="true"
+	    android:layout_centerVertical="true"
+	    android:text="0025655122"/>
+	<LinearLayout android:layout_height="wrap_content"
+	    android:layout_width="wrap_content"
+	    android:orientation="vertical"
+	    android:gravity="center_horizontal"
+	    android:layout_centerVertical="true"
+	    android:layout_alignParentRight="true">
+	    <TextView android:id="@+id/money"
+	        android:layout_height="wrap_content"
+        	android:layout_width="wrap_content"
+        	android:textColor="@android:color/black"
+        	android:text="-49"/>
+		<TextView android:id="@+id/pay_state"
+	    	android:layout_width="wrap_content"
+	    	android:layout_height="wrap_content"
+	    	android:textColor="@android:color/black"
+	    	android:text="@string/paid"/>
+	</LinearLayout>
+</RelativeLayout>
