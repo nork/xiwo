@@ -4,6 +4,9 @@
     <string name="hello_world">Hello world!</string>
     <string name="menu_settings">Settings</string>
     <string name="title_activity_main">MainActivity</string>
+    <string name="wait_in_progress">加载中，请稍后...</string>
+    <string name="connection_error">联接服务器错误!</string>
+    <string name="protocol_error">通讯协议错误!</string>
     <!-- MainActivity UI String-->
     <string name="main">首页</string>
     <string name="car_info">车辆信息</string>
@@ -19,6 +22,9 @@
     <string name="please_password">请输入登录密码</string>
     <string name="login">登录</string>
     <string name="forget_pwd">忘记密码</string>
+    <string name="empty_user">用户名不能为空!</string>
+    <string name="empty_passwd">密码不能为空!</string>
+    
     <!-- Register UI String -->
     <string name="register">注册</string>
     <string name="agree">同意</string>
@@ -34,6 +40,13 @@
     <string name="sure">确定</string>
     <string name="agreement01">《客户服务协议》</string>
     <string name="telephone_wrong">手机号非法</string>
+    <string name="code_null_erro">验证码不能为空</string>
+    <string name="code_length_erro">验证码为4位数，请确认是否正确</string>
+    <string name="pwd_null_erro">密码不能为空</string>
+    <string name="pwd_format_erro">密码由6~16个字母加数字或下划线组成</string>
+    <string name="pwd_dif_erro">两次输入的密码不一致，请您重新输入</string>
+    <string name="nickname_length_erro">昵称长度不能小于2</string>
+    <string name="nickname_format_erro">昵称应为长度2~16个字符之间的中文、英文字母、数字、下划线组成</string>
     
     <!-- find pwd uiString -->
     <string name="find_pwd">找回密码</string>

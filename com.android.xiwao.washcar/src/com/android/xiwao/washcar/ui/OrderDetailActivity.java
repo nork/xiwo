@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.android.xiwao.washcar.Constants;
 import com.android.xiwao.washcar.R;
+import com.android.xiwao.washcar.XiwaoApplication;
 
 public class OrderDetailActivity extends Activity {
 	private Context mContext;
@@ -48,25 +49,27 @@ public class OrderDetailActivity extends Activity {
 	}
 
 	public void setHwView() {
+		int displayHeight = ((XiwaoApplication)getApplication()).getDisplayHeight();
+		int displayWidth = ((XiwaoApplication)getApplication()).getDisplayWidth();
 		// title高度
 		RelativeLayout title = (RelativeLayout) findViewById(R.id.header);
 		LinearLayout.LayoutParams titleParams = new LinearLayout.LayoutParams(
-				LayoutParams.FILL_PARENT,
-				(int) (Constants.displayHeight * 0.08f + 0.5f));
+				LayoutParams.MATCH_PARENT,
+				(int) (displayHeight * 0.08f + 0.5f));
 		title.setLayoutParams(titleParams);
 
 		// 按钮宽高
 		LinearLayout.LayoutParams btnParams = new LinearLayout.LayoutParams(
-				(int) (Constants.displayWidth * 0.3f + 0.5f),
-				(int) (Constants.displayHeight * 0.08f + 0.5f));
-		btnParams.setMargins((int) (Constants.displayWidth * 0.1f + 0.5f),
-				(int) (Constants.displayHeight * 0.04f + 0.5f), 0, 0);
+				(int) (displayWidth * 0.3f + 0.5f),
+				(int) (displayHeight * 0.08f + 0.5f));
+		btnParams.setMargins((int) (displayWidth * 0.1f + 0.5f),
+				(int) (displayHeight * 0.04f + 0.5f), 0, 0);
 		cannelOrderBtn.setLayoutParams(btnParams);
 		btnParams = new LinearLayout.LayoutParams(
-				(int) (Constants.displayWidth * 0.3f + 0.5f),
-				(int) (Constants.displayHeight * 0.08f + 0.5f));
-		btnParams.setMargins((int) (Constants.displayWidth * 0.2f + 0.5f),
-				(int) (Constants.displayHeight * 0.04f + 0.5f), 0, 0);
+				(int) (displayWidth * 0.3f + 0.5f),
+				(int) (displayHeight * 0.08f + 0.5f));
+		btnParams.setMargins((int) (displayWidth * 0.2f + 0.5f),
+				(int) (displayHeight * 0.04f + 0.5f), 0, 0);
 		payNowBtn.setLayoutParams(btnParams);
 	}
 }

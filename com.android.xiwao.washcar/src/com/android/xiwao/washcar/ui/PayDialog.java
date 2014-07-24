@@ -12,6 +12,7 @@ import android.widget.RelativeLayout;
 
 import com.android.xiwao.washcar.Constants;
 import com.android.xiwao.washcar.R;
+import com.android.xiwao.washcar.XiwaoApplication;
 
 public class PayDialog extends Activity{
 	private Context mContext;
@@ -44,8 +45,10 @@ public class PayDialog extends Activity{
 	}
 	
 	private void setHwView(){
-		LinearLayout.LayoutParams params = new LinearLayout.LayoutParams((int) (Constants.displayWidth * 0.8f + 0.5f),
-                (int) (Constants.displayHeight * 0.06f + 0.5f));
+		int displayHeight = ((XiwaoApplication)getApplication()).getDisplayHeight();
+		int displayWidth = ((XiwaoApplication)getApplication()).getDisplayWidth();
+		LinearLayout.LayoutParams params = new LinearLayout.LayoutParams((int) (displayWidth * 0.8f + 0.5f),
+                (int) (displayHeight * 0.06f + 0.5f));
 		banInfoLayout.setLayoutParams(params);
 	}
 }

@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.android.xiwao.washcar.Constants;
 import com.android.xiwao.washcar.R;
+import com.android.xiwao.washcar.XiwaoApplication;
 
 public class MoreFragment extends BaseFragment {
 	private Context mContext;
@@ -82,24 +83,25 @@ public class MoreFragment extends BaseFragment {
 	}
 
 	private void setHwView() {
-
+		int displayHeight = ((XiwaoApplication)getActivity().getApplication()).getDisplayHeight();
+		int displayWidth = ((XiwaoApplication)getActivity().getApplication()).getDisplayWidth();
 		// title高度
 		RelativeLayout title = (RelativeLayout) view.findViewById(R.id.header);
 		LinearLayout.LayoutParams titleParams = new LinearLayout.LayoutParams(
-				LayoutParams.FILL_PARENT,
-				(int) (Constants.displayHeight * 0.08f + 0.5f));
+				LayoutParams.MATCH_PARENT,
+				(int) (displayHeight * 0.08f + 0.5f));
 		title.setLayoutParams(titleParams);
 		// 客户信息
 		LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-				LayoutParams.FILL_PARENT,
-				(int) (Constants.displayHeight * 0.08f + 0.5f));
-		params.setMargins(0, (int) (Constants.displayHeight * 0.04f + 0.5f), 0,
+				LayoutParams.MATCH_PARENT,
+				(int) (displayHeight * 0.08f + 0.5f));
+		params.setMargins(0, (int) (displayHeight * 0.04f + 0.5f), 0,
 				0);
 		customInfo.setLayoutParams(params);
 		// 修改密码
-		params = new LinearLayout.LayoutParams(LayoutParams.FILL_PARENT,
-				(int) (Constants.displayHeight * 0.08f + 0.5f));
-		params.setMargins(0, (int) (Constants.displayHeight * 0.001f + 0.5f),
+		params = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT,
+				(int) (displayHeight * 0.08f + 0.5f));
+		params.setMargins(0, (int) (displayHeight * 0.001f + 0.5f),
 				0, 0);
 		password.setLayoutParams(params);
 		// 积分管理
@@ -112,11 +114,11 @@ public class MoreFragment extends BaseFragment {
 		about.setLayoutParams(params);
 
 		params = new LinearLayout.LayoutParams(
-				(int) (Constants.displayWidth * 0.94f + 0.5f),
-				(int) (Constants.displayHeight * 0.08f + 0.5f));
-		params.setMargins((int) (Constants.displayWidth * 0.03f + 0.5f),
-				(int) (Constants.displayHeight * 0.08f + 0.5f),
-				(int) (Constants.displayWidth * 0.03f + 0.5f), 0);
+				(int) (displayWidth * 0.94f + 0.5f),
+				(int) (displayHeight * 0.08f + 0.5f));
+		params.setMargins((int) (displayWidth * 0.03f + 0.5f),
+				(int) (displayHeight * 0.08f + 0.5f),
+				(int) (displayWidth * 0.03f + 0.5f), 0);
 		quitBtn.setLayoutParams(params);
 	}
 }

@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.android.xiwao.washcar.Constants;
 import com.android.xiwao.washcar.R;
+import com.android.xiwao.washcar.XiwaoApplication;
 
 public class PayDetailFragment extends BaseFragment {
 
@@ -57,27 +58,29 @@ public class PayDetailFragment extends BaseFragment {
 	}
 
 	public void setHwView() {
+		int displayHeight = ((XiwaoApplication)getActivity().getApplication()).getDisplayHeight();
+		int displayWidth = ((XiwaoApplication)getActivity().getApplication()).getDisplayWidth();
 		// title高度
 		RelativeLayout title = (RelativeLayout) view.findViewById(R.id.header);
 		LinearLayout.LayoutParams titleParams = new LinearLayout.LayoutParams(
-				LayoutParams.FILL_PARENT,
-				(int) (Constants.displayHeight * 0.08f + 0.5f));
+				LayoutParams.MATCH_PARENT,
+				(int) (displayHeight * 0.08f + 0.5f));
 		title.setLayoutParams(titleParams);
 		
 		//队列图片高度
 		ImageView payTitle = (ImageView) view.findViewById(R.id.pay_title_img);
-		LinearLayout.LayoutParams payTitleParams = new LinearLayout.LayoutParams((int)((Constants.displayHeight * 0.16f + 0.5f) * 4.27), 
-				(int)(Constants.displayHeight * 0.16f + 0.5f)); 
+		LinearLayout.LayoutParams payTitleParams = new LinearLayout.LayoutParams((int)((displayHeight * 0.16f + 0.5f) * 4.27), 
+				(int)(displayHeight * 0.16f + 0.5f)); 
 		payTitle.setLayoutParams(payTitleParams);
 		
 		//按钮宽高
-		LinearLayout.LayoutParams btnParams = new LinearLayout.LayoutParams((int)(Constants.displayWidth * 0.3f + 0.5f), 
-				(int)(Constants.displayHeight * 0.08f + 0.5f)); 
-		btnParams.setMargins((int)(Constants.displayWidth * 0.1f + 0.5f), (int)(Constants.displayHeight * 0.04f + 0.5f), 0, 0);
+		LinearLayout.LayoutParams btnParams = new LinearLayout.LayoutParams((int)(displayWidth * 0.3f + 0.5f), 
+				(int)(displayHeight * 0.08f + 0.5f)); 
+		btnParams.setMargins((int)(displayWidth * 0.1f + 0.5f), (int)(displayHeight * 0.04f + 0.5f), 0, 0);
 		cannelOrderBtn.setLayoutParams(btnParams);
-		btnParams = new LinearLayout.LayoutParams((int)(Constants.displayWidth * 0.3f + 0.5f), 
-				(int)(Constants.displayHeight * 0.08f + 0.5f));
-		btnParams.setMargins((int)(Constants.displayWidth * 0.2f + 0.5f), (int)(Constants.displayHeight * 0.04f + 0.5f), 0, 0);
+		btnParams = new LinearLayout.LayoutParams((int)(displayWidth * 0.3f + 0.5f), 
+				(int)(displayHeight * 0.08f + 0.5f));
+		btnParams.setMargins((int)(displayWidth * 0.2f + 0.5f), (int)(displayHeight * 0.04f + 0.5f), 0, 0);
 		payNowBtn.setLayoutParams(btnParams);
 	}
 }

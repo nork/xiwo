@@ -219,113 +219,125 @@ public final class R {
         public static final int prometheus=0x7f040000;
     }
     public static final class string {
-        public static final int about=0x7f080049;
-        public static final int add_car=0x7f08002b;
+        public static final int about=0x7f080055;
+        public static final int add_car=0x7f080037;
         /**  Car info ui string 
          */
-        public static final int add_symbol=0x7f080028;
+        public static final int add_symbol=0x7f080034;
         /**  Order Detail ui string 
          */
-        public static final int address=0x7f080039;
-        public static final int agree=0x7f080012;
-        public static final int agreement=0x7f080013;
-        public static final int agreement01=0x7f08001d;
-        public static final int agreementtxt=0x7f080019;
-        public static final int alert=0x7f08001a;
+        public static final int address=0x7f080045;
+        public static final int agree=0x7f080017;
+        public static final int agreement=0x7f080018;
+        public static final int agreement01=0x7f080022;
+        public static final int agreementtxt=0x7f08001e;
+        public static final int alert=0x7f08001f;
         public static final int app_name=0x7f080000;
-        public static final int cannel=0x7f080042;
-        public static final int cannel_order=0x7f080040;
-        public static final int cant_complete=0x7f080037;
-        public static final int car_info=0x7f080005;
-        public static final int car_num=0x7f08003c;
-        public static final int car_order=0x7f080038;
+        public static final int cannel=0x7f08004e;
+        public static final int cannel_order=0x7f08004c;
+        public static final int cant_complete=0x7f080043;
+        public static final int car_info=0x7f080008;
+        public static final int car_num=0x7f080048;
+        public static final int car_order=0x7f080044;
         /**  bank info list string 
          */
-        public static final int choice_pay_type=0x7f080050;
-        public static final int closed=0x7f080031;
-        public static final int completed=0x7f080030;
+        public static final int choice_pay_type=0x7f08005c;
+        public static final int closed=0x7f08003d;
+        public static final int code_length_erro=0x7f080025;
+        public static final int code_null_erro=0x7f080024;
+        public static final int completed=0x7f08003c;
+        public static final int connection_error=0x7f080005;
         /**  car info edit ui string 
          */
-        public static final int contact_num=0x7f08002c;
+        public static final int contact_num=0x7f080038;
         /**  more ui string 
          */
-        public static final int custom_info=0x7f080044;
-        public static final int email=0x7f08004e;
+        public static final int custom_info=0x7f080050;
+        public static final int email=0x7f08005a;
+        public static final int empty_passwd=0x7f080015;
+        public static final int empty_user=0x7f080014;
         /**  find pwd uiString 
          */
-        public static final int find_pwd=0x7f08001f;
-        public static final int forget_pwd=0x7f080010;
-        public static final int get_code=0x7f080023;
+        public static final int find_pwd=0x7f08002b;
+        public static final int forget_pwd=0x7f080013;
+        public static final int get_code=0x7f08002f;
         /**  customer ui string 
          */
-        public static final int head=0x7f08004b;
+        public static final int head=0x7f080057;
         public static final int hello_world=0x7f080001;
-        public static final int help=0x7f080047;
-        public static final int i_wash_car=0x7f08000a;
-        public static final int input_code=0x7f080015;
+        public static final int help=0x7f080053;
+        public static final int i_wash_car=0x7f08000d;
+        public static final int input_code=0x7f08001a;
         /**  modify password ui string 
          */
-        public static final int input_new_code=0x7f080020;
-        public static final int input_new_pwd=0x7f080024;
-        public static final int input_old_pwd=0x7f080026;
-        public static final int integral_manage=0x7f080046;
-        public static final int login=0x7f08000f;
+        public static final int input_new_code=0x7f08002c;
+        public static final int input_new_pwd=0x7f080030;
+        public static final int input_old_pwd=0x7f080032;
+        public static final int integral_manage=0x7f080052;
+        public static final int login=0x7f080012;
         /**  MainActivity UI String
          */
-        public static final int main=0x7f080004;
+        public static final int main=0x7f080007;
         public static final int menu_settings=0x7f080002;
-        public static final int modify_pwd=0x7f080027;
-        public static final int more=0x7f080007;
-        public static final int my_phone=0x7f08004f;
-        public static final int name=0x7f08004c;
-        public static final int nick_name=0x7f080018;
-        public static final int order_detail=0x7f08003f;
-        public static final int order_manage=0x7f080006;
+        public static final int modify_pwd=0x7f080033;
+        public static final int more=0x7f08000a;
+        public static final int my_phone=0x7f08005b;
+        public static final int name=0x7f080058;
+        public static final int nick_name=0x7f08001d;
+        public static final int nickname_format_erro=0x7f08002a;
+        public static final int nickname_length_erro=0x7f080029;
+        public static final int order_detail=0x7f08004b;
+        public static final int order_manage=0x7f080009;
         /**  Order Manage ui string 
          */
-        public static final int paid=0x7f08002e;
-        public static final int password=0x7f08000d;
-        public static final int password_str=0x7f080045;
-        public static final int pay_now=0x7f080041;
-        public static final int pay_sure=0x7f080043;
+        public static final int paid=0x7f08003a;
+        public static final int password=0x7f080010;
+        public static final int password_str=0x7f080051;
+        public static final int pay_now=0x7f08004d;
+        public static final int pay_sure=0x7f08004f;
         /**  Pay detail ui String 
          */
-        public static final int pay_title_txt=0x7f080034;
-        public static final int phone=0x7f08003b;
+        public static final int pay_title_txt=0x7f080040;
+        public static final int phone=0x7f080047;
         /**  Login UI String 
          */
-        public static final int phone_num=0x7f08000b;
-        public static final int please_password=0x7f08000e;
-        public static final int please_phone=0x7f08000c;
-        public static final int qiut=0x7f08004a;
+        public static final int phone_num=0x7f08000e;
+        public static final int please_password=0x7f080011;
+        public static final int please_phone=0x7f08000f;
+        public static final int protocol_error=0x7f080006;
+        public static final int pwd_dif_erro=0x7f080028;
+        public static final int pwd_format_erro=0x7f080027;
+        public static final int pwd_null_erro=0x7f080026;
+        public static final int qiut=0x7f080056;
         /**  Register UI String 
          */
-        public static final int register=0x7f080011;
-        public static final int register_suc=0x7f08001b;
-        public static final int send_code=0x7f080014;
-        public static final int serial_number=0x7f080032;
-        public static final int server_type=0x7f08003d;
-        public static final int setpwd=0x7f080016;
-        public static final int setpwdagin=0x7f080017;
-        public static final int submit=0x7f080022;
-        public static final int sure=0x7f08001c;
-        public static final int sure_new_code=0x7f080021;
-        public static final int sure_new_pwd=0x7f080025;
-        public static final int telephone_wrong=0x7f08001e;
-        public static final int tell_friend=0x7f080048;
-        public static final int this_month=0x7f080033;
+        public static final int register=0x7f080016;
+        public static final int register_suc=0x7f080020;
+        public static final int send_code=0x7f080019;
+        public static final int serial_number=0x7f08003e;
+        public static final int server_type=0x7f080049;
+        public static final int setpwd=0x7f08001b;
+        public static final int setpwdagin=0x7f08001c;
+        public static final int submit=0x7f08002e;
+        public static final int sure=0x7f080021;
+        public static final int sure_new_code=0x7f08002d;
+        public static final int sure_new_pwd=0x7f080031;
+        public static final int telephone_wrong=0x7f080023;
+        public static final int tell_friend=0x7f080054;
+        public static final int this_month=0x7f08003f;
         public static final int title_activity_main=0x7f080003;
-        public static final int transaction_amount=0x7f08003e;
-        public static final int user_name=0x7f08004d;
-        public static final int vip_customer=0x7f08003a;
-        public static final int wait_pay=0x7f08002f;
-        public static final int wash=0x7f080029;
-        public static final int wash_car=0x7f080008;
-        public static final int wash_car_wax=0x7f080009;
-        public static final int wax=0x7f08002a;
-        public static final int web_center=0x7f080035;
-        public static final int website=0x7f08002d;
-        public static final int your_statu=0x7f080036;
+        public static final int transaction_amount=0x7f08004a;
+        public static final int user_name=0x7f080059;
+        public static final int vip_customer=0x7f080046;
+        public static final int wait_in_progress=0x7f080004;
+        public static final int wait_pay=0x7f08003b;
+        public static final int wash=0x7f080035;
+        public static final int wash_car=0x7f08000b;
+        public static final int wash_car_wax=0x7f08000c;
+        public static final int wax=0x7f080036;
+        public static final int web_center=0x7f080041;
+        public static final int website=0x7f080039;
+        public static final int your_statu=0x7f080042;
     }
     public static final class style {
         /**  Base application theme. 

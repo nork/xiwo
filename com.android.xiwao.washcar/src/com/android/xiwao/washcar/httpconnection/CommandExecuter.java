@@ -3,7 +3,6 @@ package com.android.xiwao.washcar.httpconnection;
 import java.io.IOException;
 
 import android.os.Handler;
-import android.util.Log;
 
 public class CommandExecuter {
 	private Object LOCK = new Object();
@@ -27,17 +26,11 @@ public class CommandExecuter {
 	}
 	
 	public void execute(final BaseCommand command, final ResponseHandler rspHandler){
-		Log.e("testaa", "1111");
 		mWorkerThread = new Thread(new Runnable(){
 			public void run() {
 				try {
-					
-					Log.e("test", "111");
 					BaseResponse rsp = command.execute();
-					Log.v("TAG", rsp.toString());
-					postResponse(rspHandler, rsp);
-					Log.v("TAG1", rsp.toString());
-					
+					postResponse(rspHandler, rsp);					
 				} catch (IOException e) {
 					e.printStackTrace();
 					postErrorResponse(rspHandler, e);

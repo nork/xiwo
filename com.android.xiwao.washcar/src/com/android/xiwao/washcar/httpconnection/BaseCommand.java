@@ -25,7 +25,7 @@ import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.protocol.HttpContext;
 
-import android.util.Log;
+import com.android.xiwao.washcar.AppLog;
 
 public abstract class BaseCommand {
 
@@ -69,7 +69,7 @@ public abstract class BaseCommand {
 	}
 
 	public BaseResponse execute() throws IOException {
-		Log.v(TAG, "testUR:" +mBackEndServerURL + getComand());
+		AppLog.v(TAG, "testUR:" +mBackEndServerURL + getComand());
 		return openHttpConnection(mBackEndServerURL + getComand());		
 	}
 
@@ -90,22 +90,21 @@ public abstract class BaseCommand {
 			List<NameValuePair> nvps = getParameters();
 			if(nvps != null){
 				for( NameValuePair p : nvps){
-					Log.d(TAG, p.getName() + "=" + p.getValue());
+					AppLog.d(TAG, p.getName() + "=" + p.getValue());
 					url = url +  "&" + p.getName() + "=" + URLEncoder.encode(p.getValue());
 				}
 			}
 			
-			Log.d(TAG, "connect to: " + url);
+			AppLog.d(TAG, "connect to: " + url);
 			
 			// http get
 			HttpGet method = new HttpGet(url);
-			Log.v(TAG, "method :" + method);
+			AppLog.v(TAG, "method :" + method);
 			
 			if(mCookieStore != null){
-				Log.v(TAG,"JUST TEST" + mCookieStore);
 				HttpContext localContext = new BasicHttpContext();
 				localContext.setAttribute(ClientContext.COOKIE_STORE , mCookieStore);
-				Log.v(TAG, "localContext :" + localContext);
+				AppLog.v(TAG, "localContext :" + localContext);
 				httpResp = client.execute(method, localContext);
 			}
 			else{
@@ -113,10 +112,7 @@ public abstract class BaseCommand {
 			}
 			
 		}
-		else{
-			
-			Log.d(TAG, "connect to: " + "TEST" + url);
-			
+		else{			
 			// http post
 			HttpPost method = new HttpPost(url);
 			
@@ -144,39 +140,38 @@ public abstract class BaseCommand {
 			return resp;
 		}
 		
-		Log.d(TAG, "response: " + response);
+		AppLog.d(TAG, "response: " + response);
 		
 		BaseResponse baseRsp =  parseResponse(response);
 		
 		
 		baseRsp.cookies = client.getCookieStore().getCookies();
-		Log.v(TAG, "client:" + client.toString());
+		AppLog.v(TAG, "client:" + client.toString());
 		if(baseRsp.cookies.size() == 0){
-			Log.v(TAG, "cookies:" + baseRsp.cookies.toString());
-			Log.d(TAG, "no cookie received");
+			AppLog.d(TAG, "no cookie received");
 		}
 		else{
 			for(Cookie c : baseRsp.cookies){
-				Log.d(TAG, "cookie received - " + c.toString());
+				AppLog.d(TAG, "cookie received - " + c.toString());
 			}
 		}
-		Log.v(TAG, "baseRsp:" + baseRsp.toString());
+		AppLog.v(TAG, "baseRsp:" + baseRsp.toString());
 		return baseRsp;
 	}
 
 	private String handleResponse(HttpResponse response) throws IOException {
 
 		StatusLine status = response.getStatusLine();
-		Log.v(TAG, "status:" +status);
+		AppLog.v(TAG, "status:" +status);
 
 		if (status.getStatusCode() != HttpStatus.SC_OK) {
-			Log.e(TAG,"http connection failed! status= " + status.getStatusCode());
+			AppLog.e(TAG,"http connection failed! status= " + status.getStatusCode());
 			return null;
 		}
 		
 
 		HttpEntity entity = response.getEntity();
-		Log.v(TAG, "entity:" +entity);
+		AppLog.v(TAG, "entity:" +entity);
 		StringBuilder builder = new StringBuilder();
 
 		BufferedReader reader = new BufferedReader(new InputStreamReader(

@@ -20,6 +20,7 @@ import android.widget.TextView;
 
 import com.android.xiwao.washcar.Constants;
 import com.android.xiwao.washcar.R;
+import com.android.xiwao.washcar.XiwaoApplication;
 import com.android.xiwao.washcar.data.OrderData;
 import com.android.xiwao.washcar.listadapter.OrderListAdapter;
 
@@ -96,17 +97,19 @@ public class OrderManageFragment extends BaseFragment {
 	}
 
 	public void setHwView() {
+		int displayHeight = ((XiwaoApplication)getActivity().getApplication()).getDisplayHeight();
+		int displayWidth = ((XiwaoApplication)getActivity().getApplication()).getDisplayWidth();
 		// title¸ß¶È
 		RelativeLayout title = (RelativeLayout) view.findViewById(R.id.header);
 		LinearLayout.LayoutParams titleParams = new LinearLayout.LayoutParams(
-				LayoutParams.FILL_PARENT,
-				(int) (Constants.displayHeight * 0.08f + 0.5f));
+				LayoutParams.MATCH_PARENT,
+				(int) (displayHeight * 0.08f + 0.5f));
 		title.setLayoutParams(titleParams);
 		
 		LinearLayout buttonGroup = (LinearLayout) view.findViewById(R.id.button_group);
-		LinearLayout.LayoutParams buttonParams = new LinearLayout.LayoutParams((int)(Constants.displayWidth * 0.8f + 0.5f), 
-				(int)(Constants.displayHeight * 0.06f + 0.5f));
-		buttonParams.setMargins(0, (int)(Constants.displayHeight * 0.04f + 0.5f), 0, 0);
+		LinearLayout.LayoutParams buttonParams = new LinearLayout.LayoutParams((int)(displayWidth * 0.8f + 0.5f), 
+				(int)(displayHeight * 0.06f + 0.5f));
+		buttonParams.setMargins(0, (int)(displayHeight * 0.04f + 0.5f), 0, 0);
 		buttonGroup.setLayoutParams(buttonParams);
 	}
 }

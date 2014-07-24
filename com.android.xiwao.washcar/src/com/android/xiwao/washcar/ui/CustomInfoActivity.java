@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.android.xiwao.washcar.Constants;
 import com.android.xiwao.washcar.R;
+import com.android.xiwao.washcar.XiwaoApplication;
 
 public class CustomInfoActivity extends Activity{
 	private Context mContext;
@@ -31,10 +32,12 @@ public class CustomInfoActivity extends Activity{
 	}
 	
 	public void setViewHw(){
+		int displayHeight = ((XiwaoApplication)getApplication()).getDisplayHeight();
+//		int displayWidth = ((XiwaoApplication)getApplication()).getDisplayWidth();
 		//title高度
 		RelativeLayout title = (RelativeLayout) findViewById(R.id.header);
-		LinearLayout.LayoutParams titleParams = new LinearLayout.LayoutParams(LayoutParams.FILL_PARENT
-				, (int)(Constants.displayHeight * 0.08f + 0.5f));
+		LinearLayout.LayoutParams titleParams = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT
+				, (int)(displayHeight * 0.08f + 0.5f));
 		title.setLayoutParams(titleParams);
 		
 		//头像部分
@@ -43,13 +46,13 @@ public class CustomInfoActivity extends Activity{
 		RelativeLayout user = (RelativeLayout) findViewById(R.id.user);
 		RelativeLayout email = (RelativeLayout) findViewById(R.id.email);
 		RelativeLayout phone = (RelativeLayout) findViewById(R.id.phone);
-		LinearLayout.LayoutParams listParams = new LinearLayout.LayoutParams(LayoutParams.FILL_PARENT
-				, (int)(Constants.displayHeight * 0.24f + 0.5f));
-		listParams.setMargins(0, (int)(Constants.displayHeight * 0.02f + 0.5f), 0, 0);
+		LinearLayout.LayoutParams listParams = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT
+				, (int)(displayHeight * 0.24f + 0.5f));
+		listParams.setMargins(0, (int)(displayHeight * 0.02f + 0.5f), 0, 0);
 		head.setLayoutParams(listParams);
-		listParams = new LinearLayout.LayoutParams(LayoutParams.FILL_PARENT
-				, (int)(Constants.displayHeight * 0.08f + 0.5f));
-		listParams.setMargins(0, (int)(Constants.displayHeight * 0.001f + 0.5f), 0, 0);
+		listParams = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT
+				, (int)(displayHeight * 0.08f + 0.5f));
+		listParams.setMargins(0, (int)(displayHeight * 0.001f + 0.5f), 0, 0);
 		name.setLayoutParams(listParams);
 		user.setLayoutParams(listParams);
 		email.setLayoutParams(listParams);

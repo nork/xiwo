@@ -1,7 +1,6 @@
 package com.android.xiwao.washcar.ui;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -19,8 +18,8 @@ import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.android.xiwao.washcar.Constants;
 import com.android.xiwao.washcar.R;
+import com.android.xiwao.washcar.XiwaoApplication;
 
 public class CarInfoEditFragment extends BaseFragment {
 	private Context mContext;
@@ -81,22 +80,24 @@ public class CarInfoEditFragment extends BaseFragment {
 	}
 
 	private void setHwView() {
+		int displayHeight = ((XiwaoApplication)getActivity().getApplication()).getDisplayHeight();
+		int displayWidth = ((XiwaoApplication)getActivity().getApplication()).getDisplayWidth();
 		//title高度
 		RelativeLayout title = (RelativeLayout) view.findViewById(R.id.header);
-		LinearLayout.LayoutParams titleParams = new LinearLayout.LayoutParams(LayoutParams.FILL_PARENT
-				, (int)(Constants.displayHeight * 0.08f + 0.5f));
+		LinearLayout.LayoutParams titleParams = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT
+				, (int)(displayHeight * 0.08f + 0.5f));
 		title.setLayoutParams(titleParams);
 		// 服务类型
 		LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-				LayoutParams.FILL_PARENT,
-				(int) (Constants.displayHeight * 0.08f + 0.5f));
-		params.setMargins(0, (int) (Constants.displayHeight * 0.04f + 0.5f), 0,
+				LayoutParams.MATCH_PARENT,
+				(int) (displayHeight * 0.08f + 0.5f));
+		params.setMargins(0, (int) (displayHeight * 0.04f + 0.5f), 0,
 				0);
 		serverType.setLayoutParams(params);
 		// 车牌号码
-		params = new LinearLayout.LayoutParams(LayoutParams.FILL_PARENT,
-				(int) (Constants.displayHeight * 0.08f + 0.5f));
-		params.setMargins(0, (int) (Constants.displayHeight * 0.001f + 0.5f),
+		params = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT,
+				(int) (displayHeight * 0.08f + 0.5f));
+		params.setMargins(0, (int) (displayHeight * 0.001f + 0.5f),
 				0, 0);
 		carNum.setLayoutParams(params);
 		// 所在网点
@@ -105,11 +106,11 @@ public class CarInfoEditFragment extends BaseFragment {
 		contactNum.setLayoutParams(params);
 
 		params = new LinearLayout.LayoutParams(
-				(int) (Constants.displayWidth * 0.94f + 0.5f),
-				(int) (Constants.displayHeight * 0.08f + 0.5f));
-		params.setMargins((int) (Constants.displayWidth * 0.03f + 0.5f),
-				(int) (Constants.displayHeight * 0.1f + 0.5f),
-				(int) (Constants.displayWidth * 0.03f + 0.5f), 0);
+				(int) (displayWidth * 0.94f + 0.5f),
+				(int) (displayHeight * 0.08f + 0.5f));
+		params.setMargins((int) (displayWidth * 0.03f + 0.5f),
+				(int) (displayHeight * 0.1f + 0.5f),
+				(int) (displayWidth * 0.03f + 0.5f), 0);
 		submitBtn.setLayoutParams(params);
 	}
 

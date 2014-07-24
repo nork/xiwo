@@ -11,26 +11,34 @@ import java.util.Date;
 import android.util.Log;
 
 public class AppLog {
-	private static Boolean MYLOG_SWITCH = false; // 鏃ュ織鏂囦欢鎬诲紑鍏?
-	private static Boolean MYLOG_WRITE_TO_FILE = false;// 鏃ュ織鍐欏叆鏂囦欢寮?叧
-	private static char MYLOG_TYPE = 'v';// 杈撳叆鏃ュ織绫诲瀷锛寃浠ｈ〃鍙緭鍑哄憡璀︿俊鎭瓑锛寁浠ｈ〃杈撳嚭鎵?湁淇℃伅
+	private static Boolean MYLOG_SWITCH = true; // 日志文件总开关
+	private static Boolean MYLOG_WRITE_TO_FILE = true;// 日志写入文件开关
+	private static char MYLOG_TYPE = 'v';// 输入日志类型，w代表只输出告警信息等，v代表输出所有信息
 	private static String MYLOG_PATH_SDCARD_DIR = android.os.Environment.getExternalStorageDirectory()
-			.getAbsolutePath();// 鏃ュ織鏂囦欢鍦╯dcard涓殑璺緞
-	private static int SDCARD_LOG_FILE_SAVE_DAYS = 0;// sd鍗′腑鏃ュ織鏂囦欢鐨勬渶澶氫繚瀛樺ぉ鏁?
-	private static String MYLOGFILEName = "AppLog.txt";// 鏈被杈撳嚭鐨勬棩蹇楁枃浠跺悕绉?
+			.getAbsolutePath();// 日志文件在sdcard中的路径
+	private static int SDCARD_LOG_FILE_SAVE_DAYS = 0;// sd卡中日志文件的最多保存天数  D2B664B958886B87F8BD0770A229391
+	private static String MYLOGFILEName = "AppLog.txt";// 本类输出的日志文件名称
 	private static SimpleDateFormat myLogSdf = new SimpleDateFormat(
-			"yyyy-MM-dd HH:mm:ss");// 鏃ュ織鐨勮緭鍑烘牸寮?
-	private static SimpleDateFormat logfile = new SimpleDateFormat("yyyy-MM-dd");// 鏃ュ織鏂囦欢鏍煎紡
+			"yyyy-MM-dd HH:mm:ss");// 日志的输出格式
+	private static SimpleDateFormat logfile = new SimpleDateFormat("yyyy-MM-dd");// 日志文件格式
 
-	public static void w(String tag, Object msg) { // 璀﹀憡淇℃伅
+	public static void setLogSwitch(boolean logSwitch){
+		MYLOG_SWITCH = logSwitch;
+	}
+	
+	public static void setLogWriteToSwitch(boolean logSwitch){
+		MYLOG_WRITE_TO_FILE = logSwitch;
+	}
+	
+	public static void w(String tag, Object msg) { // 警告信息
 		log(tag, msg.toString(), 'w');
 	}
 
-	public static void e(String tag, Object msg) { // 閿欒淇℃伅
+	public static void e(String tag, Object msg) { // 错误信息
 		log(tag, msg.toString(), 'e');
 	}
 
-	public static void d(String tag, Object msg) {// 璋冭瘯淇℃伅
+	public static void d(String tag, Object msg) {// 调试信息
 		log(tag, msg.toString(), 'd');
 	}
 
@@ -63,7 +71,7 @@ public class AppLog {
 	}
 
 	/**
-	 * 鏍规嵁tag, msg鍜岀瓑绾э紝杈撳嚭鏃ュ織
+	 * 根据tag, msg和等级，输出日志
 	 * 
 	 * @param tag
 	 * @param msg
@@ -73,7 +81,7 @@ public class AppLog {
 	 */
 	private static void log(String tag, String msg, char level) {
 		if (MYLOG_SWITCH) {
-			if ('e' == level && ('e' == MYLOG_TYPE || 'v' == MYLOG_TYPE)) { // 杈撳嚭閿欒淇℃伅
+			if ('e' == level && ('e' == MYLOG_TYPE || 'v' == MYLOG_TYPE)) { // 输出错误信息
 				Log.e(tag, msg);
 			} else if ('w' == level && ('w' == MYLOG_TYPE || 'v' == MYLOG_TYPE)) {
 				Log.w(tag, msg);
@@ -90,11 +98,11 @@ public class AppLog {
 	}
 
 	/**
-	 * 鎵撳紑鏃ュ織鏂囦欢骞跺啓鍏ユ棩蹇?
+	 * 打开日志文件并写入日志
 	 * 
 	 * @return
 	 * **/
-	private static void writeLogtoFile(String mylogtype, String tag, String text) {// 鏂板缓鎴栨墦寮?棩蹇楁枃浠?
+	private static void writeLogtoFile(String mylogtype, String tag, String text) {// 新建或打开日志文件
 		Date nowtime = new Date();
 		String needWriteFiel = logfile.format(nowtime);
 		String needWriteMessage = myLogSdf.format(nowtime) + "    " + mylogtype
@@ -102,7 +110,7 @@ public class AppLog {
 		File file = new File(MYLOG_PATH_SDCARD_DIR, needWriteFiel
 				+ MYLOGFILEName);
 		try {
-			FileWriter filerWriter = new FileWriter(file, true);// 鍚庨潰杩欎釜鍙傛暟浠ｈ〃鏄笉鏄鎺ヤ笂鏂囦欢涓師鏉ョ殑鏁版嵁锛屼笉杩涜瑕嗙洊
+			FileWriter filerWriter = new FileWriter(file, true);// 后面这个参数代表是不是要接上文件中原来的数据，不进行覆盖
 			BufferedWriter bufWriter = new BufferedWriter(filerWriter);
 			bufWriter.write(needWriteMessage);
 			bufWriter.newLine();
@@ -115,9 +123,9 @@ public class AppLog {
 	}
 
 	/**
-	 * 鍒犻櫎鍒跺畾鐨勬棩蹇楁枃浠?
+	 * 删除制定的日志文件
 	 * */
-	public static void delFile() {// 鍒犻櫎鏃ュ織鏂囦欢
+	public static void delFile() {// 删除日志文件
 		String needDelFiel = logfile.format(getDateBefore());
 		File file = new File(MYLOG_PATH_SDCARD_DIR, needDelFiel + MYLOGFILEName);
 		if (file.exists()) {
@@ -126,7 +134,7 @@ public class AppLog {
 	}
 
 	/**
-	 * 寰楀埌鐜板湪鏃堕棿鍓嶇殑鍑犲ぉ鏃ユ湡锛岀敤鏉ュ緱鍒伴渶瑕佸垹闄ょ殑鏃ュ織鏂囦欢鍚?
+	 * 得到现在时间前的几天日期，用来得到需要删除的日志文件名
 	 * */
 	private static Date getDateBefore() {
 		Date nowtime = new Date();

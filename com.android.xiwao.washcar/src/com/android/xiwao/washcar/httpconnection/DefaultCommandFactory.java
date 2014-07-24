@@ -9,4 +9,24 @@ public class DefaultCommandFactory extends CommandFactory {
 		
 		return login;
 	}
+
+	@Override
+	public BaseCommand getRegister(String codestr, String phonenumber,
+			String password, String nickNameStr) {
+		// TODO Auto-generated method stub
+		Register register = new Register();
+		register.setCode(codestr);
+		register.setPassword(password);
+		register.setPhone(phonenumber);
+		register.setNickName(nickNameStr);
+		return register;
+	}
+
+	@Override
+	public BaseCommand getCode(String phone, String operate) {
+		// TODO Auto-generated method stub
+		GetCode getCode = new GetCode();
+		return getCode;
+	}
+	
 }

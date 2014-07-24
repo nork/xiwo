@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.android.xiwao.washcar.Constants;
 import com.android.xiwao.washcar.R;
+import com.android.xiwao.washcar.XiwaoApplication;
 import com.android.xiwao.washcar.data.CarInfo;
 import com.android.xiwao.washcar.listadapter.CarInfoListAdapter;
 
@@ -79,11 +80,13 @@ public class CarInfoFragment extends BaseFragment {
 	}
 
 	public void setHwView() {
+		int displayHeight = ((XiwaoApplication)getActivity().getApplication()).getDisplayHeight();
+//		int displayWidth = ((XiwaoApplication)getActivity().getApplication()).getDisplayWidth();
 		// title¸ß¶È
 		RelativeLayout title = (RelativeLayout) view.findViewById(R.id.header);
 		LinearLayout.LayoutParams titleParams = new LinearLayout.LayoutParams(
-				LayoutParams.FILL_PARENT,
-				(int) (Constants.displayHeight * 0.08f + 0.5f));
+				LayoutParams.MATCH_PARENT,
+				(int) (displayHeight * 0.08f + 0.5f));
 		title.setLayoutParams(titleParams);
 	}
 }

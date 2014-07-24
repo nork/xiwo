@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import com.android.xiwao.washcar.Constants;
 import com.android.xiwao.washcar.R;
+import com.android.xiwao.washcar.XiwaoApplication;
 
 /**
  * 找回密码
@@ -71,54 +72,54 @@ public class FindPasswordActivity extends Activity {
 	/**
 	 * 设置控件宽高度
 	 */
-	@SuppressWarnings("deprecation")
 	public void setViewHw() {
-
+		int displayHeight = ((XiwaoApplication)getApplication()).getDisplayHeight();
+		int displayWidth = ((XiwaoApplication)getApplication()).getDisplayWidth();
 		// title高度
 		RelativeLayout title = (RelativeLayout) view.findViewById(R.id.header);
 		LinearLayout.LayoutParams titleParams = new LinearLayout.LayoutParams(
-				LayoutParams.FILL_PARENT,
-				(int) (Constants.displayHeight * 0.08f + 0.5f));
+				LayoutParams.MATCH_PARENT,
+				(int) (displayHeight * 0.08f + 0.5f));
 		title.setLayoutParams(titleParams);
 
 		LinearLayout.LayoutParams params;
 		LinearLayout teleInputText = (LinearLayout) findViewById(R.id.tele_input_text);
-		params = new LinearLayout.LayoutParams(LayoutParams.FILL_PARENT,
-				(int) (Constants.displayHeight * 0.08f + 0.5f));
-		params.setMargins(0, (int) (Constants.displayHeight * 0.05f + 0.5f), 0,
+		params = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT,
+				(int) (displayHeight * 0.08f + 0.5f));
+		params.setMargins(0, (int) (displayHeight * 0.05f + 0.5f), 0,
 				0);
 		teleInputText.setLayoutParams(params); // 获取验证码部分设置
 
-		params = new LinearLayout.LayoutParams(LayoutParams.FILL_PARENT,
+		params = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT,
 				LayoutParams.WRAP_CONTENT);
-		params.setMargins(0, (int) (Constants.displayHeight * 0.05f + 0.5f), 0,
+		params.setMargins(0, (int) (displayHeight * 0.05f + 0.5f), 0,
 				0);
 		resetrview.setLayoutParams(params); // 输入注册信息部分设置
 
 		Button getCodeBtn = (Button) findViewById(R.id.getcodebtn);
-		params = new LinearLayout.LayoutParams(LayoutParams.FILL_PARENT,
-				(int) (Constants.displayHeight * 0.08f + 0.5f));
-		params.setMargins((int) (Constants.displayWidth * 0.06f + 0.5f),
-				(int) (Constants.displayHeight * 0.06f + 0.5f),
-				(int) (Constants.displayWidth * 0.06f + 0.5f), 0);
+		params = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT,
+				(int) (displayHeight * 0.08f + 0.5f));
+		params.setMargins((int) (displayWidth * 0.06f + 0.5f),
+				(int) (displayHeight * 0.06f + 0.5f),
+				(int) (displayWidth * 0.06f + 0.5f), 0);
 		getCodeBtn.setLayoutParams(params);
 
 		// LinearLayout nickNamePart =
 		// (LinearLayout)findViewById(R.id.nick_name_part); //昵称输入框
 		LinearLayout codeInputPart = (LinearLayout) findViewById(R.id.code_input_text);
 
-		params = new LinearLayout.LayoutParams(LayoutParams.FILL_PARENT,
-				(int) (Constants.displayHeight * 0.08f + 0.5f));
+		params = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT,
+				(int) (displayHeight * 0.08f + 0.5f));
 		psw02.setLayoutParams(params); // 确认密码部分
 		psw01.setLayoutParams(params); // 设置密码部分
 		codeInputPart.setLayoutParams(params); // 输入验证码部分
 
 		Button registerbtn = (Button) view.findViewById(R.id.registerbtn); // 提交按钮
-		params = new LinearLayout.LayoutParams(LayoutParams.FILL_PARENT,
-				(int) (Constants.displayHeight * 0.08f + 0.5f));
-		params.setMargins((int) (Constants.displayWidth * 0.06f + 0.5f),
-				(int) (Constants.displayHeight * 0.06f + 0.5f),
-				(int) (Constants.displayWidth * 0.06f + 0.5f), 0);
+		params = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT,
+				(int) (displayHeight * 0.08f + 0.5f));
+		params.setMargins((int) (displayWidth * 0.06f + 0.5f),
+				(int) (displayHeight * 0.06f + 0.5f),
+				(int) (displayWidth * 0.06f + 0.5f), 0);
 		registerbtn.setLayoutParams(params);
 	}
 
@@ -402,11 +403,11 @@ public class FindPasswordActivity extends Activity {
 		// //找回密码成功，返回登陆
 		// Toast.makeText(mcontext, "密码设置成功，请登录", 1).show();
 		// Intent intent = new Intent();
-		// intent.putExtra("type", Constants.login);
+		// intent.putExtra("type", login);
 		// intent.putExtra("mobile", mobile);
 		// // intent.putExtra("mobile", mobile);
 		// Log.v(TAG, "-------------- <SendResult> results: " +
-		// Constants.login);
+		// login);
 		// setResult(mcontext.CONTEXT_RESTRICTED, intent);
 		// finish();
 		//

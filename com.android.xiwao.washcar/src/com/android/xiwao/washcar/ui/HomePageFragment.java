@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.android.xiwao.washcar.Constants;
 import com.android.xiwao.washcar.R;
+import com.android.xiwao.washcar.XiwaoApplication;
 
 public class HomePageFragment extends BaseFragment{
 	private Context mContext;
@@ -67,23 +68,25 @@ public class HomePageFragment extends BaseFragment{
 	}
 	
 	public void setHwView(){
+		int displayHeight = ((XiwaoApplication)getActivity().getApplication()).getDisplayHeight();
+//		int displayWidth = ((XiwaoApplication)getActivity().getApplication()).getDisplayWidth();
 		RelativeLayout.LayoutParams btnParams = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT
 				, LayoutParams.WRAP_CONTENT);
 //		btnParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-		btnParams.setMargins(0, 0, 0, (int)(Constants.displayHeight * 0.1f + 0.5f));
+		btnParams.setMargins(0, 0, 0, (int)(displayHeight * 0.1f + 0.5f));
 		washCarBtn.setLayoutParams(btnParams);
 		
 		btnParams = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT
 				, LayoutParams.WRAP_CONTENT);
 //		btnParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-		btnParams.setMargins((int)(Constants.displayHeight * 0.1f + 0.5f), 0
-				, 0, (int)(Constants.displayHeight * 0.1f + 0.5f));
+		btnParams.setMargins((int)(displayHeight * 0.1f + 0.5f), 0
+				, 0, (int)(displayHeight * 0.1f + 0.5f));
 		btnParams.addRule(RelativeLayout.RIGHT_OF, R.id.wash_car);
 		washCarWaxBtn.setLayoutParams(btnParams);
 		
 		RelativeLayout title = (RelativeLayout) view.findViewById(R.id.header);
 		RelativeLayout.LayoutParams titleParams = new RelativeLayout.LayoutParams(LayoutParams.FILL_PARENT
-				, (int)(Constants.displayHeight * 0.08f + 0.5f));
+				, (int)(displayHeight * 0.08f + 0.5f));
 		title.setLayoutParams(titleParams);
 	}
 }

@@ -1,41 +1,46 @@
 package com.android.xiwao.washcar.ui;
 
+import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
 import android.view.View;
-import android.view.Window;
 import android.view.View.OnClickListener;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.Toast;
 import android.widget.LinearLayout.LayoutParams;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.android.xiwao.washcar.Constants;
+import com.android.xiwao.washcar.ClientSession;
 import com.android.xiwao.washcar.R;
+import com.android.xiwao.washcar.XiwaoApplication;
+import com.android.xiwao.washcar.httpconnection.BaseCommand;
+import com.android.xiwao.washcar.httpconnection.BaseResponse;
+import com.android.xiwao.washcar.httpconnection.CommandExecuter;
+import com.android.xiwao.washcar.httpconnection.Login;
+import com.android.xiwao.washcar.httpconnection.Register;
+import com.android.xiwao.washcar.utils.DialogUtils;
 
 public class RegisterActivity extends Activity {
 	public static Context mcontext;
 	private String TAG = "Register ";
 
+	//控件
 	private View getcodeview;
 	private EditText phoneedt;
 	private Button getcodebtn;
 	private ImageView agreebtn;
-
-	private String phonenumber;
-
 	private TextView registtitle;
 	private View agreementview;
 	private View registerview;
@@ -44,12 +49,15 @@ public class RegisterActivity extends Activity {
 	private EditText psw02;
 	private EditText nickName;
 
-	// private Map<String, String> params;
-	private JSONObject params;
-	private String results;
-
 	private TimeCount time;
 	private Button getaginbtn;
+	
+	// 工具
+	private DialogUtils dialogUtils;
+	
+	// 网络访问相关对象
+	private Handler mHandler;
+	private CommandExecuter mExecuter;
 
 	public static final int FINISHREGIST = 0;
 
@@ -60,10 +68,11 @@ public class RegisterActivity extends Activity {
 		mcontext = this;
 		setContentView(R.layout.registerview);
 		initContentView();
+		initExecuter();
+		initUtils();
 		setHwView();
 	}
 
-	@SuppressLint("NewApi")
 	private void initContentView() {
 		registtitle = (TextView) findViewById(R.id.title);
 		getcodeview = findViewById(R.id.getcodeview);
@@ -85,7 +94,7 @@ public class RegisterActivity extends Activity {
 
 		time = new TimeCount(50000, 1000);
 		
-		TextView title = (TextView) findViewById(R.id.title);		
+		TextView title = (TextView)findViewById(R.id.title);		
 		title.setText(R.string.register);
 
 		backbtn.setOnClickListener(new OnClickListener() {
@@ -138,25 +147,18 @@ public class RegisterActivity extends Activity {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				// Toast.makeText(mcontext, "获取验证码", 1).show();
-				phonenumber = phoneedt.getText().toString();
+				String phonenumber = phoneedt.getText().toString();
 				if (phonenumber == null || phonenumber.length() == 0) {
-					Toast.makeText(mcontext,
-							getResources().getString(R.string.please_phone),
-							Toast.LENGTH_LONG).show();
-					return;
-				} else if (!Pattern.matches("[0-9]+", phonenumber)) {
-					Toast.makeText(mcontext, "手机号码只能输入数字,请重新输入",
-							Toast.LENGTH_LONG).show();
+					dialogUtils.showToast(getString(R.string.please_phone));
 					return;
 				} else if (phonenumber.length() != 11) {
-					Toast.makeText(mcontext,
-							getResources().getString(R.string.telephone_wrong),
-							Toast.LENGTH_LONG).show();
+					dialogUtils.showToast(getString(R.string.telephone_wrong));
 					return;
 				} else {
 					time.start();
 				}
 				gotoRegisterview();
+				getCode(phonenumber);
 			}
 		});
 		// 获取验证码按钮倒计时
@@ -179,26 +181,23 @@ public class RegisterActivity extends Activity {
 				String psw1 = psw01.getText().toString();
 				String psw2 = psw02.getText().toString();
 				String nickNameStr = nickName.getText().toString();
-
+				String phonenumber = phoneedt.getText().toString();
 				Pattern p = Pattern
 						.compile("[\\`\\+\\~\\!\\#\\$\\%\\^\\&\\*\\(\\)\\|\\}\\{\\=\\'\\！\\￥\\……\\（\\）\\-\\+\\~\\!\\#\\$\\%\\&\\(\\)\\|\\}\\{\\=\\'\\！\\?\\:\\<\\>\\•\\“\\”\\；\\‘\\‘\\〈\\〉\\...\\（\\）\\——\\｛\\｝\\【\\】\\/\\;\\：\\？\\《\\》\\。\\，\\、\\[\\]\\,\\@\\#]+");
 				Matcher m = p.matcher(nickNameStr);
 
 				if (codestr == null || codestr.length() == 0) {
 
-					Toast.makeText(mcontext, "验证码不能为空", Toast.LENGTH_LONG)
-							.show();
+					dialogUtils.showToast(getString(R.string.code_null_erro));
 					return;
 
 				} else if (codestr.length() != 4) {
 
-					Toast.makeText(mcontext, "验证码为4位数，请重新输入", Toast.LENGTH_LONG)
-							.show();
+					dialogUtils.showToast(getString(R.string.code_length_erro));
 					return;
 				} else if (psw1 == null || psw1.length() == 0) {
 
-					Toast.makeText(mcontext, "密码不能为空", Toast.LENGTH_LONG)
-							.show();
+					dialogUtils.showToast(getString(R.string.pwd_null_erro));
 					return;
 
 				}
@@ -207,89 +206,97 @@ public class RegisterActivity extends Activity {
 						|| Pattern.matches("[0-9]+", psw1)
 						|| Pattern.matches("[a-zA-Z]+", psw1)
 						|| Pattern.matches("[_]+", psw1)) {
-					Toast.makeText(mcontext, "密码由6-16个字母加数字或下划线组成",
-							Toast.LENGTH_LONG).show();
+					dialogUtils.showToast(getString(R.string.pwd_format_erro));
 					return;
 				}
 
 				else if (psw2 == null || psw2.length() == 0) {
-					Toast.makeText(mcontext, "确认密码不能为空", Toast.LENGTH_LONG)
-							.show();
+					dialogUtils.showToast(getString(R.string.pwd_dif_erro));
 					return;
 				} else if (!psw1.equals(psw2)) {
-
-					Toast.makeText(mcontext, "两次输入的密码不一致，请您重新输入",
-							Toast.LENGTH_LONG).show();
+					dialogUtils.showToast(getString(R.string.pwd_dif_erro));
 					return;
 				} else if (nickNameStr.length() < 2) {
-					Toast.makeText(mcontext, "昵称长度不能小于2", Toast.LENGTH_LONG)
-							.show();
+					dialogUtils.showToast(getString(R.string.nickname_length_erro));
 					return;
 				} else if (m.find()) {
-					Toast.makeText(mcontext,
-							"昵称应为长度2-16个字符之间的中文、英文字母、数字、下划线组成",
-							Toast.LENGTH_LONG).show();
+					dialogUtils.showToast(getString(R.string.nickname_format_erro));
 					return;
 
 				}
 
-				// register(codestr, phonenumber, psw2, nickNameStr); // 对密码进行加密
+				doRegister(codestr, phonenumber, psw2, nickNameStr); // 对密码进行加密
 			}
 		});
 
 	}
+	
+	/**
+	 * 初始化需要的工具
+	 */
+	public void initUtils() {
+		dialogUtils = new DialogUtils();
+	}
 
-	@SuppressWarnings("deprecation")
+	private void initExecuter() {
+
+		mHandler = new Handler();
+
+		mExecuter = new CommandExecuter();
+		mExecuter.setHandler(mHandler);
+	}
+	
 	private void setHwView() {
-
+		int displayHeight = ((XiwaoApplication)getApplication()).getDisplayHeight();
+		int displayWidth = ((XiwaoApplication)getApplication()).getDisplayWidth();
 		// title高度
 		RelativeLayout title = (RelativeLayout) findViewById(R.id.header);
 		LinearLayout.LayoutParams titleParams = new LinearLayout.LayoutParams(
-				LayoutParams.FILL_PARENT,
-				(int) (Constants.displayHeight * 0.08f + 0.5f));
+				LayoutParams.MATCH_PARENT,
+				(int) (displayHeight * 0.08f + 0.5f));
 		title.setLayoutParams(titleParams);
 
 		LinearLayout.LayoutParams params;
-		params = new LinearLayout.LayoutParams(LayoutParams.FILL_PARENT,
+		params = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT,
 				LayoutParams.WRAP_CONTENT);
-		params.setMargins(0, (int) (Constants.displayHeight * 0.05f + 0.5f), 0,
+		params.setMargins(0, (int) (displayHeight * 0.05f + 0.5f), 0,
 				0);
 		getcodeview.setLayoutParams(params); // 获取验证码部分设置
 		registerview.setLayoutParams(params); // 输入注册信息部分设置
 
-		params = new LinearLayout.LayoutParams(LayoutParams.FILL_PARENT,
-				(int) (Constants.displayHeight * 0.08f + 0.5f));
-		params.setMargins((int) (Constants.displayWidth * 0.06f + 0.5f),
-				(int) (Constants.displayHeight * 0.06f + 0.5f),
-				(int) (Constants.displayWidth * 0.06f + 0.5f), 0);
+		params = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT,
+				(int) (displayHeight * 0.08f + 0.5f));
+		params.setMargins((int) (displayWidth * 0.06f + 0.5f),
+				(int) (displayHeight * 0.06f + 0.5f),
+				(int) (displayWidth * 0.06f + 0.5f), 0);
 		getcodebtn.setLayoutParams(params);
 
 		LinearLayout nickNamePart = (LinearLayout) findViewById(R.id.nick_name_part); // 昵称输入框
 		LinearLayout codeInputPart = (LinearLayout) findViewById(R.id.code_input_part);
 
-		params = new LinearLayout.LayoutParams(LayoutParams.FILL_PARENT,
-				(int) (Constants.displayHeight * 0.08f + 0.5f));
-		params.setMargins(0, (int) (Constants.displayHeight * 0.05f + 0.5f), 0,
+		params = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT,
+				(int) (displayHeight * 0.08f + 0.5f));
+		params.setMargins(0, (int) (displayHeight * 0.05f + 0.5f), 0,
 				0);
 		nickNamePart.setLayoutParams(params);
 
-		params = new LinearLayout.LayoutParams(LayoutParams.FILL_PARENT,
-				(int) (Constants.displayHeight * 0.08f + 0.5f));
+		params = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT,
+				(int) (displayHeight * 0.08f + 0.5f));
 		psw02.setLayoutParams(params); // 确认密码部分
 		psw01.setLayoutParams(params); // 设置密码部分
 		codeInputPart.setLayoutParams(params); // 输入验证码部分
 
 		Button registerbtn = (Button) findViewById(R.id.registerbtn); // 提交按钮
-		params = new LinearLayout.LayoutParams(LayoutParams.FILL_PARENT,
-				(int) (Constants.displayHeight * 0.08f + 0.5f));
-		params.setMargins((int) (Constants.displayWidth * 0.06f + 0.5f),
-				(int) (Constants.displayHeight * 0.06f + 0.5f),
-				(int) (Constants.displayWidth * 0.06f + 0.5f), 0);
+		params = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT,
+				(int) (displayHeight * 0.08f + 0.5f));
+		params.setMargins((int) (displayWidth * 0.06f + 0.5f),
+				(int) (displayHeight * 0.06f + 0.5f),
+				(int) (displayWidth * 0.06f + 0.5f), 0);
 		registerbtn.setLayoutParams(params);
 
 		LinearLayout inputPart = (LinearLayout) findViewById(R.id.input_part); // 手机号码输入框部分
-		params = new LinearLayout.LayoutParams(LayoutParams.FILL_PARENT,
-				(int) (Constants.displayHeight * 0.08f + 0.5f));
+		params = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT,
+				(int) (displayHeight * 0.08f + 0.5f));
 		inputPart.setLayoutParams(params);
 	}
 
@@ -308,7 +315,7 @@ public class RegisterActivity extends Activity {
 	}
 
 	/**
-	 * /跳转到注册界面
+	 * 跳转到注册界面
 	 */
 	private void gotoRegisterview() {
 
@@ -338,7 +345,127 @@ public class RegisterActivity extends Activity {
 		registtitle.setText(R.string.agreement);
 		// registtitle.setTextColor(getResources().getColor(R.color.black));
 	}
+	
+	/**
+	 * 获取验证码
+	 * @param phone
+	 */
+	private void getCode(String phone){
+		BaseCommand getCode = ClientSession.getInstance().getCmdFactory()
+				.getCode(phone, "");
 
+		mExecuter.execute(getCode, mGetCodeRespHandler);
+
+		dialogUtils.showProgress();
+	}
+	/**
+	 * 解析获取的验证码结果
+	 * @param rsp 服务器返回的结果
+	 */
+	private void onReceiveGetCodeResponse(BaseResponse rsp){
+		if (!rsp.isOK()) {
+			String error = getString(R.string.protocol_error) + "(" + rsp.errno
+					+ ")";
+			dialogUtils.showToast(error);
+		} else {
+			Login.Response loginRsp = (Login.Response) rsp;
+			if (loginRsp.issuc == BaseResponse.SUCCSS) {
+				ClientSession session = ClientSession.getInstance();
+				session.setSessionCookies(rsp.cookies);
+				session.setUserId(loginRsp.id);
+				onRegisterSuccess();
+			} else {
+				if (loginRsp.issuc == Login.Response.ISSUC_FAILED) {
+				
+				} else {
+					
+				}
+			}
+		}
+	}
+	
+	private CommandExecuter.ResponseHandler mGetCodeRespHandler = new CommandExecuter.ResponseHandler() {
+
+		public void handleResponse(BaseResponse rsp) {
+			onReceiveGetCodeResponse(rsp);
+		}
+
+		public void handleException(IOException e) {
+			dialogUtils.showToast(getString(R.string.connection_error));
+		}
+
+		public void onEnd() {
+			dialogUtils.dismissProgress();
+		}
+	};
+	
+	/**
+	 * 注册操作
+	 * @param codestr
+	 * @param phonenumber
+	 * @param password
+	 * @param nickNameStr
+	 */
+	private void doRegister(String codestr, String phonenumber, String password, String nickNameStr){
+		BaseCommand register = ClientSession.getInstance().getCmdFactory()
+				.getRegister(codestr, phonenumber, password, nickNameStr);
+
+		mExecuter.execute(register, mRespHandler);
+
+		dialogUtils.showProgress();
+	}
+	
+	/**
+	 * 处理服务器返回的注册结果
+	 * @param rsp 服务返回的注册信息
+	 */
+	private void onReceiveRegisterResponse(BaseResponse rsp) {
+
+		if (!rsp.isOK()) {
+			String error = getString(R.string.protocol_error) + "(" + rsp.errno
+					+ ")";
+			dialogUtils.showToast(error);
+		} else {
+			Register.Response registerRsp = (Register.Response) rsp;
+			if (registerRsp.issuc == BaseResponse.SUCCSS) {
+				ClientSession session = ClientSession.getInstance();
+				session.setSessionCookies(rsp.cookies);
+				session.setUserId(registerRsp.id);
+				onRegisterSuccess();
+			} else {
+				if (registerRsp.issuc == Login.Response.ISSUC_FAILED) {
+				
+				} else {
+					
+				}
+			}
+		}
+	}
+	
+	/**
+	 * 注册成功之后的处理
+	 */
+	private void onRegisterSuccess(){		
+    	Intent intent = new Intent(this, MainActivity.class);
+    	startActivity(intent);
+    	finish();
+    }
+	
+	private CommandExecuter.ResponseHandler mRespHandler = new CommandExecuter.ResponseHandler() {
+
+		public void handleResponse(BaseResponse rsp) {
+			onReceiveRegisterResponse(rsp);
+		}
+
+		public void handleException(IOException e) {
+			dialogUtils.showToast(getString(R.string.connection_error));
+		}
+
+		public void onEnd() {
+			dialogUtils.dismissProgress();
+		}
+	};
+	
 	class TimeCount extends CountDownTimer {
 		public TimeCount(long millisInFuture, long countDownInterval) {
 			super(millisInFuture, countDownInterval);// 参数依次为总时长,和计时的时间间隔

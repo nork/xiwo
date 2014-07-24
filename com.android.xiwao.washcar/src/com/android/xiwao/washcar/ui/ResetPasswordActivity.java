@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import com.android.xiwao.washcar.Constants;
 import com.android.xiwao.washcar.R;
+import com.android.xiwao.washcar.XiwaoApplication;
 
 /**
  * 重置密码
@@ -64,33 +65,34 @@ public class ResetPasswordActivity extends Activity {
 	/**
 	 * 设置控件宽高度
 	 */
-	@SuppressWarnings("deprecation")
 	public void setViewHw() {
+		int displayHeight = ((XiwaoApplication)getApplication()).getDisplayHeight();
+		int displayWidth = ((XiwaoApplication)getApplication()).getDisplayWidth();
 		// title高度
 		RelativeLayout title = (RelativeLayout) findViewById(R.id.header);
 		LinearLayout.LayoutParams titleParams = new LinearLayout.LayoutParams(
-				LayoutParams.FILL_PARENT,
-				(int) (Constants.displayHeight * 0.08f + 0.5f));
+				LayoutParams.MATCH_PARENT,
+				(int) (displayHeight * 0.08f + 0.5f));
 		title.setLayoutParams(titleParams);
 
 		LinearLayout.LayoutParams params;
 		LinearLayout getcodeview = (LinearLayout) findViewById(R.id.getcodeview);
-		params = new LinearLayout.LayoutParams(LayoutParams.FILL_PARENT,
+		params = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT,
 				LayoutParams.WRAP_CONTENT);
-		params.setMargins(0, (int) (Constants.displayHeight * 0.05f + 0.5f), 0,
+		params.setMargins(0, (int) (displayHeight * 0.05f + 0.5f), 0,
 				0);
 		getcodeview.setLayoutParams(params);
 
 		Button submitbtn = (Button) view.findViewById(R.id.okbtn); // 按钮部分
-		params = new LinearLayout.LayoutParams(LayoutParams.FILL_PARENT,
-				(int) (Constants.displayHeight * 0.08f + 0.5f));
-		params.setMargins((int) (Constants.displayWidth * 0.06f + 0.5f),
-				(int) (Constants.displayHeight * 0.06f + 0.5f),
-				(int) (Constants.displayWidth * 0.06f + 0.5f), 0);
+		params = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT,
+				(int) (displayHeight * 0.08f + 0.5f));
+		params.setMargins((int) (displayWidth * 0.06f + 0.5f),
+				(int) (displayHeight * 0.06f + 0.5f),
+				(int) (displayWidth * 0.06f + 0.5f), 0);
 		submitbtn.setLayoutParams(params);
 
-		params = new LinearLayout.LayoutParams(LayoutParams.FILL_PARENT,
-				(int) (Constants.displayHeight * 0.08f + 0.5f));
+		params = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT,
+				(int) (displayHeight * 0.08f + 0.5f));
 		oldpsw.setLayoutParams(params); // 旧密码输入框
 		psw01.setLayoutParams(params); // 新密码输入框
 		psw02.setLayoutParams(params); // 密码确认输入框
@@ -166,7 +168,7 @@ public class ResetPasswordActivity extends Activity {
 				}
 
 				// String mobile =
-				// Account.getSharedPreOfLogin(mcontext).getString(Constants.mobileno,
+				// Account.getSharedPreOfLogin(mcontext).getString(mobileno,
 				// "");
 				// moble = mobile;
 				// resetPsw(mobile, oldpswstr, psw2);
@@ -220,13 +222,13 @@ public class ResetPasswordActivity extends Activity {
 		// if("0".equals(status)){ //成功
 		//
 		// Toast.makeText(mcontext, "密码修改成功", 0).show();
-		// // System.setProperty(Constants.password, newpwd);
+		// // System.setProperty(password, newpwd);
 		// Account.saveLoginStatus(mcontext, "1", mobile, newpwd, "");
 		// finish();
 		//
 		// }else if("-10".equals(status)){
 		// AppLog.v(TAG, "session过期");
-		// mHandler.sendEmptyMessage(Constants.UnLogin);
+		// mHandler.sendEmptyMessage(UnLogin);
 		// }else{
 		// Toast.makeText(mcontext, "旧密码输入错误", 0).show();
 		// }
@@ -251,15 +253,15 @@ public class ResetPasswordActivity extends Activity {
 		@Override
 		public void handleMessage(Message msg) {
 			switch (msg.what) {
-			// case Constants.ReloginSuc:
+			// case ReloginSuc:
 			// AppLog.v(TAG, "重登录成功");
 			// resetPsw(moble, Utils.MD5(oldPwd), Utils.MD5(newPwd));
 			// break;
-			// case Constants.ReloginFail:
+			// case ReloginFail:
 			// AppLog.v(TAG, "重登录失败");
 			// Toast.makeText(mcontext, "密码修改失败，请稍后再试", 0).show();
 			// break;
-			// case Constants.UnLogin:
+			// case UnLogin:
 			// AppLog.v(TAG, "未登录，进行重登录");
 			// ReloginHelper relogin = new ReloginHelper((Activity)mcontext,
 			// mHandler);
