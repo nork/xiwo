@@ -16,6 +16,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.android.xiwao.washcar.ActivityManage;
+import com.android.xiwao.washcar.AppLog;
 import com.android.xiwao.washcar.ClientSession;
 import com.android.xiwao.washcar.LocalSharePreference;
 import com.android.xiwao.washcar.R;
@@ -50,12 +52,15 @@ public class LoginActivity extends Activity {
 	//用户名密码
 	private String userName;
 	private String password;
+	private String nickName;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
-
+		ActivityManage.getInstance().setCurContext(this);
+		ActivityManage.getInstance().addActivity(this);
+		
 		mLocalSharePref = new LocalSharePreference(this);
 
 		getDisHw();// 获取屏幕分辨率，供后期使用
@@ -208,6 +213,9 @@ public class LoginActivity extends Activity {
 		mLocalSharePref.setUserName(userName);
 		mLocalSharePref.setUserPassword(password);
 		mLocalSharePref.setLoginState(true);	//保存登录状态
+		mLocalSharePref.setNickName(nickName);
+		AppLog.v("TAG", "用户ID:" + ClientSession.getInstance().getUserId());
+		mLocalSharePref.setUserId(ClientSession.getInstance().getUserId());
 		
     	Intent intent = new Intent(this, MainActivity.class);
     	startActivity(intent);
@@ -226,17 +234,14 @@ public class LoginActivity extends Activity {
 			dialogUtils.showToast(error);
 		} else {
 			Login.Response loginRsp = (Login.Response) rsp;
-			if (loginRsp.issuc == BaseResponse.SUCCSS) {
+			if (loginRsp.responseType.equals("N")) {
 				ClientSession session = ClientSession.getInstance();
 				session.setSessionCookies(rsp.cookies);
 				session.setUserId(loginRsp.id);
+				nickName = loginRsp.customerName;
 				onLoginSuccess();
 			} else {
-				if (loginRsp.issuc == Login.Response.ISSUC_FAILED) {
-				
-				} else {
-					
-				}
+				dialogUtils.showToast(loginRsp.errorMessage);
 			}
 		}
 	}

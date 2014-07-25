@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.Toast;
 
+import com.android.xiwao.washcar.ActivityManage;
 import com.android.xiwao.washcar.Constants;
 import com.android.xiwao.washcar.R;
 import com.android.xiwao.washcar.XiwaoApplication;
@@ -52,6 +53,8 @@ public class ResetPasswordActivity extends Activity {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		mcontext = this;
+		ActivityManage.getInstance().setCurContext(this);
+		ActivityManage.getInstance().addActivity(this);
 
 		LayoutInflater inflater = LayoutInflater.from(mcontext);
 		view = inflater.inflate(R.layout.resetpswview, null);

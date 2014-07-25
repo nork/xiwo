@@ -180,7 +180,7 @@
                             android:digits="0123456789abcdefghigklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
                             android:hint="@string/input_code"
                             android:inputType="textVisiblePassword"
-                            android:maxLength="4"
+                            android:maxLength="6"
                             android:paddingLeft="25dp"
                             android:singleLine="true"
                             android:textColor="@color/blackgrey"

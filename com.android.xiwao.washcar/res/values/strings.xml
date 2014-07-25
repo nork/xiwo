@@ -41,7 +41,7 @@
     <string name="agreement01">《客户服务协议》</string>
     <string name="telephone_wrong">手机号非法</string>
     <string name="code_null_erro">验证码不能为空</string>
-    <string name="code_length_erro">验证码为4位数，请确认是否正确</string>
+    <string name="code_length_erro">验证码为6位数，请确认是否正确</string>
     <string name="pwd_null_erro">密码不能为空</string>
     <string name="pwd_format_erro">密码由6~16个字母加数字或下划线组成</string>
     <string name="pwd_dif_erro">两次输入的密码不一致，请您重新输入</string>
@@ -65,6 +65,7 @@
     <string name="wash">洗</string>
     <string name="wax">蜡</string>
     <string name="add_car">+ 添加车辆信息</string>
+    <string name="car_info_title"> 你好，你名下的豪车有：</string>
     
     <!-- car info edit ui string -->
     <string name="contact_num">联系电话</string>

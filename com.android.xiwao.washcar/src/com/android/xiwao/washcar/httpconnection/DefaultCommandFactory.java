@@ -26,6 +26,9 @@ public class DefaultCommandFactory extends CommandFactory {
 	public BaseCommand getCode(String phone, String operate) {
 		// TODO Auto-generated method stub
 		GetCode getCode = new GetCode();
+		getCode.setMobileNum(phone);
+		getCode.setMessageType("01");
+		getCode.setMessageContent("01");
 		return getCode;
 	}
 	

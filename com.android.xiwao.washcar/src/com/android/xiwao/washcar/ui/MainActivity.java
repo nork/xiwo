@@ -17,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import com.android.xiwao.washcar.ActivityManage;
 import com.android.xiwao.washcar.Constants;
 import com.android.xiwao.washcar.R;
 import com.android.xiwao.washcar.XiwaoApplication;
@@ -35,6 +36,9 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
         super.onCreate(savedInstanceState);
 //        getDisHw();//获取屏幕分辨率，供后期使用
         requestWindowFeature(Window.FEATURE_NO_TITLE);
+        ActivityManage.getInstance().setCurContext(this);
+		ActivityManage.getInstance().addActivity(this);
+		
         setContentView(R.layout.activity_main);
         initContentView();
 //      setHwView();

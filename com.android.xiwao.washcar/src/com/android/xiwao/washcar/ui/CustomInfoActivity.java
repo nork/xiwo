@@ -8,6 +8,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.android.xiwao.washcar.ActivityManage;
 import com.android.xiwao.washcar.Constants;
 import com.android.xiwao.washcar.R;
 import com.android.xiwao.washcar.XiwaoApplication;
@@ -18,6 +19,9 @@ public class CustomInfoActivity extends Activity{
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
+		ActivityManage.getInstance().setCurContext(this);
+		ActivityManage.getInstance().addActivity(this);
+		
 		mContext = this;
 
 		setContentView(R.layout.customer_info);

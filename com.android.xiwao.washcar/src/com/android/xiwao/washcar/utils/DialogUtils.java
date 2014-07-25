@@ -23,15 +23,6 @@ public class DialogUtils {
 	
 	public void showProgress(){
 		mProgressDlg = ProgressDialog.show(mContext, "", mContext.getString(R.string.wait_in_progress));
-		mProgressDlg = new ProgressDialog(mContext);
-		mProgressDlg.setCancelable(true);
-		mProgressDlg.setCanceledOnTouchOutside(false);
-		mProgressDlg.setOnCancelListener(new DialogInterface.OnCancelListener() {
-			public void onCancel(DialogInterface dialog) {
-				mProgressDlg.dismiss();
-				mProgressDlg = null;
-			}
-		});
 	}
 	
 	public void dismissProgress(){

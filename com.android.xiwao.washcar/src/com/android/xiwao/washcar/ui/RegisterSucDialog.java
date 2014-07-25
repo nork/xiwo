@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
+import com.android.xiwao.washcar.ActivityManage;
 import com.android.xiwao.washcar.Constants;
 import com.android.xiwao.washcar.R;
 import com.android.xiwao.washcar.XiwaoApplication;
@@ -16,6 +17,9 @@ public class RegisterSucDialog extends Activity{
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
+		ActivityManage.getInstance().setCurContext(this);
+		ActivityManage.getInstance().addActivity(this);
+		
 		setContentView(R.layout.modify_suc_dialog);
 		initContentView();
 		setHwView();

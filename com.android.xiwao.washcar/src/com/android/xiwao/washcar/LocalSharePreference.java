@@ -8,6 +8,8 @@ public class LocalSharePreference {
 	private static final String USER_NAME = "user_name";
 	private static final String USER_PASSWORD = "user_password";
 	private static final String LOGIN_STATE = "login_state";
+	private static final String USER_ID = "user_id";
+	private static final String USER_NICK_NAME = "user_nick_name";
 	private Context mCtx;
 	private SharedPreferences mSp;
 	private SharedPreferences.Editor mEditor;
@@ -28,6 +30,38 @@ public class LocalSharePreference {
 	
 	public void setUserPassword(String password){
 		putStringPref(USER_PASSWORD, password);
+	}
+	
+	/**
+	 * 保存用户ID
+	 * @param id
+	 */
+	public void setUserId(long id){
+		putLongPref(USER_ID, id);
+	}
+	
+	/**
+	 * 获取用户ID
+	 * @return
+	 */
+	public long getUserId(){
+		return getLongPref(USER_ID, 0);
+	}
+	
+	/**
+	 * 保存用户昵称
+	 * @param nickName
+	 */
+	public void setNickName(String nickName){
+		putStringPref(USER_NICK_NAME, nickName);
+	}
+	
+	/**
+	 * 获取用户昵称
+	 * @return
+	 */
+	public String getNickName(){
+		return getStringPref(USER_NICK_NAME, "");
 	}
 	
 	/**
@@ -66,5 +100,14 @@ public class LocalSharePreference {
 	
 	private boolean getBooleanPref(String key, boolean defValue){
 		return mSp.getBoolean(key, defValue);
+	}
+	
+	private void putLongPref(String key, long value){
+		mEditor.putLong(key, value);
+		mEditor.commit();
+	}
+	
+	private long getLongPref(String key, long defValue){
+		return mSp.getLong(key, defValue);
 	}
 }

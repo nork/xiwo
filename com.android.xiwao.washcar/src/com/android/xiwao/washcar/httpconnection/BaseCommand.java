@@ -30,7 +30,7 @@ import com.android.xiwao.washcar.AppLog;
 public abstract class BaseCommand {
 
 	//protected static final String DEFAULT_BACKEND_URL = "http://yun356.sinaapp.com/index.php?";
-	protected static final String DEFAULT_BACKEND_URL = "http://356yun.sinaapp.com/index.php?";
+	protected static final String DEFAULT_BACKEND_URL = "http://washmycar.sinaapp.com/washmycar/";
 
 	private static final String TAG = "BaseCommand";
 
@@ -52,7 +52,7 @@ public abstract class BaseCommand {
 
 	public BaseCommand() {
 		mCookieStore = null;
-		mIsGetMethod = true;
+		mIsGetMethod = false;
 		mBackEndServerURL = DEFAULT_BACKEND_URL;
 	}
 	
@@ -118,6 +118,9 @@ public abstract class BaseCommand {
 			
 			// attach parameters
 			List<NameValuePair> nvps = getParameters();
+			for(NameValuePair nvp : nvps){
+				AppLog.v(TAG, "²ÎÊý:" + nvp.getName() + nvp.getValue());
+			}
 			if(nvps != null){
 				method.setEntity( new UrlEncodedFormEntity(nvps, HTTP.UTF_8) );
 			}

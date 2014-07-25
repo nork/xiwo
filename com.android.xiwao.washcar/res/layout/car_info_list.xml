@@ -54,7 +54,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:paddingLeft="20dp"
-            android:text="xxx你好，你名下的豪车有:"
             android:textColor="@color/white"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/custom_img" />

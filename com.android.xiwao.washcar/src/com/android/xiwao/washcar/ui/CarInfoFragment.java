@@ -16,6 +16,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.xiwao.washcar.Constants;
+import com.android.xiwao.washcar.LocalSharePreference;
 import com.android.xiwao.washcar.R;
 import com.android.xiwao.washcar.XiwaoApplication;
 import com.android.xiwao.washcar.data.CarInfo;
@@ -30,10 +31,16 @@ public class CarInfoFragment extends BaseFragment {
 
 	private TextView title;
 	private Button backBtn;
+	private TextView carInfoTitle;
+	
+	// Preference数据存储对象
+	private LocalSharePreference mLocalSharePref;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+		mLocalSharePref = new LocalSharePreference(this.getActivity());
+		
 		view = inflater.inflate(R.layout.car_info_list, null);
 		initContentView();
 		initAdapter();
@@ -50,6 +57,8 @@ public class CarInfoFragment extends BaseFragment {
 		backBtn = (Button) view.findViewById(R.id.backbtn);
 		title = (TextView) view.findViewById(R.id.title);
 		title.setText(getString(R.string.car_info));
+		carInfoTitle = (TextView) view.findViewById(R.id.car_info_title);
+		carInfoTitle.setText(mLocalSharePref.getNickName() + getString(R.string.car_info_title));
 	}
 
 	/**

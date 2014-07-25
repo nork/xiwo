@@ -22,13 +22,14 @@ import android.widget.LinearLayout.LayoutParams;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.android.xiwao.washcar.ActivityManage;
 import com.android.xiwao.washcar.ClientSession;
 import com.android.xiwao.washcar.R;
 import com.android.xiwao.washcar.XiwaoApplication;
 import com.android.xiwao.washcar.httpconnection.BaseCommand;
 import com.android.xiwao.washcar.httpconnection.BaseResponse;
 import com.android.xiwao.washcar.httpconnection.CommandExecuter;
-import com.android.xiwao.washcar.httpconnection.Login;
+import com.android.xiwao.washcar.httpconnection.GetCode;
 import com.android.xiwao.washcar.httpconnection.Register;
 import com.android.xiwao.washcar.utils.DialogUtils;
 
@@ -60,11 +61,18 @@ public class RegisterActivity extends Activity {
 	private CommandExecuter mExecuter;
 
 	public static final int FINISHREGIST = 0;
+	
+	//参数
+	private String code;	//验证码
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		
+		ActivityManage.getInstance().setCurContext(this);
+		ActivityManage.getInstance().addActivity(this);
+		
 		mcontext = this;
 		setContentView(R.layout.registerview);
 		initContentView();
@@ -157,7 +165,7 @@ public class RegisterActivity extends Activity {
 				} else {
 					time.start();
 				}
-				gotoRegisterview();
+//				gotoRegisterview();
 				getCode(phonenumber);
 			}
 		});
@@ -191,7 +199,7 @@ public class RegisterActivity extends Activity {
 					dialogUtils.showToast(getString(R.string.code_null_erro));
 					return;
 
-				} else if (codestr.length() != 4) {
+				} else if (codestr.length() != 6) {
 
 					dialogUtils.showToast(getString(R.string.code_length_erro));
 					return;
@@ -225,7 +233,8 @@ public class RegisterActivity extends Activity {
 
 				}
 
-				doRegister(codestr, phonenumber, psw2, nickNameStr); // 对密码进行加密
+				//此处验证码暂时使用服务器返回的值
+				doRegister(code, phonenumber, psw2, nickNameStr); // 对密码进行加密
 			}
 		});
 
@@ -358,6 +367,17 @@ public class RegisterActivity extends Activity {
 
 		dialogUtils.showProgress();
 	}
+	
+	/**
+	 * 获取验证码成功
+	 * @param identifyCode 获取到的验证码
+	 */
+	private void onGetCodeSuccess(String identifyCode){
+		code = identifyCode;
+		gotoRegisterview();
+		dialogUtils.dismissProgress();
+	}
+	
 	/**
 	 * 解析获取的验证码结果
 	 * @param rsp 服务器返回的结果
@@ -367,19 +387,13 @@ public class RegisterActivity extends Activity {
 			String error = getString(R.string.protocol_error) + "(" + rsp.errno
 					+ ")";
 			dialogUtils.showToast(error);
+			dialogUtils.dismissProgress();
 		} else {
-			Login.Response loginRsp = (Login.Response) rsp;
-			if (loginRsp.issuc == BaseResponse.SUCCSS) {
-				ClientSession session = ClientSession.getInstance();
-				session.setSessionCookies(rsp.cookies);
-				session.setUserId(loginRsp.id);
-				onRegisterSuccess();
+			GetCode.Response getCodeRsp = (GetCode.Response) rsp;
+			if (getCodeRsp.responseType.equals(GetCode.Response.ISSUC_SUCC)) {				
+				onGetCodeSuccess(getCodeRsp.identifyCode);
 			} else {
-				if (loginRsp.issuc == Login.Response.ISSUC_FAILED) {
-				
-				} else {
-					
-				}
+				dialogUtils.showToast(getCodeRsp.errorMessage);
 			}
 		}
 	}
@@ -427,17 +441,14 @@ public class RegisterActivity extends Activity {
 			dialogUtils.showToast(error);
 		} else {
 			Register.Response registerRsp = (Register.Response) rsp;
-			if (registerRsp.issuc == BaseResponse.SUCCSS) {
+			if (registerRsp.responseType.equals("N")) {
 				ClientSession session = ClientSession.getInstance();
 				session.setSessionCookies(rsp.cookies);
 				session.setUserId(registerRsp.id);
 				onRegisterSuccess();
+				dialogUtils.showToast(registerRsp.errorMessage);
 			} else {
-				if (registerRsp.issuc == Login.Response.ISSUC_FAILED) {
-				
-				} else {
-					
-				}
+				dialogUtils.showToast(registerRsp.errorMessage);
 			}
 		}
 	}
@@ -446,7 +457,7 @@ public class RegisterActivity extends Activity {
 	 * 注册成功之后的处理
 	 */
 	private void onRegisterSuccess(){		
-    	Intent intent = new Intent(this, MainActivity.class);
+    	Intent intent = new Intent(this, LoginActivity.class);
     	startActivity(intent);
     	finish();
     }
