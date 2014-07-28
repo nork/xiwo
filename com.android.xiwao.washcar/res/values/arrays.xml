@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="types">
+    <string-array name="server_types">
         <item>洗车</item>
         <item>洗车打蜡</item>
+    </string-array>
+    
+    <string-array name="car_types">
+        <item>5座</item>
+        <item>7座</item>
     </string-array>
 </resources>
 

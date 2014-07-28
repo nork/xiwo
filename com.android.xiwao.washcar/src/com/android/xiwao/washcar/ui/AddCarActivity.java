@@ -1,15 +1,18 @@
 package com.android.xiwao.washcar.ui;
 
-import android.content.Context;
+import com.android.xiwao.washcar.ActivityManage;
+import com.android.xiwao.washcar.R;
+import com.android.xiwao.washcar.XiwaoApplication;
+import com.android.xiwao.washcar.ui.CarInfoEditFragment.SpinnerXMLSelectedListener;
+
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
+import android.view.Window;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,48 +20,49 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.AdapterView.OnItemSelectedListener;
 
-import com.android.xiwao.washcar.R;
-import com.android.xiwao.washcar.XiwaoApplication;
-
-public class CarInfoEditFragment extends BaseFragment {
-	private Context mContext;
-	private View view;
-	private RelativeLayout serverType;
+public class AddCarActivity extends Activity{
+	private RelativeLayout carType;
 	private RelativeLayout carNum;
-	private RelativeLayout website;
-	private RelativeLayout contactNum;
+	private RelativeLayout carBrand;
+	private RelativeLayout carColor;
+	private RelativeLayout carPic;
+	
 	private Button submitBtn;
-	private Spinner spinnerServerType;
+	private Spinner spinnerCarType;
 	private EditText carNumEdt;
-	private EditText contactEdt;
-
+	private EditText carBrandEdt;
+	private EditText carColorEdt;
+	
 	private ArrayAdapter typeAdapter;
-
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		mContext = getActivity();
-		view = inflater.inflate(R.layout.car_info_edit, null);
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		ActivityManage.getInstance().setCurContext(this);
+		ActivityManage.getInstance().addActivity(this);
+		
+		setContentView(R.layout.add_car);
 		initContentView();
 		setHwView();
 		initAdapter();
-		return view;
 	}
-
-	@Override
+	
 	public void initContentView() {
 		// TODO Auto-generated method stub
-		serverType = (RelativeLayout) view.findViewById(R.id.server_type);
-		carNum = (RelativeLayout) view.findViewById(R.id.car_num);
-		website = (RelativeLayout) view.findViewById(R.id.website);
-		contactNum = (RelativeLayout) view.findViewById(R.id.contact);
-		submitBtn = (Button) view.findViewById(R.id.submit);
-		spinnerServerType = (Spinner) view
-				.findViewById(R.id.spinner_server_type);
-		carNumEdt = (EditText) view.findViewById(R.id.car_num_edt);
-		contactEdt = (EditText) view.findViewById(R.id.contact_edt);
-		TextView title = (TextView) view.findViewById(R.id.title);
+		carType = (RelativeLayout) findViewById(R.id.car_type);
+		carNum = (RelativeLayout) findViewById(R.id.car_num);
+		carBrand = (RelativeLayout) findViewById(R.id.car_brand);
+		carColor = (RelativeLayout) findViewById(R.id.car_color);
+		carPic = (RelativeLayout) findViewById(R.id.car_pic);
+		submitBtn = (Button) findViewById(R.id.submit);
+		spinnerCarType = (Spinner) findViewById(R.id.spinner_car_type);
+		carNumEdt = (EditText) findViewById(R.id.car_num_edt);
+		carBrandEdt = (EditText) findViewById(R.id.car_brand_edt);
+		carColorEdt = (EditText) findViewById(R.id.car_color_edt);
+		
+		TextView title = (TextView) findViewById(R.id.title);
 		title.setText(R.string.car_info);
 		
 		submitBtn.setOnClickListener(new View.OnClickListener() {
@@ -67,23 +71,16 @@ public class CarInfoEditFragment extends BaseFragment {
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
 //				radioButton.setChecked(true);
-				Fragment newFragment = new PayDetailFragment();
-				FragmentTransaction transaction =getFragmentManager().beginTransaction();
-				// Replace whatever is in thefragment_container view with this fragment,
-				// and add the transaction to the backstack
-				transaction.replace(R.id.content,newFragment);
-				transaction.addToBackStack(null);
-				//提交修改
-				transaction.commit();
+				finish();
 			}
 		});
 	}
 
 	private void setHwView() {
-		int displayHeight = ((XiwaoApplication)getActivity().getApplication()).getDisplayHeight();
-		int displayWidth = ((XiwaoApplication)getActivity().getApplication()).getDisplayWidth();
+		int displayHeight = ((XiwaoApplication)getApplication()).getDisplayHeight();
+		int displayWidth = ((XiwaoApplication)getApplication()).getDisplayWidth();
 		//title高度
-		RelativeLayout title = (RelativeLayout) view.findViewById(R.id.header);
+		RelativeLayout title = (RelativeLayout) findViewById(R.id.header);
 		LinearLayout.LayoutParams titleParams = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT
 				, (int)(displayHeight * 0.08f + 0.5f));
 		title.setLayoutParams(titleParams);
@@ -93,17 +90,20 @@ public class CarInfoEditFragment extends BaseFragment {
 				(int) (displayHeight * 0.08f + 0.5f));
 		params.setMargins(0, (int) (displayHeight * 0.04f + 0.5f), 0,
 				0);
-		serverType.setLayoutParams(params);
+		carNum.setLayoutParams(params);
 		// 车牌号码
 		params = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT,
 				(int) (displayHeight * 0.08f + 0.5f));
 		params.setMargins(0, (int) (displayHeight * 0.001f + 0.5f),
 				0, 0);
-		carNum.setLayoutParams(params);
+		
+		carType.setLayoutParams(params);
 		// 所在网点
-		website.setLayoutParams(params);
+		carColor.setLayoutParams(params);
 		// 联系电话
-		contactNum.setLayoutParams(params);
+		carBrand.setLayoutParams(params);
+		//照片
+		carPic.setLayoutParams(params);
 
 		params = new LinearLayout.LayoutParams(
 				(int) (displayWidth * 0.94f + 0.5f),
@@ -115,16 +115,16 @@ public class CarInfoEditFragment extends BaseFragment {
 	}
 
 	private void initAdapter() {
-		typeAdapter = ArrayAdapter.createFromResource(mContext, R.array.server_types,
+		typeAdapter = ArrayAdapter.createFromResource(this, R.array.car_types,
 				android.R.layout.simple_spinner_item);
 		// 设置下拉列表的风格
 		typeAdapter
 				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		// 将adapter2 添加到spinner中
-		spinnerServerType.setAdapter(typeAdapter);
+		spinnerCarType.setAdapter(typeAdapter);
 
 		// 添加事件Spinner事件监听
-		spinnerServerType
+		spinnerCarType
 				.setOnItemSelectedListener(new SpinnerXMLSelectedListener());
 	}
 

@@ -70,6 +70,10 @@
     <!-- car info edit ui string -->
     <string name="contact_num">联系电话</string>
     <string name="website">所在网点</string>
+    <string name="car_type">汽车型号</string>
+    <string name="car_brand">汽车品牌</string>
+    <string name="car_color">汽车颜色</string>
+    <string name="car_pic">汽车照片</string>
     <!-- Order Manage ui string -->
     <string name="paid">已经支付</string>
     <string name="wait_pay">等待支付</string>

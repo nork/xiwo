@@ -1,10 +1,12 @@
 package com.android.xiwao.washcar.ui;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,12 +17,20 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.android.xiwao.washcar.ActivityManage;
+import com.android.xiwao.washcar.ClientSession;
 import com.android.xiwao.washcar.Constants;
 import com.android.xiwao.washcar.LocalSharePreference;
 import com.android.xiwao.washcar.R;
 import com.android.xiwao.washcar.XiwaoApplication;
 import com.android.xiwao.washcar.data.CarInfo;
+import com.android.xiwao.washcar.httpconnection.BaseCommand;
+import com.android.xiwao.washcar.httpconnection.BaseResponse;
+import com.android.xiwao.washcar.httpconnection.CarQuery;
+import com.android.xiwao.washcar.httpconnection.CommandExecuter;
+import com.android.xiwao.washcar.httpconnection.Login;
 import com.android.xiwao.washcar.listadapter.CarInfoListAdapter;
+import com.android.xiwao.washcar.utils.DialogUtils;
 
 public class CarInfoFragment extends BaseFragment {
 	private Context mContext;
@@ -33,19 +43,30 @@ public class CarInfoFragment extends BaseFragment {
 	private Button backBtn;
 	private TextView carInfoTitle;
 	
+	// 工具
+	private DialogUtils dialogUtils;
+
 	// Preference数据存储对象
 	private LocalSharePreference mLocalSharePref;
+
+	// 网络访问相关对象
+	private Handler mHandler;
+	private CommandExecuter mExecuter;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+		ActivityManage.getInstance().setCurContext(getActivity());
+		
 		mLocalSharePref = new LocalSharePreference(this.getActivity());
 		
 		view = inflater.inflate(R.layout.car_info_list, null);
+		initExecuter();
+		initUtils();
 		initContentView();
-		initAdapter();
-		fetchList();
 		setHwView();
+		initAdapter();
+		getCarListData();
 		return view;
 	}
 
@@ -77,17 +98,70 @@ public class CarInfoFragment extends BaseFragment {
 	 * 填充数据
 	 */
 	private void fetchList() {
-		CarInfo sigleCar = new CarInfo();
-		for (int i = 0; i < 5; i++) {
-			sigleCar.setCarAddr("银都西路申北三路97号");
-			sigleCar.setCarNum("沪A888888");
-			sigleCar.setWashFlag("洗");
-			sigleCar.setWaxFlag("蜡");
-			carInfoListData.add(sigleCar);
-		}
 		carInfoListAdapter.addBriefs(carInfoListData);
 	}
 
+	/**
+	 * 处理服务器返回的登录结果
+	 * @param rsp 服务返回的登录信息
+	 */
+	private void onReceiveCarListResponse(BaseResponse rsp) {
+
+		if (!rsp.isOK()) {
+			String error = getString(R.string.protocol_error) + "(" + rsp.errno
+					+ ")";
+			dialogUtils.showToast(error);
+		} else {
+			CarQuery.Response carQueryRsp = (CarQuery.Response) rsp;
+			if (carQueryRsp.responseType.equals("N")) {
+				carInfoListData = carQueryRsp.briefs;
+			} else {
+				dialogUtils.showToast(carQueryRsp.errorMessage);
+			}
+			fetchList();
+		}
+		dialogUtils.dismissProgress();
+	}
+	
+	private CommandExecuter.ResponseHandler mRespHandler = new CommandExecuter.ResponseHandler() {
+
+		public void handleResponse(BaseResponse rsp) {
+			onReceiveCarListResponse(rsp);
+		}
+
+		public void handleException(IOException e) {
+			dialogUtils.showToast(getString(R.string.connection_error));
+		}
+
+		public void onEnd() {
+			dialogUtils.dismissProgress();
+		}
+	};
+	
+	private void getCarListData(){
+		BaseCommand login = ClientSession.getInstance().getCmdFactory()
+				.getCarQuery(mLocalSharePref.getUserId());
+
+		mExecuter.execute(login, mRespHandler);
+
+		dialogUtils.showProgress();
+	}
+
+	/**
+	 * 初始化需要的工具
+	 */
+	public void initUtils() {
+		dialogUtils = new DialogUtils();
+	}
+
+	private void initExecuter() {
+
+		mHandler = new Handler();
+
+		mExecuter = new CommandExecuter();
+		mExecuter.setHandler(mHandler);
+	}
+	
 	public void setHwView() {
 		int displayHeight = ((XiwaoApplication)getActivity().getApplication()).getDisplayHeight();
 //		int displayWidth = ((XiwaoApplication)getActivity().getApplication()).getDisplayWidth();

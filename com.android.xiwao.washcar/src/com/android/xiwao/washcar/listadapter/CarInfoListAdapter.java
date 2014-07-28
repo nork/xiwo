@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import android.widget.LinearLayout.LayoutParams;
 import com.android.xiwao.washcar.Constants;
 import com.android.xiwao.washcar.R;
 import com.android.xiwao.washcar.data.CarInfo;
+import com.android.xiwao.washcar.ui.AddCarActivity;
 
 public class CarInfoListAdapter extends BaseAdapter{
 
@@ -35,9 +37,15 @@ public class CarInfoListAdapter extends BaseAdapter{
 	}
 	
 	public void addBriefs(List<CarInfo> mList){
-		for(int i = 0; i<mList.size(); i++){
+		for(int i = 0; i < mList.size() || i>=5; i++){
 			this.mList.add(mList.get(i));
 		}
+		/*
+		 * 此处设置一个添加按钮，将洗车标记为-1时， 默认加载添加按钮
+		 */
+		CarInfo last = new CarInfo();	
+		last.setCarCode("-1");
+		this.mList.add(last);
 		notifyDataSetChanged();
 	}
 	
@@ -86,8 +94,25 @@ public class CarInfoListAdapter extends BaseAdapter{
 		}
 		
 		CarInfo singleCarInfo = this.mList.get(position);
-		viewHolder.carNum.setText(singleCarInfo.getCarNum());
-		viewHolder.carAddr.setText(singleCarInfo.getCarAddr());
+		viewHolder.carNum.setText(singleCarInfo.getCarCode());
+//		viewHolder.carAddr.setText(singleCarInfo.getCarAddr());
+		
+		if(singleCarInfo.getCarCode().equals("-1")){
+			viewHolder.carImg.setVisibility(View.GONE);
+			viewHolder.carInfo.setVisibility(View.GONE);
+			viewHolder.money.setVisibility(View.GONE);
+			viewHolder.addCar.setVisibility(View.VISIBLE);
+		}
+		
+		viewHolder.addCar.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				Intent i = new Intent(mContext, AddCarActivity.class);
+				mContext.startActivity(i);
+			}
+		});
 		
 		AbsListView.LayoutParams params;			
 		params = new AbsListView.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);

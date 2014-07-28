@@ -31,5 +31,13 @@ public class DefaultCommandFactory extends CommandFactory {
 		getCode.setMessageContent("01");
 		return getCode;
 	}
+
+	@Override
+	public BaseCommand getCarQuery(long customId) {
+		// TODO Auto-generated method stub
+		CarQuery carQuery = new CarQuery();
+		carQuery.setCustomerId(customId);
+		return carQuery;
+	}
 	
 }
