@@ -5,18 +5,18 @@
     <item android:state_pressed="true"><shape android:shape="rectangle">
             <gradient android:angle="270" android:endColor="@color/orange" android:startColor="@color/orange" />
 
-            <corners android:topRightRadius="4dp" android:bottomLeftRadius="4dp"/>
+            <corners android:topRightRadius="12dp" android:bottomRightRadius="12dp"/>
         </shape></item>
     <!-- focus -->
     <item android:state_focused="true"><shape>
             <gradient android:angle="270" android:endColor="@color/orange" android:startColor="@color/orange" />
 
-            <corners android:topRightRadius="4dp" android:bottomLeftRadius="4dp"/>
+            <corners android:topRightRadius="12dp" android:bottomRightRadius="12dp"/>
         </shape></item>
 
     <item android:state_focused="false"><shape>
-            <gradient android:angle="270" android:endColor="@color/orange" android:startColor="@color/orange" />
+            <gradient android:angle="270" android:endColor="@color/white" android:startColor="@color/white" />
 
-            <corners android:topRightRadius="4dp" android:bottomLeftRadius="4dp"/>
+            <corners android:topRightRadius="12dp" android:bottomRightRadius="12dp"/>
         </shape></item>
 </selector>

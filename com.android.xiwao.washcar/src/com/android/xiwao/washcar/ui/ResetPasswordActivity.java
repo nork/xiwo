@@ -1,14 +1,13 @@
 package com.android.xiwao.washcar.ui;
 
+import java.io.IOException;
 import java.util.regex.Pattern;
-
-import org.json.JSONObject;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -18,12 +17,17 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.LinearLayout.LayoutParams;
-import android.widget.Toast;
 
 import com.android.xiwao.washcar.ActivityManage;
-import com.android.xiwao.washcar.Constants;
+import com.android.xiwao.washcar.ClientSession;
+import com.android.xiwao.washcar.LocalSharePreference;
 import com.android.xiwao.washcar.R;
 import com.android.xiwao.washcar.XiwaoApplication;
+import com.android.xiwao.washcar.httpconnection.BaseCommand;
+import com.android.xiwao.washcar.httpconnection.BaseResponse;
+import com.android.xiwao.washcar.httpconnection.CommandExecuter;
+import com.android.xiwao.washcar.httpconnection.PasswordModify;
+import com.android.xiwao.washcar.utils.DialogUtils;
 
 /**
  * 重置密码
@@ -35,18 +39,20 @@ public class ResetPasswordActivity extends Activity {
 
 	public Context mcontext;
 	public View view;
-	private String TAG = "ResetPsw ";
+//	private String TAG = "ResetPsw ";
 
 	private EditText oldpsw;
 	private EditText psw01;
 	private EditText psw02;
-
-	// private Map<String, String> params;
-	private JSONObject params;
-	private String results;
-	private String oldPwd;
-	private String newPwd;
-	private String moble;
+	
+	// Preference数据存储对象
+	private LocalSharePreference mLocalSharePref;
+	// 工具
+	private DialogUtils dialogUtils;
+		
+	// 网络访问相关对象
+	private Handler mHandler;
+	private CommandExecuter mExecuter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -56,11 +62,14 @@ public class ResetPasswordActivity extends Activity {
 		ActivityManage.getInstance().setCurContext(this);
 		ActivityManage.getInstance().addActivity(this);
 
+		mLocalSharePref = new LocalSharePreference(this);
+		
 		LayoutInflater inflater = LayoutInflater.from(mcontext);
 		view = inflater.inflate(R.layout.resetpswview, null);
 
 		setContentView(view); // R.layout.managemoneyview
-
+		initExecuter();
+		initUtils();
 		initView();
 		setViewHw();
 	}
@@ -102,6 +111,21 @@ public class ResetPasswordActivity extends Activity {
 	}
 
 	/**
+	 * 初始化需要的工具
+	 */
+	public void initUtils() {
+		dialogUtils = new DialogUtils();
+	}
+
+	private void initExecuter() {
+
+		mHandler = new Handler();
+
+		mExecuter = new CommandExecuter();
+		mExecuter.setHandler(mHandler);
+	}
+	
+	/**
 	 * 初始化各组件并添加相应事件
 	 */
 	private void initView() {
@@ -135,51 +159,83 @@ public class ResetPasswordActivity extends Activity {
 				String oldpswstr = oldpsw.getText().toString();
 				String psw1 = psw01.getText().toString();
 				String psw2 = psw02.getText().toString();
-				oldPwd = oldpswstr;
-				newPwd = psw2;
 
 				if (oldpswstr == null || oldpswstr.length() == 0) {
 
-					Toast.makeText(mcontext, "旧密码不能为空", Toast.LENGTH_LONG)
-							.show();
+					dialogUtils.showToast(getString(R.string.old_pwd_null_error));
 					return;
 
 				} else if (psw1 == null || psw1.length() == 0) {
 
-					Toast.makeText(mcontext, "新密码不能为空", Toast.LENGTH_LONG)
-							.show();
+					dialogUtils.showToast(getString(R.string.new_pwd_null_error));
 					return;
 
 				} else if (psw1.length() < 6 || psw1.length() > 16
 						|| Pattern.matches("[0-9]+", psw1)
 						|| Pattern.matches("[a-zA-Z]+", psw1)
 						|| Pattern.matches("[_]+", psw1)) {
-					Toast.makeText(mcontext, "密码由6-16个字母加数字或下划线组成",
-							Toast.LENGTH_LONG).show();
+					dialogUtils.showToast(getString(R.string.pwd_format_erro));
 					return;
 				}
 
 				else if (psw2 == null || psw2.length() == 0) {
-					Toast.makeText(mcontext, "确认密码不能为空", Toast.LENGTH_LONG)
-							.show();
+					dialogUtils.showToast(getString(R.string.pwd_dif_erro));
 					return;
 				} else if (!psw1.equals(psw2)) {
 
-					Toast.makeText(mcontext, "两次输入的密码不一致，请您重新输入",
-							Toast.LENGTH_LONG).show();
+					dialogUtils.showToast(getString(R.string.pwd_dif_erro));
 					return;
 				}
-
-				// String mobile =
-				// Account.getSharedPreOfLogin(mcontext).getString(mobileno,
-				// "");
-				// moble = mobile;
-				// resetPsw(mobile, oldpswstr, psw2);
-				// resetPsw(mobile, Utils.MD5(oldpswstr), Utils.MD5(psw2));
+				 
+				resetPwd(mLocalSharePref.getUserId(), oldpswstr, psw2);
 			}
 		});
 
 	}
+	/**
+	 * 登录成功之后的处理
+	 */
+	private void onModifySuccess(){
+		mLocalSharePref.setLoginState(false);	//保存登录状态		
+    	Intent intent = new Intent(this, LoginActivity.class);
+    	startActivity(intent);
+    	finish();
+    }
+	/**
+	 * 处理服务器返回的登录结果
+	 * @param rsp 服务返回的登录信息
+	 */
+	private void onReceiveModifyResponse(BaseResponse rsp) {
+
+		if (!rsp.isOK()) {
+			String error = getString(R.string.protocol_error) + "(" + rsp.errno
+					+ ")";
+			dialogUtils.showToast(error);
+		} else {
+			PasswordModify.Response passwordModifyRsp = (PasswordModify.Response) rsp;
+			if (passwordModifyRsp.responseType.equals("N")) {
+				onModifySuccess();
+				dialogUtils.showToast(passwordModifyRsp.errorMessage);
+			} else {
+				dialogUtils.showToast(passwordModifyRsp.errorMessage);
+			}
+		}
+	}
+	
+	private CommandExecuter.ResponseHandler mRespHandler = new CommandExecuter.ResponseHandler() {
+
+		public void handleResponse(BaseResponse rsp) {
+			onReceiveModifyResponse(rsp);
+		}
+
+		public void handleException(IOException e) {
+			dialogUtils.showToast(getString(R.string.connection_error));
+		}
+
+		public void onEnd() {
+			dialogUtils.dismissProgress();
+		}
+	};
 
 	/**
 	 * 密码重置
@@ -188,90 +244,12 @@ public class ResetPasswordActivity extends Activity {
 	 * @param oldpwd
 	 * @param newpwd
 	 */
-	public void resetPsw(final String mobile, String oldpwd, final String newpwd) {
+	public void resetPwd(long id, String oldpwd, String newpwd) {
+		BaseCommand modifyPassword = ClientSession.getInstance().getCmdFactory()
+				.getPasswordModify(id, oldpwd, newpwd);
 
-		// 请求参数 json={“mobile”:””,” oldpwd”:””,” newpwd”:”” }
-		// params = new HashMap<String, String>();
-		// params = new JSONObject();
-		// try {
-		// params.put("mobile", mobile);
-		// params.put("oldpwd", oldpwd);
-		// params.put("newpwd", newpwd);
-		// } catch (Exception e) {
-		// // TODO Auto-generated catch block
-		// e.printStackTrace();
-		// }
-		//
-		// new Thread(new Runnable() {
-		// public void run() {
-		//
-		// results = HttpUtil.getContent(mcontext, UrlStrings.updatePassword,
-		// params, null);
-		// if(results==null){
-		// return;
-		// }
-		//
-		// ((Activity) mcontext).runOnUiThread(new Runnable() {
-		// public void run() {
-		//
-		// try {
-		//
-		// JSONObject jsonobj = new JSONObject(results);
-		//
-		// // {“status”:0,”respDesc”:”成功” }
-		// String status = jsonobj.getString("status");
-		// String respDesc = jsonobj.getString("respDesc");
-		//
-		// if("0".equals(status)){ //成功
-		//
-		// Toast.makeText(mcontext, "密码修改成功", 0).show();
-		// // System.setProperty(password, newpwd);
-		// Account.saveLoginStatus(mcontext, "1", mobile, newpwd, "");
-		// finish();
-		//
-		// }else if("-10".equals(status)){
-		// AppLog.v(TAG, "session过期");
-		// mHandler.sendEmptyMessage(UnLogin);
-		// }else{
-		// Toast.makeText(mcontext, "旧密码输入错误", 0).show();
-		// }
-		//
-		//
-		// } catch (JSONException e) {
-		// // TODO Auto-generated catch block
-		// e.printStackTrace();
-		// }
-		//
-		// }
-		// });
-		//
-		// }
-		// }).start();
+		mExecuter.execute(modifyPassword, mRespHandler);
+
+		dialogUtils.showProgress();
 	}
-
-	/**
-	 * 线程通信handler
-	 */
-	public Handler mHandler = new Handler() {
-		@Override
-		public void handleMessage(Message msg) {
-			switch (msg.what) {
-			// case ReloginSuc:
-			// AppLog.v(TAG, "重登录成功");
-			// resetPsw(moble, Utils.MD5(oldPwd), Utils.MD5(newPwd));
-			// break;
-			// case ReloginFail:
-			// AppLog.v(TAG, "重登录失败");
-			// Toast.makeText(mcontext, "密码修改失败，请稍后再试", 0).show();
-			// break;
-			// case UnLogin:
-			// AppLog.v(TAG, "未登录，进行重登录");
-			// ReloginHelper relogin = new ReloginHelper((Activity)mcontext,
-			// mHandler);
-			// relogin.relogin(true);
-			// break;
-			}
-		}
-	};
-
 }

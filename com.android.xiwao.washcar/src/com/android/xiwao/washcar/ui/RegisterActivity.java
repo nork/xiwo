@@ -81,6 +81,7 @@ public class RegisterActivity extends Activity {
 		setHwView();
 	}
 
+	@SuppressLint("CutPasteId")
 	private void initContentView() {
 		registtitle = (TextView) findViewById(R.id.title);
 		getcodeview = findViewById(R.id.getcodeview);
@@ -165,7 +166,6 @@ public class RegisterActivity extends Activity {
 				} else {
 					time.start();
 				}
-//				gotoRegisterview();
 				getCode(phonenumber);
 			}
 		});

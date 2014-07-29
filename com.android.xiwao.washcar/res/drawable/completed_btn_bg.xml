@@ -13,7 +13,7 @@
         </shape></item>
 
     <item android:state_focused="false"><shape>
-            <gradient android:angle="270" android:endColor="@color/orange" android:startColor="@color/orange" />
+            <gradient android:angle="270" android:endColor="@color/white" android:startColor="@color/white" />
 
         </shape></item>
 </selector>

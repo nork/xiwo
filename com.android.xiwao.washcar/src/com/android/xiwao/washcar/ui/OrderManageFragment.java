@@ -73,6 +73,51 @@ public class OrderManageFragment extends BaseFragment {
 				startActivity(intent);
 			}
 		});
+
+		getFocuse(paidBtn); 	//初次加载时已经支付按钮默认选中
+		paidBtn.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				getFocuse(paidBtn);
+			}
+		});
+		waitPayBtn.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				getFocuse(waitPayBtn);
+			}
+		});
+		completedBtn.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				getFocuse(completedBtn);
+			}
+		});
+		closedBtn.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				getFocuse(closedBtn);
+			}
+		});
+	}
+	
+	/**
+	 * 控件获取焦点
+	 * @param view 需要获取焦点的控件
+	 */
+	private void getFocuse(View view){
+		view.setFocusable(true);
+		view.setFocusableInTouchMode(true);
+		view.requestFocus();
+		view.requestFocusFromTouch();
 	}
 
 	private void initAdapter() {
@@ -97,19 +142,22 @@ public class OrderManageFragment extends BaseFragment {
 	}
 
 	public void setHwView() {
-		int displayHeight = ((XiwaoApplication)getActivity().getApplication()).getDisplayHeight();
-		int displayWidth = ((XiwaoApplication)getActivity().getApplication()).getDisplayWidth();
+		int displayHeight = ((XiwaoApplication) getActivity().getApplication())
+				.getDisplayHeight();
+		int displayWidth = ((XiwaoApplication) getActivity().getApplication())
+				.getDisplayWidth();
 		// title高度
 		RelativeLayout title = (RelativeLayout) view.findViewById(R.id.header);
 		LinearLayout.LayoutParams titleParams = new LinearLayout.LayoutParams(
-				LayoutParams.MATCH_PARENT,
-				(int) (displayHeight * 0.08f + 0.5f));
+				LayoutParams.MATCH_PARENT, (int) (displayHeight * 0.08f + 0.5f));
 		title.setLayoutParams(titleParams);
-		
-		LinearLayout buttonGroup = (LinearLayout) view.findViewById(R.id.button_group);
-		LinearLayout.LayoutParams buttonParams = new LinearLayout.LayoutParams((int)(displayWidth * 0.8f + 0.5f), 
-				(int)(displayHeight * 0.06f + 0.5f));
-		buttonParams.setMargins(0, (int)(displayHeight * 0.04f + 0.5f), 0, 0);
+
+		LinearLayout buttonGroup = (LinearLayout) view
+				.findViewById(R.id.button_group);
+		LinearLayout.LayoutParams buttonParams = new LinearLayout.LayoutParams(
+				(int) (displayWidth * 0.8f + 0.5f),
+				(int) (displayHeight * 0.06f + 0.5f));
+		buttonParams.setMargins(0, (int) (displayHeight * 0.04f + 0.5f), 0, 0);
 		buttonGroup.setLayoutParams(buttonParams);
 	}
 }

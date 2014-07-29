@@ -2,7 +2,6 @@ package com.android.xiwao.washcar.utils;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.widget.Toast;
 
 import com.android.xiwao.washcar.ActivityManage;

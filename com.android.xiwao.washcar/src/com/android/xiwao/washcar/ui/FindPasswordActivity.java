@@ -1,13 +1,14 @@
 package com.android.xiwao.washcar.ui;
 
+import java.io.IOException;
 import java.util.regex.Pattern;
-
-import org.json.JSONObject;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,12 +19,17 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.LinearLayout.LayoutParams;
-import android.widget.Toast;
 
 import com.android.xiwao.washcar.ActivityManage;
-import com.android.xiwao.washcar.Constants;
+import com.android.xiwao.washcar.ClientSession;
 import com.android.xiwao.washcar.R;
 import com.android.xiwao.washcar.XiwaoApplication;
+import com.android.xiwao.washcar.httpconnection.BaseCommand;
+import com.android.xiwao.washcar.httpconnection.BaseResponse;
+import com.android.xiwao.washcar.httpconnection.CommandExecuter;
+import com.android.xiwao.washcar.httpconnection.GetCode;
+import com.android.xiwao.washcar.httpconnection.PasswordReset;
+import com.android.xiwao.washcar.utils.DialogUtils;
 
 /**
  * 找回密码
@@ -35,7 +41,7 @@ public class FindPasswordActivity extends Activity {
 
 	public Context mcontext;
 	public View view;
-	private String TAG = "FindPassword ";
+//	private String TAG = "FindPassword ";
 
 	private View getcodeview;
 	private EditText phoneedt;
@@ -47,13 +53,18 @@ public class FindPasswordActivity extends Activity {
 	private EditText psw01;
 	private EditText psw02;
 
-	// private Map<String, String> params;
-	private JSONObject params;
-	private String results;
-
 	private TimeCount time;
 	private Button getaginbtn;
-
+	
+	// 网络访问相关对象
+	private Handler mHandler;
+	private CommandExecuter mExecuter;
+	
+	// 工具
+	private DialogUtils dialogUtils;
+	
+	//参数
+	private String code;	//验证码
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -67,7 +78,8 @@ public class FindPasswordActivity extends Activity {
 		view = inflater.inflate(R.layout.findpswview, null);
 
 		setContentView(view); // R.layout.managemoneyview
-
+		initExecuter();
+		initUtils();
 		String mobile = getIntent().getStringExtra("mobile");
 		initView(mobile);
 		setViewHw();
@@ -108,8 +120,6 @@ public class FindPasswordActivity extends Activity {
 				(int) (displayWidth * 0.06f + 0.5f), 0);
 		getCodeBtn.setLayoutParams(params);
 
-		// LinearLayout nickNamePart =
-		// (LinearLayout)findViewById(R.id.nick_name_part); //昵称输入框
 		LinearLayout codeInputPart = (LinearLayout) findViewById(R.id.code_input_text);
 
 		params = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT,
@@ -127,6 +137,20 @@ public class FindPasswordActivity extends Activity {
 		registerbtn.setLayoutParams(params);
 	}
 
+	/**
+	 * 初始化需要的工具
+	 */
+	public void initUtils() {
+		dialogUtils = new DialogUtils();
+	}
+
+	private void initExecuter() {
+
+		mHandler = new Handler();
+
+		mExecuter = new CommandExecuter();
+		mExecuter.setHandler(mHandler);
+	}
 	/**
 	 * 初始化各组件并添加相应事件
 	 * 
@@ -182,20 +206,16 @@ public class FindPasswordActivity extends Activity {
 
 				phonenumber = phoneedt.getText().toString();
 				if (phonenumber == null || phonenumber.length() == 0) {
-					Toast.makeText(mcontext, "请输入手机号码", 0).show();
-					return;
-				} else if (!Pattern.matches("[0-9]+", phonenumber)) {
-					Toast.makeText(mcontext, "手机号码只能输入数字,请重新输入", 0).show();
+					dialogUtils.showToast(getString(R.string.please_phone));
 					return;
 				} else if (phonenumber.length() != 11) {
-					Toast.makeText(mcontext, "手机号码输入位数错误,请重新输入", 0).show();
+					dialogUtils.showToast(getString(R.string.telephone_wrong));
 					return;
 				} else {
 					time.start();
 				}
 
-//				getCode(phonenumber);
-				gotoResetview();
+				getCode(phonenumber);
 			}
 		});
 
@@ -212,110 +232,96 @@ public class FindPasswordActivity extends Activity {
 
 				if (codestr == null || codestr.length() == 0) {
 
-					Toast.makeText(mcontext, "验证码不能为空", 0).show();
+					dialogUtils.showToast(getString(R.string.code_null_erro));
 					return;
 
-				} else if (!Pattern.matches("[0-9]+", codestr)) {
-
-					Toast.makeText(mcontext, "验证码为数字", 0).show();
-					return;
-
-				} else if (codestr.length() != 4) {
-
-					Toast.makeText(mcontext, "请输入4位数字验证码", 0).show();
+				} else if (codestr.length() != 6) {
+					dialogUtils.showToast(getString(R.string.code_length_erro));
 					return;
 				} else if (psw1 == null || psw1.length() == 0) {
 
-					Toast.makeText(mcontext, "密码不能为空", 0).show();
+					dialogUtils.showToast(getString(R.string.pwd_null_erro));
 					return;
 
 				} else if (psw1.length() < 6 || psw1.length() > 16
 						|| Pattern.matches("[0-9]+", psw1)
 						|| Pattern.matches("[a-zA-Z]+", psw1)
 						|| Pattern.matches("[_]+", psw1)) {
-					Toast.makeText(mcontext, "密码由6-16个字母加数字或下划线组成", 1).show();
+					dialogUtils.showToast(getString(R.string.pwd_format_erro));
 					return;
 				}
 
 				else if (psw2 == null || psw2.length() == 0) {
-					Toast.makeText(mcontext, "确认密码不能为空", 0).show();
+					dialogUtils.showToast(getString(R.string.pwd_dif_erro));
 					return;
 				} else if (!psw1.equals(psw2)) {
 
-					Toast.makeText(mcontext, "两次输入的密码不一致，请您重新输入", 0).show();
+					dialogUtils.showToast(getString(R.string.pwd_dif_erro));
 					return;
 				}
 				
-				// findPsw(codestr, phonenumber, psw2);
-				// findPsw(codestr, phonenumber, Utils.MD5(psw2));
+				 findPsw(code, phonenumber, psw2);
 			}
 		});
 
 	}
 	
 	/**
-	 * 获取验证码
-	 * 
-	 * @param phonenumber
+	 * 获取验证码成功
+	 * @param identifyCode 获取到的验证码
 	 */
-	public void getCode(String phonenumber) {
+	private void onGetCodeSuccess(String identifyCode){
+		code = identifyCode;
+		gotoResetview();
+		dialogUtils.dismissProgress();
+	}
+	
+	/**
+	 * 解析获取的验证码结果
+	 * @param rsp 服务器返回的结果
+	 */
+	private void onReceiveGetCodeResponse(BaseResponse rsp){
+		if (!rsp.isOK()) {
+			String error = getString(R.string.protocol_error) + "(" + rsp.errno
+					+ ")";
+			dialogUtils.showToast(error);
+			dialogUtils.dismissProgress();
+		} else {
+			GetCode.Response getCodeRsp = (GetCode.Response) rsp;
+			if (getCodeRsp.responseType.equals(GetCode.Response.ISSUC_SUCC)) {				
+				onGetCodeSuccess(getCodeRsp.identifyCode);
+			} else {
+				dialogUtils.showToast(getCodeRsp.errorMessage);
+			}
+		}
+	}
+	
+	private CommandExecuter.ResponseHandler mGetCodeRespHandler = new CommandExecuter.ResponseHandler() {
 
-		// 请求参数 json={“mobile”: ””,”oprType”:””} mobile:手机号
-		// oprType:操作类型(”0”:注册, ”1”:重置密码)
+		public void handleResponse(BaseResponse rsp) {
+			onReceiveGetCodeResponse(rsp);
+		}
 
-		// params = new HashMap<String, String>();
-		// params = new JSONObject();
-		// try {
-		// params.put("mobile", phonenumber);
-		// params.put("oprType", "1");
-		// } catch (Exception e) {
-		// // TODO Auto-generated catch block
-		// e.printStackTrace();
-		// }
-		//
-		// new Thread(new Runnable() {
-		// public void run() {
-		//
-		// results = HttpUtil.getContent(mcontext, UrlStrings.getValidateCode,
-		// params, null);
-		// if (null == results) {
-		// return;
-		// }
-		//
-		// ((Activity) mcontext).runOnUiThread(new Runnable() {
-		// public void run() {
-		//
-		// try {
-		//
-		// JSONObject jsonobj = new JSONObject(results);
-		//
-		// // {“status”: ”0”,”respDesc”:
-		// // ”成功”,”validataCode”:”000000”}
-		// String status = jsonobj.getString("status");
-		// String respDesc = jsonobj.getString("respDesc");
-		// // String validataCode =
-		// // jsonobj.getString("validataCode");
-		//
-		// // Log.i(TAG,"----------validataCode----------"+
-		// // validataCode); //
-		// if ("0".equals(status)) {
-		//
-		// gotoResetview();
-		//
-		// } else {
-		// Toast.makeText(mcontext, respDesc, 0).show();
-		// }
-		//
-		// } catch (JSONException e) {
-		// // TODO Auto-generated catch block
-		// e.printStackTrace();
-		// }
-		//
-		// }
-		// });
-		// }
-		// }).start();
+		public void handleException(IOException e) {
+			dialogUtils.showToast(getString(R.string.connection_error));
+		}
 
+		public void onEnd() {
+			dialogUtils.dismissProgress();
+		}
+	};
+	
+	/**
+	 * 获取验证码
+	 * @param phone
+	 */
+	private void getCode(String phone){
+		BaseCommand getCode = ClientSession.getInstance().getCmdFactory()
+				.getCode(phone, "");
+
+		mExecuter.execute(getCode, mGetCodeRespHandler);
+
+		dialogUtils.showProgress();
 	}
 
 	@Override
@@ -358,6 +364,46 @@ public class FindPasswordActivity extends Activity {
 		getcodeview.setVisibility(View.VISIBLE);
 	}
 
+	private void onPasswordResetSuccess(){
+		Intent intent = new Intent(this, LoginActivity.class);
+    	startActivity(intent);
+    	finish();
+	}
+	/**
+	 * 解析重置密码结果
+	 * @param rsp 服务器返回的结果
+	 */
+	private void onReceivePasswordResetResponse(BaseResponse rsp){
+		if (!rsp.isOK()) {
+			String error = getString(R.string.protocol_error) + "(" + rsp.errno
+					+ ")";
+			dialogUtils.showToast(error);
+			dialogUtils.dismissProgress();
+		} else {
+			PasswordReset.Response passwordResetRsp = (PasswordReset.Response) rsp;
+			if (passwordResetRsp.responseType.equals(PasswordReset.Response.ISSUC_SUCC)) {				
+				onPasswordResetSuccess();
+				dialogUtils.showToast(passwordResetRsp.errorMessage);
+			} else {
+				dialogUtils.showToast(passwordResetRsp.errorMessage);
+			}
+		}
+	}
+	private CommandExecuter.ResponseHandler mPasswordResetRespHandler = new CommandExecuter.ResponseHandler() {
+
+		public void handleResponse(BaseResponse rsp) {
+			onReceivePasswordResetResponse(rsp);
+		}
+
+		public void handleException(IOException e) {
+			dialogUtils.showToast(getString(R.string.connection_error));
+		}
+
+		public void onEnd() {
+			dialogUtils.dismissProgress();
+		}
+	};
+	
 	/**
 	 * 找回密码
 	 * 
@@ -367,69 +413,12 @@ public class FindPasswordActivity extends Activity {
 	 */
 	public void findPsw(String validateCode, final String mobile,
 			String password) {
+		BaseCommand passwordReset = ClientSession.getInstance().getCmdFactory()
+				.getPasswordReset(validateCode, mobile, password);
 
-		// Log.i(TAG, "------validateCode=" + validateCode + "----mobile=" +
-		// mobile + "----password=" + password);
-		// // json={“validateCode”: ”” ,”password”:”” ,”mobile”:”” }
-		// // params = new HashMap<String, String>();
-		// params = new JSONObject();
-		// try {
-		// params.put("validateCode", validateCode);
-		// params.put("password", password);
-		// params.put("mobile", mobile);
-		// } catch (Exception e) {
-		// // TODO Auto-generated catch block
-		// e.printStackTrace();
-		// }
-		//
-		// new Thread(new Runnable() {
-		// public void run() {
-		//
-		// results = HttpUtil.getContent(mcontext, UrlStrings.findpsw, params,
-		// null);
-		// if (null == results) {
-		// return;
-		// }
-		//
-		// ((Activity) mcontext).runOnUiThread(new Runnable() {
-		// @SuppressWarnings("static-access")
-		// public void run() {
-		//
-		// try {
-		//
-		// JSONObject jsonobj = new JSONObject(results);
-		//
-		// // {“status”:0,”respDesc”:”成功”}
-		// String status = jsonobj.getString("status");
-		// String respDesc = jsonobj.getString("respDesc");
-		//
-		// if("0".equals(status)){
-		// //找回密码成功，返回登陆
-		// Toast.makeText(mcontext, "密码设置成功，请登录", 1).show();
-		// Intent intent = new Intent();
-		// intent.putExtra("type", login);
-		// intent.putExtra("mobile", mobile);
-		// // intent.putExtra("mobile", mobile);
-		// Log.v(TAG, "-------------- <SendResult> results: " +
-		// login);
-		// setResult(mcontext.CONTEXT_RESTRICTED, intent);
-		// finish();
-		//
-		// }else{
-		//
-		// Toast.makeText(mcontext, respDesc, 0).show();
-		// }
-		//
-		// } catch (JSONException e) {
-		// // TODO Auto-generated catch block
-		// e.printStackTrace();
-		// }
-		//
-		// }
-		// });
-		// }
-		// }).start();
+		mExecuter.execute(passwordReset, mPasswordResetRespHandler);
 
+		dialogUtils.showProgress();
 	}
 
 	class TimeCount extends CountDownTimer {

@@ -1,15 +1,13 @@
 package com.android.xiwao.washcar.ui;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
@@ -54,15 +52,19 @@ public class HomePageFragment extends BaseFragment{
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
-				radioButton.setChecked(true);
-				Fragment newFragment = new CarInfoEditFragment();
-				FragmentTransaction transaction =getFragmentManager().beginTransaction();
-				// Replace whatever is in thefragment_container view with this fragment,
-				// and add the transaction to the backstack
-				transaction.replace(R.id.content,newFragment);
-				transaction.addToBackStack(null);
-				//提交修改
-				transaction.commit();
+//				radioButton.setChecked(true);
+//				Fragment newFragment = new CarInfoEditFragment();
+//				FragmentTransaction transaction =getFragmentManager().beginTransaction();
+//				// Replace whatever is in thefragment_container view with this fragment,
+//				// and add the transaction to the backstack
+//				transaction.replace(R.id.content,newFragment);
+//				transaction.addToBackStack(null);
+//				//提交修改
+//				transaction.commit();
+//				FragmentUtils.switchContent(FragmentFactory, transaction);
+				Intent intent = new Intent(mContext, CarInfoEditActivity.class);
+//				startActivityForResult(intent, Constants.ADD_ORDER_RESULT_CODE);
+				startActivity(intent);
 			}
 		});
 	}

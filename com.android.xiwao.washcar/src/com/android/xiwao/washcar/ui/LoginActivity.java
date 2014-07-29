@@ -53,6 +53,7 @@ public class LoginActivity extends Activity {
 	private String userName;
 	private String password;
 	private String nickName;
+	private String email;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +63,12 @@ public class LoginActivity extends Activity {
 		ActivityManage.getInstance().addActivity(this);
 		
 		mLocalSharePref = new LocalSharePreference(this);
+		
+		if(mLocalSharePref.getLoginState()){
+			Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+	    	startActivity(intent);
+	    	finish();
+		}
 
 		getDisHw();// 获取屏幕分辨率，供后期使用
 		setContentView(R.layout.login);
@@ -91,7 +98,7 @@ public class LoginActivity extends Activity {
 				// TODO Auto-generated method stub
 				userName = phoneEdt.getText().toString();
 				password = pwdEdt.getText().toString();
-						
+				
 				doLogin(userName, password);
 			}
 		});
@@ -104,6 +111,7 @@ public class LoginActivity extends Activity {
 				Intent intent = new Intent(LoginActivity.this,
 						RegisterActivity.class);
 				startActivity(intent);
+				finish();
 			}
 		});
 
@@ -115,6 +123,7 @@ public class LoginActivity extends Activity {
 				Intent intent = new Intent(LoginActivity.this,
 						FindPasswordActivity.class);
 				startActivity(intent);
+				finish();
 			}
 		});
 	}
@@ -214,6 +223,7 @@ public class LoginActivity extends Activity {
 		mLocalSharePref.setUserPassword(password);
 		mLocalSharePref.setLoginState(true);	//保存登录状态
 		mLocalSharePref.setNickName(nickName);
+		mLocalSharePref.setUserEmail(email);
 		AppLog.v("TAG", "用户ID:" + ClientSession.getInstance().getUserId());
 		mLocalSharePref.setUserId(ClientSession.getInstance().getUserId());
 		
@@ -239,6 +249,7 @@ public class LoginActivity extends Activity {
 				session.setSessionCookies(rsp.cookies);
 				session.setUserId(loginRsp.id);
 				nickName = loginRsp.customerName;
+				email = loginRsp.email;
 				onLoginSuccess();
 			} else {
 				dialogUtils.showToast(loginRsp.errorMessage);

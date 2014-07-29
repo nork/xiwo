@@ -41,30 +41,39 @@
         android:orientation="horizontal"
         android:gravity="center_horizontal"
         android:layout_marginTop="20dp"
+        android:background="@drawable/order_btn_group_bg"
         >
         <Button android:id="@+id/paid_btn"
             android:layout_height="fill_parent"
             android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:layout_margin="1dp"
             android:text="@string/paid"
-            android:textColor="@color/white"
+            android:textColor="@color/order_btn_textcolor_selector"
             android:background="@drawable/paidbtn_bg"/>
         <Button android:id="@+id/wait_pay_btn"
             android:layout_height="fill_parent"
             android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:layout_margin="1dp"
             android:text="@string/wait_pay"
-            android:textColor="@color/white"
+            android:textColor="@color/order_btn_textcolor_selector"
             android:background="@drawable/wait_pay_btn_bg"/>
         <Button android:id="@+id/completed_btn"
             android:layout_height="fill_parent"
             android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:layout_margin="1dp"
             android:text="@string/completed"
-            android:textColor="@color/white"
+            android:textColor="@color/order_btn_textcolor_selector"
             android:background="@drawable/completed_btn_bg"/>
         <Button android:id="@+id/closed_btn"
             android:layout_height="fill_parent"
             android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:layout_margin="1dp"
             android:text="@string/closed"
-            android:textColor="@color/white"
+            android:textColor="@color/order_btn_textcolor_selector"
             android:background="@drawable/closed_btn_bg"/>
     </LinearLayout> 
     

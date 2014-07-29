@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -18,6 +19,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.xiwao.washcar.ActivityManage;
+import com.android.xiwao.washcar.AppLog;
 import com.android.xiwao.washcar.ClientSession;
 import com.android.xiwao.washcar.Constants;
 import com.android.xiwao.washcar.LocalSharePreference;
@@ -42,7 +44,7 @@ public class CarInfoFragment extends BaseFragment {
 	private TextView title;
 	private Button backBtn;
 	private TextView carInfoTitle;
-	
+
 	// 工具
 	private DialogUtils dialogUtils;
 
@@ -53,6 +55,13 @@ public class CarInfoFragment extends BaseFragment {
 	private Handler mHandler;
 	private CommandExecuter mExecuter;
 
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onCreate(savedInstanceState);
+		AppLog.v(getTag(), "fragment onCreate");
+	}
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -81,7 +90,25 @@ public class CarInfoFragment extends BaseFragment {
 		carInfoTitle = (TextView) view.findViewById(R.id.car_info_title);
 		carInfoTitle.setText(mLocalSharePref.getNickName() + getString(R.string.car_info_title));
 	}
+	
 
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		// TODO Auto-generated method stub
+		super.onActivityResult(requestCode, resultCode, data);
+		AppLog.v(getTag(), "收到反馈22");
+		
+		switch(requestCode){
+		case Constants.ADD_CAR_RESULT_CODE:
+			refreshInfoList();
+			break;
+		}
+	}
+
+	public void refreshInfoList(){
+		initAdapter();
+		getCarListData();
+	}
 	/**
 	 * 初始化Adapter
 	 */
@@ -131,6 +158,7 @@ public class CarInfoFragment extends BaseFragment {
 
 		public void handleException(IOException e) {
 			dialogUtils.showToast(getString(R.string.connection_error));
+			fetchList();
 		}
 
 		public void onEnd() {

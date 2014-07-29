@@ -39,5 +39,26 @@ public class DefaultCommandFactory extends CommandFactory {
 		carQuery.setCustomerId(customId);
 		return carQuery;
 	}
+
+	@Override
+	public BaseCommand getPasswordReset(String validateCode, String mobile,
+			String password) {
+		// TODO Auto-generated method stub
+		PasswordReset passwordReset = new PasswordReset();
+		passwordReset.setCode(validateCode);
+		passwordReset.setPassword(password);
+		passwordReset.setPhone(mobile);
+		return passwordReset;
+	}
+
+	@Override
+	public BaseCommand getPasswordModify(long id, String oldpwd, String newpwd) {
+		// TODO Auto-generated method stub
+		PasswordModify passwordModify = new PasswordModify();
+		passwordModify.setCustomerId(id);
+		passwordModify.setOldPwd(oldpwd);
+		passwordModify.setNewPwd(newpwd);
+		return passwordModify;
+	}
 	
 }

@@ -2,6 +2,7 @@ package com.android.xiwao.washcar.ui;
 
 import android.annotation.TargetApi;
 import android.app.ActionBar.LayoutParams;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,7 +10,6 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -18,9 +18,11 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.android.xiwao.washcar.ActivityManage;
+import com.android.xiwao.washcar.AppLog;
 import com.android.xiwao.washcar.Constants;
 import com.android.xiwao.washcar.R;
 import com.android.xiwao.washcar.XiwaoApplication;
+import com.android.xiwao.washcar.utils.FragmentUtils;
 
 public class MainActivity extends FragmentActivity implements OnClickListener {
 	private final static String TAG = "MainActivity";
@@ -29,6 +31,8 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
     
 	private FragmentTransaction transaction; 
 	private Fragment fragment;
+	
+	private boolean ifOrderReturn = false;
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Override
@@ -38,6 +42,8 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         ActivityManage.getInstance().setCurContext(this);
 		ActivityManage.getInstance().addActivity(this);
+		
+		FragmentFactory.initFragment();
 		
         setContentView(R.layout.activity_main);
         initContentView();
@@ -52,19 +58,24 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
         /**
          * 初始化第一个Fragment
          */
-        fragment = new HomePageFragment();
+        fragment = FragmentFactory.homePageFragment;
         transaction = fragmentManager.beginTransaction();
-        transaction.replace(R.id.content, fragment);
+        transaction.add(R.id.content, fragment).show(fragment);
         transaction.commit();
+        FragmentUtils.curFragment = fragment;
         
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-            	Log.v(TAG, "checkedId:" + checkedId);
                 transaction = fragmentManager.beginTransaction();
                 fragment = FragmentFactory.getInstanceByIndex(checkedId);
-                transaction.replace(R.id.content, fragment);
-                transaction.commit();
+                
+//                if(fragment.isAdded()){
+//                	transaction.hide(fragmentManage).show(fragment).commit();
+//                }
+//                transaction.replace(R.id.content, fragment).addToBackStack(null);
+//                transaction.commit();
+                FragmentUtils.switchContent(fragment, transaction);
             }
         });
     }
@@ -72,12 +83,47 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 	public void onClick(View arg0) {
 		// TODO Auto-generated method stub
 		
+	}	
+	
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		try{
+			ifOrderReturn = getIntent().getBooleanExtra(Constants.IF_ORDER_RETURN, false);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		if(ifOrderReturn){
+			fragment = FragmentFactory.orderManageFragment;
+			if(fragment.isAdded()){//如果已经加载订单fragment，则刷新页面并跳转到订单fragment
+				 FragmentUtils.switchContent(fragment, transaction);
+				 fragment.onActivityResult(Constants.ADD_ORDER_RESULT_CODE, RESULT_OK, null);
+			}else{//如果没有添加订单fragment,则直接跳转过去即可
+				FragmentUtils.switchContent(fragment, transaction);
+			}
+		}
 	}
 	
-
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		// TODO Auto-generated method stub
+		super.onActivityResult(requestCode, resultCode, data);
+		AppLog.v(TAG, "收到反馈");
+		
+		switch(requestCode){
+		case Constants.ADD_CAR_RESULT_CODE:
+			if(resultCode == RESULT_OK){
+				fragment.onActivityResult(requestCode, resultCode, data);
+			}
+			break;
+		}
+	}
+	
 	public void setHwView(){
 		int displayHeight = ((XiwaoApplication)getApplication()).getDisplayHeight();
-		int displayWidth = ((XiwaoApplication)getApplication()).getDisplayWidth();
+//		int displayWidth = ((XiwaoApplication)getApplication()).getDisplayWidth();
 		LinearLayout.LayoutParams tabParams = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT
 				, (int)(displayHeight * 0.08f + 0.5f));
 		radioGroup.setLayoutParams(tabParams); 

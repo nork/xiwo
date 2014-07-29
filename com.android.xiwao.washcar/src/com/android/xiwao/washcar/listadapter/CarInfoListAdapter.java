@@ -3,6 +3,7 @@ package com.android.xiwao.washcar.listadapter;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -110,7 +111,7 @@ public class CarInfoListAdapter extends BaseAdapter{
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
 				Intent i = new Intent(mContext, AddCarActivity.class);
-				mContext.startActivity(i);
+				((Activity)mContext).startActivityForResult(i, Constants.ADD_CAR_RESULT_CODE);
 			}
 		});
 		

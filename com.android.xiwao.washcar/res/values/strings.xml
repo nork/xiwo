@@ -116,4 +116,8 @@
     <string name="my_phone">我的手机</string>
     <!-- bank info list string -->
     <string name="choice_pay_type">选择付款方式</string>
+    
+    <!-- modify password ui -->
+    <string name="old_pwd_null_error">旧密码不能为空</string>
+    <string name="new_pwd_null_error">新密码不能为空</string>
 </resources>

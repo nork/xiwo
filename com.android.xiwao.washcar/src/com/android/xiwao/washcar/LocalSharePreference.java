@@ -10,6 +10,7 @@ public class LocalSharePreference {
 	private static final String LOGIN_STATE = "login_state";
 	private static final String USER_ID = "user_id";
 	private static final String USER_NICK_NAME = "user_nick_name";
+	private static final String USER_EMAIL = "user_email";
 	private Context mCtx;
 	private SharedPreferences mSp;
 	private SharedPreferences.Editor mEditor;
@@ -30,6 +31,9 @@ public class LocalSharePreference {
 	
 	public void setUserPassword(String password){
 		putStringPref(USER_PASSWORD, password);
+	}
+	public String getUserPassword(){
+		return getStringPref(USER_PASSWORD, "");
 	}
 	
 	/**
@@ -80,8 +84,21 @@ public class LocalSharePreference {
 		return getBooleanPref(LOGIN_STATE, false);
 	}
 	
-	public String getUserPassword(){
-		return getStringPref(USER_PASSWORD, "");
+	/**
+	 * 保存用户邮箱
+	 * @param email
+	 */
+	public void setUserEmail(String email){
+		mEditor.putString(USER_EMAIL, email);
+		mEditor.commit();
+	}
+	
+	/**
+	 * 获取用户邮箱
+	 * @return
+	 */
+	public String getUserEmail(){
+		return mSp.getString(USER_EMAIL, "");
 	}
 	
 	private void putStringPref(String key, String value) {
