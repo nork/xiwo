@@ -113,7 +113,12 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 		AppLog.v(TAG, "收到反馈");
 		
 		switch(requestCode){
-		case Constants.ADD_CAR_RESULT_CODE:
+		case Constants.ADD_CAR_RESULT_CODE:		//添加车辆返回
+			if(resultCode == RESULT_OK){
+				fragment.onActivityResult(requestCode, resultCode, data);
+			}
+			break;
+		case Constants.MODIFY_CAR_RESULT_CODE:	//修改车辆返回
 			if(resultCode == RESULT_OK){
 				fragment.onActivityResult(requestCode, resultCode, data);
 			}

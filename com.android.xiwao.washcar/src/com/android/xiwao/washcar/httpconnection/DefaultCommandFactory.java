@@ -60,5 +60,35 @@ public class DefaultCommandFactory extends CommandFactory {
 		passwordModify.setNewPwd(newpwd);
 		return passwordModify;
 	}
+
+	@Override
+	public BaseCommand getCarRegister(String carCode, String carBrand,
+			String carColor, String carType, String carPic, long customerId) {
+		// TODO Auto-generated method stub
+		CarRegister carRegister = new CarRegister();
+		carRegister.setCarBrand(carBrand);
+		carRegister.setCarCode(carCode);
+		carRegister.setCarColor(carColor);
+		carRegister.setCarPic(carPic);
+		carRegister.setCarType(carType);
+		carRegister.setCustomerId(customerId);
+		return carRegister;
+	}
+
+	@Override
+	public BaseCommand getCarModify(long carId, String carCode,
+			String carBrand, String carColor, String carType, String carPic,
+			long customerId) {
+		// TODO Auto-generated method stub
+		CarModify carModify = new CarModify();
+		carModify.setCarBrand(carBrand);
+		carModify.setCarCode(carCode);
+		carModify.setCarColor(carColor);
+		carModify.setCarId(carId);
+		carModify.setCarPic(carPic);
+		carModify.setCarType(carType);
+		carModify.setCustomerId(customerId);
+		return carModify;
+	}
 	
 }

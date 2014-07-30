@@ -1,8 +1,16 @@
 package com.android.xiwao.washcar.data;
 
-public class CarInfo {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+/**
+ * 车辆信息类
+ * @author hpq
+ *
+ */
+public class CarInfo implements Parcelable{
 	private long customerId;
-	private String carId;
+	private long carId;
 	private String carCode;
 	private String carColor;
 	private String carBrand;
@@ -15,10 +23,10 @@ public class CarInfo {
 	public void setCustomerId(long customerId) {
 		this.customerId = customerId;
 	}
-	public String getCarId() {
+	public long getCarId() {
 		return carId;
 	}
-	public void setCarId(String carId) {
+	public void setCarId(long carId) {
 		this.carId = carId;
 	}
 	public String getCarCode() {
@@ -57,6 +65,47 @@ public class CarInfo {
 	public void setRegDate(String regDate) {
 		this.regDate = regDate;
 	}
-
+	@Override
+	public int describeContents() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 	
+	/**
+	 * 此处注意下面两个方法中数据写入的顺序一定要相同，否则在传输时会出现数据错误问题
+	 */
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		// TODO Auto-generated method stub
+		dest.writeString(this.carBrand);
+		dest.writeString(this.carCode);
+		dest.writeString(this.carColor);
+		dest.writeString(this.carPic);
+		dest.writeString(this.carType);
+		dest.writeString(this.regDate);
+		dest.writeLong(this.carId);
+		dest.writeLong(this.customerId);
+	}
+	
+	public static final Parcelable.Creator<CarInfo> CREATOR = new Parcelable.Creator<CarInfo>(){
+
+		public CarInfo createFromParcel(Parcel source) {
+			CarInfo brief = new CarInfo();
+			brief.carBrand = source.readString();
+			brief.carCode = source.readString();
+			brief.carColor = source.readString();
+			brief.carPic = source.readString();
+			brief.carType = source.readString();
+			brief.regDate = source.readString();
+			brief.carId = source.readLong();
+			brief.customerId = source.readLong();
+			return brief;
+		}
+
+		public CarInfo[] newArray(int size) {
+
+			return new CarInfo[size];
+		}
+		
+	};
 }

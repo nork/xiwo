@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:id="@+id/header"
+        android:layout_width="fill_parent"
+        android:layout_height="45dp"
+        android:background="@android:color/white" >
+
+        <Button
+            android:id="@+id/backbtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:background="@drawable/backbt" />
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textColor="@color/orange"
+            android:textSize="20sp" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="0.1dip"
+            android:layout_alignParentBottom="true"
+            android:background="@color/orange" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/recharge_title"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical" 
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/user_recharge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/user_recharge"
+            android:textColor="@color/blackgrey"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/cur_blance_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/user_recharge"
+            android:layout_marginLeft="15dp"
+            android:text="@string/cur_balance" />
+
+        <TextView
+            android:id="@+id/cur_blance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/user_recharge"
+            android:layout_marginRight="50dp"
+            android:text="500.00"
+            android:textColor="@color/orange" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/money_part"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical"
+        >
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="1dip"
+            android:background="@color/background" 
+            android:layout_marginTop="15dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/chose_money"
+            android:textColor="@color/orange" 
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="10dp"/>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingTop="20dp" >
+
+            <Button
+                android:id="@+id/btn200"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/money200" />
+
+            <Button
+                android:id="@+id/btn400"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/money400" />
+
+            <Button
+                android:id="@+id/btn600"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/money600" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" 
+            android:paddingTop="20dp">
+
+            <Button
+                android:id="@+id/btn800"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/money800" />
+
+            <Button
+                android:id="@+id/btn1000"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/money1000" />
+
+            <Button
+                android:id="@+id/btn1200"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/money1200" />
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/custom_money"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/input_custom_money"
+            android:layout_marginTop="20dp" 
+            android:layout_marginBottom="20dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/button_group"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="1dp"
+        android:gravity="center_vertical"
+        android:background="@android:color/white"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/cannel_order"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/blue_btn"
+            android:text="@string/cannel"
+            android:textColor="@color/white" />
+
+        <Button
+            android:id="@+id/pay_now"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/orange_btn"
+            android:text="@string/recharge"
+            android:textColor="@color/white" />
+    </LinearLayout>
+
+</LinearLayout>

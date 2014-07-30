@@ -96,13 +96,19 @@ public final class R {
         public static final int add_car=0x7f0b0029;
         public static final int address=0x7f0b0057;
         public static final int agreebtn=0x7f0b0065;
-        public static final int agreementview=0x7f0b006f;
-        public static final int agreetxt=0x7f0b006b;
+        public static final int agreementview=0x7f0b007b;
+        public static final int agreetxt=0x7f0b0077;
         public static final int all_pay=0x7f0b005f;
         public static final int backbtn=0x7f0b0007;
         public static final int bank_info=0x7f0b0068;
         public static final int bank_info_layout=0x7f0b0067;
         public static final int bank_list=0x7f0b0019;
+        public static final int btn1000=0x7f0b0073;
+        public static final int btn1200=0x7f0b0074;
+        public static final int btn200=0x7f0b006f;
+        public static final int btn400=0x7f0b0070;
+        public static final int btn600=0x7f0b0071;
+        public static final int btn800=0x7f0b0072;
         public static final int btn_part=0x7f0b0043;
         public static final int button_group=0x7f0b0058;
         public static final int cannel_btn=0x7f0b0069;
@@ -127,7 +133,7 @@ public final class R {
         public static final int car_type=0x7f0b0012;
         public static final int car_type_title=0x7f0b0013;
         public static final int closed_btn=0x7f0b005e;
-        public static final int code_input_part=0x7f0b006c;
+        public static final int code_input_part=0x7f0b0078;
         public static final int code_input_text=0x7f0b003c;
         public static final int codeedt=0x7f0b003d;
         public static final int completed_btn=0x7f0b005d;
@@ -135,8 +141,11 @@ public final class R {
         public static final int contact_edt=0x7f0b0020;
         public static final int contact_title=0x7f0b001f;
         public static final int content=0x7f0b0000;
+        public static final int cur_blance=0x7f0b006d;
+        public static final int cur_blance_title=0x7f0b006c;
         public static final int custom_img=0x7f0b0021;
         public static final int custom_info=0x7f0b004e;
+        public static final int custom_money=0x7f0b0075;
         public static final int email=0x7f0b0031;
         public static final int email_txt=0x7f0b0033;
         public static final int forget_pwd=0x7f0b004c;
@@ -148,19 +157,20 @@ public final class R {
         public static final int header=0x7f0b0006;
         public static final int help=0x7f0b0050;
         public static final int home_page=0x7f0b0002;
-        public static final int input_part=0x7f0b006a;
+        public static final int input_part=0x7f0b0076;
         public static final int integral_manage=0x7f0b004f;
         public static final int login_btn=0x7f0b004a;
-        public static final int menu_settings=0x7f0b0072;
+        public static final int menu_settings=0x7f0b007e;
         public static final int money=0x7f0b0028;
+        public static final int money_part=0x7f0b006e;
         public static final int more=0x7f0b0005;
         public static final int my_email=0x7f0b0032;
         public static final int my_phone=0x7f0b0035;
         public static final int name=0x7f0b002c;
         public static final int name_title=0x7f0b002d;
-        public static final int nick_name=0x7f0b006e;
-        public static final int nick_name_part=0x7f0b006d;
-        public static final int okbtn=0x7f0b0071;
+        public static final int nick_name=0x7f0b007a;
+        public static final int nick_name_part=0x7f0b0079;
+        public static final int okbtn=0x7f0b007d;
         public static final int order_list=0x7f0b0060;
         public static final int order_manager=0x7f0b0004;
         public static final int paid_btn=0x7f0b005b;
@@ -176,8 +186,9 @@ public final class R {
         public static final int phone_view=0x7f0b0046;
         public static final int pswedt01=0x7f0b003f;
         public static final int pswedt02=0x7f0b0040;
-        public static final int pswedt_old=0x7f0b0070;
+        public static final int pswedt_old=0x7f0b007c;
         public static final int quit=0x7f0b0053;
+        public static final int recharge_title=0x7f0b006a;
         public static final int register_btn=0x7f0b004b;
         public static final int registerbtn=0x7f0b0041;
         public static final int registerview=0x7f0b003b;
@@ -198,6 +209,7 @@ public final class R {
         public static final int user=0x7f0b002e;
         public static final int user_name=0x7f0b002f;
         public static final int user_name_txt=0x7f0b0030;
+        public static final int user_recharge=0x7f0b006b;
         public static final int vip_customer=0x7f0b0056;
         public static final int wait_pay_btn=0x7f0b005c;
         public static final int wash_button=0x7f0b0025;
@@ -220,16 +232,18 @@ public final class R {
         public static final int fragment=0x7f030008;
         public static final int home_page=0x7f030009;
         public static final int login=0x7f03000a;
-        public static final int modify_suc_dialog=0x7f03000b;
-        public static final int more=0x7f03000c;
-        public static final int order_detail=0x7f03000d;
-        public static final int order_list=0x7f03000e;
-        public static final int order_list_adapter=0x7f03000f;
-        public static final int order_manage=0x7f030010;
-        public static final int pay_detail=0x7f030011;
-        public static final int pay_dialog=0x7f030012;
-        public static final int registerview=0x7f030013;
-        public static final int resetpswview=0x7f030014;
+        public static final int modify_car=0x7f03000b;
+        public static final int modify_suc_dialog=0x7f03000c;
+        public static final int more=0x7f03000d;
+        public static final int order_detail=0x7f03000e;
+        public static final int order_list=0x7f03000f;
+        public static final int order_list_adapter=0x7f030010;
+        public static final int order_manage=0x7f030011;
+        public static final int pay_detail=0x7f030012;
+        public static final int pay_dialog=0x7f030013;
+        public static final int recharge=0x7f030014;
+        public static final int registerview=0x7f030015;
+        public static final int resetpswview=0x7f030016;
     }
     public static final class menu {
         public static final int activity_main=0x7f0a0000;
@@ -256,7 +270,12 @@ public final class R {
         public static final int cannel_order=0x7f080051;
         public static final int cant_complete=0x7f080048;
         public static final int car_brand=0x7f08003c;
+        public static final int car_brand_null_error=0x7f080065;
+        /**  Add car ui 
+         */
+        public static final int car_code_null_error=0x7f080064;
         public static final int car_color=0x7f08003d;
+        public static final int car_color_null_error=0x7f080066;
         public static final int car_info=0x7f080008;
         public static final int car_info_title=0x7f080038;
         public static final int car_num=0x7f08004d;
@@ -266,6 +285,7 @@ public final class R {
         /**  bank info list string 
          */
         public static final int choice_pay_type=0x7f080061;
+        public static final int chose_money=0x7f080069;
         public static final int closed=0x7f080042;
         public static final int code_length_erro=0x7f080025;
         public static final int code_null_erro=0x7f080024;
@@ -274,6 +294,7 @@ public final class R {
         /**  car info edit ui string 
          */
         public static final int contact_num=0x7f080039;
+        public static final int cur_balance=0x7f080068;
         /**  more ui string 
          */
         public static final int custom_info=0x7f080055;
@@ -292,6 +313,7 @@ public final class R {
         public static final int help=0x7f080058;
         public static final int i_wash_car=0x7f08000d;
         public static final int input_code=0x7f08001a;
+        public static final int input_custom_money=0x7f08006a;
         /**  modify password ui string 
          */
         public static final int input_new_code=0x7f08002c;
@@ -304,6 +326,12 @@ public final class R {
         public static final int main=0x7f080007;
         public static final int menu_settings=0x7f080002;
         public static final int modify_pwd=0x7f080033;
+        public static final int money1000=0x7f08006f;
+        public static final int money1200=0x7f080070;
+        public static final int money200=0x7f08006b;
+        public static final int money400=0x7f08006c;
+        public static final int money600=0x7f08006d;
+        public static final int money800=0x7f08006e;
         public static final int more=0x7f08000a;
         public static final int my_phone=0x7f080060;
         public static final int name=0x7f08005d;
@@ -337,6 +365,7 @@ public final class R {
         public static final int pwd_format_erro=0x7f080027;
         public static final int pwd_null_erro=0x7f080026;
         public static final int qiut=0x7f08005b;
+        public static final int recharge=0x7f080071;
         /**  Register UI String 
          */
         public static final int register=0x7f080016;
@@ -356,6 +385,9 @@ public final class R {
         public static final int title_activity_main=0x7f080003;
         public static final int transaction_amount=0x7f08004f;
         public static final int user_name=0x7f08005e;
+        /**  recharge ui 
+         */
+        public static final int user_recharge=0x7f080067;
         public static final int vip_customer=0x7f08004b;
         public static final int wait_in_progress=0x7f080004;
         public static final int wait_pay=0x7f080040;

@@ -6,20 +6,23 @@ import java.util.List;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout.LayoutParams;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.LinearLayout.LayoutParams;
 
+import com.android.xiwao.washcar.AppLog;
 import com.android.xiwao.washcar.Constants;
 import com.android.xiwao.washcar.R;
 import com.android.xiwao.washcar.data.CarInfo;
 import com.android.xiwao.washcar.ui.AddCarActivity;
+import com.android.xiwao.washcar.ui.ModifyCarActivity;
 
 public class CarInfoListAdapter extends BaseAdapter{
 
@@ -38,15 +41,16 @@ public class CarInfoListAdapter extends BaseAdapter{
 	}
 	
 	public void addBriefs(List<CarInfo> mList){
-		for(int i = 0; i < mList.size() || i>=5; i++){
-			this.mList.add(mList.get(i));
-		}
+		this.mList = mList;
+		
 		/*
 		 * 此处设置一个添加按钮，将洗车标记为-1时， 默认加载添加按钮
 		 */
-		CarInfo last = new CarInfo();	
-		last.setCarCode("-1");
-		this.mList.add(last);
+		if(this.mList.size() < 5){
+			CarInfo last = new CarInfo();	
+			last.setCarCode("-1");
+			this.mList.add(last);
+		}
 		notifyDataSetChanged();
 	}
 	
@@ -76,6 +80,7 @@ public class CarInfoListAdapter extends BaseAdapter{
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		// TODO Auto-generated method stub
+		final int pos = position;
 		ViewHolder viewHolder;
 		if(convertView == null){
 			viewHolder = new ViewHolder();
@@ -115,8 +120,21 @@ public class CarInfoListAdapter extends BaseAdapter{
 			}
 		});
 		
+		viewHolder.money.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				Intent i = new Intent(mContext, ModifyCarActivity.class);
+				Bundle bundle = new Bundle();
+				bundle.putParcelable(Constants.CAR_INFO_SEND, mList.get(pos));
+				i.putExtras(bundle);
+				((Activity)mContext).startActivityForResult(i, Constants.MODIFY_CAR_RESULT_CODE);
+			}
+		});
+		
 		AbsListView.LayoutParams params;			
-		params = new AbsListView.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);
+		params = new AbsListView.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 		convertView.setLayoutParams(params);
 		
 		return convertView;

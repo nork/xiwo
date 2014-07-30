@@ -80,6 +80,17 @@ public class MoreFragment extends BaseFragment {
 				startActivity(intent);
 			}
 		});
+		
+		integralManage.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				Intent intent = new Intent(mContext,
+						RechargeActivity.class);
+				startActivity(intent);
+			}
+		});
 	}
 
 	private void setHwView() {

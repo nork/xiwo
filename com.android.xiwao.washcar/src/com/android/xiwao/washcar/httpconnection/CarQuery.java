@@ -19,14 +19,14 @@ public class CarQuery extends BaseCommand{
 	public static final String JSON_RESPONSE_TYPE = "ResponseType";
 	public static final String JSON_ERROR_MESSAGE = "ErrorMessage";
 	public static final String JSON_CAR_LIST = "Car_List";	
-	public static final String JSON_CAR_ID = "Car_id";
-	public static final String JSON_CAR_CODE = "Car_code";
-	public static final String JSON_CAR_COLOR = "Car_Color";
-	public static final String JSON_CAR_BRAND = "Car_Brand";
-	public static final String JSON_CAR_TYPE = "Car_type";
-	public static final String JSON_CAR_PIC = "Car_pic";
-	public static final String JSON_CUSTOM_ID = "Customer_id";
-	public static final String JSON_RGE_DATE = "Reg_date";
+	public static final String JSON_CAR_ID = "car_id";
+	public static final String JSON_CAR_CODE = "car_code";
+	public static final String JSON_CAR_COLOR = "car_Color";
+	public static final String JSON_CAR_BRAND = "car_Brand";
+	public static final String JSON_CAR_TYPE = "car_type";
+	public static final String JSON_CAR_PIC = "car_pic";
+	public static final String JSON_CUSTOM_ID = "customer_id";
+	public static final String JSON_RGE_DATE = "reg_date";
 	
 	private long customerId;
 	
@@ -69,6 +69,7 @@ public class CarQuery extends BaseCommand{
 		Response query = new Response();
 		
 		try {
+			query.briefs = new ArrayList<CarInfo>();
 			query.okey = true;
 			JSONObject jsonObj = new JSONObject(content);
 			JSONArray jsonArray;
@@ -85,7 +86,7 @@ public class CarQuery extends BaseCommand{
 				brief.setCarBrand(jsonSingleInfo.getString(JSON_CAR_BRAND));
 				brief.setCarCode(jsonSingleInfo.getString(JSON_CAR_CODE));
 				brief.setCarColor(jsonSingleInfo.getString(JSON_CAR_COLOR));
-				brief.setCarId(jsonSingleInfo.getString(JSON_CAR_ID));
+				brief.setCarId(jsonSingleInfo.getLong(JSON_CAR_ID));
 				brief.setCarPic(jsonSingleInfo.getString(JSON_CAR_PIC));
 				brief.setCarType(jsonSingleInfo.getString(JSON_CAR_TYPE));
 				brief.setCustomerId(jsonSingleInfo.getLong(JSON_CUSTOM_ID));

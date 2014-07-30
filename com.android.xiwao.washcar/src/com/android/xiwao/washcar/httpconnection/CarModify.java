@@ -29,7 +29,7 @@ public class CarModify extends BaseCommand {
 	private String carBrand;
 	private String carType;
 	private String carPic;
-	private String CarId;
+	private long CarId;
 
 	public static class Response extends BaseResponse {
 		public String carId;
@@ -88,11 +88,11 @@ public class CarModify extends BaseCommand {
 		this.carPic = carPic;
 	}
 	
-	public String getCarId() {
+	public long getCarId() {
 		return CarId;
 	}
 
-	public void setCarId(String carId) {
+	public void setCarId(long carId) {
 		CarId = carId;
 	}
 
@@ -114,7 +114,7 @@ public class CarModify extends BaseCommand {
 		nvps.add(new BasicNameValuePair(PARAM_CAR_BRAND, carBrand));
 		nvps.add(new BasicNameValuePair(PARAM_CAR_TYPE, carType));
 		nvps.add(new BasicNameValuePair(PARAM_CAR_PIC, carPic));
-		nvps.add(new BasicNameValuePair(PARAM_CAR_ID, CarId));
+		nvps.add(new BasicNameValuePair(PARAM_CAR_ID, Long.toString(CarId)));
 
 		return nvps;
 	}

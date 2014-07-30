@@ -30,7 +30,6 @@ import com.android.xiwao.washcar.httpconnection.BaseCommand;
 import com.android.xiwao.washcar.httpconnection.BaseResponse;
 import com.android.xiwao.washcar.httpconnection.CarQuery;
 import com.android.xiwao.washcar.httpconnection.CommandExecuter;
-import com.android.xiwao.washcar.httpconnection.Login;
 import com.android.xiwao.washcar.listadapter.CarInfoListAdapter;
 import com.android.xiwao.washcar.utils.DialogUtils;
 
@@ -100,6 +99,9 @@ public class CarInfoFragment extends BaseFragment {
 		
 		switch(requestCode){
 		case Constants.ADD_CAR_RESULT_CODE:
+			refreshInfoList();
+			break;
+		case Constants.MODIFY_CAR_RESULT_CODE:
 			refreshInfoList();
 			break;
 		}

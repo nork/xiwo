@@ -120,4 +120,22 @@
     <!-- modify password ui -->
     <string name="old_pwd_null_error">旧密码不能为空</string>
     <string name="new_pwd_null_error">新密码不能为空</string>
+    
+    <!-- Add car ui -->
+    <string name="car_code_null_error">请输入车牌号码</string>
+    <string name="car_brand_null_error">请输入汽车品牌</string>
+    <string name="car_color_null_error">请输入汽车颜色</string>
+    
+    <!-- recharge ui -->
+    <string name="user_recharge">账户充值</string>
+    <string name="cur_balance">当前余额</string>
+    <string name="chose_money">选择金额（你可以选择￥200至￥1200的任何金额）</string>
+    <string name="input_custom_money">￥输入自定义金额</string>
+    <string name="money200">￥200</string>
+    <string name="money400">￥400</string>
+    <string name="money600">￥600</string>
+    <string name="money800">￥800</string>
+    <string name="money1000">￥1000</string>
+    <string name="money1200">￥1200</string>
+    <string name="recharge">充值</string>
 </resources>
