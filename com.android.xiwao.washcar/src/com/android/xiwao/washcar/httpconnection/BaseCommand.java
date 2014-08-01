@@ -29,8 +29,8 @@ import com.android.xiwao.washcar.AppLog;
 
 public abstract class BaseCommand {
 
-	//protected static final String DEFAULT_BACKEND_URL = "http://yun356.sinaapp.com/index.php?";
-	protected static final String DEFAULT_BACKEND_URL = "http://washmycar.vipsinaapp.com/washmycar/";
+//	protected static final String DEFAULT_BACKEND_URL = "http://washmycar.vipsinaapp.com/washmycar/";
+	protected static final String DEFAULT_BACKEND_URL = "http://washmycar.sinaapp.com/washmycar/";
 
 	private static final String TAG = "BaseCommand";
 

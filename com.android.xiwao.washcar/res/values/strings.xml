@@ -138,4 +138,9 @@
     <string name="money1000">￥1000</string>
     <string name="money1200">￥1200</string>
     <string name="recharge">充值</string>
+    
+    <!-- website set ui -->
+    <string name="lock_addr">锁定地址</string>
+    <string name="default_addr">默认地址</string>
+    <string name="website_set">网点设置</string>
 </resources>

@@ -159,8 +159,9 @@ public final class R {
         public static final int home_page=0x7f0b0002;
         public static final int input_part=0x7f0b0076;
         public static final int integral_manage=0x7f0b004f;
+        public static final int lock_addr_btn=0x7f0b007f;
         public static final int login_btn=0x7f0b004a;
-        public static final int menu_settings=0x7f0b007e;
+        public static final int menu_settings=0x7f0b0080;
         public static final int money=0x7f0b0028;
         public static final int money_part=0x7f0b006e;
         public static final int more=0x7f0b0005;
@@ -218,6 +219,7 @@ public final class R {
         public static final int wax_button=0x7f0b0026;
         public static final int web_center=0x7f0b0063;
         public static final int website=0x7f0b001d;
+        public static final int website_title_part=0x7f0b007e;
         public static final int your_statu=0x7f0b0064;
     }
     public static final class layout {
@@ -244,6 +246,7 @@ public final class R {
         public static final int recharge=0x7f030014;
         public static final int registerview=0x7f030015;
         public static final int resetpswview=0x7f030016;
+        public static final int websit=0x7f030017;
     }
     public static final class menu {
         public static final int activity_main=0x7f0a0000;
@@ -298,6 +301,7 @@ public final class R {
         /**  more ui string 
          */
         public static final int custom_info=0x7f080055;
+        public static final int default_addr=0x7f080073;
         public static final int email=0x7f08005f;
         public static final int empty_passwd=0x7f080015;
         public static final int empty_user=0x7f080014;
@@ -320,6 +324,9 @@ public final class R {
         public static final int input_new_pwd=0x7f080030;
         public static final int input_old_pwd=0x7f080032;
         public static final int integral_manage=0x7f080057;
+        /**  website set ui 
+         */
+        public static final int lock_addr=0x7f080072;
         public static final int login=0x7f080012;
         /**  MainActivity UI String
          */
@@ -397,6 +404,7 @@ public final class R {
         public static final int wax=0x7f080036;
         public static final int web_center=0x7f080046;
         public static final int website=0x7f08003a;
+        public static final int website_set=0x7f080074;
         public static final int your_statu=0x7f080047;
     }
     public static final class style {
