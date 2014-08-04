@@ -2,10 +2,11 @@ package com.android.xiwao.washcar.ui;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.view.Window;
 import android.view.ViewGroup.LayoutParams;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
@@ -29,7 +30,7 @@ public class CarInfoEditActivity extends Activity {
 	private Button submitBtn;
 	private Button backBtn;
 	private Spinner spinnerServerType;
-	private EditText carNumEdt;
+	private TextView carNumEdt;
 	private EditText contactEdt;
 
 	private ArrayAdapter typeAdapter;
@@ -56,7 +57,7 @@ public class CarInfoEditActivity extends Activity {
 		contactNum = (RelativeLayout) findViewById(R.id.contact);
 		submitBtn = (Button) findViewById(R.id.submit);
 		spinnerServerType = (Spinner) findViewById(R.id.spinner_server_type);
-		carNumEdt = (EditText) findViewById(R.id.car_num_edt);
+		carNumEdt = (TextView) findViewById(R.id.car_num_edt);
 		contactEdt = (EditText) findViewById(R.id.contact_edt);
 		TextView title = (TextView) findViewById(R.id.title);
 		title.setText(R.string.car_info);
@@ -67,14 +68,8 @@ public class CarInfoEditActivity extends Activity {
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
 //				radioButton.setChecked(true);
-//				Fragment newFragment = new PayDetailFragment();
-//				FragmentTransaction transaction =getFragmentManager().beginTransaction();
-//				// Replace whatever is in thefragment_container view with this fragment,
-//				// and add the transaction to the backstack
-//				transaction.replace(R.id.content,newFragment);
-//				transaction.addToBackStack(null);
-//				//Ìá½»ÐÞ¸Ä
-//				transaction.commit();
+				Intent intent = new Intent(CarInfoEditActivity.this, PayDetailActivity.class);
+				startActivity(intent);
 			}
 		});
 		
@@ -85,6 +80,26 @@ public class CarInfoEditActivity extends Activity {
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
 				finish();
+			}
+		});
+		
+		carNum.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				Intent intent = new Intent(CarInfoEditActivity.this, AddCarActivity.class);
+				startActivity(intent);
+			}
+		});
+		
+		website.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				Intent intent = new Intent(CarInfoEditActivity.this, AddressActivity.class);
+				startActivity(intent);
 			}
 		});
 	}

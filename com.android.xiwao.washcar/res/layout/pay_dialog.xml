@@ -40,7 +40,7 @@
         android:background="@color/gray_line" />
 
     <RelativeLayout
-        android:id="@+id/bank_info_layout"
+        android:id="@+id/alipay_layout"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:paddingBottom="5dp"
@@ -51,7 +51,71 @@
             android:id="@+id/bank_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="招商银行储蓄卡(尾号6663)付款"
+            android:text="@string/alipay"
+            android:textSize="18sp"
+            android:textColor="@android:color/black" 
+            android:layout_centerVertical="true"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/right_icon"
+            android:scaleType="center" 
+            android:layout_centerVertical="true"/>
+    </RelativeLayout>
+    
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="0.1dp"
+        android:background="@color/gray_line" />
+    
+    <RelativeLayout
+        android:id="@+id/account_money_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="5dp"
+        android:paddingLeft="5dp"
+        android:paddingTop="5dp" >
+
+        <TextView
+            android:id="@+id/account_money_pay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/account_money_pay"
+            android:textSize="18sp"
+            android:textColor="@android:color/black" 
+            android:layout_centerVertical="true"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/right_icon"
+            android:scaleType="center" 
+            android:layout_centerVertical="true"/>
+    </RelativeLayout>
+    
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="0.1dp"
+        android:background="@color/gray_line" />
+    
+    <RelativeLayout
+        android:id="@+id/activity_pay_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="5dp"
+        android:paddingLeft="5dp"
+        android:paddingTop="5dp" >
+
+        <TextView
+            android:id="@+id/activity_pay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/activity_pay"
             android:textSize="18sp"
             android:textColor="@android:color/black" 
             android:layout_centerVertical="true"/>

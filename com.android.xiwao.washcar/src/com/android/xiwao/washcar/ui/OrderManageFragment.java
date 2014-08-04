@@ -130,13 +130,7 @@ public class OrderManageFragment extends BaseFragment {
 	}
 
 	private void fetchList() {
-		OrderData orderData = new OrderData();
-		for (int i = 0; i < 5; i++) {
-			orderData.setMoney("88");
-			orderData.setPayState("ÒÑÖ§¸¶");
-			orderData.setSerialNumber("0025655122");
-			listOrderData.add(orderData);
-		}
+	
 
 		orderListAdapter.addBriefs(listOrderData);
 	}

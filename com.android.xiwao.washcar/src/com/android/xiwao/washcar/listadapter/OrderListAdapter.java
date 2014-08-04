@@ -76,9 +76,9 @@ public class OrderListAdapter extends BaseAdapter{
 		}
 		
 		OrderData singleOrderData = this.mList.get(position);
-		viewHolder.serialNumber.setText(singleOrderData.getSerialNumber());
-		viewHolder.money.setText(singleOrderData.getMoney());
-		viewHolder.payState.setText(singleOrderData.getPayState());
+		viewHolder.serialNumber.setText(Long.toString(singleOrderData.getOrderId()));
+//		viewHolder.money.setText(singleOrderData.getMoney());
+		viewHolder.payState.setText(singleOrderData.getOrderState());
 		
 //		AbsListView.LayoutParams params;			
 //		params = new AbsListView.LayoutParams(LayoutParams.FILL_PARENT, (int)(Constants.displayHeight * 0.1f + 0.5f));
