@@ -9,11 +9,12 @@
     <!-- focus -->
     <item android:state_focused="true"><shape>
             <gradient android:angle="270" android:endColor="@color/orange" android:startColor="@color/orange" />
-
         </shape></item>
 
-    <item android:state_focused="false"><shape>
+    <item android:state_focused="false">
+        <shape>
             <gradient android:angle="270" android:endColor="@color/white" android:startColor="@color/white" />
 
-        </shape></item>
+        </shape>
+    </item>
 </selector>

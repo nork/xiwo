@@ -15,13 +15,13 @@ public class DistractQuery extends BaseCommand{
 	public final static String JSON_RESPONSE_TYPE = "ResponseType";
 	public final static String JSON_ERROR_MESSAGE = "ErrorMessage";
 	public final static String JSON_DISTRACT_LIST = "Distract_List";
-	public final static String JSON_BRANCH_NAME = "Branch_name";
-	public final static String JSON_DISTRACT_ID = "Distract_first_id";
-	public final static String JSON_PROVINCE = "Province";
-	public final static String JSON_CITY = "City";
-	public final static String JSON_DISTRACT = "Distract";
-	public final static String JSON_STREET = "Street";
-	public final static String JSON_MAP = "Map";
+	public final static String JSON_BRANCH_NAME = "branch_name";
+	public final static String JSON_DISTRACT_ID = "distract_first_id";
+	public final static String JSON_PROVINCE = "province";
+	public final static String JSON_CITY = "city";
+	public final static String JSON_DISTRACT = "distract";
+	public final static String JSON_STREET = "street";
+	public final static String JSON_MAP = "map";
 	
 	public static class Response extends BaseResponse {
 		

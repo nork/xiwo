@@ -59,6 +59,7 @@ public class ResetPasswordActivity extends Activity {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		mcontext = this;
+		
 		ActivityManage.getInstance().setCurContext(this);
 		ActivityManage.getInstance().addActivity(this);
 
@@ -252,4 +253,12 @@ public class ResetPasswordActivity extends Activity {
 
 		dialogUtils.showProgress();
 	}
+
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		ActivityManage.getInstance().setCurContext(this);
+	}
+	
 }

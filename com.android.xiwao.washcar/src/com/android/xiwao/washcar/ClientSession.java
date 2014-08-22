@@ -12,8 +12,6 @@ import com.android.xiwao.washcar.httpconnection.DefaultCommandFactory;
 
 public class ClientSession {
 	
-	private static final String TAG = "ClientSession";
-	
 	// create mock command objects for ui demo
 	public static boolean sMockConnection = false; 
 

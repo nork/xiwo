@@ -16,6 +16,7 @@ public class OrderData implements Parcelable{
 	private String washEnd;
 	private String OrderState;
 	private String note;
+	private String fee;
 	
 	public long getOrderId() {
 		return orderId;
@@ -90,6 +91,12 @@ public class OrderData implements Parcelable{
 		this.note = note;
 	}
 	
+	public String getFee() {
+		return fee;
+	}
+	public void setFee(String fee) {
+		this.fee = fee;
+	}
 	@Override
 	public int describeContents() {
 		// TODO Auto-generated method stub
@@ -114,6 +121,7 @@ public class OrderData implements Parcelable{
 		dest.writeString(this.payTime);
 		dest.writeString(this.washBegin);
 		dest.writeString(this.washEnd);
+		dest.writeString(this.fee);
 	}
 	
 	public static final Parcelable.Creator<OrderData> CREATOR = new Parcelable.Creator<OrderData>(){
@@ -132,6 +140,7 @@ public class OrderData implements Parcelable{
 			brief.payTime = source.readString();
 			brief.washBegin = source.readString();
 			brief.washEnd = source.readString();
+			brief.fee = source.readString();
 			return brief;
 		}
 

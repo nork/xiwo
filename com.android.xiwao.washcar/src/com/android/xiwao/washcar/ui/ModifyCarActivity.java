@@ -65,6 +65,7 @@ public class ModifyCarActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		
 		ActivityManage.getInstance().setCurContext(this);
 		ActivityManage.getInstance().addActivity(this);
 
@@ -256,6 +257,15 @@ public class ModifyCarActivity extends Activity {
 		spinnerCarType
 				.setOnItemSelectedListener(new SpinnerXMLSelectedListener());
 	}
+
+	
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		ActivityManage.getInstance().setCurContext(this);
+	}
+
 
 	class SpinnerXMLSelectedListener implements OnItemSelectedListener {
 		public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2,

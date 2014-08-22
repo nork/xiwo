@@ -17,6 +17,7 @@ public class RegisterSucDialog extends Activity{
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
+		
 		ActivityManage.getInstance().setCurContext(this);
 		ActivityManage.getInstance().addActivity(this);
 		
@@ -44,4 +45,12 @@ public class RegisterSucDialog extends Activity{
                 (int) (displayHeight * 0.06f + 0.5f));
 		sureBtn.setLayoutParams(params);
 	}
+
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		ActivityManage.getInstance().setCurContext(this);
+	}
+	
 }

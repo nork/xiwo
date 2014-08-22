@@ -17,7 +17,6 @@ import android.widget.LinearLayout.LayoutParams;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.android.xiwao.washcar.AppLog;
 import com.android.xiwao.washcar.Constants;
 import com.android.xiwao.washcar.R;
 import com.android.xiwao.washcar.data.CarInfo;

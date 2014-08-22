@@ -69,6 +69,7 @@ public class FindPasswordActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
+		
 		ActivityManage.getInstance().setCurContext(this);
 		ActivityManage.getInstance().addActivity(this);
 		
@@ -420,6 +421,15 @@ public class FindPasswordActivity extends Activity {
 
 		dialogUtils.showProgress();
 	}
+
+	
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		ActivityManage.getInstance().setCurContext(this);
+	}
+
 
 	class TimeCount extends CountDownTimer {
 		public TimeCount(long millisInFuture, long countDownInterval) {

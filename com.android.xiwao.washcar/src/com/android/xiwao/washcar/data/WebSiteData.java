@@ -1,10 +1,16 @@
 package com.android.xiwao.washcar.data;
 
+import java.io.Serializable;
+
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class WebSiteData implements Parcelable{
+public class WebSiteData implements Parcelable, Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private long distractId;
 	private String branchName;
 	private String province;

@@ -13,7 +13,7 @@ import com.android.xiwao.washcar.data.AddressData;
 
 public class AddressQuery extends BaseCommand{
 
-	private final static String CMD = "accountCharge.do";
+	private final static String CMD = "addressQuery.do";
 	
 	private final static String PARAMS_CUSTOMER_ID = "Customer_id";
 	private final static String PARAMS_DISTRACT_ID = "Distract_id";
@@ -23,12 +23,12 @@ public class AddressQuery extends BaseCommand{
 	public final static String JSON_LAST_ADDRESS_ID = "Last_Address_id";
 	public final static String JSON_LAST_ADDRESS_DETAIL = "Last_Address_detail";
 	public final static String JSON_ADDRESS_LIST = "Address_List";
-	public final static String JSON_ADDRESS_ID = "Address_id";
-	public final static String JSON_ADDRESS_DETAIL = "Address_detail";
-	public final static String JSON_DISTRACT_ID = "Distract_id";
-	public final static String JSON_CUSTOMER_ID = "Customer_id";
-	public final static String JSON_ADDRESS_TYPE = "Address_type";
-	public final static String JSON_POST_CODE = "Post_code";
+	public final static String JSON_ADDRESS_ID = "address_id";
+	public final static String JSON_ADDRESS_DETAIL = "address_detail";
+	public final static String JSON_DISTRACT_ID = "distract_id";
+	public final static String JSON_CUSTOMER_ID = "customer_id";
+	public final static String JSON_ADDRESS_TYPE = "address_type";
+	public final static String JSON_POST_CODE = "post_code";
 	
 	private long customerId;
 	private long distractId;

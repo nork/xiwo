@@ -38,11 +38,11 @@ private final static String CMD = "activityConsume.do";
 		this.customerId = custmerId;
 	}
 
-	public long getChangeAmt() {
+	public long getOrderId() {
 		return orderId;
 	}
 
-	public void setChangeAmt(long orderId) {
+	public void setOrderId(long orderId) {
 		this.orderId = orderId;
 	}
 

@@ -77,8 +77,18 @@ public class OrderListAdapter extends BaseAdapter{
 		
 		OrderData singleOrderData = this.mList.get(position);
 		viewHolder.serialNumber.setText(Long.toString(singleOrderData.getOrderId()));
-//		viewHolder.money.setText(singleOrderData.getMoney());
-		viewHolder.payState.setText(singleOrderData.getOrderState());
+		viewHolder.money.setText(singleOrderData.getFee());
+		String orderState = singleOrderData.getOrderState();
+		if(orderState.equals("01")){
+			orderState = "未支付";
+		}else if(orderState.equals("02")){
+			orderState = "已支付";
+		}else if(orderState.equals("03")){
+			orderState = "服务中";
+		}else if(orderState.equals("04")){
+			orderState = "交易完成";
+		}
+		viewHolder.payState.setText(orderState);
 		
 //		AbsListView.LayoutParams params;			
 //		params = new AbsListView.LayoutParams(LayoutParams.FILL_PARENT, (int)(Constants.displayHeight * 0.1f + 0.5f));

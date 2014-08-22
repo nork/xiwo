@@ -90,5 +90,106 @@ public class DefaultCommandFactory extends CommandFactory {
 		carModify.setCustomerId(customerId);
 		return carModify;
 	}
+
+	@Override
+	public BaseCommand getAccountQuery(long id) {
+		// TODO Auto-generated method stub
+		AccountQuery accountQuery = new AccountQuery();
+		accountQuery.setCustmerId(id);
+		return accountQuery;
+	}
+
+	@Override
+	public BaseCommand getAccountRecharge(long id, long amt) {
+		// TODO Auto-generated method stub
+		AccountCharge accountCharge = new AccountCharge();
+		accountCharge.setCustmerId(id);
+		accountCharge.setChangeAmt(amt);
+		return accountCharge;
+	}
+
+	@Override
+	public BaseCommand getAddressQuery(long customerId, long distractId) {
+		// TODO Auto-generated method stub
+		AddressQuery addressQuery = new AddressQuery();
+		addressQuery.setCustmerId(customerId);
+		addressQuery.setDistractId(distractId);
+		return addressQuery;
+	}
+
+	@Override
+	public BaseCommand getDistractQuery() {
+		// TODO Auto-generated method stub
+		DistractQuery distractQuery = new DistractQuery();
+		return distractQuery;
+	}
+
+	@Override
+	public BaseCommand getAddressCreate(long distractId, String detailAddress, long costomerId) {
+		// TODO Auto-generated method stub
+		AddressCreate addressCreate = new AddressCreate();
+		addressCreate.setAddressDetail(detailAddress);
+		addressCreate.setDistractId(distractId);
+		addressCreate.setCustmerId(costomerId);
+		return addressCreate;
+	}
+
+	@Override
+	public BaseCommand getPlaceOrder(long customerId, String serviceType,
+			String mobileNum, long carId, long distractId, long addressId,
+			String payType, String note, String address) {
+		// TODO Auto-generated method stub
+		PlaceOrder placeOrder = new PlaceOrder();
+		placeOrder.setAddress(address);
+		placeOrder.setAddressId(addressId);
+		placeOrder.setCarId(carId);
+		placeOrder.setCustomerId(customerId);
+		placeOrder.setDistractId(distractId);
+		placeOrder.setMobileNum(mobileNum);
+		placeOrder.setNote(note);
+		placeOrder.setPayType(payType);
+		placeOrder.setServiceType(serviceType);
+		return placeOrder;
+	}
+
+	@Override
+	public BaseCommand getOrderQuery(long custmerId, String orderState,
+			int startIndex, int page) {
+		// TODO Auto-generated method stub
+		OrderQuery orderQuery = new OrderQuery();
+		orderQuery.setCustomerId(custmerId);
+		orderQuery.setOrderState(orderState);
+		orderQuery.setPage(page);
+		orderQuery.setStartIndex(startIndex);
+		return orderQuery;
+	}
+
+	@Override
+	public BaseCommand getActivityQuery(long customerId) {
+		// TODO Auto-generated method stub
+		CustomActivityQuery customActivityQuery = new CustomActivityQuery();
+		customActivityQuery.setCustmerId(customerId);
+		return customActivityQuery;
+	}
+
+	@Override
+	public BaseCommand getAccountConsume(long customerId, int changeAmt,
+			long orderId) {
+		// TODO Auto-generated method stub
+		AccountConsume accountConsume = new AccountConsume();
+		accountConsume.setOrderId(orderId);
+		accountConsume.setCustmerId(customerId);
+		accountConsume.setChangeAmt(changeAmt);
+		return accountConsume;
+	}
+
+	@Override
+	public BaseCommand getActivityConsume(long customerId, long orderId) {
+		// TODO Auto-generated method stub
+		ActivityConsume activityConsume = new ActivityConsume();
+		activityConsume.setCustmerId(customerId);
+		activityConsume.setOrderId(orderId);
+		return activityConsume;
+	}
 	
 }

@@ -40,6 +40,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
         super.onCreate(savedInstanceState);
 //        getDisHw();//获取屏幕分辨率，供后期使用
         requestWindowFeature(Window.FEATURE_NO_TITLE);
+      
         ActivityManage.getInstance().setCurContext(this);
 		ActivityManage.getInstance().addActivity(this);
 		
@@ -49,6 +50,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
         initContentView();
 //      setHwView();
     }
+    
     /**
      * 初始化控件
      */
@@ -75,7 +77,16 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 //                }
 //                transaction.replace(R.id.content, fragment).addToBackStack(null);
 //                transaction.commit();
-                FragmentUtils.switchContent(fragment, transaction);
+                if((((XiwaoApplication)getApplication()).isIfNeedRefreshOrder()) && checkedId == R.id.order_manager){
+                	FragmentUtils.removeFragment(fragment, transaction);
+                	FragmentFactory.orderManageFragment = new OrderManageFragment();
+                	fragment = FragmentFactory.getInstanceByIndex(checkedId);;
+                	FragmentUtils.refershContent(fragment, transaction);
+                	((XiwaoApplication)getApplication()).setIfNeedRefreshOrder(false);
+                }else{
+                	FragmentUtils.switchContent(fragment, transaction);
+                }
+             
             }
         });
     }
@@ -89,6 +100,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
+		ActivityManage.getInstance().setCurContext(this);
 		try{
 			ifOrderReturn = getIntent().getBooleanExtra(Constants.IF_ORDER_RETURN, false);
 		}catch(Exception e){
@@ -110,7 +122,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		// TODO Auto-generated method stub
 		super.onActivityResult(requestCode, resultCode, data);
-		AppLog.v(TAG, "收到反馈");
+		AppLog.v(TAG, "收到反馈requestCode:" + requestCode);
 		
 		switch(requestCode){
 		case Constants.ADD_CAR_RESULT_CODE:		//添加车辆返回
@@ -119,6 +131,12 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 			}
 			break;
 		case Constants.MODIFY_CAR_RESULT_CODE:	//修改车辆返回
+			if(resultCode == RESULT_OK){
+				fragment.onActivityResult(requestCode, resultCode, data);
+			}
+			break;
+		case Constants.CHECK_ORDER_RESULT_CODE:
+			AppLog.v(TAG, "更新订单列表1");
 			if(resultCode == RESULT_OK){
 				fragment.onActivityResult(requestCode, resultCode, data);
 			}

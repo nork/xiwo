@@ -9,13 +9,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class CustomActivityQuery extends BaseCommand{
-private final static String CMD = "customActivityQuery.do";
+private final static String CMD = "CustomActivityQuery.do";
 	
 	private final static String PARAMS_CUSTOMER_ID = "Customer_id";
 	
 	public final static String JSON_RESPONSE_TYPE = "ResponseType";
 	public final static String JSON_ERROR_MESSAGE = "ErrorMessage";
-	public final static String JSON_TIME = "Time";
+	public final static String JSON_TIME = "Times";
 	
 	private long customerId;
 	

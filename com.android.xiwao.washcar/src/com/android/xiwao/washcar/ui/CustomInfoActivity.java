@@ -87,4 +87,12 @@ public class CustomInfoActivity extends Activity{
 		email.setLayoutParams(listParams);
 		phone.setLayoutParams(listParams);
 	}
+
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		ActivityManage.getInstance().setCurContext(this);
+	}
+	
 }

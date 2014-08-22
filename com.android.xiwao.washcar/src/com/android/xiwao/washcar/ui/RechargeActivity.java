@@ -1,7 +1,11 @@
 package com.android.xiwao.washcar.ui;
 
+import java.io.IOException;
+
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Handler;
+import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
 import android.widget.Button;
@@ -10,8 +14,16 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.xiwao.washcar.ActivityManage;
+import com.android.xiwao.washcar.ClientSession;
+import com.android.xiwao.washcar.LocalSharePreference;
 import com.android.xiwao.washcar.R;
 import com.android.xiwao.washcar.XiwaoApplication;
+import com.android.xiwao.washcar.httpconnection.AccountCharge;
+import com.android.xiwao.washcar.httpconnection.AccountQuery;
+import com.android.xiwao.washcar.httpconnection.BaseCommand;
+import com.android.xiwao.washcar.httpconnection.BaseResponse;
+import com.android.xiwao.washcar.httpconnection.CommandExecuter;
+import com.android.xiwao.washcar.utils.DialogUtils;
 
 public class RechargeActivity extends Activity {
 
@@ -26,20 +38,37 @@ public class RechargeActivity extends Activity {
 	private Button btn800;
 	private Button btn1000;
 	private Button btn1200;
+	private Button backBtn;
 	
 	private Button rechargeBtn;
 	private Button cancelBtn;
+
+	// 工具
+	private DialogUtils dialogUtils;
+
+	// Preference数据存储对象
+	private LocalSharePreference mLocalSharePref;
+
+	// 网络访问相关对象
+	private Handler mHandler;
+	private CommandExecuter mExecuter;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		
 		ActivityManage.getInstance().setCurContext(this);
 		ActivityManage.getInstance().addActivity(this);
 
+		mLocalSharePref = new LocalSharePreference(this);
+		
 		setContentView(R.layout.recharge);
+		initExecuter();
+		initUtils();
 		initContentView();
 		setHwView();
+		getBalance();
 	}
 
 	private void initContentView() {		
@@ -57,9 +86,37 @@ public class RechargeActivity extends Activity {
 		btn800 = (Button) findViewById(R.id.btn800);
 		btn1000 = (Button) findViewById(R.id.btn1000);
 		btn1200 = (Button) findViewById(R.id.btn1200);
+		backBtn = (Button) findViewById(R.id.backbtn);
 		
 		rechargeBtn = (Button) findViewById(R.id.pay_now);
 		cancelBtn = (Button) findViewById(R.id.cannel_order);
+		
+		rechargeBtn.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				accountRecharge(200);
+			}
+		});
+		
+		cancelBtn.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				finish();
+			}
+		});
+		
+		backBtn.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				finish();
+			}
+		});
 	}
 
 	private void setHwView() {
@@ -99,6 +156,119 @@ public class RechargeActivity extends Activity {
 		rechargeBtn.setLayoutParams(btnParams);
 	}
 
+	private void getBalance(){
+		BaseCommand accountQuery = ClientSession.getInstance().getCmdFactory()
+				.getAccountQuery(mLocalSharePref.getUserId());
+
+		mExecuter.execute(accountQuery, mAccountQueryRespHandler);
+
+		dialogUtils.showProgress();
+	}
+	
+	public void onAccountQuerySuccess(long accountInfo){
+		curMoney.setText(Long.toString(accountInfo));
+	}
+	
+	/**
+	 * 处理服务器返回的车辆注册结果
+	 * @param rsp 服务返回的车辆注册结果信息
+	 */
+	private void onReceiveAccountQueryResponse(BaseResponse rsp) {
+
+		if (!rsp.isOK()) {
+			String error = getString(R.string.protocol_error) + "(" + rsp.errno
+					+ ")";
+			dialogUtils.showToast(error);
+		} else {
+			AccountQuery.Response accountQueryRsp = (AccountQuery.Response) rsp;
+			if (accountQueryRsp.responseType.equals("N")) {
+				onAccountQuerySuccess(accountQueryRsp.accountInfo);
+//				dialogUtils.showToast(accountQueryRsp.errorMessage);
+			} else {
+				dialogUtils.showToast(accountQueryRsp.errorMessage);
+			}
+		}
+	}
+	
+	private CommandExecuter.ResponseHandler mAccountQueryRespHandler = new CommandExecuter.ResponseHandler() {
+
+		public void handleResponse(BaseResponse rsp) {
+			onReceiveAccountQueryResponse(rsp);
+		}
+
+		public void handleException(IOException e) {
+			dialogUtils.showToast(getString(R.string.connection_error));
+		}
+
+		public void onEnd() {
+			dialogUtils.dismissProgress();
+		}
+	};
+	
+	private void accountRecharge(int money){
+		BaseCommand accountRecharge = ClientSession.getInstance().getCmdFactory()
+				.getAccountRecharge(mLocalSharePref.getUserId(), money);
+
+		mExecuter.execute(accountRecharge, mAccountRechargeRespHandler);
+
+		dialogUtils.showProgress();
+	}
+	
+	public void onAccountRechargeSuccess(long accountInfo){
+		curMoney.setText(Long.toString(accountInfo));
+	}
+	
+	/**
+	 * 处理服务器返回的车辆注册结果
+	 * @param rsp 服务返回的车辆注册结果信息
+	 */
+	private void onReceiveAccountRechargeResponse(BaseResponse rsp) {
+
+		if (!rsp.isOK()) {
+			String error = getString(R.string.protocol_error) + "(" + rsp.errno
+					+ ")";
+			dialogUtils.showToast(error);
+		} else {
+			AccountCharge.Response accountChargeRsp = (AccountCharge.Response) rsp;
+			if (accountChargeRsp.responseType.equals("N")) {
+				onAccountRechargeSuccess(accountChargeRsp.accountInfo);
+				dialogUtils.showToast(accountChargeRsp.errorMessage);
+			} else {
+				dialogUtils.showToast(accountChargeRsp.errorMessage);
+			}
+		}
+	}
+	
+	private CommandExecuter.ResponseHandler mAccountRechargeRespHandler = new CommandExecuter.ResponseHandler() {
+
+		public void handleResponse(BaseResponse rsp) {
+			onReceiveAccountRechargeResponse(rsp);
+		}
+
+		public void handleException(IOException e) {
+			dialogUtils.showToast(getString(R.string.connection_error));
+		}
+
+		public void onEnd() {
+			dialogUtils.dismissProgress();
+		}
+	};
+	
+	/**
+	 * 初始化需要的工具
+	 */
+	public void initUtils() {
+		dialogUtils = new DialogUtils();
+	}
+
+	private void initExecuter() {
+
+		mHandler = new Handler();
+
+		mExecuter = new CommandExecuter();
+		mExecuter.setHandler(mHandler);
+	}
+	
 	@Override
 	protected void onDestroy() {
 		// TODO Auto-generated method stub
@@ -115,6 +285,7 @@ public class RechargeActivity extends Activity {
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
+		ActivityManage.getInstance().setCurContext(this);
 	}
 
 	@Override

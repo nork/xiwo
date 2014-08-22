@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:id="@+id/header"
+        android:layout_width="fill_parent"
+        android:layout_height="45dp"
+        android:background="@android:color/white" >
+
+        <Button
+            android:id="@+id/backbtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:background="@drawable/backbt" />
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textColor="@color/orange"
+            android:text="@string/website_set"
+            android:textSize="20sp" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="0.1dip"
+            android:layout_alignParentBottom="true"
+            android:background="@color/orange" />
+    </RelativeLayout>
+	
+    <RelativeLayout android:id="@+id/websit"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:gravity="center_vertical"
+	    android:background="@color/white"
+	    >
+	    <TextView android:id="@+id/websit_info_title"
+	        android:layout_height="wrap_content"
+	        android:layout_width="wrap_content"
+	        android:text="@string/websit_info"
+	        android:textColor="@android:color/black"
+	        android:layout_centerVertical="true"
+	        android:layout_marginLeft="15dp"
+	        android:textSize="18sp"/>
+	    
+	    <Spinner android:id="@+id/websit_info"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_toRightOf="@+id/websit_info_title"
+	        android:layout_marginLeft="10dp"
+	        android:spinnerMode="dropdown"
+	        android:background="@null"
+	        android:layout_centerVertical="true"
+	        />
+		
+	</RelativeLayout>
+	
+    <RelativeLayout android:id="@+id/address"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:gravity="center_vertical"
+	    android:background="@color/white"
+	    android:layout_marginTop="0.1dip"
+	    >
+	    <TextView android:id="@+id/address_detail_title"
+	        android:layout_height="wrap_content"
+	        android:layout_width="wrap_content"
+	        android:text="@string/detail_address"
+	        android:textColor="@android:color/black"
+	        android:layout_marginLeft="15dp"
+	        android:layout_centerVertical="true"
+	        android:textSize="18sp"/>
+	    
+	    <EditText android:id="@+id/address_detail"
+	        android:layout_height="wrap_content"
+	        android:layout_width="fill_parent"
+	        android:layout_toRightOf="@+id/address_detail_title"
+	        android:layout_marginLeft="10dp"
+	        android:background="@null"
+	        android:layout_centerVertical="true"
+	        android:textColor="@android:color/black"
+	        android:hint="@string/please_detail_address"
+	        />
+
+	</RelativeLayout>
+	
+    <LinearLayout
+        android:id="@+id/button_group"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="1dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/cancel_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/blue_btn"
+            android:text="@string/cannel"
+            android:textColor="@color/white" 
+            android:textSize="18sp"/>
+
+        <Button
+            android:id="@+id/sure_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/orange_btn"
+            android:text="@string/sure"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+    </LinearLayout>
+</LinearLayout>

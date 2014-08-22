@@ -477,6 +477,14 @@ public class RegisterActivity extends Activity {
 		}
 	};
 	
+	
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		ActivityManage.getInstance().setCurContext(this);
+	}
+
 	class TimeCount extends CountDownTimer {
 		public TimeCount(long millisInFuture, long countDownInterval) {
 			super(millisInFuture, countDownInterval);// 参数依次为总时长,和计时的时间间隔

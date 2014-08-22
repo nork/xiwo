@@ -3,10 +3,10 @@ package com.android.xiwao.washcar;
 import android.app.Application;
 
 public class XiwaoApplication extends Application{
-	private static final String TAG = "XiwaoApplication";
 	private LocalSharePreference mLocalSharePref;
 	private int displayWidth;
 	private int displayHeight;
+	private boolean ifNeedRefreshOrder;
 	@Override
 	public void onCreate() {
 		// TODO Auto-generated method stub
@@ -30,5 +30,11 @@ public class XiwaoApplication extends Application{
 	}
 	public void setDisplayHeight(int displayHeight) {
 		this.displayHeight = displayHeight;
+	}
+	public boolean isIfNeedRefreshOrder() {
+		return ifNeedRefreshOrder;
+	}
+	public void setIfNeedRefreshOrder(boolean ifNeedRefreshOrder) {
+		this.ifNeedRefreshOrder = ifNeedRefreshOrder;
 	}
 }
