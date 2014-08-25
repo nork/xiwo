@@ -191,5 +191,16 @@ public class DefaultCommandFactory extends CommandFactory {
 		activityConsume.setOrderId(orderId);
 		return activityConsume;
 	}
+
+	@Override
+	public BaseCommand getCustomerModify(long customerId, String customerName,
+			String email) {
+		// TODO Auto-generated method stub
+		CustomerModify customerModify = new CustomerModify();
+		customerModify.setCustmerId(customerId);
+		customerModify.setCustomerName(customerName);
+		customerModify.setEmail(email);
+		return customerModify;
+	}
 	
 }

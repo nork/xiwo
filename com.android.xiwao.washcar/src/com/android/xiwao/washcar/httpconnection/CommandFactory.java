@@ -20,4 +20,5 @@ public abstract class CommandFactory {
 	public abstract BaseCommand getActivityQuery(long customerId);
 	public abstract BaseCommand getAccountConsume(long customerId, int changeAmt, long orderId);
 	public abstract BaseCommand getActivityConsume(long customerId, long orderId);
+	public abstract BaseCommand getCustomerModify(long customerId, String customerName, String email);
 }

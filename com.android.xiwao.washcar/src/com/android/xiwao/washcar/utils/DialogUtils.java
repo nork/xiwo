@@ -21,7 +21,12 @@ public class DialogUtils {
 	}
 	
 	public void showProgress(){
-		mProgressDlg = ProgressDialog.show(mContext, "", mContext.getString(R.string.wait_in_progress));
+//		mProgressDlg = new ProgressDialog(mContext, "", mContext.getString(R.string.wait_in_progress));
+		mProgressDlg = new ProgressDialog(mContext);
+		mProgressDlg.setCancelable(true);
+		mProgressDlg.setCanceledOnTouchOutside(false);
+		mProgressDlg.setMessage(mContext.getString(R.string.wait_in_progress));
+		mProgressDlg.show();
 	}
 	
 	public void dismissProgress(){

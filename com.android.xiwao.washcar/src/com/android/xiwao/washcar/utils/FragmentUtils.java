@@ -1,7 +1,6 @@
 package com.android.xiwao.washcar.utils;
 
 import com.android.xiwao.washcar.R;
-import com.android.xiwao.washcar.ui.OrderManageFragment;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;

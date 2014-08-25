@@ -38,7 +38,10 @@ import com.android.xiwao.washcar.utils.DialogUtils;
 public class OrderManageFragment extends BaseFragment {
 	private Context mContext;
 	private View view;
-	private ListView listView;
+	private ListView paidListView;
+	private ListView waitListView;
+	private ListView doneListView;
+	private ListView closeListView;
 	private Button paidBtn;
 	private Button waitPayBtn;
 	private Button completedBtn;
@@ -46,8 +49,14 @@ public class OrderManageFragment extends BaseFragment {
 	private TextView title;
 	private Button backBtn;
 
-	private OrderListAdapter orderListAdapter;
-	private List<OrderData> listOrderData = new ArrayList<OrderData>();
+	private OrderListAdapter paidOrderListAdapter;
+	private OrderListAdapter waitOrderListAdapter;
+	private OrderListAdapter doneOrderListAdapter;
+	private OrderListAdapter closeOrderListAdapter;
+	private List<OrderData> paidListOrderData = new ArrayList<OrderData>();
+	private List<OrderData> waitListOrderData = new ArrayList<OrderData>();
+	private List<OrderData> doneListOrderData = new ArrayList<OrderData>();
+	private List<OrderData> closeListOrderData = new ArrayList<OrderData>();
 	
 	// 工具
 	private DialogUtils dialogUtils;
@@ -60,6 +69,7 @@ public class OrderManageFragment extends BaseFragment {
 	private CommandExecuter mExecuter;
 	
 	private String orderClass;
+	private int curOrderClass;	//当前选中的订单类型  0 已支付 1 未支付 2 交易完成 3交易关闭
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -71,6 +81,7 @@ public class OrderManageFragment extends BaseFragment {
 		initContentView();
 		initAdapter();
 		setHwView();
+		curOrderClass = 0;
 		orderClass = "02";
 		getOrderListData();
 		return view;
@@ -80,7 +91,10 @@ public class OrderManageFragment extends BaseFragment {
 	public void initContentView() {
 		// TODO Auto-generated method stub
 		mContext = this.getActivity();
-		listView = (ListView) view.findViewById(R.id.order_list);
+		paidListView = (ListView) view.findViewById(R.id.paid_order_list);
+		waitListView = (ListView) view.findViewById(R.id.waitting_order_list);
+		doneListView = (ListView) view.findViewById(R.id.done_order_list);
+		closeListView = (ListView) view.findViewById(R.id.close_order_list);
 		paidBtn = (Button) view.findViewById(R.id.paid_btn);
 		waitPayBtn = (Button) view.findViewById(R.id.wait_pay_btn);
 		completedBtn = (Button) view.findViewById(R.id.completed_btn);
@@ -90,14 +104,14 @@ public class OrderManageFragment extends BaseFragment {
 
 		title.setText(getString(R.string.order_manage));
 
-		listView.setOnItemClickListener(new OnItemClickListener() {
+		paidListView.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
 				// TODO Auto-generated method stub
 				Intent intent = new Intent(mContext, OrderDetailActivity.class);
-				intent.putExtra("order_detail", listOrderData.get(arg2));
+				intent.putExtra("order_detail", paidListOrderData.get(arg2));
 				startActivityForResult(intent, Constants.CHECK_ORDER_RESULT_CODE);
 			}
 		});
@@ -108,7 +122,8 @@ public class OrderManageFragment extends BaseFragment {
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
-				getFocuse(paidBtn);			
+				getFocuse(paidBtn);		
+				curOrderClass = 0;
 			}
 		});
 		waitPayBtn.setOnClickListener(new View.OnClickListener() {
@@ -117,6 +132,7 @@ public class OrderManageFragment extends BaseFragment {
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
 				getFocuse(waitPayBtn);
+				curOrderClass = 1;
 			}
 		});
 		completedBtn.setOnClickListener(new View.OnClickListener() {
@@ -125,6 +141,7 @@ public class OrderManageFragment extends BaseFragment {
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
 				getFocuse(completedBtn);
+				curOrderClass = 2;
 			}
 		});
 		closedBtn.setOnClickListener(new View.OnClickListener() {
@@ -133,6 +150,7 @@ public class OrderManageFragment extends BaseFragment {
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
 				getFocuse(closedBtn);
+				curOrderClass = 3;
 			}
 		});
 	}
@@ -149,12 +167,12 @@ public class OrderManageFragment extends BaseFragment {
 	}
 
 	private void initAdapter() {
-		if (listOrderData.size() > 0) {
-			listOrderData.clear();
+		if (paidListOrderData.size() > 0) {
+			paidListOrderData.clear();
 		}
-		orderListAdapter = new OrderListAdapter(mContext, false,
+		paidOrderListAdapter = new OrderListAdapter(mContext, false,
 				R.layout.order_list_adapter);
-		listView.setAdapter(orderListAdapter);
+		paidListView.setAdapter(paidOrderListAdapter);
 	}
 
 	public void refreshInfoList(){
@@ -163,6 +181,20 @@ public class OrderManageFragment extends BaseFragment {
 	}
 	
 	private void getOrderListData(){
+		switch(curOrderClass){
+		case 0:
+			orderClass = "02";
+			break;
+		case 1:
+			orderClass = "01";
+			break;
+		case 2:
+			orderClass = "03";
+			break;
+		case 3:
+			orderClass = "04";
+			break;
+		}
 		BaseCommand carRegister = ClientSession.getInstance().getCmdFactory()
 				.getOrderQuery(mLocalSharePref.getUserId(), orderClass, 0, 100);
 
@@ -188,7 +220,7 @@ public class OrderManageFragment extends BaseFragment {
 		} else {
 			OrderQuery.Response orderQuery = (OrderQuery.Response) rsp;
 			if (orderQuery.responseType.equals("N")) {
-				listOrderData = orderQuery.orderDataList;
+				paidListOrderData = orderQuery.orderDataList;
 				onOrderQuerySuccess();
 //				dialogUtils.showToast(orderQuery.errorMessage);
 			} else {
@@ -213,7 +245,7 @@ public class OrderManageFragment extends BaseFragment {
 	};
 	
 	private void fetchList() {
-		orderListAdapter.addBriefs(listOrderData);
+		paidOrderListAdapter.addBriefs(paidListOrderData);
 	}
 
 	/**

@@ -2,9 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:background="@color/background"
     android:gravity="center_horizontal"
-    android:background="@color/background" >
+    android:orientation="vertical" >
+
     <RelativeLayout
         android:id="@+id/header"
         android:layout_width="fill_parent"
@@ -18,8 +19,8 @@
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="5dp"
-            android:background="@drawable/backbt" 
-            android:visibility="gone"/>
+            android:background="@drawable/backbt"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/title"
@@ -35,73 +36,113 @@
             android:layout_alignParentBottom="true"
             android:background="@color/orange" />
     </RelativeLayout>
-	
-    <LinearLayout android:id="@+id/button_group"
-        android:layout_height="wrap_content"
+
+    <LinearLayout
+        android:id="@+id/button_group"
         android:layout_width="fill_parent"
-        android:orientation="horizontal"
-        android:gravity="center_horizontal"
+        android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:background="@drawable/order_btn_group_bg"
-        >
-        <Button android:id="@+id/paid_btn"
-            android:layout_height="fill_parent"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/paid_btn"
             android:layout_width="wrap_content"
-            android:layout_weight="1"
+            android:layout_height="fill_parent"
             android:layout_margin="1dp"
+            android:layout_weight="1"
+            android:background="@drawable/paidbtn_bg"
             android:text="@string/paid"
-            android:textColor="@color/order_btn_textcolor_selector"
-            android:background="@drawable/paidbtn_bg"/>
-        <Button android:id="@+id/wait_pay_btn"
-            android:layout_height="fill_parent"
+            android:textColor="@color/order_btn_textcolor_selector" />
+
+        <Button
+            android:id="@+id/wait_pay_btn"
             android:layout_width="wrap_content"
-            android:layout_weight="1"
+            android:layout_height="fill_parent"
             android:layout_margin="1dp"
+            android:layout_weight="1"
+            android:background="@drawable/wait_pay_btn_bg"
             android:text="@string/wait_pay"
-            android:textColor="@color/order_btn_textcolor_selector"
-            android:background="@drawable/wait_pay_btn_bg"/>
-        <Button android:id="@+id/completed_btn"
-            android:layout_height="fill_parent"
+            android:textColor="@color/order_btn_textcolor_selector" />
+
+        <Button
+            android:id="@+id/completed_btn"
             android:layout_width="wrap_content"
-            android:layout_weight="1"
+            android:layout_height="fill_parent"
             android:layout_margin="1dp"
+            android:layout_weight="1"
+            android:background="@drawable/completed_btn_bg"
             android:text="@string/completed"
-            android:textColor="@color/order_btn_textcolor_selector"
-            android:background="@drawable/completed_btn_bg"/>
-        <Button android:id="@+id/closed_btn"
+            android:textColor="@color/order_btn_textcolor_selector" />
+
+        <Button
+            android:id="@+id/closed_btn"
+            android:layout_width="wrap_content"
             android:layout_height="fill_parent"
-            android:layout_width="wrap_content"
-            android:layout_weight="1"
             android:layout_margin="1dp"
+            android:layout_weight="1"
+            android:background="@drawable/closed_btn_bg"
             android:text="@string/closed"
-            android:textColor="@color/order_btn_textcolor_selector"
-            android:background="@drawable/closed_btn_bg"/>
-    </LinearLayout> 
-    
-    <RelativeLayout android:layout_width="fill_parent"
+            android:textColor="@color/order_btn_textcolor_selector" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        >
-        <TextView android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@android:color/black"
-            android:text="@string/this_month"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="10dp"/>
-        
-        <TextView android:id="@+id/all_pay"
-            android:layout_height="wrap_content"
+        android:layout_marginTop="10dp" >
+
+        <TextView
             android:layout_width="wrap_content"
-            android:textColor="@android:color/black"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="10dp"
+            android:text="@string/this_month"
+            android:textColor="@android:color/black" />
+
+        <TextView
+            android:id="@+id/all_pay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_marginRight="10dp"
-            />
+            android:textColor="@android:color/black" />
     </RelativeLayout>
-    <ListView android:id="@+id/order_list"
-        android:layout_height="fill_parent"
+
+    <ListView
+        android:id="@+id/paid_order_list"
         android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginTop="10dp"
         android:background="@null"
         android:divider="@null"
-        android:dividerHeight="1dp"
-        android:layout_marginTop="10dp"/> 
+        android:dividerHeight="1dp" />
+
+    <ListView
+        android:id="@+id/waitting_order_list"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginTop="10dp"
+        android:background="@null"
+        android:divider="@null"
+        android:dividerHeight="1dp" />
+
+    <ListView
+        android:id="@+id/done_order_list"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginTop="10dp"
+        android:background="@null"
+        android:divider="@null"
+        android:dividerHeight="1dp" />
+
+    <ListView
+        android:id="@+id/close_order_list"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginTop="10dp"
+        android:background="@null"
+        android:divider="@null"
+        android:dividerHeight="1dp" />
+
 </LinearLayout>
