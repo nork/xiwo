@@ -53,6 +53,7 @@ public class CarInfoEditActivity extends Activity {
 	
 	private CarInfo choiceCar;
 	private AddressData choiceAddress;
+	private String branchName;
 	
 	// 工具
 	private DialogUtils dialogUtils;
@@ -73,6 +74,7 @@ public class CarInfoEditActivity extends Activity {
 		ActivityManage.getInstance().addActivity(this);
 		mLocalSharePref = new LocalSharePreference(this);
 		mContext = this;
+		getAddrCarInfo();
 		setContentView(R.layout.car_info_edit);
 		initExecuter();
 		initUtils();
@@ -80,7 +82,7 @@ public class CarInfoEditActivity extends Activity {
 		setHwView();
 		initAdapter();
 		
-		((XiwaoApplication)getApplication()).setIfNeedRefreshOrder(true);
+//		((XiwaoApplication)getApplication()).setIfNeedRefreshOrder(true);
 	}
 
 	public void initContentView() {
@@ -102,12 +104,6 @@ public class CarInfoEditActivity extends Activity {
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
-//				radioButton.setChecked(true);
-//				Intent intent = new Intent(CarInfoEditActivity.this, PayDetailActivity.class);
-//				intent.putExtra("choice_car", choiceCar);
-//				intent.putExtra("choice_address", choiceAddress);
-//				intent.putExtra("mobile_num", contactEdt.getText().toString());
-//				startActivity(intent);
 				if(carNumEdt.getText().toString().length() <= 0){
 					dialogUtils.showToast("请填入车辆信息！");
 					return;
@@ -151,7 +147,14 @@ public class CarInfoEditActivity extends Activity {
 				startActivityForResult(intent, Constants.CHIOCE_ADDRESS_RESULT_CODE);
 			}
 		});
-	}
+		
+		if(choiceAddress != null){
+			websitEdt.setText(branchName + choiceAddress.getAddressDetail());
+		}
+		if(choiceCar != null){
+			carNumEdt.setText(choiceCar.getCarCode());
+		}
+	}	
 
 	private void placeOrder(){
 		String serviceType = "";
@@ -173,6 +176,7 @@ public class CarInfoEditActivity extends Activity {
 	}
 	
 	public void onPlaceOrderSuccess(int fee, long orderId){
+		saveAddrCarInfo();
 		((XiwaoApplication)getApplication()).setIfNeedRefreshOrder(true);
 		Intent intent = new Intent(CarInfoEditActivity.this, PayDetailActivity.class);
 		intent.putExtra("fee", fee);
@@ -279,6 +283,8 @@ public class CarInfoEditActivity extends Activity {
 		// 添加事件Spinner事件监听
 		spinnerServerType
 				.setOnItemSelectedListener(new SpinnerXMLSelectedListener());
+		
+		spinnerServerType.setSelection(getIntent().getIntExtra("service_type", 0));
 	}
 	
 	@Override
@@ -298,14 +304,33 @@ public class CarInfoEditActivity extends Activity {
 			break;
 		case Constants.CHIOCE_ADDRESS_RESULT_CODE:
 			choiceAddress = data.getParcelableExtra("choice_address");
-			String branchName = data.getStringExtra("branch_name");
+			branchName = data.getStringExtra("branch_name");
 			websitEdt.setText(branchName + choiceAddress.getAddressDetail());
 			break;
 		}
 	}
-	
-	
+	/**
+	 * 保存车辆和地址信息
+	 */
+	private void saveAddrCarInfo(){
+		mLocalSharePref.putStringPref(LocalSharePreference.USER_LAST_ADDRESS_DETAIL, choiceAddress.getAddressDetail());
+		mLocalSharePref.putStringPref(LocalSharePreference.USER_LAST_BRANCH_NAME, branchName);
+		mLocalSharePref.putStringPref(LocalSharePreference.USER_LAST_CAR_NUM, choiceCar.getCarCode());
+		mLocalSharePref.putLongPref(LocalSharePreference.USER_LAST_ADDRESS_ID, choiceAddress.getAddressId());
+		mLocalSharePref.putLongPref(LocalSharePreference.USER_LAST_CAR_ID, choiceCar.getCarId());
+		mLocalSharePref.putLongPref(LocalSharePreference.USER_LAST_DISTRACT_ID, choiceAddress.getDistractId());
+	}
 
+	private void getAddrCarInfo(){
+		choiceAddress = new AddressData();
+		choiceCar = new CarInfo();;
+		choiceAddress.setAddressDetail(mLocalSharePref.getStringPref(LocalSharePreference.USER_LAST_ADDRESS_DETAIL, ""));
+		choiceAddress.setAddressId(mLocalSharePref.getLongPref(LocalSharePreference.USER_LAST_ADDRESS_ID, 0));
+		choiceAddress.setDistractId(mLocalSharePref.getLongPref(LocalSharePreference.USER_LAST_DISTRACT_ID, 0));
+		choiceCar.setCarCode(mLocalSharePref.getStringPref(LocalSharePreference.USER_LAST_CAR_NUM, ""));
+		choiceCar.setCarId(mLocalSharePref.getLongPref(LocalSharePreference.USER_LAST_CAR_ID, 0));
+		branchName = mLocalSharePref.getStringPref(LocalSharePreference.USER_LAST_BRANCH_NAME, "");
+	}
 	@Override
 	protected void onResume() {
 		// TODO Auto-generated method stub

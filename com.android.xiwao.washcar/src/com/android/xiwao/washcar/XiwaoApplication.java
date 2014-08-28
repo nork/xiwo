@@ -7,6 +7,7 @@ public class XiwaoApplication extends Application{
 	private int displayWidth;
 	private int displayHeight;
 	private boolean ifNeedRefreshOrder;
+	private boolean ifNeedRefreshHeadImg;
 	@Override
 	public void onCreate() {
 		// TODO Auto-generated method stub
@@ -36,5 +37,11 @@ public class XiwaoApplication extends Application{
 	}
 	public void setIfNeedRefreshOrder(boolean ifNeedRefreshOrder) {
 		this.ifNeedRefreshOrder = ifNeedRefreshOrder;
+	}
+	public boolean isIfNeedRefreshHeadImg() {
+		return ifNeedRefreshHeadImg;
+	}
+	public void setIfNeedRefreshHeadImg(boolean ifNeedRefreshHeadImg) {
+		this.ifNeedRefreshHeadImg = ifNeedRefreshHeadImg;
 	}
 }

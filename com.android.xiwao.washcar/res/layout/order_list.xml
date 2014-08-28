@@ -109,40 +109,52 @@
             android:textColor="@android:color/black" />
     </RelativeLayout>
 
-    <ListView
+    <com.android.xiwao.washcar.ui.widget.PullToRefreshListView
         android:id="@+id/paid_order_list"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_marginTop="10dp"
         android:background="@null"
         android:divider="@null"
-        android:dividerHeight="1dp" />
+        android:dividerHeight="1dp"
+        />
 
-    <ListView
+    <com.android.xiwao.washcar.ui.widget.PullToRefreshListView
         android:id="@+id/waitting_order_list"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_marginTop="10dp"
         android:background="@null"
         android:divider="@null"
-        android:dividerHeight="1dp" />
+        android:dividerHeight="1dp" 
+        />
 
-    <ListView
+    <com.android.xiwao.washcar.ui.widget.PullToRefreshListView
         android:id="@+id/done_order_list"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_marginTop="10dp"
         android:background="@null"
         android:divider="@null"
-        android:dividerHeight="1dp" />
+        android:dividerHeight="1dp" 
+        />
 
-    <ListView
+    <com.android.xiwao.washcar.ui.widget.PullToRefreshListView
         android:id="@+id/close_order_list"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_marginTop="10dp"
         android:background="@null"
         android:divider="@null"
-        android:dividerHeight="1dp" />
+        android:dividerHeight="1dp"
+         />
 
+    <TextView android:id="@+id/no_order"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:text="无订单"
+        android:textSize="25sp"
+        android:layout_gravity="center"
+        android:visibility="gone"/>
 </LinearLayout>

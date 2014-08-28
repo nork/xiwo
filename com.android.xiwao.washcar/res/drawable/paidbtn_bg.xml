@@ -13,10 +13,18 @@
 
             <corners android:topLeftRadius="12dp" android:bottomLeftRadius="12dp"/>
         </shape></item>
+        
+    <!-- selected -->
+    <item android:state_selected="true"><shape>
+            <gradient android:angle="90" android:endColor="@color/orange" android:startColor="@color/orange" />
+
+            <corners android:topLeftRadius="12dp" android:bottomLeftRadius="12dp"/>
+        </shape></item>
 
     <item android:state_focused="false"><shape>
             <gradient android:angle="90" android:endColor="@color/white" android:startColor="@color/white" />
 
             <corners android:topLeftRadius="12dp" android:bottomLeftRadius="12dp"/>
         </shape></item>
+
 </selector>

@@ -1,9 +1,15 @@
 package com.android.xiwao.washcar.data;
 
+import java.io.Serializable;
+
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class AddressData implements Parcelable{
+public class AddressData implements Parcelable, Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private long addressId;
 	private String addressDetail;
 	private long distractId;

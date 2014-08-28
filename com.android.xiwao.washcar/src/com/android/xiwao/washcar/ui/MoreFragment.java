@@ -12,9 +12,10 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.android.xiwao.washcar.Constants;
+import com.android.xiwao.washcar.LocalSharePreference;
 import com.android.xiwao.washcar.R;
 import com.android.xiwao.washcar.XiwaoApplication;
+import com.android.xiwao.washcar.utils.DialogUtils;
 
 public class MoreFragment extends BaseFragment {
 	private Context mContext;
@@ -27,11 +28,18 @@ public class MoreFragment extends BaseFragment {
 	private RelativeLayout about;
 	private Button quitBtn;
 
+	// 工具
+	private DialogUtils dialogUtils;
+	// Preference数据存储对象
+	private LocalSharePreference mLocalSharePref;
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		mContext = getActivity();
 		view = inflater.inflate(R.layout.more, null);
+		mLocalSharePref = new LocalSharePreference(this.getActivity());
+		initUtils();
 		initContentView();
 		setHwView();
 		return view;
@@ -56,7 +64,8 @@ public class MoreFragment extends BaseFragment {
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
-				getActivity().finish();
+				mLocalSharePref.setLoginState(false);
+				dialogUtils.showExitDialog();
 			}
 		});
 
@@ -93,6 +102,14 @@ public class MoreFragment extends BaseFragment {
 		});
 	}
 
+
+	/**
+	 * 初始化需要的工具
+	 */
+	public void initUtils() {
+		dialogUtils = new DialogUtils();
+	}
+	
 	private void setHwView() {
 		int displayHeight = ((XiwaoApplication)getActivity().getApplication()).getDisplayHeight();
 		int displayWidth = ((XiwaoApplication)getActivity().getApplication()).getDisplayWidth();

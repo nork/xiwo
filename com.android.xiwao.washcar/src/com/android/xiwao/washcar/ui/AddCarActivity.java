@@ -42,6 +42,7 @@ public class AddCarActivity extends Activity {
 	private EditText carNumEdt;
 	private EditText carBrandEdt;
 	private EditText carColorEdt;
+	private Button addImgBtn;
 
 	@SuppressWarnings("rawtypes")
 	private ArrayAdapter typeAdapter;
@@ -61,6 +62,7 @@ public class AddCarActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		ActivityManage.getInstance().addActivity(this);
+		ActivityManage.getInstance().setCurContext(this);
 
 		mLocalSharePref = new LocalSharePreference(this);
 		setContentView(R.layout.add_car);
@@ -88,6 +90,7 @@ public class AddCarActivity extends Activity {
 		carBrandEdt = (EditText) findViewById(R.id.car_brand_edt);
 		carColorEdt = (EditText) findViewById(R.id.car_color_edt);
 		backBtn = (Button) findViewById(R.id.backbtn);
+		addImgBtn = (Button) findViewById(R.id.add);
 
 		TextView title = (TextView) findViewById(R.id.title);
 		title.setText(R.string.car_info);
@@ -219,6 +222,12 @@ public class AddCarActivity extends Activity {
 				(int) (displayHeight * 0.1f + 0.5f),
 				(int) (displayWidth * 0.03f + 0.5f), 0);
 		submitBtn.setLayoutParams(params);
+		
+		LinearLayout.LayoutParams imgParams = new LinearLayout.LayoutParams(
+				(int) (displayHeight * 0.12f + 0.5f),
+				(int) (displayHeight * 0.12f + 0.5f));
+		imgParams.setMargins(0, (int) (displayHeight * 0.04f + 0.5f), 0, 0);
+		addImgBtn.setLayoutParams(imgParams);
 	}
 
 	private void initAdapter() {
@@ -259,4 +268,11 @@ public class AddCarActivity extends Activity {
 		mExecuter = new CommandExecuter();
 		mExecuter.setHandler(mHandler);
 	}
+
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		ActivityManage.getInstance().setCurContext(this);
+		super.onResume();
+	}	
 }

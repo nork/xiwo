@@ -1,6 +1,7 @@
 package com.android.xiwao.washcar.ui;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +18,7 @@ import com.android.xiwao.washcar.httpconnection.BaseResponse;
 import com.android.xiwao.washcar.httpconnection.CarQuery;
 import com.android.xiwao.washcar.httpconnection.CommandExecuter;
 import com.android.xiwao.washcar.listadapter.CarInfoListAdapter;
+import com.android.xiwao.washcar.ui.widget.SwipeListView;
 import com.android.xiwao.washcar.utils.DialogUtils;
 
 import android.app.Activity;
@@ -24,20 +26,20 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Parcelable;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class CarListActivity extends Activity{
 	private static final String TAG = "CarListActivity";
 	private Context mContext;
-	private ListView carList;
+	private SwipeListView carList;
 	private CarInfoListAdapter carInfoListAdapter;
 	private List<CarInfo> carInfoListData = new ArrayList<CarInfo>();
 
@@ -53,6 +55,8 @@ public class CarListActivity extends Activity{
 	// 网络访问相关对象
 	private Handler mHandler;
 	private CommandExecuter mExecuter;
+	
+	private View mCurrentDisplayItemView;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -74,7 +78,7 @@ public class CarListActivity extends Activity{
 	public void initContentView() {
 		// TODO Auto-generated method stub
 		mContext = this;
-		carList = (ListView) findViewById(R.id.car_list);
+		carList = (SwipeListView) findViewById(R.id.car_list);
 		backBtn = (Button) findViewById(R.id.backbtn);
 		title = (TextView) findViewById(R.id.title);
 		title.setText(getString(R.string.car_info));
@@ -87,18 +91,25 @@ public class CarListActivity extends Activity{
 			}
 		});
 		
-		carList.setOnItemClickListener(new OnItemClickListener() {
-
-			@Override
-			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
-					long arg3) {
-				// TODO Auto-generated method stub
-				Intent intent = new Intent();
-				intent.putExtra("choice_car", carInfoListData.get(arg2));
-				setResult(RESULT_OK, intent);
-				finish();
-			}
-		});
+//		carList.setOnItemClickListener(new OnItemClickListener() {
+//
+//			@Override
+//			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+//					long arg3) {
+//				// TODO Auto-generated method stub
+//				Intent intent = new Intent();
+//				intent.putExtra("choice_car", (Parcelable)carInfoListData.get(arg2));
+//				setResult(RESULT_OK, intent);
+//				finish();
+//			}
+//		});
+		carList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(mContext, "item onclick " + position, Toast.LENGTH_SHORT)
+                        .show();
+            }
+        });
 	}
 
 	@Override
@@ -129,7 +140,34 @@ public class CarListActivity extends Activity{
 			carInfoListData.clear();
 		}
 		carInfoListAdapter = new CarInfoListAdapter(mContext, false,
-				R.layout.car_info_list_adapter);
+				R.layout.car_info_list_adapter, carList.getRightViewWidth());
+		carInfoListAdapter.setOnRightItemClickListener(new CarInfoListAdapter.onRightItemClickListener() {
+        	
+            @Override
+            public void onRightItemClick(View v, int position, int option) {
+            	
+            	switch(option){
+				case 1:		//删除
+					carInfoListData.remove(position);
+					carInfoListAdapter.addBriefs(carInfoListData);
+					break;
+				case 2:		//洗车
+					Intent intent = new Intent();
+					intent.putExtra("choice_car", (Parcelable)carInfoListData.get(position));
+					setResult(RESULT_OK, intent);
+					finish();
+					break;
+				case 3:		//点击编辑按钮
+					if(mCurrentDisplayItemView != v){
+						carList.showRightOnClick(v);
+						mCurrentDisplayItemView = v;
+					}else{
+						mCurrentDisplayItemView = null;
+					}
+					break;
+				}
+            }
+        });
 		carList.setAdapter(carInfoListAdapter);
 	}
 
@@ -137,6 +175,15 @@ public class CarListActivity extends Activity{
 	 * 填充数据
 	 */
 	private void fetchList() {
+
+		/*
+		 * 此处设置一个添加按钮，将洗车标记为-1时， 默认加载添加按钮
+		 */
+		if(carInfoListData.size() < 50){
+			CarInfo last = new CarInfo();	
+			last.setCarCode("-1");
+			carInfoListData.add(last);
+		}
 		carInfoListAdapter.addBriefs(carInfoListData);
 	}
 

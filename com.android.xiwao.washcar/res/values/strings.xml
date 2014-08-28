@@ -7,6 +7,10 @@
     <string name="wait_in_progress">加载中，请稍后...</string>
     <string name="connection_error">联接服务器错误!</string>
     <string name="protocol_error">通讯协议错误!</string>
+    <string name="remind">提示</string>
+    <string name="sure_exit">确认退出？</string>
+    <string name="yes">确定</string>
+    <string name="no">取消</string>
     <!-- MainActivity UI String-->
     <string name="main">首页</string>
     <string name="car_info">车辆信息</string>
@@ -81,7 +85,9 @@
     <string name="closed">交易关闭</string>
     <string name="serial_number">流水号</string>
     <string name="this_month">本月</string>
-    
+    <string name="pull_to_refresh_pull_label">下拉刷新&#8230;</string>
+    <string name="pull_to_refresh_release_label">松开刷新&#8230;</string>
+    <string name="pull_to_refresh_refreshing_label">加载中&#8230;</string>
     <!-- Pay detail ui String -->
     <string name="pay_title_txt">您的订单已提交成功，请在45分钟内支付金额，订单保留45分钟</string>
     <string name="web_center">网点中心</string>
@@ -121,6 +127,7 @@
     <string name="user_name">用户名</string>
     <string name="email">我的邮箱</string>
     <string name="my_phone">我的手机</string>
+    <string name="modify_info">修改个人信息</string>
     <!-- bank info list string -->
     <string name="choice_pay_type">选择付款方式</string>
     
@@ -132,6 +139,7 @@
     <string name="car_code_null_error">请输入车牌号码</string>
     <string name="car_brand_null_error">请输入汽车品牌</string>
     <string name="car_color_null_error">请输入汽车颜色</string>
+    <string name="add_img">添加照片</string>
     
     <!-- recharge ui -->
     <string name="user_recharge">账户充值</string>

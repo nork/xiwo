@@ -63,7 +63,18 @@ public class HomePageFragment extends BaseFragment{
 //				transaction.commit();
 //				FragmentUtils.switchContent(FragmentFactory, transaction);
 				Intent intent = new Intent(mContext, CarInfoEditActivity.class);
-//				startActivityForResult(intent, Constants.ADD_ORDER_RESULT_CODE);
+				intent.putExtra("service_type", 0);
+				startActivity(intent);
+			}
+		});
+		
+		washCarWaxBtn.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				Intent intent = new Intent(mContext, CarInfoEditActivity.class);
+				intent.putExtra("service_type", 1);
 				startActivity(intent);
 			}
 		});

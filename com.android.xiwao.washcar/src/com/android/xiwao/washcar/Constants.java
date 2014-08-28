@@ -9,6 +9,7 @@ public class Constants {
 	public final static int CHIOCE_ADDRESS_RESULT_CODE = 6;//选择地址
 	public final static int PAY_ORDER_RESULT_CODE = 7;	//订单付款
 	public final static int CHECK_ORDER_RESULT_CODE = 8; //查看订单返回
+	public final static int REFRESH_HEAD_IMG = 9;	//要求刷新头像图片
 	
 	public final static String CAR_INFO_SEND = "carinfosend";	//传递车辆信息key值
 	

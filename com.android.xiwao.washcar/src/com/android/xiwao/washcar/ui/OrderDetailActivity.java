@@ -93,6 +93,16 @@ public class OrderDetailActivity extends Activity {
 				startActivityForResult(intent, Constants.PAY_ORDER_RESULT_CODE);
 			}
 		});
+		
+		Button backBtn = (Button) findViewById(R.id.backbtn);
+		backBtn.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				finish();
+			}
+		});
 	}
 
 	private void fetchOrderData(){

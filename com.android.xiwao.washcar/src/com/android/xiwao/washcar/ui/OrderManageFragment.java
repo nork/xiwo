@@ -1,7 +1,6 @@
 package com.android.xiwao.washcar.ui;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
@@ -33,30 +32,33 @@ import com.android.xiwao.washcar.httpconnection.BaseResponse;
 import com.android.xiwao.washcar.httpconnection.CommandExecuter;
 import com.android.xiwao.washcar.httpconnection.OrderQuery;
 import com.android.xiwao.washcar.listadapter.OrderListAdapter;
+import com.android.xiwao.washcar.ui.widget.PullToRefreshBase.OnRefreshListener;
+import com.android.xiwao.washcar.ui.widget.PullToRefreshListView;
 import com.android.xiwao.washcar.utils.DialogUtils;
 
 public class OrderManageFragment extends BaseFragment {
 	private Context mContext;
 	private View view;
-	private ListView paidListView;
-	private ListView waitListView;
-	private ListView doneListView;
-	private ListView closeListView;
+	private PullToRefreshListView paidListView;
+	private PullToRefreshListView waitListView;
+	private PullToRefreshListView doneListView;
+	private PullToRefreshListView closeListView;
+	ListView paidList;
+	ListView waitList;
+	ListView doneList;
+	ListView closeList;
 	private Button paidBtn;
 	private Button waitPayBtn;
 	private Button completedBtn;
 	private Button closedBtn;
 	private TextView title;
-	private Button backBtn;
+	private TextView noOrder;
+//	private Button backBtn;
 
 	private OrderListAdapter paidOrderListAdapter;
 	private OrderListAdapter waitOrderListAdapter;
 	private OrderListAdapter doneOrderListAdapter;
 	private OrderListAdapter closeOrderListAdapter;
-	private List<OrderData> paidListOrderData = new ArrayList<OrderData>();
-	private List<OrderData> waitListOrderData = new ArrayList<OrderData>();
-	private List<OrderData> doneListOrderData = new ArrayList<OrderData>();
-	private List<OrderData> closeListOrderData = new ArrayList<OrderData>();
 	
 	// 工具
 	private DialogUtils dialogUtils;
@@ -70,6 +72,7 @@ public class OrderManageFragment extends BaseFragment {
 	
 	private String orderClass;
 	private int curOrderClass;	//当前选中的订单类型  0 已支付 1 未支付 2 交易完成 3交易关闭
+	private boolean ifNeedShowProg; //是否需要显示滚动条
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -91,39 +94,38 @@ public class OrderManageFragment extends BaseFragment {
 	public void initContentView() {
 		// TODO Auto-generated method stub
 		mContext = this.getActivity();
-		paidListView = (ListView) view.findViewById(R.id.paid_order_list);
-		waitListView = (ListView) view.findViewById(R.id.waitting_order_list);
-		doneListView = (ListView) view.findViewById(R.id.done_order_list);
-		closeListView = (ListView) view.findViewById(R.id.close_order_list);
+		paidListView = (PullToRefreshListView) view.findViewById(R.id.paid_order_list);
+		waitListView = (PullToRefreshListView) view.findViewById(R.id.waitting_order_list);
+		doneListView = (PullToRefreshListView) view.findViewById(R.id.done_order_list);
+		closeListView = (PullToRefreshListView) view.findViewById(R.id.close_order_list);
 		paidBtn = (Button) view.findViewById(R.id.paid_btn);
 		waitPayBtn = (Button) view.findViewById(R.id.wait_pay_btn);
 		completedBtn = (Button) view.findViewById(R.id.completed_btn);
 		closedBtn = (Button) view.findViewById(R.id.closed_btn);
 		title = (TextView) view.findViewById(R.id.title);
-		backBtn = (Button) view.findViewById(R.id.backbtn);
+		noOrder = (TextView) view.findViewById(R.id.no_order);
+//		backBtn = (Button) view.findViewById(R.id.backbtn);
 
-		title.setText(getString(R.string.order_manage));
-
-		paidListView.setOnItemClickListener(new OnItemClickListener() {
-
-			@Override
-			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
-					long arg3) {
-				// TODO Auto-generated method stub
-				Intent intent = new Intent(mContext, OrderDetailActivity.class);
-				intent.putExtra("order_detail", paidListOrderData.get(arg2));
-				startActivityForResult(intent, Constants.CHECK_ORDER_RESULT_CODE);
-			}
-		});
-
-		getFocuse(paidBtn); 	//初次加载时已经支付按钮默认选中
+		setListViewOnEvent();
+		title.setText(getString(R.string.order_manage)); 	
+		paidBtn.setSelected(true);//初次加载时已经支付按钮默认选中
+//		paidListView.setVisibility(View.GONE);
+		setListDisplay(paidListView);
 		paidBtn.setOnClickListener(new View.OnClickListener() {
 
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
-				getFocuse(paidBtn);		
+				setSelected(paidBtn);	
+				setListDisplay(paidListView);
 				curOrderClass = 0;
+				if(paidOrderListAdapter.isEmpty()){
+					getOrderListData();
+				}
+//				paidListView.setVisibility(View.VISIBLE);
+//				waitListView.setVisibility(View.GONE);
+//				doneListView.setVisibility(View.GONE);
+//				closeListView.setVisibility(View.GONE);
 			}
 		});
 		waitPayBtn.setOnClickListener(new View.OnClickListener() {
@@ -131,8 +133,16 @@ public class OrderManageFragment extends BaseFragment {
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
-				getFocuse(waitPayBtn);
+				setSelected(waitPayBtn);
+				setListDisplay(waitListView);
 				curOrderClass = 1;
+				if(waitOrderListAdapter.isEmpty()){
+					getOrderListData();
+				}
+//				paidListView.setVisibility(View.GONE);
+//				waitListView.setVisibility(View.VISIBLE);
+//				doneListView.setVisibility(View.GONE);
+//				closeListView.setVisibility(View.GONE);
 			}
 		});
 		completedBtn.setOnClickListener(new View.OnClickListener() {
@@ -140,8 +150,16 @@ public class OrderManageFragment extends BaseFragment {
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
-				getFocuse(completedBtn);
+				setSelected(completedBtn);
+				setListDisplay(doneListView);
 				curOrderClass = 2;
+				if(doneOrderListAdapter.isEmpty()){
+					getOrderListData();
+				}
+//				paidListView.setVisibility(View.GONE);
+//				waitListView.setVisibility(View.GONE);
+//				doneListView.setVisibility(View.VISIBLE);
+//				closeListView.setVisibility(View.GONE);
 			}
 		});
 		closedBtn.setOnClickListener(new View.OnClickListener() {
@@ -149,30 +167,78 @@ public class OrderManageFragment extends BaseFragment {
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
-				getFocuse(closedBtn);
+				setSelected(closedBtn);
+				setListDisplay(closeListView);
 				curOrderClass = 3;
+				if(closeOrderListAdapter.isEmpty()){
+					getOrderListData();
+				}
+//				paidListView.setVisibility(View.GONE);
+//				waitListView.setVisibility(View.GONE);
+//				doneListView.setVisibility(View.GONE);
+//				closeListView.setVisibility(View.VISIBLE);
 			}
 		});
 	}
 	
+	private void setSelected(View view){
+		switch(curOrderClass){
+		case 0:
+			paidBtn.setSelected(false);
+			break;
+		case 1:
+			waitPayBtn.setSelected(false);
+			break;
+		case 2:
+			completedBtn.setSelected(false);
+			break;
+		case 3:
+			closedBtn.setSelected(false);
+			break;
+		}
+		view.setSelected(true);
+	}
 	/**
-	 * 控件获取焦点
-	 * @param view 需要获取焦点的控件
+	 * 设置列表的宽高度以达到隐藏和显示列表功能（此函数只用于4个上拉刷新列表。由于其4个列表的setVisibility方法无效（未找到原因），所以暂时用这个方法代替）
+	 * @param view
 	 */
-	private void getFocuse(View view){
-		view.setFocusable(true);
-		view.setFocusableInTouchMode(true);
-		view.requestFocus();
-		view.requestFocusFromTouch();
+	private void setListDisplay(PullToRefreshListView view){	
+		LinearLayout.LayoutParams listParams = new LinearLayout.LayoutParams(0, 0);
+		switch(curOrderClass){
+		case 0:
+			paidListView.setLayoutParams(listParams);
+			break;
+		case 1:
+			waitListView.setLayoutParams(listParams);
+			break;
+		case 2:
+			doneListView.setLayoutParams(listParams);
+			break;
+		case 3:
+			closeListView.setLayoutParams(listParams);
+			break;
+		}
+		
+		listParams = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+		view.setLayoutParams(listParams);
 	}
 
 	private void initAdapter() {
-		if (paidListOrderData.size() > 0) {
-			paidListOrderData.clear();
-		}
 		paidOrderListAdapter = new OrderListAdapter(mContext, false,
 				R.layout.order_list_adapter);
-		paidListView.setAdapter(paidOrderListAdapter);
+		paidList.setAdapter(paidOrderListAdapter);
+		
+		waitOrderListAdapter = new OrderListAdapter(mContext, false,
+				R.layout.order_list_adapter);
+		waitList.setAdapter(waitOrderListAdapter);
+		
+		doneOrderListAdapter = new OrderListAdapter(mContext, false,
+				R.layout.order_list_adapter);
+		doneList.setAdapter(doneOrderListAdapter);
+		
+		closeOrderListAdapter = new OrderListAdapter(mContext, false,
+				R.layout.order_list_adapter);
+		closeList.setAdapter(closeOrderListAdapter);
 	}
 
 	public void refreshInfoList(){
@@ -200,11 +266,13 @@ public class OrderManageFragment extends BaseFragment {
 
 		mExecuter.execute(carRegister, mOrderQueryRespHandler);
 
-		dialogUtils.showProgress();
+		if(!ifNeedShowProg){
+			dialogUtils.showProgress();
+		}
 	}
 	
-	public void onOrderQuerySuccess(){
-		fetchList();
+	public void onOrderQuerySuccess(List<OrderData> listOrderData){
+		fetchList(listOrderData);
 	}
 	
 	/**
@@ -220,11 +288,12 @@ public class OrderManageFragment extends BaseFragment {
 		} else {
 			OrderQuery.Response orderQuery = (OrderQuery.Response) rsp;
 			if (orderQuery.responseType.equals("N")) {
-				paidListOrderData = orderQuery.orderDataList;
-				onOrderQuerySuccess();
+//				paidListOrderData = orderQuery.orderDataList;
+				onOrderQuerySuccess(orderQuery.orderDataList);
 //				dialogUtils.showToast(orderQuery.errorMessage);
 			} else {
-				dialogUtils.showToast(orderQuery.errorMessage);
+				dialogUtils.showToast(orderQuery.errorMessage); 
+				ifNeedShowProg = false;
 			}
 		}
 	}
@@ -237,15 +306,80 @@ public class OrderManageFragment extends BaseFragment {
 
 		public void handleException(IOException e) {
 			dialogUtils.showToast(getString(R.string.connection_error));
+			ifNeedShowProg = false;
 		}
 
 		public void onEnd() {
 			dialogUtils.dismissProgress();
+			switch(curOrderClass){
+			case 0:
+				paidListView.onRefreshComplete();
+				break;
+			case 1:
+				waitListView.onRefreshComplete();
+				break;
+			case 2:
+				doneListView.onRefreshComplete();
+				break;
+			case 3:
+				closeListView.onRefreshComplete();
+				break;
+			}
+//			ifNeedShowProg = false;
 		}
 	};
 	
-	private void fetchList() {
-		paidOrderListAdapter.addBriefs(paidListOrderData);
+	private void fetchList(List<OrderData> listOrderData) {
+		switch(curOrderClass){
+		case 0:
+			if(ifNeedShowProg){//此处利用已有的显示滚动条的标记用来分辨是否需要刷新列表
+				paidOrderListAdapter.refreshBriefs(listOrderData);
+				ifNeedShowProg = false;		//完成之后需要将此标记置为false，防止对下一次的刷新产生影响
+			}else{
+				paidOrderListAdapter.addBriefs(listOrderData);
+			}
+			if(paidOrderListAdapter.isEmpty()){
+				paidListView.setVisibility(View.GONE);
+				noOrder.setVisibility(View.VISIBLE);
+			}
+			break;
+		case 1:
+			if(ifNeedShowProg){//此处利用已有的显示滚动条的标记用来分辨是否需要刷新列表
+				waitOrderListAdapter.refreshBriefs(listOrderData);
+				ifNeedShowProg = false;
+			}else{
+				waitOrderListAdapter.addBriefs(listOrderData);
+			}
+			if(waitOrderListAdapter.isEmpty()){
+				waitListView.setVisibility(View.GONE);
+				noOrder.setVisibility(View.VISIBLE);
+			}
+			break;
+		case 2:
+			if(ifNeedShowProg){//此处利用已有的显示滚动条的标记用来分辨是否需要刷新列表
+				doneOrderListAdapter.refreshBriefs(listOrderData);
+				ifNeedShowProg = false;
+			}else{
+				doneOrderListAdapter.addBriefs(listOrderData);
+			}
+			if(doneOrderListAdapter.isEmpty()){
+				doneListView.setVisibility(View.GONE);
+				noOrder.setVisibility(View.VISIBLE);
+			}
+			break;
+		case 3:
+			if(ifNeedShowProg){		//此处利用已有的显示滚动条的标记用来分辨是否需要刷新列表
+				closeOrderListAdapter.refreshBriefs(listOrderData);
+				ifNeedShowProg = false;
+			}else{
+				closeOrderListAdapter.addBriefs(listOrderData);
+			}
+			if(closeOrderListAdapter.isEmpty()){
+				closeListView.setVisibility(View.GONE);
+				noOrder.setVisibility(View.VISIBLE);
+			}
+			break;
+		}
 	}
 
 	/**
@@ -271,6 +405,96 @@ public class OrderManageFragment extends BaseFragment {
 //		getOrderListData();
 //	}
 
+	private void setListViewOnEvent(){
+		paidList = paidListView.getRefreshableView();
+		waitList = waitListView.getRefreshableView();
+		doneList = doneListView.getRefreshableView();
+		closeList = closeListView.getRefreshableView();
+		
+		paidListView.setOnRefreshListener(new OnRefreshListener() {
+			@Override
+			public void onRefresh() {
+				// Do work to refresh the list here.
+				ifNeedShowProg = true;
+				getOrderListData();
+			}
+		});
+		
+		waitListView.setOnRefreshListener(new OnRefreshListener() {
+			@Override
+			public void onRefresh() {
+				// Do work to refresh the list here.
+				ifNeedShowProg = true;
+				getOrderListData();
+			}
+		});
+		
+		doneListView.setOnRefreshListener(new OnRefreshListener() {
+			@Override
+			public void onRefresh() {
+				// Do work to refresh the list here.
+				ifNeedShowProg = true;
+				getOrderListData();
+			}
+		});
+		
+		closeListView.setOnRefreshListener(new OnRefreshListener() {
+			@Override
+			public void onRefresh() {
+				// Do work to refresh the list here.
+				ifNeedShowProg = true;
+				getOrderListData();
+			}
+		});
+		paidList.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+					long arg3) {
+				// TODO Auto-generated method stub
+				Intent intent = new Intent(mContext, OrderDetailActivity.class);
+				intent.putExtra("order_detail", (OrderData)paidOrderListAdapter.getItem(arg2 - 1));
+				startActivityForResult(intent, Constants.CHECK_ORDER_RESULT_CODE);
+			}
+		});
+		
+		waitList.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+					long arg3) {
+				// TODO Auto-generated method stub
+				Intent intent = new Intent(mContext, OrderDetailActivity.class);
+				intent.putExtra("order_detail", (OrderData)waitOrderListAdapter.getItem(arg2 - 1));
+				startActivityForResult(intent, Constants.CHECK_ORDER_RESULT_CODE);
+			}
+		});
+		
+		doneList.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+					long arg3) {
+				// TODO Auto-generated method stub
+				Intent intent = new Intent(mContext, OrderDetailActivity.class);
+				intent.putExtra("order_detail", (OrderData)doneOrderListAdapter.getItem(arg2 - 1));
+				startActivityForResult(intent, Constants.CHECK_ORDER_RESULT_CODE);
+			}
+		});
+		
+		closeList.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+					long arg3) {
+				// TODO Auto-generated method stub
+				Intent intent = new Intent(mContext, OrderDetailActivity.class);
+				intent.putExtra("order_detail", (OrderData)closeOrderListAdapter.getItem(arg2 - 1));
+				startActivityForResult(intent, Constants.CHECK_ORDER_RESULT_CODE);
+			}
+		});
+	}
+	
 	public void setHwView() {
 		int displayHeight = ((XiwaoApplication) getActivity().getApplication())
 				.getDisplayHeight();

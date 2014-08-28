@@ -3,7 +3,8 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical"
-    android:background="@color/background" >
+    android:background="@color/background"
+    android:gravity="center_horizontal" >
     <RelativeLayout
         android:id="@+id/header"
         android:layout_width="fill_parent"
@@ -33,6 +34,15 @@
             android:layout_alignParentBottom="true"
             android:background="@color/orange" />
     </RelativeLayout>
+    
+    <Button android:id="@+id/add"
+	        android:layout_height="100dp"
+	        android:layout_width="100dp"
+	        android:text="@string/add_img"
+	        android:textColor="@color/grey"
+	        android:textSize="18sp"
+	        android:background="@drawable/dotted_line_gray"
+	        />
     <RelativeLayout android:id="@+id/car_num"
 	    android:layout_width="fill_parent"
 	    android:layout_height="wrap_content"
@@ -147,6 +157,7 @@
 	    android:gravity="center_vertical"
 	    android:background="@color/white"
 	    android:layout_marginTop="0.1dip"
+	    android:visibility="gone"
 	    >
 	    <TextView android:id="@+id/car_pic_title"
 	        android:layout_height="wrap_content"

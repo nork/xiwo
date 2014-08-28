@@ -1,5 +1,7 @@
 package com.android.xiwao.washcar.data;
 
+import java.io.Serializable;
+
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -8,7 +10,11 @@ import android.os.Parcelable;
  * @author hpq
  *
  */
-public class CarInfo implements Parcelable{
+public class CarInfo implements Parcelable, Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private long customerId;
 	private long carId;
 	private String carCode;

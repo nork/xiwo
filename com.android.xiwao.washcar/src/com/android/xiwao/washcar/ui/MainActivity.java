@@ -83,10 +83,13 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
                 	fragment = FragmentFactory.getInstanceByIndex(checkedId);;
                 	FragmentUtils.refershContent(fragment, transaction);
                 	((XiwaoApplication)getApplication()).setIfNeedRefreshOrder(false);
+                }else if((((XiwaoApplication)getApplication()).isIfNeedRefreshHeadImg()) && checkedId == R.id.car_info){
+                	FragmentUtils.switchContent(fragment, transaction);
+                	fragment.onActivityResult(Constants.REFRESH_HEAD_IMG, RESULT_OK, null);
+                	((XiwaoApplication)getApplication()).setIfNeedRefreshHeadImg(false);
                 }else{
                 	FragmentUtils.switchContent(fragment, transaction);
-                }
-             
+                }  
             }
         });
     }

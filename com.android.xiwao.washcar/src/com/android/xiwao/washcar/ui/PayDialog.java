@@ -28,7 +28,6 @@ import com.android.xiwao.washcar.R;
 import com.android.xiwao.washcar.XiwaoApplication;
 import com.android.xiwao.washcar.alipay.Keys;
 import com.android.xiwao.washcar.alipay.Rsa;
-import com.android.xiwao.washcar.data.OrderData;
 import com.android.xiwao.washcar.httpconnection.AccountConsume;
 import com.android.xiwao.washcar.httpconnection.AccountQuery;
 import com.android.xiwao.washcar.httpconnection.ActivityConsume;

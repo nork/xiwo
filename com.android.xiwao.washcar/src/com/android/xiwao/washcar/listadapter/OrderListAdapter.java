@@ -36,12 +36,18 @@ public class OrderListAdapter extends BaseAdapter{
 		mlayout = paramInt;
 	}
 	
+	public void refreshBriefs(List<OrderData> mList){
+		this.mList = mList;
+		notifyDataSetChanged();
+	}
+	
 	public void addBriefs(List<OrderData> mList){
 		for(int i = 0; i<mList.size(); i++){
 			this.mList.add(mList.get(i));
 		}
 		notifyDataSetChanged();
 	}
+
 	@Override
 	public int getCount() {
 		// TODO Auto-generated method stub

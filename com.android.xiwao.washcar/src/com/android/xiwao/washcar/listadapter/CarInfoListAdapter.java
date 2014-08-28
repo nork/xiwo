@@ -9,10 +9,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -29,27 +31,21 @@ public class CarInfoListAdapter extends BaseAdapter{
 	Context mContext;
 	private LayoutInflater mInflater;
 	Boolean mInternetpic;
-	public List<CarInfo> mList;
+	public List<CarInfo> mList;	
+	private int mRightWidth = 0;
 	int mlayout;
-	public CarInfoListAdapter(Context paramContext, Boolean paramBoolean, int paramInt){
+	public CarInfoListAdapter(Context paramContext, Boolean paramBoolean, int paramInt, int rightWidth){
 		mContext = paramContext;
 		mInflater = LayoutInflater.from(mContext);
 		mList = new ArrayList<CarInfo>();
 		mInternetpic = paramBoolean;
 		mlayout = paramInt;
+		mRightWidth = rightWidth;
 	}
 	
 	public void addBriefs(List<CarInfo> mList){
 		this.mList = mList;
 		
-		/*
-		 * 此处设置一个添加按钮，将洗车标记为-1时， 默认加载添加按钮
-		 */
-		if(this.mList.size() < 5){
-			CarInfo last = new CarInfo();	
-			last.setCarCode("-1");
-			this.mList.add(last);
-		}
 		notifyDataSetChanged();
 	}
 	
@@ -77,26 +73,29 @@ public class CarInfoListAdapter extends BaseAdapter{
 	}
 
 	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
+	public View getView(final int position, View convertView, ViewGroup parent) {
 		// TODO Auto-generated method stub
 		final int pos = position;
 		ViewHolder viewHolder;
-		if(convertView == null){
+//		if(convertView == null){
 			viewHolder = new ViewHolder();
 			convertView = LayoutInflater.from(mContext).inflate(R.layout.car_info_list_adapter, null);
 			viewHolder.carImg = (ImageView) convertView.findViewById(R.id.car_img);
 			viewHolder.carInfo = (RelativeLayout) convertView.findViewById(R.id.car_info);
 			viewHolder.carNumTitle = (TextView) convertView.findViewById(R.id.car_num_title);
-			viewHolder.washBtn = (TextView) convertView.findViewById(R.id.wash_button);
-			viewHolder.waxBtn = (TextView) convertView.findViewById(R.id.wax_button);
 			viewHolder.carAddr = (TextView) convertView.findViewById(R.id.car_addr);
 			viewHolder.money = (TextView) convertView.findViewById(R.id.money);
 			viewHolder.addCar = (TextView) convertView.findViewById(R.id.add_car);
 			viewHolder.carNum = (TextView) convertView.findViewById(R.id.car_num);
+			viewHolder.editBtn = (Button) convertView.findViewById(R.id.edit_btn);
+			
+			viewHolder.itemLeft = (RelativeLayout)convertView.findViewById(R.id.item_left);
+			viewHolder.itemRightDelete = (RelativeLayout)convertView.findViewById(R.id.item_right_delete);
+			viewHolder.itemRightWash = (RelativeLayout)convertView.findViewById(R.id.item_right_wash);
 			convertView.setTag(viewHolder);
-		}else{
-			viewHolder = (ViewHolder) convertView.getTag();
-		}
+//		}else{
+//			viewHolder = (ViewHolder) convertView.getTag();
+//		}
 		
 		CarInfo singleCarInfo = this.mList.get(position);
 		viewHolder.carNum.setText(singleCarInfo.getCarCode());
@@ -107,8 +106,18 @@ public class CarInfoListAdapter extends BaseAdapter{
 			viewHolder.carInfo.setVisibility(View.GONE);
 			viewHolder.money.setVisibility(View.GONE);
 			viewHolder.addCar.setVisibility(View.VISIBLE);
+			viewHolder.editBtn.setVisibility(View.GONE);
+			convertView.setOnClickListener(new View.OnClickListener() {
+				
+				@Override
+				public void onClick(View arg0) {
+					// TODO Auto-generated method stub
+					Intent i = new Intent(mContext, AddCarActivity.class);
+					((Activity)mContext).startActivityForResult(i, Constants.ADD_CAR_RESULT_CODE);
+				}
+			});
 		}
-		
+			
 		viewHolder.addCar.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
@@ -131,11 +140,44 @@ public class CarInfoListAdapter extends BaseAdapter{
 				((Activity)mContext).startActivityForResult(i, Constants.MODIFY_CAR_RESULT_CODE);
 			}
 		});
-		
-		AbsListView.LayoutParams params;			
-		params = new AbsListView.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-		convertView.setLayoutParams(params);
-		
+
+		LinearLayout.LayoutParams lp1 = new LayoutParams(LayoutParams.MATCH_PARENT,
+                LayoutParams.MATCH_PARENT);
+		viewHolder.itemLeft.setLayoutParams(lp1);
+		LinearLayout.LayoutParams lp2 = new LayoutParams(mRightWidth / 2, LayoutParams.MATCH_PARENT);       
+        viewHolder.itemRightDelete.setLayoutParams(lp2);
+        viewHolder.itemRightWash.setLayoutParams(lp2);
+        
+        viewHolder.itemRightDelete.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mListener != null) {
+                    mListener.onRightItemClick(v, position, 1);
+                }
+            }
+        });
+        
+        viewHolder.itemRightWash.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mListener != null) {
+                    mListener.onRightItemClick(v, position, 2);
+                }
+            }
+        });
+        final View view = convertView;
+        viewHolder.editBtn.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+//				view.scrollTo(400, 0);
+				if (mListener != null) {
+					mListener.onRightItemClick(view, position, 3);
+				}
+			}
+		});
+        
 		return convertView;
 	}
 	
@@ -149,6 +191,24 @@ public class CarInfoListAdapter extends BaseAdapter{
 		TextView money;
 		TextView addCar;
 		TextView carNum;
+		Button editBtn;
+		
+		RelativeLayout itemLeft;
+    	RelativeLayout itemRightDelete;
+    	RelativeLayout itemRightWash;
 	}
+	
+	/**
+     * 单击事件监听器
+     */
+    private onRightItemClickListener mListener = null;
+    
+    public void setOnRightItemClickListener(onRightItemClickListener listener){
+    	mListener = listener;
+    }
+
+    public interface onRightItemClickListener {
+        void onRightItemClick(View v, int position, int option);
+    }
 
 }

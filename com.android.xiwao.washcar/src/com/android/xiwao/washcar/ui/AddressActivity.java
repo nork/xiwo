@@ -104,7 +104,7 @@ public class AddressActivity extends Activity {
 					long arg3) {
 				// TODO Auto-generated method stub
 				Intent intent = new Intent();
-				intent.putExtra("choice_address", addressListData.get(arg2));
+				intent.putExtra("choice_address", (Parcelable)addressListData.get(arg2));
 				setResult(RESULT_OK, intent);
 				finish();
 			}
@@ -119,6 +119,15 @@ public class AddressActivity extends Activity {
 		LinearLayout.LayoutParams titleParams = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT
 				, (int)(displayHeight * 0.08f + 0.5f));
 		title.setLayoutParams(titleParams);
+		
+		
+		LinearLayout.LayoutParams addressBtnParams = new LinearLayout.LayoutParams(
+				(int) (displayWidth * 0.94f + 0.5f),
+				(int) (displayHeight * 0.08f + 0.5f));
+		addressBtnParams.setMargins((int) (displayWidth * 0.03f + 0.5f),
+				(int) (displayHeight * 0.02f + 0.5f),
+				(int) (displayWidth * 0.03f + 0.5f), 0);
+		addAddressBtn.setLayoutParams(addressBtnParams);
 	}
 	/**
 	 * 填充地址列表信息

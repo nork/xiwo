@@ -60,7 +60,7 @@
             android:layout_toRightOf="@+id/custom_img" />
     </RelativeLayout>
 
-    <ListView
+    <com.android.xiwao.washcar.ui.widget.SwipeListView
         android:id="@+id/car_list"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"

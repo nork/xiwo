@@ -13,6 +13,13 @@
 
             <corners android:topRightRadius="12dp" android:bottomRightRadius="12dp"/>
         </shape></item>
+        
+    <!-- selected -->
+    <item android:state_selected="true"><shape>
+            <gradient android:angle="270" android:endColor="@color/orange" android:startColor="@color/orange" />
+
+            <corners android:topRightRadius="12dp" android:bottomRightRadius="12dp"/>
+        </shape></item>
 
     <item android:state_focused="false"><shape>
             <gradient android:angle="270" android:endColor="@color/white" android:startColor="@color/white" />

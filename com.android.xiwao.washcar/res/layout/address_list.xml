@@ -127,6 +127,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="添加新地址"
+        android:textColor="@color/white"
+        android:textSize="18sp"
         android:layout_marginTop="20dp"
+        android:background="@drawable/orange_btn_bg"
         android:layout_gravity="center_horizontal"/>
 </LinearLayout>
