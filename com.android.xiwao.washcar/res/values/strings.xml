@@ -98,6 +98,7 @@
     <string name="account_money_pay">账号余额付款</string>
     <string name="activity_pay">免费活动</string>
     <string name="sure_pay">确认付款</string>
+    <string name="fee">消费金额</string>
     
     <!-- Order Detail ui string -->
     <string name="address">所在地点</string>

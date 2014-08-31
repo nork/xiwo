@@ -273,7 +273,7 @@ public class CustomInfoActivity extends Activity {
 	// 提示对话框方法
 	private void showDialog() {
 		new AlertDialog.Builder(this)
-				.setTitle("头像设置")
+				.setTitle("汽车照片")
 				.setPositiveButton("拍照", new DialogInterface.OnClickListener() {
 
 					@Override

@@ -11,6 +11,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -154,6 +155,10 @@ public class CarInfoFragment extends BaseFragment {
 					carInfoListAdapter.addBriefs(carInfoListData);
 					break;
 				case 2:		//Ï´³µ
+					Intent intent = new Intent(mContext, CarInfoEditActivity.class);
+					intent.putExtra("service_type", 0);
+					intent.putExtra("choice_car", (Parcelable)carInfoListData.get(position));
+					startActivity(intent);
 					break;
 				case 3:		//µã»÷±à¼­°´Å¥
 					if(mCurrentDisplayItemView != v){

@@ -74,6 +74,12 @@ public class CarInfoEditActivity extends Activity {
 		ActivityManage.getInstance().addActivity(this);
 		mLocalSharePref = new LocalSharePreference(this);
 		mContext = this;
+		try{
+			choiceCar = getIntent().getParcelableExtra("choice_car");
+		}catch(Exception e){
+			e.printStackTrace();
+			choiceCar = null;
+		}
 		getAddrCarInfo();
 		setContentView(R.layout.car_info_edit);
 		initExecuter();
@@ -98,6 +104,10 @@ public class CarInfoEditActivity extends Activity {
 		contactEdt = (EditText) findViewById(R.id.contact_edt);
 		TextView title = (TextView) findViewById(R.id.title);
 		title.setText(R.string.car_info);
+		
+		if(choiceCar.getCarCode() != null){
+			carNumEdt.setText(choiceCar.getCarCode());
+		}
 		
 		submitBtn.setOnClickListener(new View.OnClickListener() {
 			
@@ -181,6 +191,10 @@ public class CarInfoEditActivity extends Activity {
 		Intent intent = new Intent(CarInfoEditActivity.this, PayDetailActivity.class);
 		intent.putExtra("fee", fee);
 		intent.putExtra("order_id", orderId);
+		intent.putExtra("car_code", carNumEdt.getText().toString());
+		intent.putExtra("server_type", spinnerServerType.getSelectedItem().toString());
+		intent.putExtra("phone", contactEdt.getText().toString());
+		intent.putExtra("address", websitEdt.getText().toString());
 		startActivity(intent);
 		finish();
 	}
@@ -322,8 +336,11 @@ public class CarInfoEditActivity extends Activity {
 	}
 
 	private void getAddrCarInfo(){
+		if(choiceCar != null){
+			return;
+		}
 		choiceAddress = new AddressData();
-		choiceCar = new CarInfo();;
+		choiceCar = new CarInfo();
 		choiceAddress.setAddressDetail(mLocalSharePref.getStringPref(LocalSharePreference.USER_LAST_ADDRESS_DETAIL, ""));
 		choiceAddress.setAddressId(mLocalSharePref.getLongPref(LocalSharePreference.USER_LAST_ADDRESS_ID, 0));
 		choiceAddress.setDistractId(mLocalSharePref.getLongPref(LocalSharePreference.USER_LAST_DISTRACT_ID, 0));

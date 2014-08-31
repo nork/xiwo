@@ -1,7 +1,6 @@
 package com.android.xiwao.washcar.ui;
 
 import java.io.IOException;
-import java.io.ObjectOutputStream.PutField;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,10 +18,11 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.android.xiwao.washcar.ActivityManage;
+import com.android.xiwao.washcar.AppLog;
 import com.android.xiwao.washcar.ClientSession;
 import com.android.xiwao.washcar.Constants;
 import com.android.xiwao.washcar.LocalSharePreference;
@@ -36,13 +36,15 @@ import com.android.xiwao.washcar.httpconnection.BaseResponse;
 import com.android.xiwao.washcar.httpconnection.CommandExecuter;
 import com.android.xiwao.washcar.httpconnection.DistractQuery;
 import com.android.xiwao.washcar.listadapter.UsefulAddressListAdapter;
+import com.android.xiwao.washcar.ui.widget.SwipeListView;
 import com.android.xiwao.washcar.utils.DialogUtils;
 
 public class AddressActivity extends Activity {
 	private Context mContext;
 	private Button backBtn;
-	private ListView addressList;
+	private SwipeListView addressList;
 	private Button addAddressBtn;
+	private TextView noAddressTxt;
 	// 工具
 	private DialogUtils dialogUtils;
 
@@ -55,6 +57,10 @@ public class AddressActivity extends Activity {
 	
 	private List<WebSiteData> websitListData = new ArrayList<WebSiteData>();
 	private List<AddressData> addressListData = new ArrayList<AddressData>();
+	
+	private UsefulAddressListAdapter usefulAddressListAdapter;
+	
+	private View mCurrentDisplayItemView;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -75,6 +81,7 @@ public class AddressActivity extends Activity {
 	}
 	
 	private void initContentView(){
+		noAddressTxt = (TextView) findViewById(R.id.no_address_txt);
 		backBtn = (Button) findViewById(R.id.backbtn);
 		backBtn.setOnClickListener(new View.OnClickListener() {
 			
@@ -96,7 +103,7 @@ public class AddressActivity extends Activity {
 				startActivityForResult(intent, Constants.ADD_ADDRESS_RESULT_CODE);
 			}
 		});
-		addressList = (ListView) findViewById(R.id.useful_address_list);
+		addressList = (SwipeListView) findViewById(R.id.useful_address_list);
 		addressList.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
@@ -128,16 +135,55 @@ public class AddressActivity extends Activity {
 				(int) (displayHeight * 0.02f + 0.5f),
 				(int) (displayWidth * 0.03f + 0.5f), 0);
 		addAddressBtn.setLayoutParams(addressBtnParams);
+		
+		LinearLayout.LayoutParams listParams = new LinearLayout.LayoutParams(
+				LayoutParams.MATCH_PARENT,
+				(int) (displayHeight * 0.7f + 0.5f));
+		addressList.setLayoutParams(listParams);
+		noAddressTxt.setLayoutParams(listParams);
 	}
 	/**
 	 * 填充地址列表信息
 	 * @param addressDataList
 	 */
 	private void fetchListAdapter(List<AddressData> addressDataList){
-		UsefulAddressListAdapter usefulAddressListAdapter = new UsefulAddressListAdapter(mContext, false,
-				R.layout.car_info_list_adapter, websitListData);
+		usefulAddressListAdapter = new UsefulAddressListAdapter(mContext, false,
+				R.layout.car_info_list_adapter, websitListData, addressList.getRightViewWidth());
+		usefulAddressListAdapter.setOnRightItemClickListener(new UsefulAddressListAdapter.onRightItemClickListener() {
+
+			@Override
+			public void onRightItemClick(View v, int position, int option, String branchName) {
+				// TODO Auto-generated method stub
+				switch(option){
+				case 1:		//删除
+					addressListData.remove(position);
+					usefulAddressListAdapter.addBriefs(addressListData);
+					break;
+				case 2:		//选中
+					Intent intent = new Intent();
+					intent.putExtra("choice_address", (Parcelable)addressListData.get(position));
+					intent.putExtra("branch_name", branchName);
+					((Activity)mContext).setResult(Activity.RESULT_OK, intent);
+					((Activity)mContext).finish();
+					break;
+				case 3:		//点击编辑按钮
+					if(mCurrentDisplayItemView != v){
+						addressList.showRightOnClick(v);
+						mCurrentDisplayItemView = v;
+					}else{
+						mCurrentDisplayItemView = null;
+					}
+					break;
+				}
+			}
+        });
 		usefulAddressListAdapter.addBriefs(addressDataList);
 		addressList.setAdapter(usefulAddressListAdapter);
+		if(addressDataList.size() <= 0 || addressDataList == null){
+			AppLog.v("AddressActivity", "地址为空");
+			noAddressTxt.setVisibility(View.VISIBLE);
+			addressList.setVisibility(View.GONE);
+		}
 	}
 	
 	private void getWebsitInfo(){
@@ -159,14 +205,22 @@ public class AddressActivity extends Activity {
 			String error = getString(R.string.protocol_error) + "(" + rsp.errno
 					+ ")";
 			dialogUtils.showToast(error);
+			noAddressTxt.setVisibility(View.VISIBLE);
+			addressList.setVisibility(View.GONE);
 		} else {
 			DistractQuery.Response distractQuery = (DistractQuery.Response) rsp;
 			if (distractQuery.responseType.equals("N")) {
 				websitListData = distractQuery.webDataList;
 				getAddressInfo();
+				if(distractQuery.webDataList.size() <= 0){
+					noAddressTxt.setVisibility(View.VISIBLE);
+					addressList.setVisibility(View.GONE);
+				}
 //				dialogUtils.showToast(addressQueryRsp.errorMessage);
 			} else {
 				dialogUtils.showToast(distractQuery.errorMessage);
+				noAddressTxt.setVisibility(View.VISIBLE);
+				addressList.setVisibility(View.GONE);
 			}
 		}
 	}
@@ -179,6 +233,8 @@ public class AddressActivity extends Activity {
 
 		public void handleException(IOException e) {
 			dialogUtils.showToast(getString(R.string.connection_error));
+			noAddressTxt.setVisibility(View.VISIBLE);
+			addressList.setVisibility(View.GONE);
 		}
 
 		public void onEnd() {
@@ -212,14 +268,22 @@ public class AddressActivity extends Activity {
 			String error = getString(R.string.protocol_error) + "(" + rsp.errno
 					+ ")";
 			dialogUtils.showToast(error);
+			noAddressTxt.setVisibility(View.VISIBLE);
+			addressList.setVisibility(View.GONE);
 		} else {
 			AddressQuery.Response addressQueryRsp = (AddressQuery.Response) rsp;
 			if (addressQueryRsp.responseType.equals("N")) {
 				addressListData = addressQueryRsp.addressDataList;
 				onAddressQuerySuccess();
+				if(addressQueryRsp.addressDataList.size() <= 0){
+					noAddressTxt.setVisibility(View.VISIBLE);
+					addressList.setVisibility(View.GONE);
+				}
 //				dialogUtils.showToast(addressQueryRsp.errorMessage);
 			} else {
 				dialogUtils.showToast(addressQueryRsp.errorMessage);
+				noAddressTxt.setVisibility(View.VISIBLE);
+				addressList.setVisibility(View.GONE);
 			}
 		}
 	}

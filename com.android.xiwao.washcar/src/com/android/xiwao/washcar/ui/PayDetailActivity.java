@@ -79,6 +79,8 @@ public class PayDetailActivity extends Activity {
 		agreebtn = (Button) view.findViewById(R.id.agreebtn);
 		agreebtn.setSelected(true); // Ä¬ÈÏÑ¡ÖÐ
 
+		String feeStr = Integer.toString(fee / 100) + ".00";
+		
 		payNowBtn.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
@@ -91,6 +93,18 @@ public class PayDetailActivity extends Activity {
 				startActivityForResult(intent, Constants.PAY_ORDER_RESULT_CODE);
 			}
 		});
+		
+		TextView serverType = (TextView)findViewById(R.id.server_type);
+		TextView carNum = (TextView) findViewById(R.id.car_num);
+		TextView webCenter = (TextView) findViewById(R.id.web_center);
+		TextView phone = (TextView) findViewById(R.id.phone);
+		TextView fee = (TextView) findViewById(R.id.fee);
+		
+		serverType.setText(getIntent().getStringExtra("server_type"));
+		carNum.setText(getIntent().getStringExtra("car_code"));
+		webCenter.setText(getIntent().getStringExtra("address"));
+		phone.setText(getIntent().getStringExtra("phone"));
+		fee.setText(feeStr);
 	}
 	
 	public void setHwView() {

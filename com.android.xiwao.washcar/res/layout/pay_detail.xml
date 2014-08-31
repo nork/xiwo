@@ -82,7 +82,31 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:background="@drawable/queue_statu" />
+                    android:background="@drawable/queue_statu"
+                    android:visibility="gone" />
+                <TableRow
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="1dp"
+                        android:background="@color/white"
+                        android:paddingBottom="10dp"
+                        android:paddingTop="10dp" >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="20dp"
+                            android:text="@string/fee"
+                            android:textColor="@android:color/black" />
+
+                        <TextView
+                            android:id="@+id/fee"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="20dp"
+                           
+                            android:textColor="@android:color/black" />
+                    </TableRow>
 
                 <TableLayout
                     android:layout_width="fill_parent"
@@ -245,7 +269,8 @@
                         android:background="@color/white"
                         android:orientation="horizontal"
                         android:paddingBottom="20dp"
-                        android:paddingTop="20dp" >
+                        android:paddingTop="20dp" 
+                        android:visibility="gone">
 
                         <Button
                             android:id="@+id/agreebtn"

@@ -115,12 +115,22 @@
         android:layout_height="0.1dip"
         android:background="@color/orange" />
     
-    <ListView android:id="@+id/useful_address_list"
+    <com.android.xiwao.washcar.ui.widget.SwipeListView android:id="@+id/useful_address_list"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="18dp"
         android:divider="@null"
-        android:background="@null"
+        android:background="@null"       
+        />
+    
+    <TextView android:id="@+id/no_address_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="没有地址信息，请添加"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:visibility="gone"
         />
     
     <Button android:id="@+id/add_address"

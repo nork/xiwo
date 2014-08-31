@@ -242,9 +242,13 @@ public class SwipeListView extends ListView {
 
     private void clearPressedState() {
         // TODO current item is still has background, issue
-        mCurrentItemView.setPressed(false);
-        setPressed(false);
-        refreshDrawableState();
+    	try{
+    		mCurrentItemView.setPressed(false);
+    		setPressed(false);
+    		refreshDrawableState();
+    	}catch(Exception e){
+    		e.printStackTrace();
+    	}
         // invalidate();
     }
 
