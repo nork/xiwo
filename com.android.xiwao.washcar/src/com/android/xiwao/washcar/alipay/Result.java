@@ -13,10 +13,11 @@ public class Result {
 
 	private String mResult;
 	
-	String resultStatus = null;
-	String memo = null;
-	String result = null;
-	boolean isSignOk = false;
+	public String resultStatus = null;
+	public String memo = null;
+	public String result = null;
+	public boolean isSignOk = false;
+	public String resultCode = null;
 
 	public Result(String result) {
 		this.mResult = result;
@@ -40,7 +41,14 @@ public class Result {
 	public  String getResult() {
 		String src = mResult.replace("{", "");
 		src = src.replace("}", "");
-		return getContent(src, "memo=", ";result");
+		
+		String rs = getContent(src, "resultStatus=", ";memo");
+		if (sResultStatus.containsKey(rs)) {
+			resultStatus = sResultStatus.get(rs);
+		} else {
+			resultStatus = "ÆäËû´íÎó";
+		}
+		return resultStatus;
 	}
 
 	public  void parseResult() {
@@ -49,6 +57,7 @@ public class Result {
 			String src = mResult.replace("{", "");
 			src = src.replace("}", "");
 			String rs = getContent(src, "resultStatus=", ";memo");
+			resultCode = rs;
 			if (sResultStatus.containsKey(rs)) {
 				resultStatus = sResultStatus.get(rs);
 			} else {

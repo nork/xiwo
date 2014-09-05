@@ -3,6 +3,7 @@ package com.android.xiwao.washcar.ui;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
@@ -21,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import com.android.xiwao.washcar.AppLog;
 import com.android.xiwao.washcar.ClientSession;
 import com.android.xiwao.washcar.Constants;
@@ -30,6 +32,7 @@ import com.android.xiwao.washcar.XiwaoApplication;
 import com.android.xiwao.washcar.data.CarInfo;
 import com.android.xiwao.washcar.httpconnection.BaseCommand;
 import com.android.xiwao.washcar.httpconnection.BaseResponse;
+import com.android.xiwao.washcar.httpconnection.CarDelete;
 import com.android.xiwao.washcar.httpconnection.CarQuery;
 import com.android.xiwao.washcar.httpconnection.CommandExecuter;
 import com.android.xiwao.washcar.listadapter.CarInfoListAdapter;
@@ -151,8 +154,7 @@ public class CarInfoFragment extends BaseFragment {
 				// TODO Auto-generated method stub
 				switch(option){
 				case 1:		//删除
-					carInfoListData.remove(position);
-					carInfoListAdapter.addBriefs(carInfoListData);
+					deleteCar(carInfoListData.get(position).getCarId());
 					break;
 				case 2:		//洗车
 					Intent intent = new Intent(mContext, CarInfoEditActivity.class);
@@ -236,6 +238,51 @@ public class CarInfoFragment extends BaseFragment {
 		dialogUtils.showProgress();
 	}
 
+	private void deleteCar(long carId){
+		BaseCommand deleteCar = ClientSession.getInstance().getCmdFactory()
+				.getCarDelete(carId);
+
+		mExecuter.execute(deleteCar, mCarDeleteRespHandler);
+
+		dialogUtils.showProgress();
+	}
+	
+	/**
+	 * 处理服务器返回的登录结果
+	 * @param rsp 服务返回的登录信息
+	 */
+	private void onReceiveCarDeleteResponse(BaseResponse rsp) {
+
+		if (!rsp.isOK()) {
+			String error = getString(R.string.protocol_error) + "(" + rsp.errno
+					+ ")";
+			dialogUtils.showToast(error);
+		} else {
+			CarDelete.Response carDeleteRsp = (CarDelete.Response) rsp;
+			if (carDeleteRsp.responseType.equals("N")) {
+				refreshInfoList();
+			} else {
+				dialogUtils.showToast(carDeleteRsp.errorMessage);
+			}
+		}
+		dialogUtils.dismissProgress();
+	}
+	
+	private CommandExecuter.ResponseHandler mCarDeleteRespHandler = new CommandExecuter.ResponseHandler() {
+
+		public void handleResponse(BaseResponse rsp) {
+			onReceiveCarDeleteResponse(rsp);
+		}
+
+		public void handleException(IOException e) {
+			dialogUtils.showToast(getString(R.string.connection_error));
+			fetchList();
+		}
+
+		public void onEnd() {
+			dialogUtils.dismissProgress();
+		}
+	};
 	/**
 	 * 初始化需要的工具
 	 */

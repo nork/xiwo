@@ -26,17 +26,15 @@ import com.android.xiwao.washcar.ui.AddCarActivity;
 import com.android.xiwao.washcar.ui.ModifyCarActivity;
 
 public class CarInfoListAdapter extends BaseAdapter{
-
-	private static String TAG = "CarInfoListAdapter";
 	Context mContext;
-	private LayoutInflater mInflater;
+//	private LayoutInflater mInflater;
 	Boolean mInternetpic;
 	public List<CarInfo> mList;	
 	private int mRightWidth = 0;
 	int mlayout;
 	public CarInfoListAdapter(Context paramContext, Boolean paramBoolean, int paramInt, int rightWidth){
 		mContext = paramContext;
-		mInflater = LayoutInflater.from(mContext);
+//		mInflater = LayoutInflater.from(mContext);
 		mList = new ArrayList<CarInfo>();
 		mInternetpic = paramBoolean;
 		mlayout = paramInt;

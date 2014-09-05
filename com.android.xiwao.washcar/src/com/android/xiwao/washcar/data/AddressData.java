@@ -16,7 +16,7 @@ public class AddressData implements Parcelable, Serializable{
 	private long customerId;
 	private String addressType;
 	private String postCode;
-
+	private String branchName;
 	
 	public long getAddressId() {
 		return addressId;
@@ -66,6 +66,14 @@ public class AddressData implements Parcelable, Serializable{
 		this.postCode = postCode;
 	}
 
+	public String getBranchName() {
+		return branchName;
+	}
+
+	public void setBranchName(String branchName) {
+		this.branchName = branchName;
+	}
+
 	@Override
 	public int describeContents() {
 		// TODO Auto-generated method stub
@@ -84,6 +92,7 @@ public class AddressData implements Parcelable, Serializable{
 		dest.writeLong(this.addressId);
 		dest.writeLong(this.customerId);
 		dest.writeLong(this.distractId);
+		dest.writeString(this.branchName);
 	}
 	
 	public static final Parcelable.Creator<AddressData> CREATOR = new Parcelable.Creator<AddressData>(){
@@ -96,6 +105,7 @@ public class AddressData implements Parcelable, Serializable{
 			brief.addressId = source.readLong();
 			brief.customerId = source.readLong();
 			brief.distractId = source.readLong();
+			brief.branchName = source.readString();
 			return brief;
 		}
 

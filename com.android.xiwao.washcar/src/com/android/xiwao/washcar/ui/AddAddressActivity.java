@@ -62,14 +62,15 @@ public class AddAddressActivity extends Activity {
 		mContext = this;
 		mLocalSharePref = new LocalSharePreference(this);
 		
-		websitListData = (List<WebSiteData>) getIntent().getSerializableExtra("websit_list");
+//		websitListData = (List<WebSiteData>) getIntent().getSerializableExtra("websit_list");
 
 		setContentView(R.layout.add_address);
 		initExecuter();
 		initUtils();
 		initContentView();
 		setHwView();
-		initSpinner();
+		getWebsitInfo();
+//		initSpinner();
 	}
 
 	private void initContentView() {
@@ -136,7 +137,7 @@ public class AddAddressActivity extends Activity {
 		} else {
 			DistractQuery.Response distractQuery = (DistractQuery.Response) rsp;
 			if (distractQuery.responseType.equals("N")) {
-//				websitListData = distractQuery.webDataList;
+				websitListData = distractQuery.webDataList;
 				onAddressQuerySuccess();
 //				dialogUtils.showToast(addressQueryRsp.errorMessage);
 			} else {

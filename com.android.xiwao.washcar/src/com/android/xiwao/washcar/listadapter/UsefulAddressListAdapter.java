@@ -3,10 +3,7 @@ package com.android.xiwao.washcar.listadapter;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
-import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,29 +15,24 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.LinearLayout.LayoutParams;
 
-import com.android.xiwao.washcar.AppLog;
 import com.android.xiwao.washcar.R;
-import com.android.xiwao.washcar.XiwaoApplication;
 import com.android.xiwao.washcar.data.AddressData;
 import com.android.xiwao.washcar.data.WebSiteData;
-import com.android.xiwao.washcar.listadapter.CarInfoListAdapter.onRightItemClickListener;
 
 public class UsefulAddressListAdapter extends BaseAdapter{
 
 	Context mContext;
-	private LayoutInflater mInflater;
+//	private LayoutInflater mInflater;
 	Boolean mInternetpic;
 	public List<AddressData> mList;
-	public List<WebSiteData> websitList;
 	private int mRightWidth = 0;
 	int mlayout;
-	public UsefulAddressListAdapter(Context paramContext, Boolean paramBoolean, int paramInt, List<WebSiteData> websitList, int rightWidth){
+	public UsefulAddressListAdapter(Context paramContext, Boolean paramBoolean, int paramInt, int rightWidth){
 		mContext = paramContext;
-		mInflater = LayoutInflater.from(mContext);
+//		mInflater = LayoutInflater.from(mContext);
 		mList = new ArrayList<AddressData>();
 		mInternetpic = paramBoolean;
 		mlayout = paramInt;
-		this.websitList = websitList;
 		mRightWidth = rightWidth;
 	}
 	
@@ -87,15 +79,15 @@ public class UsefulAddressListAdapter extends BaseAdapter{
 //		}
 		
 		AddressData singleOrderData = this.mList.get(position);
-		String branchName = "";
-		for(WebSiteData websitData : websitList){
-			if(websitData.getDistractId() == singleOrderData.getDistractId()){
-				branchName = websitData.getBranchName();
-				break;
-			}
-		}
-		final String branchNameforClick = branchName;
-		viewHolder.websiteName.setText(branchName);
+//		String branchName = "";
+//		for(WebSiteData websitData : websitList){
+//			if(websitData.getDistractId() == singleOrderData.getDistractId()){
+//				branchName = websitData.getBranchName();
+//				break;
+//			}
+//		}
+//		final String branchNameforClick = branchName;
+		viewHolder.websiteName.setText(singleOrderData.getBranchName());
 		viewHolder.addressDetail.setText(singleOrderData.getAddressDetail());
 //		viewHolder.editBtn.setOnClickListener(new View.OnClickListener() {
 //			
@@ -122,7 +114,7 @@ public class UsefulAddressListAdapter extends BaseAdapter{
             @Override
             public void onClick(View v) {
                 if (mListener != null) {
-                    mListener.onRightItemClick(v, position, 1, null);
+                    mListener.onRightItemClick(v, position, 1);
                 }
             }
         });
@@ -131,7 +123,7 @@ public class UsefulAddressListAdapter extends BaseAdapter{
             @Override
             public void onClick(View v) {
                 if (mListener != null) {
-                    mListener.onRightItemClick(v, position, 2, branchNameforClick);
+                    mListener.onRightItemClick(v, position, 2);
                 }
             }
         });
@@ -143,7 +135,7 @@ public class UsefulAddressListAdapter extends BaseAdapter{
 				// TODO Auto-generated method stub
 //				view.scrollTo(400, 0);
 				if (mListener != null) {
-					mListener.onRightItemClick(view, position, 3, null);
+					mListener.onRightItemClick(view, position, 3);
 				}
 			}
 		});
@@ -171,6 +163,6 @@ public class UsefulAddressListAdapter extends BaseAdapter{
     }
 
     public interface onRightItemClickListener {
-        void onRightItemClick(View v, int position, int option, String branchName);
+        void onRightItemClick(View v, int position, int option);
     }
 }

@@ -109,11 +109,10 @@ public class DefaultCommandFactory extends CommandFactory {
 	}
 
 	@Override
-	public BaseCommand getAddressQuery(long customerId, long distractId) {
+	public BaseCommand getAddressQuery(long customerId) {
 		// TODO Auto-generated method stub
 		AddressQuery addressQuery = new AddressQuery();
 		addressQuery.setCustmerId(customerId);
-		addressQuery.setDistractId(distractId);
 		return addressQuery;
 	}
 
@@ -194,13 +193,30 @@ public class DefaultCommandFactory extends CommandFactory {
 
 	@Override
 	public BaseCommand getCustomerModify(long customerId, String customerName,
-			String email) {
+			String email, String headImg) {
 		// TODO Auto-generated method stub
 		CustomerModify customerModify = new CustomerModify();
 		customerModify.setCustmerId(customerId);
 		customerModify.setCustomerName(customerName);
 		customerModify.setEmail(email);
+		customerModify.setHeadImg(headImg);
 		return customerModify;
+	}
+
+	@Override
+	public BaseCommand getCarDelete(long carId) {
+		// TODO Auto-generated method stub
+		CarDelete carDelete = new CarDelete();
+		carDelete.setCarId(carId);
+		return carDelete;
+	}
+
+	@Override
+	public BaseCommand getAddressDelete(long addressId) {
+		// TODO Auto-generated method stub
+		AddressDelete addressDelete = new AddressDelete();
+		addressDelete.setAddressId(addressId);
+		return addressDelete;
 	}
 	
 }

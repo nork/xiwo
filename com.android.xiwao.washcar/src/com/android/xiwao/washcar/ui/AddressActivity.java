@@ -1,7 +1,6 @@
 package com.android.xiwao.washcar.ui;
 
 import java.io.IOException;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,12 +28,11 @@ import com.android.xiwao.washcar.LocalSharePreference;
 import com.android.xiwao.washcar.R;
 import com.android.xiwao.washcar.XiwaoApplication;
 import com.android.xiwao.washcar.data.AddressData;
-import com.android.xiwao.washcar.data.WebSiteData;
+import com.android.xiwao.washcar.httpconnection.AddressDelete;
 import com.android.xiwao.washcar.httpconnection.AddressQuery;
 import com.android.xiwao.washcar.httpconnection.BaseCommand;
 import com.android.xiwao.washcar.httpconnection.BaseResponse;
 import com.android.xiwao.washcar.httpconnection.CommandExecuter;
-import com.android.xiwao.washcar.httpconnection.DistractQuery;
 import com.android.xiwao.washcar.listadapter.UsefulAddressListAdapter;
 import com.android.xiwao.washcar.ui.widget.SwipeListView;
 import com.android.xiwao.washcar.utils.DialogUtils;
@@ -55,7 +53,7 @@ public class AddressActivity extends Activity {
 	private Handler mHandler;
 	private CommandExecuter mExecuter;
 	
-	private List<WebSiteData> websitListData = new ArrayList<WebSiteData>();
+//	private List<WebSiteData> websitListData = new ArrayList<WebSiteData>();
 	private List<AddressData> addressListData = new ArrayList<AddressData>();
 	
 	private UsefulAddressListAdapter usefulAddressListAdapter;
@@ -77,7 +75,8 @@ public class AddressActivity extends Activity {
 		initUtils();
 		initContentView();
 		setHwView();
-		getWebsitInfo();
+//		getWebsitInfo();
+		getAddressInfo();
 	}
 	
 	private void initContentView(){
@@ -99,7 +98,7 @@ public class AddressActivity extends Activity {
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
 				Intent intent = new Intent(mContext, AddAddressActivity.class);
-				intent.putExtra("websit_list", (Serializable)websitListData);
+//				intent.putExtra("websit_list", (Serializable)websitListData);
 				startActivityForResult(intent, Constants.ADD_ADDRESS_RESULT_CODE);
 			}
 		});
@@ -148,21 +147,20 @@ public class AddressActivity extends Activity {
 	 */
 	private void fetchListAdapter(List<AddressData> addressDataList){
 		usefulAddressListAdapter = new UsefulAddressListAdapter(mContext, false,
-				R.layout.car_info_list_adapter, websitListData, addressList.getRightViewWidth());
+				R.layout.car_info_list_adapter, addressList.getRightViewWidth());
 		usefulAddressListAdapter.setOnRightItemClickListener(new UsefulAddressListAdapter.onRightItemClickListener() {
 
 			@Override
-			public void onRightItemClick(View v, int position, int option, String branchName) {
+			public void onRightItemClick(View v, int position, int option) {
 				// TODO Auto-generated method stub
 				switch(option){
 				case 1:		//删除
-					addressListData.remove(position);
-					usefulAddressListAdapter.addBriefs(addressListData);
+					deleteAddress(addressListData.get(position).getAddressId());
 					break;
 				case 2:		//选中
 					Intent intent = new Intent();
 					intent.putExtra("choice_address", (Parcelable)addressListData.get(position));
-					intent.putExtra("branch_name", branchName);
+//					intent.putExtra("branch_name", branchName);
 					((Activity)mContext).setResult(Activity.RESULT_OK, intent);
 					((Activity)mContext).finish();
 					break;
@@ -186,66 +184,9 @@ public class AddressActivity extends Activity {
 		}
 	}
 	
-	private void getWebsitInfo(){
-		BaseCommand distractQuery = ClientSession.getInstance().getCmdFactory()
-				.getDistractQuery();	//网点ID，此处暂时设置为1，为玉桥路网点
-
-		mExecuter.execute(distractQuery, mDistractQueryRespHandler);
-
-		dialogUtils.showProgress();
-	}
-	
-	/**
-	 * 处理服务器返回的地址查询
-	 * @param rsp 服务返回的地址查询结果信息
-	 */
-	private void onReceiveDistractQueryResponse(BaseResponse rsp) {
-
-		if (!rsp.isOK()) {
-			String error = getString(R.string.protocol_error) + "(" + rsp.errno
-					+ ")";
-			dialogUtils.showToast(error);
-			noAddressTxt.setVisibility(View.VISIBLE);
-			addressList.setVisibility(View.GONE);
-		} else {
-			DistractQuery.Response distractQuery = (DistractQuery.Response) rsp;
-			if (distractQuery.responseType.equals("N")) {
-				websitListData = distractQuery.webDataList;
-				getAddressInfo();
-				if(distractQuery.webDataList.size() <= 0){
-					noAddressTxt.setVisibility(View.VISIBLE);
-					addressList.setVisibility(View.GONE);
-				}
-//				dialogUtils.showToast(addressQueryRsp.errorMessage);
-			} else {
-				dialogUtils.showToast(distractQuery.errorMessage);
-				noAddressTxt.setVisibility(View.VISIBLE);
-				addressList.setVisibility(View.GONE);
-			}
-		}
-	}
-	
-	private CommandExecuter.ResponseHandler mDistractQueryRespHandler = new CommandExecuter.ResponseHandler() {
-
-		public void handleResponse(BaseResponse rsp) {
-			onReceiveDistractQueryResponse(rsp);
-		}
-
-		public void handleException(IOException e) {
-			dialogUtils.showToast(getString(R.string.connection_error));
-			noAddressTxt.setVisibility(View.VISIBLE);
-			addressList.setVisibility(View.GONE);
-		}
-
-		public void onEnd() {
-			dialogUtils.dismissProgress();
-		}
-	};
-	
-	
 	private void getAddressInfo(){
 		BaseCommand addressQuery = ClientSession.getInstance().getCmdFactory()
-				.getAddressQuery(mLocalSharePref.getUserId(), 1);	//网点ID，此处暂时设置为1，为玉桥路网点
+				.getAddressQuery(mLocalSharePref.getUserId());	//网点ID，此处暂时设置为1，为玉桥路网点
 
 		mExecuter.execute(addressQuery, mAddressQueryRespHandler);
 
@@ -253,8 +194,6 @@ public class AddressActivity extends Activity {
 	}
 	
 	public void onAddressQuerySuccess(){
-//		setResult(RESULT_OK);
-//		finish();
 		fetchListAdapter(addressListData);
 	}
 	
@@ -292,6 +231,51 @@ public class AddressActivity extends Activity {
 
 		public void handleResponse(BaseResponse rsp) {
 			onReceiveAddressQueryResponse(rsp);
+		}
+
+		public void handleException(IOException e) {
+			dialogUtils.showToast(getString(R.string.connection_error));
+		}
+
+		public void onEnd() {
+			dialogUtils.dismissProgress();
+		}
+	};
+	
+	private void deleteAddress(long addressId){
+		BaseCommand addressDelete = ClientSession.getInstance().getCmdFactory()
+				.getAddressDelete(addressId);	//网点ID，此处暂时设置为1，为玉桥路网点
+
+		mExecuter.execute(addressDelete, mAddressDeleteRespHandler);
+
+		dialogUtils.showProgress();
+	}
+	
+	public void onAddressDeleteSuccess(){
+		getAddressInfo();
+	}
+	
+	private void onReceiveAddressDeleteResponse(BaseResponse rsp) {
+
+		if (!rsp.isOK()) {
+			String error = getString(R.string.protocol_error) + "(" + rsp.errno
+					+ ")";
+			dialogUtils.showToast(error);
+		} else {
+			AddressDelete.Response addressDeleteRsp = (AddressDelete.Response) rsp;
+			if (addressDeleteRsp.responseType.equals("N")) {
+				onAddressDeleteSuccess();
+//				dialogUtils.showToast(addressQueryRsp.errorMessage);
+			} else {
+				dialogUtils.showToast(addressDeleteRsp.errorMessage);
+			}
+		}
+	}
+	
+	private CommandExecuter.ResponseHandler mAddressDeleteRespHandler = new CommandExecuter.ResponseHandler() {
+
+		public void handleResponse(BaseResponse rsp) {
+			onReceiveAddressDeleteResponse(rsp);
 		}
 
 		public void handleException(IOException e) {

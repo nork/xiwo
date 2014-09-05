@@ -9,13 +9,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.LinearLayout.LayoutParams;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -26,16 +23,14 @@ import com.android.xiwao.washcar.ui.AddCarActivity;
 import com.android.xiwao.washcar.ui.ModifyCarActivity;
 
 public class CarListAdapter extends BaseAdapter{
-
-	private static String TAG = "CarInfoListAdapter";
 	Context mContext;
-	private LayoutInflater mInflater;
+//	private LayoutInflater mInflater;
 	Boolean mInternetpic;
 	public List<CarInfo> mList;	
 	int mlayout;
 	public CarListAdapter(Context paramContext, Boolean paramBoolean, int paramInt){
 		mContext = paramContext;
-		mInflater = LayoutInflater.from(mContext);
+//		mInflater = LayoutInflater.from(mContext);
 		mList = new ArrayList<CarInfo>();
 		mInternetpic = paramBoolean;
 		mlayout = paramInt;

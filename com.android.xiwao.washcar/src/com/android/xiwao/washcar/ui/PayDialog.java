@@ -27,6 +27,7 @@ import com.android.xiwao.washcar.LocalSharePreference;
 import com.android.xiwao.washcar.R;
 import com.android.xiwao.washcar.XiwaoApplication;
 import com.android.xiwao.washcar.alipay.Keys;
+import com.android.xiwao.washcar.alipay.Result;
 import com.android.xiwao.washcar.alipay.Rsa;
 import com.android.xiwao.washcar.httpconnection.AccountConsume;
 import com.android.xiwao.washcar.httpconnection.AccountQuery;
@@ -167,7 +168,7 @@ public class PayDialog extends Activity{
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
-				try {
+				try {	
 					Log.i("ExternalPartner", "onItemClick");
 					String info = getNewOrderInfo();
 					String sign = Rsa.sign(info, Keys.PRIVATE);
@@ -180,18 +181,15 @@ public class PayDialog extends Activity{
 					final String orderInfo = info;
 					new Thread() {
 						public void run() {
-							AliPay alipay = new AliPay(PayDialog.this, mHandler);
-							
-							//设置为沙箱模式，不设置默认为线上环境
-							//alipay.setSandBox(true);
+							AliPay alipay = new AliPay(PayDialog.this, mHandlerForAlipay);
 
 							String result = alipay.pay(orderInfo);
-
+//							alipay.setSandBox(true);
 							Log.i(TAG, "result = " + result);
 							Message msg = new Message();
 							msg.what = RQF_PAY;
 							msg.obj = result;
-							mHandler.sendMessage(msg);
+							mHandlerForAlipay.sendMessage(msg);
 						}
 					}.start();
 
@@ -209,7 +207,7 @@ public class PayDialog extends Activity{
 		sb.append("partner=\"");
 		sb.append(Keys.DEFAULT_PARTNER);
 		sb.append("\"&out_trade_no=\"");
-		sb.append(getOutTradeNo());
+		sb.append(orderId);
 		sb.append("\"&subject=\"");
 		sb.append("上海洗沃公司洗车服务费");
 		sb.append("\"&body=\"");
@@ -219,7 +217,7 @@ public class PayDialog extends Activity{
 		sb.append("\"&notify_url=\"");
 
 		// 网址需要做URL编码
-		sb.append(URLEncoder.encode("http://notify.java.jpxx.org/index.jsp"));
+		sb.append(URLEncoder.encode("http://washmycar.sinaapp.com/washmycar/notifyurl.do"));
 		sb.append("\"&service=\"mobile.securitypay.pay");
 		sb.append("\"&_input_charset=\"UTF-8");
 		sb.append("\"&return_url=\"");
@@ -234,18 +232,6 @@ public class PayDialog extends Activity{
 		sb.append("\"");
 
 		return new String(sb);
-	}
-
-	private String getOutTradeNo() {
-		SimpleDateFormat format = new SimpleDateFormat("MMddHHmmss");
-		Date date = new Date();
-		String key = format.format(date);
-
-		java.util.Random r = new java.util.Random();
-		key += r.nextInt();
-		key = key.substring(0, 15);
-		Log.d(TAG, "outTradeNo: " + key);
-		return key;
 	}
 	
 	private String getSignType() {
@@ -328,10 +314,6 @@ public class PayDialog extends Activity{
 		ifPaySuc = true;
 	}
 	
-	/**
-	 * 处理服务器返回的车辆注册结果
-	 * @param rsp 服务返回的车辆注册结果信息
-	 */
 	private void onReceiveAccountConsumeResponse(BaseResponse rsp) {
 
 		if (!rsp.isOK()) {
@@ -378,11 +360,7 @@ public class PayDialog extends Activity{
 		activityTime = time;
 		getBalance();
 	}
-	
-	/**
-	 * 处理服务器返回的车辆注册结果
-	 * @param rsp 服务返回的车辆注册结果信息
-	 */
+
 	private void onReceiveActivityQueryResponse(BaseResponse rsp) {
 
 		if (!rsp.isOK()) {
@@ -522,4 +500,37 @@ public class PayDialog extends Activity{
 		// TODO Auto-generated method stub
 		super.onStop();
 	}	
+	
+	Handler mHandlerForAlipay = new Handler() {
+		public void handleMessage(android.os.Message msg) {
+			Result result = new Result((String) msg.obj);
+
+			switch (msg.what) {
+			case RQF_PAY:
+				payListPart.setVisibility(View.GONE);
+				sureBtn.setVisibility(View.VISIBLE);
+				cancelBtn.setVisibility(View.VISIBLE);
+
+				result.parseResult();
+				String message = result.getResult();
+				if(result.resultCode.equals("9000")){
+					ifPaySuc = true;
+					message += ",您的订单将会尽快处理。";
+				}
+				
+				payMoneyTxt.setText(message);
+				cancelBtn.setText("知道了");
+				sureBtn.setVisibility(View.GONE);
+				
+				break;
+			case RQF_LOGIN: {
+				Toast.makeText(PayDialog.this, result.getResult(),
+						Toast.LENGTH_SHORT).show();
+			}
+				break;
+			default:
+				break;
+			}
+		};
+	};
 }

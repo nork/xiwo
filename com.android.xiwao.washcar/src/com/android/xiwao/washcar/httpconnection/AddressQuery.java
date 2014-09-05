@@ -16,7 +16,6 @@ public class AddressQuery extends BaseCommand{
 	private final static String CMD = "addressQuery.do";
 	
 	private final static String PARAMS_CUSTOMER_ID = "Customer_id";
-	private final static String PARAMS_DISTRACT_ID = "Distract_id";
 	
 	public final static String JSON_RESPONSE_TYPE = "ResponseType";
 	public final static String JSON_ERROR_MESSAGE = "ErrorMessage";
@@ -29,9 +28,9 @@ public class AddressQuery extends BaseCommand{
 	public final static String JSON_CUSTOMER_ID = "customer_id";
 	public final static String JSON_ADDRESS_TYPE = "address_type";
 	public final static String JSON_POST_CODE = "post_code";
+	public final static String JSON_BRANCH_NAME = "branch_name";
 	
 	private long customerId;
-	private long distractId;
 	
 	public static class Response extends BaseResponse {
 		
@@ -52,14 +51,6 @@ public class AddressQuery extends BaseCommand{
 	public void setCustmerId(long custmerId) {
 		this.customerId = custmerId;
 	}
-	
-	public long getDistractId() {
-		return distractId;
-	}
-
-	public void setDistractId(long distractId) {
-		this.distractId = distractId;
-	}
 
 	@Override
 	protected String getComand() {
@@ -74,8 +65,6 @@ public class AddressQuery extends BaseCommand{
 
 		nvps.add(new BasicNameValuePair(PARAMS_CUSTOMER_ID, Long
 				.toString(customerId)));
-		nvps.add(new BasicNameValuePair(PARAMS_DISTRACT_ID, Long
-				.toString(distractId)));
 		return nvps;
 	}
 
@@ -104,6 +93,7 @@ public class AddressQuery extends BaseCommand{
 				addressData.setCustomerId(jsonSingleInfo.getLong(JSON_CUSTOMER_ID));
 				addressData.setDistractId(jsonSingleInfo.getLong(JSON_DISTRACT_ID));
 				addressData.setPostCode(jsonSingleInfo.getString(JSON_POST_CODE));
+				addressData.setBranchName(jsonSingleInfo.getString(JSON_BRANCH_NAME));
 				
 				addressQuery.addressDataList.add(addressData);
 			}

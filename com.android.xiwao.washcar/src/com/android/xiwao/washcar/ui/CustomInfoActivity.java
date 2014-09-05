@@ -62,7 +62,8 @@ public class CustomInfoActivity extends Activity {
 	private static final int PHOTO_REQUEST_CUT = 3;// 结果
 
 	// 创建一个以当前时间为名称的文件
-	 private File tempFile;
+	private File tempFile;
+	private String headImgBase64;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -121,7 +122,7 @@ public class CustomInfoActivity extends Activity {
 					addBtn.setVisibility(View.VISIBLE);
 				} else if (btnTxt.equals(getString(R.string.submit))) {
 					modifyUserInfo(userTxt.getText().toString(), emailTxt
-							.getText().toString());
+							.getText().toString(), headImgBase64);
 				}
 			}
 		});
@@ -143,11 +144,9 @@ public class CustomInfoActivity extends Activity {
 		}
 	}
 
-	private void modifyUserInfo(String userName, String email) {
-		BaseCommand carRegister = ClientSession
-				.getInstance()
-				.getCmdFactory()
-				.getCustomerModify(mLocalSharePref.getUserId(), userName, email);
+	private void modifyUserInfo(String userName, String email, String headImg) {
+		BaseCommand carRegister = ClientSession.getInstance().getCmdFactory()
+				.getCustomerModify(mLocalSharePref.getUserId(), userName, email, headImg);
 
 		mExecuter.execute(carRegister, mCustomerModifyRespHandler);
 
@@ -335,7 +334,9 @@ public class CustomInfoActivity extends Activity {
 		Bundle bundle = picdata.getExtras();
         if (bundle != null) {
             Bitmap photo = bundle.getParcelable("data");
-            mLocalSharePref.setUserHead(FileUtil.bitmapToBase64(photo));
+            headImgBase64 = FileUtil.bitmapToBase64(photo);
+            mLocalSharePref.setUserHead(headImgBase64);
+            
             ((XiwaoApplication)getApplication()).setIfNeedRefreshHeadImg(true);
             Drawable drawable = new BitmapDrawable(photo);
             headImg.setBackground(drawable);

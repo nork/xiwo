@@ -53,7 +53,7 @@ public class CarInfoEditActivity extends Activity {
 	
 	private CarInfo choiceCar;
 	private AddressData choiceAddress;
-	private String branchName;
+//	private String branchName;
 	
 	// ¹¤¾ß
 	private DialogUtils dialogUtils;
@@ -159,7 +159,7 @@ public class CarInfoEditActivity extends Activity {
 		});
 		
 		if(choiceAddress != null){
-			websitEdt.setText(branchName + choiceAddress.getAddressDetail());
+			websitEdt.setText(choiceAddress.getBranchName() + choiceAddress.getAddressDetail());
 		}
 		if(choiceCar != null){
 			carNumEdt.setText(choiceCar.getCarCode());
@@ -318,8 +318,7 @@ public class CarInfoEditActivity extends Activity {
 			break;
 		case Constants.CHIOCE_ADDRESS_RESULT_CODE:
 			choiceAddress = data.getParcelableExtra("choice_address");
-			branchName = data.getStringExtra("branch_name");
-			websitEdt.setText(branchName + choiceAddress.getAddressDetail());
+			websitEdt.setText(choiceAddress.getBranchName() + choiceAddress.getAddressDetail());
 			break;
 		}
 	}
@@ -328,7 +327,7 @@ public class CarInfoEditActivity extends Activity {
 	 */
 	private void saveAddrCarInfo(){
 		mLocalSharePref.putStringPref(LocalSharePreference.USER_LAST_ADDRESS_DETAIL, choiceAddress.getAddressDetail());
-		mLocalSharePref.putStringPref(LocalSharePreference.USER_LAST_BRANCH_NAME, branchName);
+		mLocalSharePref.putStringPref(LocalSharePreference.USER_LAST_BRANCH_NAME, choiceAddress.getBranchName());
 		mLocalSharePref.putStringPref(LocalSharePreference.USER_LAST_CAR_NUM, choiceCar.getCarCode());
 		mLocalSharePref.putLongPref(LocalSharePreference.USER_LAST_ADDRESS_ID, choiceAddress.getAddressId());
 		mLocalSharePref.putLongPref(LocalSharePreference.USER_LAST_CAR_ID, choiceCar.getCarId());
@@ -346,7 +345,7 @@ public class CarInfoEditActivity extends Activity {
 		choiceAddress.setDistractId(mLocalSharePref.getLongPref(LocalSharePreference.USER_LAST_DISTRACT_ID, 0));
 		choiceCar.setCarCode(mLocalSharePref.getStringPref(LocalSharePreference.USER_LAST_CAR_NUM, ""));
 		choiceCar.setCarId(mLocalSharePref.getLongPref(LocalSharePreference.USER_LAST_CAR_ID, 0));
-		branchName = mLocalSharePref.getStringPref(LocalSharePreference.USER_LAST_BRANCH_NAME, "");
+		choiceAddress.setBranchName(mLocalSharePref.getStringPref(LocalSharePreference.USER_LAST_BRANCH_NAME, ""));
 	}
 	@Override
 	protected void onResume() {

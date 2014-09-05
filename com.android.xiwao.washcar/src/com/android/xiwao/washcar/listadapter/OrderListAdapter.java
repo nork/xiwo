@@ -7,30 +7,21 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.LinearLayout.LayoutParams;
 
-import com.android.xiwao.washcar.Constants;
 import com.android.xiwao.washcar.R;
-import com.android.xiwao.washcar.data.CarInfo;
 import com.android.xiwao.washcar.data.OrderData;
-import com.android.xiwao.washcar.listadapter.CarInfoListAdapter.ViewHolder;
 
 public class OrderListAdapter extends BaseAdapter{
-
-	private static String TAG = "CarInfoListAdapter";
 	Context mContext;
-	private LayoutInflater mInflater;
+//	private LayoutInflater mInflater;
 	Boolean mInternetpic;
 	public List<OrderData> mList;
 	int mlayout;
 	public OrderListAdapter(Context paramContext, Boolean paramBoolean, int paramInt){
 		mContext = paramContext;
-		mInflater = LayoutInflater.from(mContext);
+//		mInflater = LayoutInflater.from(mContext);
 		mList = new ArrayList<OrderData>();
 		mInternetpic = paramBoolean;
 		mlayout = paramInt;

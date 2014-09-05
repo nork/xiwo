@@ -14,6 +14,7 @@ private final static String CMD = "customerModify.do";
 	private final static String PARAMS_CUSTOMER_ID = "Customer_id";
 	private final static String PARAMS_CUSTOMER_NAME = "Customer_name";
 	private final static String PARAMS_EMAIL = "Email";
+	private final static String PARAMS_CUSTOMER_PIC = "Customer_pic";
 	
 	public final static String JSON_RESPONSE_TYPE = "ResponseType";
 	public final static String JSON_ERROR_MESSAGE = "ErrorMessage";
@@ -22,6 +23,7 @@ private final static String CMD = "customerModify.do";
 	private long customerId;
 	private String customerName;
 	private String email;
+	private String headImg;
 	
 	public static class Response extends BaseResponse {
 		
@@ -57,6 +59,14 @@ private final static String CMD = "customerModify.do";
 		this.email = email;
 	}
 
+	public String getHeadImg() {
+		return headImg;
+	}
+
+	public void setHeadImg(String headImg) {
+		this.headImg = headImg;
+	}
+
 	@Override
 	protected String getComand() {
 		// TODO Auto-generated method stub
@@ -72,6 +82,7 @@ private final static String CMD = "customerModify.do";
 				.toString(customerId)));
 		nvps.add(new BasicNameValuePair(PARAMS_CUSTOMER_NAME, customerName));
 		nvps.add(new BasicNameValuePair(PARAMS_EMAIL, email));
+		nvps.add(new BasicNameValuePair(PARAMS_CUSTOMER_PIC, headImg));
 		return nvps;
 	}
 
