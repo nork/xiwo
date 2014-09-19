@@ -56,7 +56,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/user_recharge"
             android:layout_marginLeft="15dp"
-            android:text="@string/cur_balance" />
+            android:text="@string/cur_balance" 
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/cur_blance"
@@ -64,9 +65,10 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_below="@+id/user_recharge"
-            android:layout_marginRight="50dp"
-            android:text="500.00"
-            android:textColor="@color/orange" />
+            android:layout_marginRight="50dp"    
+            android:text="0元"     
+            android:textColor="@color/orange"
+            android:textSize="16sp"  />
     </RelativeLayout>
 
     <LinearLayout
@@ -102,21 +104,31 @@
                 android:layout_width="0dip"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/money200" />
+                android:text="@string/money200"
+                android:background="@drawable/recharge_btn_bg" 
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                />
 
             <Button
                 android:id="@+id/btn400"
                 android:layout_width="0dip"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/money400" />
+                android:text="@string/money400" 
+                android:background="@drawable/recharge_btn_bg"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp" />
 
             <Button
                 android:id="@+id/btn600"
                 android:layout_width="0dip"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/money600" />
+                android:text="@string/money600" 
+                android:background="@drawable/recharge_btn_bg"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp" />
         </LinearLayout>
 
         <LinearLayout
@@ -130,21 +142,30 @@
                 android:layout_width="0dip"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/money800" />
+                android:text="@string/money800" 
+                android:background="@drawable/recharge_btn_bg"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp" />
 
             <Button
                 android:id="@+id/btn1000"
                 android:layout_width="0dip"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/money1000" />
+                android:text="@string/money1000" 
+                android:background="@drawable/recharge_btn_bg" 
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"/>
 
             <Button
                 android:id="@+id/btn1200"
                 android:layout_width="0dip"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/money1200" />
+                android:text="@string/money1200"
+                android:background="@drawable/recharge_btn_bg"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"  />
         </LinearLayout>
 
         <EditText
@@ -153,7 +174,10 @@
             android:layout_height="wrap_content"
             android:hint="@string/input_custom_money"
             android:layout_marginTop="20dp" 
-            android:layout_marginBottom="20dp"/>
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/black_border_bg"
+            android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"/>
     </LinearLayout>
 
     <LinearLayout

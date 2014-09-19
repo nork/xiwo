@@ -106,9 +106,10 @@ public class UsefulAddressListAdapter extends BaseAdapter{
                 LayoutParams.MATCH_PARENT);
 		viewHolder.itemLeft.setLayoutParams(lp1);
 		
-		LinearLayout.LayoutParams lp2 = new LinearLayout.LayoutParams(mRightWidth / 2, LayoutParams.MATCH_PARENT);      
+		LinearLayout.LayoutParams lp2 = new LinearLayout.LayoutParams(mRightWidth, LayoutParams.MATCH_PARENT);      
         viewHolder.itemRightSure.setLayoutParams(lp2);   
         viewHolder.itemRightDelete.setLayoutParams(lp2);
+        viewHolder.itemRightSure.setVisibility(View.GONE);
         
         viewHolder.itemRightDelete.setOnClickListener(new OnClickListener() {
             @Override
@@ -139,7 +140,14 @@ public class UsefulAddressListAdapter extends BaseAdapter{
 				}
 			}
 		});
-        
+        convertView.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				mListener.onRightItemClick(arg0, position, 2);
+			}
+		});
 		return convertView;
 	}
 

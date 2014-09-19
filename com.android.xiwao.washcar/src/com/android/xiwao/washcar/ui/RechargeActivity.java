@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -30,7 +31,7 @@ public class RechargeActivity extends Activity {
 	private RelativeLayout rechargeTitle;
 	private LinearLayout moneyPart;
 	private LinearLayout buttonGroup;
-	
+
 	private TextView curMoney;
 	private Button btn200;
 	private Button btn400;
@@ -39,7 +40,8 @@ public class RechargeActivity extends Activity {
 	private Button btn1000;
 	private Button btn1200;
 	private Button backBtn;
-	
+	private EditText customMoney;	//自定义金额
+
 	private Button rechargeBtn;
 	private Button cancelBtn;
 
@@ -52,17 +54,21 @@ public class RechargeActivity extends Activity {
 	// 网络访问相关对象
 	private Handler mHandler;
 	private CommandExecuter mExecuter;
+
+	private int curCharge = -1; // 当前选中的充值金额 0:200 1:400 2:600 3:800 4:1000
+								// 5:1200
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		
+
 		ActivityManage.getInstance().setCurContext(this);
 		ActivityManage.getInstance().addActivity(this);
 
 		mLocalSharePref = new LocalSharePreference(this);
-		
+
 		setContentView(R.layout.recharge);
 		initExecuter();
 		initUtils();
@@ -71,14 +77,14 @@ public class RechargeActivity extends Activity {
 		getBalance();
 	}
 
-	private void initContentView() {		
+	private void initContentView() {
 		TextView title = (TextView) findViewById(R.id.title);
 		title.setText(R.string.recharge);
-		
+
 		rechargeTitle = (RelativeLayout) findViewById(R.id.recharge_title);
 		moneyPart = (LinearLayout) findViewById(R.id.money_part);
 		buttonGroup = (LinearLayout) findViewById(R.id.button_group);
-		
+
 		curMoney = (TextView) findViewById(R.id.cur_blance);
 		btn200 = (Button) findViewById(R.id.btn200);
 		btn400 = (Button) findViewById(R.id.btn400);
@@ -86,37 +92,151 @@ public class RechargeActivity extends Activity {
 		btn800 = (Button) findViewById(R.id.btn800);
 		btn1000 = (Button) findViewById(R.id.btn1000);
 		btn1200 = (Button) findViewById(R.id.btn1200);
+		customMoney = (EditText) findViewById(R.id.custom_money);
 		backBtn = (Button) findViewById(R.id.backbtn);
-		
+
 		rechargeBtn = (Button) findViewById(R.id.pay_now);
 		cancelBtn = (Button) findViewById(R.id.cannel_order);
 		
-		rechargeBtn.setOnClickListener(new View.OnClickListener() {
+		btn200.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				changeBackGround(arg0);
+				curCharge = 200;
+				btn200.setBackgroundResource(R.drawable.orange_border_bg);
+			}
+		});
+
+		btn400.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				changeBackGround(arg0);
+				curCharge = 400;
+			}
+		});
+
+		btn600.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				changeBackGround(arg0);
+				curCharge = 600;
+			}
+		});
+
+		btn800.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				changeBackGround(arg0);
+				curCharge = 800;
+			}
+		});
+
+		btn1000.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				changeBackGround(arg0);
+				curCharge = 1000;
+			}
+		});
+
+		btn1200.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				changeBackGround(arg0);
+				curCharge = 1200;
+			}
+		});
+		
+		customMoney.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
-				accountRecharge(200);
+				changeBackGround(arg0);
+				curCharge = -1;
 			}
 		});
-		
+
+		rechargeBtn.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				int customMoneyNum = 0;
+				try{
+					customMoneyNum = Integer.parseInt(customMoney.getText().toString());
+				}catch(Exception e){
+					e.printStackTrace();
+				}
+				if(curCharge == -1 && customMoneyNum <= 0){
+					dialogUtils.showToast("请选择或者输入充值金额！");
+				}else if(curCharge >= 0){
+					accountRecharge(curCharge);
+				}else if(customMoneyNum > 0){
+					accountRecharge(customMoneyNum);
+				}
+			}
+		});
+
 		cancelBtn.setOnClickListener(new View.OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				finish();
 			}
 		});
-		
+
 		backBtn.setOnClickListener(new View.OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				finish();
 			}
 		});
+	}
+
+	/**
+	 * 修改按钮点击时相关按钮的背景
+	 */
+	private void changeBackGround(View view){
+		switch(curCharge){
+		case 200:
+			btn200.setBackgroundResource(R.drawable.black_border_bg);
+			break;
+		case 400:
+			btn400.setBackgroundResource(R.drawable.black_border_bg);
+			break;
+		case 600:
+			btn600.setBackgroundResource(R.drawable.black_border_bg);
+			break;
+		case 800:
+			btn800.setBackgroundResource(R.drawable.black_border_bg);
+			break;
+		case 1000:
+			btn1000.setBackgroundResource(R.drawable.black_border_bg);
+			break;
+		case 1200:
+			btn1200.setBackgroundResource(R.drawable.black_border_bg);
+			break;
+		case -1:
+			customMoney.setBackgroundResource(R.drawable.black_border_bg);
+			break;
+		}
+		view.setBackgroundResource(R.drawable.orange_border_bg);
 	}
 
 	private void setHwView() {
@@ -129,34 +249,36 @@ public class RechargeActivity extends Activity {
 		LinearLayout.LayoutParams titleParams = new LinearLayout.LayoutParams(
 				LayoutParams.MATCH_PARENT, (int) (displayHeight * 0.08f + 0.5f));
 		title.setLayoutParams(titleParams);
-		
-		//充值title部分
+
+		// 充值title部分
 		LinearLayout.LayoutParams rechargeTitleParams = new LinearLayout.LayoutParams(
 				LayoutParams.MATCH_PARENT, (int) (displayHeight * 0.12f + 0.5f));
 		rechargeTitle.setLayoutParams(rechargeTitleParams);
-		
-		//金额按钮部分
+
+		// 金额按钮部分
 		LinearLayout.LayoutParams moneyBtnParams = new LinearLayout.LayoutParams(
 				LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 		moneyPart.setLayoutParams(moneyBtnParams);
-		
-		//付款按钮部分
+
+		// 付款按钮部分
 		LinearLayout.LayoutParams payBtnParams = new LinearLayout.LayoutParams(
 				LayoutParams.MATCH_PARENT, (int) (displayHeight * 0.12f + 0.5f));
-		payBtnParams.setMargins(0, (int)(displayHeight * 0.002f + 0.5f), 0, 0);
+		payBtnParams.setMargins(0, (int) (displayHeight * 0.002f + 0.5f), 0, 0);
 		buttonGroup.setLayoutParams(payBtnParams);
-		
-		LinearLayout.LayoutParams btnParams = new LinearLayout.LayoutParams((int)(displayWidth * 0.4f + 0.5f), 
-				(int)(displayHeight * 0.08f + 0.5f)); 
-		btnParams.setMargins((int)(displayWidth * 0.05f + 0.5f), 0, 0, 0);
+
+		LinearLayout.LayoutParams btnParams = new LinearLayout.LayoutParams(
+				(int) (displayWidth * 0.4f + 0.5f),
+				(int) (displayHeight * 0.06f + 0.5f));
+		btnParams.setMargins((int) (displayWidth * 0.05f + 0.5f), 0, 0, 0);
 		cancelBtn.setLayoutParams(btnParams);
-		btnParams = new LinearLayout.LayoutParams((int)(displayWidth * 0.4f + 0.5f), 
-				(int)(displayHeight * 0.08f + 0.5f));
-		btnParams.setMargins((int)(displayWidth * 0.1f + 0.5f), 0, 0, 0);
+		btnParams = new LinearLayout.LayoutParams(
+				(int) (displayWidth * 0.4f + 0.5f),
+				(int) (displayHeight * 0.06f + 0.5f));
+		btnParams.setMargins((int) (displayWidth * 0.1f + 0.5f), 0, 0, 0);
 		rechargeBtn.setLayoutParams(btnParams);
 	}
 
-	private void getBalance(){
+	private void getBalance() {
 		BaseCommand accountQuery = ClientSession.getInstance().getCmdFactory()
 				.getAccountQuery(mLocalSharePref.getUserId());
 
@@ -164,14 +286,16 @@ public class RechargeActivity extends Activity {
 
 		dialogUtils.showProgress();
 	}
-	
-	public void onAccountQuerySuccess(long accountInfo){
-		curMoney.setText(Long.toString(accountInfo));
+
+	public void onAccountQuerySuccess(long accountInfo) {
+		curMoney.setText(Long.toString(accountInfo) + "元");
 	}
-	
+
 	/**
 	 * 处理服务器返回的车辆注册结果
-	 * @param rsp 服务返回的车辆注册结果信息
+	 * 
+	 * @param rsp
+	 *            服务返回的车辆注册结果信息
 	 */
 	private void onReceiveAccountQueryResponse(BaseResponse rsp) {
 
@@ -183,13 +307,13 @@ public class RechargeActivity extends Activity {
 			AccountQuery.Response accountQueryRsp = (AccountQuery.Response) rsp;
 			if (accountQueryRsp.responseType.equals("N")) {
 				onAccountQuerySuccess(accountQueryRsp.accountInfo);
-//				dialogUtils.showToast(accountQueryRsp.errorMessage);
+				// dialogUtils.showToast(accountQueryRsp.errorMessage);
 			} else {
 				dialogUtils.showToast(accountQueryRsp.errorMessage);
 			}
 		}
 	}
-	
+
 	private CommandExecuter.ResponseHandler mAccountQueryRespHandler = new CommandExecuter.ResponseHandler() {
 
 		public void handleResponse(BaseResponse rsp) {
@@ -204,23 +328,26 @@ public class RechargeActivity extends Activity {
 			dialogUtils.dismissProgress();
 		}
 	};
-	
-	private void accountRecharge(int money){
-		BaseCommand accountRecharge = ClientSession.getInstance().getCmdFactory()
+
+	private void accountRecharge(int money) {
+		BaseCommand accountRecharge = ClientSession.getInstance()
+				.getCmdFactory()
 				.getAccountRecharge(mLocalSharePref.getUserId(), money);
 
 		mExecuter.execute(accountRecharge, mAccountRechargeRespHandler);
 
 		dialogUtils.showProgress();
 	}
-	
-	public void onAccountRechargeSuccess(long accountInfo){
-		curMoney.setText(Long.toString(accountInfo));
+
+	public void onAccountRechargeSuccess(long accountInfo) {
+		curMoney.setText(Long.toString(accountInfo) + "元");
 	}
-	
+
 	/**
 	 * 处理服务器返回的车辆注册结果
-	 * @param rsp 服务返回的车辆注册结果信息
+	 * 
+	 * @param rsp
+	 *            服务返回的车辆注册结果信息
 	 */
 	private void onReceiveAccountRechargeResponse(BaseResponse rsp) {
 
@@ -238,7 +365,7 @@ public class RechargeActivity extends Activity {
 			}
 		}
 	}
-	
+
 	private CommandExecuter.ResponseHandler mAccountRechargeRespHandler = new CommandExecuter.ResponseHandler() {
 
 		public void handleResponse(BaseResponse rsp) {
@@ -253,7 +380,7 @@ public class RechargeActivity extends Activity {
 			dialogUtils.dismissProgress();
 		}
 	};
-	
+
 	/**
 	 * 初始化需要的工具
 	 */
@@ -268,7 +395,7 @@ public class RechargeActivity extends Activity {
 		mExecuter = new CommandExecuter();
 		mExecuter.setHandler(mHandler);
 	}
-	
+
 	@Override
 	protected void onDestroy() {
 		// TODO Auto-generated method stub

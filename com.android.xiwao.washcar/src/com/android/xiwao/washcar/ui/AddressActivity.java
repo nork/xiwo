@@ -140,6 +140,8 @@ public class AddressActivity extends Activity {
 				(int) (displayHeight * 0.7f + 0.5f));
 		addressList.setLayoutParams(listParams);
 		noAddressTxt.setLayoutParams(listParams);
+		
+		addressList.setRightViewWidth((int) (displayWidth * 0.15f + 0.5f));	//设置列表删除键宽度
 	}
 	/**
 	 * 填充地址列表信息

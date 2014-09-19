@@ -50,6 +50,7 @@
             android:background="@drawable/washcar_btn"
             android:text="@string/wash_car"
             android:textColor="@color/white"
+            android:textSize="18sp"
             android:textStyle="bold" >
         </Button>
 
@@ -61,7 +62,8 @@
             android:background="@drawable/washwaxcar_btn"
             android:text="@string/wash_car_wax"
             android:textColor="@color/white"
-            android:textStyle="bold" >
+            android:textStyle="bold" 
+            android:textSize="18sp">
         </Button>
     </RelativeLayout>
 

@@ -51,7 +51,7 @@ public class SwipeListView extends ListView {
       //获取自定义属性和默认值
       Activity activity = (Activity) context;
       int width = ((XiwaoApplication)activity.getApplication()).getDisplayWidth();
-      mRightViewWidth = (int) mTypedArray.getDimension(R.styleable.swipelistviewstyle_right_width, (int) (width * 0.3f + 0.5f));   
+      mRightViewWidth = (int) mTypedArray.getDimension(R.styleable.swipelistviewstyle_right_width, (int) (width * 0.2f + 0.5f));   
       
       mTypedArray.recycle();  
     }

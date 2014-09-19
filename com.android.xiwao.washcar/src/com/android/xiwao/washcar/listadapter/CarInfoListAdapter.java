@@ -114,6 +114,15 @@ public class CarInfoListAdapter extends BaseAdapter{
 					((Activity)mContext).startActivityForResult(i, Constants.ADD_CAR_RESULT_CODE);
 				}
 			});
+		}else{
+			convertView.setOnClickListener(new View.OnClickListener() {
+				
+				@Override
+				public void onClick(View arg0) {
+					// TODO Auto-generated method stub
+					mListener.onRightItemClick(arg0, position, 2);
+				}
+			});
 		}
 			
 		viewHolder.addCar.setOnClickListener(new View.OnClickListener() {
@@ -142,9 +151,10 @@ public class CarInfoListAdapter extends BaseAdapter{
 		LinearLayout.LayoutParams lp1 = new LayoutParams(LayoutParams.MATCH_PARENT,
                 LayoutParams.MATCH_PARENT);
 		viewHolder.itemLeft.setLayoutParams(lp1);
-		LinearLayout.LayoutParams lp2 = new LayoutParams(mRightWidth / 2, LayoutParams.MATCH_PARENT);       
+		LinearLayout.LayoutParams lp2 = new LayoutParams(mRightWidth, LayoutParams.MATCH_PARENT);       
         viewHolder.itemRightDelete.setLayoutParams(lp2);
         viewHolder.itemRightWash.setLayoutParams(lp2);
+        viewHolder.itemRightWash.setVisibility(View.GONE);
         
         viewHolder.itemRightDelete.setOnClickListener(new OnClickListener() {
             @Override

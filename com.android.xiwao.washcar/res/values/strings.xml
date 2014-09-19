@@ -17,8 +17,8 @@
     <string name="order_manage">订单管理</string>
     <string name="more">更多</string>
     <string name="wash_car">洗车</string>
-    <string name="wash_car_wax">洗车\n打蜡</string>
-    <string name="i_wash_car">我要洗车</string>
+    <string name="wash_car_wax">打蜡</string>
+    <string name="i_wash_car">Wash Me</string>
     <!-- Login UI String -->
     <string name="phone_num">手机号码</string>
     <string name="please_phone">请输入手机号码</string>
@@ -74,9 +74,9 @@
     <!-- car info edit ui string -->
     <string name="contact_num">联系电话</string>
     <string name="website">所在网点</string>
-    <string name="car_type">汽车型号</string>
-    <string name="car_brand">汽车品牌</string>
-    <string name="car_color">汽车颜色</string>
+    <string name="car_type">型&#160;&#160;&#160;&#160;号</string>
+    <string name="car_brand">品&#160;&#160;&#160;&#160;牌</string>
+    <string name="car_color">颜&#160;&#160;&#160;&#160;色</string>
     <string name="car_pic">汽车照片</string>
     <!-- Order Manage ui string -->
     <string name="paid">已经支付</string>

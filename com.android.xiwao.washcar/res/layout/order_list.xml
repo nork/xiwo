@@ -72,9 +72,10 @@
             android:layout_height="fill_parent"
             android:layout_margin="1dp"
             android:layout_weight="1"
-            android:background="@drawable/completed_btn_bg"
+            android:background="@drawable/closed_btn_bg"
             android:text="@string/completed"
-            android:textColor="@color/order_btn_textcolor_selector" />
+            android:textColor="@color/order_btn_textcolor_selector" 
+            />
 
         <Button
             android:id="@+id/closed_btn"
@@ -84,7 +85,8 @@
             android:layout_weight="1"
             android:background="@drawable/closed_btn_bg"
             android:text="@string/closed"
-            android:textColor="@color/order_btn_textcolor_selector" />
+            android:textColor="@color/order_btn_textcolor_selector" 
+            android:visibility="gone"/>
     </LinearLayout>
 
     <RelativeLayout

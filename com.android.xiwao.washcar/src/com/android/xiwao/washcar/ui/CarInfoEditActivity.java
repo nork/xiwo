@@ -103,11 +103,7 @@ public class CarInfoEditActivity extends Activity {
 		websitEdt = (TextView) findViewById(R.id.websit_edt);
 		contactEdt = (EditText) findViewById(R.id.contact_edt);
 		TextView title = (TextView) findViewById(R.id.title);
-		title.setText(R.string.car_info);
-		
-		if(choiceCar.getCarCode() != null){
-			carNumEdt.setText(choiceCar.getCarCode());
-		}
+		title.setText("Wash Me");
 		
 		submitBtn.setOnClickListener(new View.OnClickListener() {
 			
@@ -164,6 +160,7 @@ public class CarInfoEditActivity extends Activity {
 		if(choiceCar != null){
 			carNumEdt.setText(choiceCar.getCarCode());
 		}
+		contactEdt.setText(mLocalSharePref.getUserName());
 	}	
 
 	private void placeOrder(){

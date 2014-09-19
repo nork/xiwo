@@ -42,6 +42,7 @@ import com.android.xiwao.washcar.httpconnection.CommandExecuter;
 import com.android.xiwao.washcar.utils.DialogUtils;
 import com.android.xiwao.washcar.utils.FileUtil;
 
+@SuppressLint("NewApi")
 public class AddCarActivity extends Activity {
 	private RelativeLayout carType;
 	private RelativeLayout carNum;
@@ -365,7 +366,7 @@ public class AddCarActivity extends Activity {
 	// 提示对话框方法
 	private void showDialog() {
 		new AlertDialog.Builder(this)
-				.setTitle("头像设置")
+				.setTitle("汽车靓照")
 				.setPositiveButton("拍照", new DialogInterface.OnClickListener() {
 
 					@Override
