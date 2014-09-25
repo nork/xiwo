@@ -47,25 +47,25 @@
         android:orientation="horizontal" >
 
         <Button
-            android:id="@+id/paid_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:layout_margin="1dp"
-            android:layout_weight="1"
-            android:background="@drawable/paidbtn_bg"
-            android:text="@string/paid"
-            android:textColor="@color/order_btn_textcolor_selector" />
-
-        <Button
             android:id="@+id/wait_pay_btn"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:layout_margin="1dp"
             android:layout_weight="1"
-            android:background="@drawable/wait_pay_btn_bg"
+            android:background="@drawable/paidbtn_bg"         
             android:text="@string/wait_pay"
             android:textColor="@color/order_btn_textcolor_selector" />
 
+        <Button
+            android:id="@+id/paid_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_margin="1dp"
+            android:layout_weight="1"
+            android:background="@drawable/wait_pay_btn_bg"
+            android:text="@string/paid"
+            android:textColor="@color/order_btn_textcolor_selector" />
+        
         <Button
             android:id="@+id/completed_btn"
             android:layout_width="wrap_content"

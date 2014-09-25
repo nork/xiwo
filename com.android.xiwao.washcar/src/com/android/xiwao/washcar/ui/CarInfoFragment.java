@@ -103,7 +103,8 @@ public class CarInfoFragment extends BaseFragment {
 		if(!userHeadBase64.equals("") && userHeadBase64 != null){
 			Bitmap userHeadBitMap = FileUtil.base64ToBitmap(userHeadBase64);
 			Drawable drawable = new BitmapDrawable(userHeadBitMap);
-			customerImg.setBackground(drawable);
+			customerImg.setBackgroundDrawable(drawable);
+//			customerImg.setBackground(drawable);
 		}
 	}
 	
@@ -127,7 +128,7 @@ public class CarInfoFragment extends BaseFragment {
 			if(!userHeadBase64.equals("") && userHeadBase64 != null){
 				Bitmap userHeadBitMap = FileUtil.base64ToBitmap(userHeadBase64);
 				Drawable drawable = new BitmapDrawable(userHeadBitMap);
-				customerImg.setBackground(drawable);
+				customerImg.setBackgroundDrawable(drawable);
 			}
 			break;
 		}

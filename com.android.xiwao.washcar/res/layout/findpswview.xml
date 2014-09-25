@@ -43,7 +43,8 @@
         android:id="@+id/getcodeview"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:orientation="vertical" >
+        android:orientation="vertical"
+        android:visibility="visible" >
 
         <!-- 手机号码 -->
 
@@ -112,7 +113,8 @@
                 android:layout_width="fill_parent"
                 android:layout_height="0.1dip"
                 android:layout_weight="1"
-                android:background="@color/gray_line" />
+                android:background="@color/gray_line" 
+                />
 
             <LinearLayout
                 android:id="@+id/code_input_text"
@@ -128,7 +130,8 @@
                     android:paddingLeft="20dp"
                     android:text="@string/input_code"
                     android:textColor="@android:color/black"
-                    android:textSize="17sp" />
+                    android:textSize="17sp" 
+                    android:visibility="gone"/>
 
                 <EditText
                     android:id="@+id/codeedt"
@@ -141,6 +144,7 @@
                     android:paddingLeft="25dp"
                     android:singleLine="true"
                     android:textColor="@color/blackgrey"
+                    android:hint="@string/input_code"
                     android:textSize="16sp" />
 
                 <Button
@@ -149,9 +153,9 @@
                     android:layout_height="35dp"
                     android:layout_gravity="right|center_vertical"
                     android:layout_marginRight="15dp"
-                    android:background="@null"
+                    android:background="@drawable/orange_btn_bg"
                     android:text="@string/get_code"
-                    android:textColor="@color/buletext"
+                    android:textColor="@color/white"
                     android:textSize="15sp" />
             </LinearLayout>
 
@@ -174,7 +178,8 @@
                     android:paddingLeft="20dp"
                     android:text="@string/input_new_pwd"
                     android:textColor="@android:color/black"
-                    android:textSize="17sp" />
+                    android:textSize="17sp" 
+                    android:visibility="gone"/>
 
                 <EditText
                     android:id="@+id/pswedt01"
@@ -184,6 +189,7 @@
                     android:paddingLeft="25dp"
                     android:inputType="textPassword"
                     android:singleLine="true"
+                    android:hint="@string/setpwd"
                     android:textColor="@color/blackgrey"
                     android:textSize="16sp" />
             </LinearLayout>
@@ -207,7 +213,8 @@
                     android:paddingLeft="20dp"
                     android:text="@string/sure_new_pwd"
                     android:textColor="@android:color/black"
-                    android:textSize="17sp" />
+                    android:textSize="17sp" 
+                    android:visibility="gone"/>
 
                 <EditText
                     android:id="@+id/pswedt02"
@@ -215,9 +222,10 @@
                     android:layout_height="50dp"
                     android:background="@null"
                     android:paddingLeft="25dp"
-                     android:inputType="textPassword"
+                    android:inputType="textPassword"
                     android:singleLine="true"
                     android:textColor="@color/blackgrey"
+                    android:hint="@string/setpwdagin"
                     android:textSize="16sp" />
             </LinearLayout>
 
@@ -236,7 +244,7 @@
             android:layout_marginRight="15dp"
             android:layout_marginTop="40dp"
             android:background="@drawable/orange_btn_bg"
-            android:text="@string/submit"
+            android:text="@string/find_pwd"
             android:textColor="@color/white"
             android:textSize="19sp" />
     </LinearLayout>

@@ -21,10 +21,12 @@ public class OrderQuery extends BaseCommand{
 	
 	public final static String JSON_RESPONSE_TYPE = "ResponseType";
 	public final static String JSON_ERROR_MESSAGE = "ErrorMessage";
+	public final static String JSON_COUNT = "Count";
 	public final static String JSON_ORDER_LIST = "Order_List";
 	public final static String JSON_ORDER_ID = "order_id";
 	public final static String JSON_CUSTOM_ID = "customer_id";
 	public final static String JSON_SERVICE_TYPE = "service_type";
+	public final static String JSON_SERVICE_MI = "service_type_mi";
 	public final static String JSON_MOBILE_NUM = "mobile_number";
 	public final static String JSON_CAR_CODE = "car_code";
 	public final static String JSON_ADDRESS = "address";
@@ -48,6 +50,7 @@ public class OrderQuery extends BaseCommand{
 
 		public String errorMessage;
 		public String responseType;
+		public int orderCount;
 		public List<OrderData> orderDataList;
 	}
 
@@ -119,6 +122,7 @@ public class OrderQuery extends BaseCommand{
 
 			orderQuery.responseType = jsonObj.getString(JSON_RESPONSE_TYPE);
 			orderQuery.errorMessage = jsonObj.getString(JSON_ERROR_MESSAGE);
+			orderQuery.orderCount = jsonObj.getInt(JSON_COUNT);
 		
 			jsonArray = jsonObj.getJSONArray(JSON_ORDER_LIST);
 			for(int i = 0; i<jsonArray.length(); i++){
@@ -140,10 +144,17 @@ public class OrderQuery extends BaseCommand{
 					serviceType = "洗车\n打蜡";
 				}
 				brief.setServiceType(serviceType);
+				brief.setServiceTypeMi(jsonSingleInfo.getString(JSON_SERVICE_MI));
 				brief.setWashBegin(jsonSingleInfo.getString(JSON_WASH_BEGINTIME));
 				brief.setWashEnd(jsonSingleInfo.getString(JSON_WASH_ENDTIME));
-				int fee = jsonSingleInfo.getInt(JSON_FEE);
-				brief.setFee((fee/100) + ".00");
+				int fee = 0;
+				try{
+					fee = jsonSingleInfo.getInt(JSON_FEE);
+					brief.setFee((fee/100) + ".00");
+				}catch(Exception e){
+					e.printStackTrace();
+					brief.setFee("获取价格失败");
+				}
 //				brief.setFee(jsonSingleInfo.getString(JSON_FEE));
 				
 				orderQuery.orderDataList.add(brief);

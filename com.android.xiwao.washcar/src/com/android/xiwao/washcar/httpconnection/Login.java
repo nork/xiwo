@@ -21,6 +21,8 @@ public class Login extends BaseCommand {
 	public static final String JSON_CUSTOM_NAME = "Customer_name";
 	public static final String JSON_MOBILE_NUM = "Mobile_number";
 	public static final String JSON_EMAIL = "Email";
+	public static final String JSON_CUSTOM_TYPE = "Customer_type";
+	public static final String JSON_CUSTOM_PIC = "Customer_pic";
 	
 	
 	private String mUser;
@@ -37,6 +39,8 @@ public class Login extends BaseCommand {
 		public String customerName;
 		public String mobileNum;
 		public String email;
+		public String headStr;
+		public String customerType;
 	}
 		
 	public Login() {
@@ -76,6 +80,8 @@ public class Login extends BaseCommand {
 			login.customerName = jsonObj.getString(JSON_CUSTOM_NAME);
 			login.mobileNum = jsonObj.getString(JSON_MOBILE_NUM);
 			login.email = jsonObj.getString(JSON_EMAIL);
+			login.customerType = jsonObj.getString(JSON_CUSTOM_TYPE);
+			login.headStr = jsonObj.getString(JSON_CUSTOM_PIC);
 			
 		} catch (JSONException e) {
 			e.printStackTrace();

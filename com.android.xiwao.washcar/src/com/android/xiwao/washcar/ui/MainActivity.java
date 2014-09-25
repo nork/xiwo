@@ -1,27 +1,40 @@
 package com.android.xiwao.washcar.ui;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import android.annotation.TargetApi;
 import android.app.ActionBar.LayoutParams;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.DisplayMetrics;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import com.android.xiwao.washcar.ActivityManage;
 import com.android.xiwao.washcar.AppLog;
+import com.android.xiwao.washcar.ClientSession;
 import com.android.xiwao.washcar.Constants;
 import com.android.xiwao.washcar.R;
 import com.android.xiwao.washcar.XiwaoApplication;
+import com.android.xiwao.washcar.data.FeeData;
+import com.android.xiwao.washcar.httpconnection.BaseCommand;
+import com.android.xiwao.washcar.httpconnection.BaseResponse;
+import com.android.xiwao.washcar.httpconnection.CommandExecuter;
+import com.android.xiwao.washcar.httpconnection.RateQuery;
 import com.android.xiwao.washcar.utils.FragmentUtils;
 
 public class MainActivity extends FragmentActivity implements OnClickListener {
@@ -33,6 +46,13 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 	private Fragment fragment;
 	
 	private boolean ifOrderReturn = false;
+	
+	// 网络访问相关对象
+	private Handler mHandler;
+	private CommandExecuter mExecuter;
+	
+	public static List<FeeData> feeDataList = new ArrayList<FeeData>();
+	private long mExitTime;
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Override
@@ -48,6 +68,8 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 		
         setContentView(R.layout.activity_main);
         initContentView();
+        initExecuter();
+        rateQuery();
 //      setHwView();
     }
     
@@ -97,8 +119,22 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 	public void onClick(View arg0) {
 		// TODO Auto-generated method stub
 		
-	}	
+	}
 	
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if (keyCode == KeyEvent.KEYCODE_BACK) {
+			if ((System.currentTimeMillis() - mExitTime) > 2000) {
+				Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
+				mExitTime = System.currentTimeMillis();
+			} else {
+				finish();
+			}
+			return true;
+		}
+		return super.onKeyDown(keyCode, event);
+	}
+
 	@Override
 	protected void onResume() {
 		// TODO Auto-generated method stub
@@ -145,6 +181,58 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 			}
 			break;
 		}
+	}
+	/**
+	 * 查询费用
+	 */
+	public void rateQuery(){
+		BaseCommand login = ClientSession.getInstance().getCmdFactory()
+				.getRateQuery();
+
+		mExecuter.execute(login, mRespHandler);
+	}
+
+	/**
+	 * 处理服务器返回的查询结果
+	 * @param rsp 服务返回的登录信息
+	 */
+	private void onReceiveLoginResponse(BaseResponse rsp) {
+
+		if (!rsp.isOK()) {
+			String error = getString(R.string.protocol_error) + "(" + rsp.errno
+					+ ")";
+//			dialogUtils.showToast(error);
+		} else {
+			RateQuery.Response rateQueryRsp = (RateQuery.Response) rsp;
+			if (rateQueryRsp.responseType.equals("N")) {
+				feeDataList = rateQueryRsp.briefs;
+			} else {
+//				dialogUtils.showToast(loginRsp.errorMessage);
+			}
+		}
+	}
+
+	private CommandExecuter.ResponseHandler mRespHandler = new CommandExecuter.ResponseHandler() {
+
+		public void handleResponse(BaseResponse rsp) {
+			onReceiveLoginResponse(rsp);
+		}
+
+		public void handleException(IOException e) {
+//			dialogUtils.showToast(getString(R.string.connection_error));
+		}
+
+		public void onEnd() {
+//			dialogUtils.dismissProgress();
+		}
+	};
+	
+	private void initExecuter() {
+
+		mHandler = new Handler();
+
+		mExecuter = new CommandExecuter();
+		mExecuter.setHandler(mHandler);
 	}
 	
 	public void setHwView(){

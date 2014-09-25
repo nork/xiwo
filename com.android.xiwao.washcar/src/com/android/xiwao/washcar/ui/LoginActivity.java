@@ -27,6 +27,7 @@ import com.android.xiwao.washcar.httpconnection.BaseResponse;
 import com.android.xiwao.washcar.httpconnection.CommandExecuter;
 import com.android.xiwao.washcar.httpconnection.Login;
 import com.android.xiwao.washcar.utils.DialogUtils;
+import com.android.xiwao.washcar.utils.EncryDecryUtils;
 
 public class LoginActivity extends Activity {
 	// 控件
@@ -54,6 +55,8 @@ public class LoginActivity extends Activity {
 	private String password;
 	private String nickName;
 	private String email;
+	private String headStr;
+	private String userType;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -73,9 +76,9 @@ public class LoginActivity extends Activity {
 
 		getDisHw();// 获取屏幕分辨率，供后期使用
 		setContentView(R.layout.login);
-		initContentView();
 		initExecuter();
 		initUtils();
+		initContentView();
 		setHwView();
 	}
 
@@ -91,7 +94,9 @@ public class LoginActivity extends Activity {
 		passwordView = (LinearLayout) findViewById(R.id.password_view);
 
 		title.setText(this.getResources().getString(R.string.login));
-
+		if(mLocalSharePref.getUserName() != null || !mLocalSharePref.getUserName().equals("")){
+			phoneEdt.setText(mLocalSharePref.getUserName());
+		}
 		loginBtn.setOnClickListener(new View.OnClickListener() {
 
 			@Override
@@ -99,7 +104,8 @@ public class LoginActivity extends Activity {
 				// TODO Auto-generated method stub
 				userName = phoneEdt.getText().toString();
 				password = pwdEdt.getText().toString();
-				
+				AppLog.v("TAG", EncryDecryUtils.str2Md5(password));
+//				doLogin(userName, EncryDecryUtils.str2Md5(password));
 				doLogin(userName, password);
 			}
 		});
@@ -112,7 +118,6 @@ public class LoginActivity extends Activity {
 				Intent intent = new Intent(LoginActivity.this,
 						RegisterActivity.class);
 				startActivity(intent);
-				finish();
 			}
 		});
 
@@ -123,8 +128,8 @@ public class LoginActivity extends Activity {
 				// TODO Auto-generated method stub
 				Intent intent = new Intent(LoginActivity.this,
 						FindPasswordActivity.class);
+				intent.putExtra("mobile", phoneEdt.getText().toString());
 				startActivity(intent);
-				finish();
 			}
 		});
 	}
@@ -206,10 +211,13 @@ public class LoginActivity extends Activity {
 		} else if (password.trim().length() == 0) {
 			dialogUtils.showToast(getString(R.string.empty_passwd));
 			return;
+		} else if(password.trim().length() < 6 || password.trim().length() > 20){
+			dialogUtils.showToast(getString(R.string.pwd_format_erro));
+			return;
 		}
 
 		BaseCommand login = ClientSession.getInstance().getCmdFactory()
-				.getLogin(user, password);
+				.getLogin(user, EncryDecryUtils.str2Md5(password));
 
 		mExecuter.execute(login, mRespHandler);
 
@@ -225,6 +233,8 @@ public class LoginActivity extends Activity {
 		mLocalSharePref.setLoginState(true);	//保存登录状态
 		mLocalSharePref.setNickName(nickName);
 		mLocalSharePref.setUserEmail(email);
+		mLocalSharePref.setUserHead(headStr);
+		mLocalSharePref.setUserType(userType);
 		AppLog.v("TAG", "用户ID:" + ClientSession.getInstance().getUserId());
 		mLocalSharePref.setUserId(ClientSession.getInstance().getUserId());
 		
@@ -251,6 +261,8 @@ public class LoginActivity extends Activity {
 				session.setUserId(loginRsp.id);
 				nickName = loginRsp.customerName;
 				email = loginRsp.email;
+				headStr = loginRsp.headStr;
+				userType = loginRsp.customerType;
 				onLoginSuccess();
 			} else {
 				dialogUtils.showToast(loginRsp.errorMessage);
@@ -266,6 +278,7 @@ public class LoginActivity extends Activity {
 
 		public void handleException(IOException e) {
 			dialogUtils.showToast(getString(R.string.connection_error));
+			onLoginSuccess();
 		}
 
 		public void onEnd() {

@@ -91,8 +91,16 @@ public class CustomInfoActivity extends Activity {
 		addBtn = (Button) findViewById(R.id.add);
 		headImg = (ImageView) findViewById(R.id.head);
 
-		userTxt.setText(mLocalSharePref.getNickName());
-		emailTxt.setText(mLocalSharePref.getUserEmail());
+		String nickName = mLocalSharePref.getNickName();
+		if(nickName.equals("null") || nickName == null || nickName.equals("")){
+			nickName = "";
+		}
+		userTxt.setText(nickName);
+		String email = mLocalSharePref.getUserEmail();
+		if(email.equals("null") || email == null || email.equals("")){
+			email = "";
+		}
+		emailTxt.setText(email);
 		phoneTxt.setText(mLocalSharePref.getUserName());
 
 		backBtn = (Button) findViewById(R.id.backbtn);
@@ -140,7 +148,8 @@ public class CustomInfoActivity extends Activity {
 		if(!userHeadBase64.equals("") && userHeadBase64 != null){
 			Bitmap userHeadBitMap = FileUtil.base64ToBitmap(userHeadBase64);
 			Drawable drawable = new BitmapDrawable(userHeadBitMap);
-            headImg.setBackground(drawable);
+            headImg.setBackgroundDrawable(drawable);
+//			headImg.setBackground(drawable);
 		}
 	}
 
@@ -339,7 +348,8 @@ public class CustomInfoActivity extends Activity {
             
             ((XiwaoApplication)getApplication()).setIfNeedRefreshHeadImg(true);
             Drawable drawable = new BitmapDrawable(photo);
-            headImg.setBackground(drawable);
+            headImg.setBackgroundDrawable(drawable);
+//            headImg.setBackground(drawable);
         }
 	}
 	

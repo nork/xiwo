@@ -20,6 +20,8 @@ public class PlaceOrder extends BaseCommand{
 	private final static String PARAMS_PAY_TYPE = "Pay_type";
 	private final static String PARAMS_NOTE = "Note";
 	private final static String PARAMS_ADDRESS = "Address";
+	private final static String PARAMS_SERVICE_TYPE_MI = "Service_type_mi";
+	private final static String PARAMS_FEE = "fee";
 	
 	public final static String JSON_RESPONSE_TYPE = "ResponseType";
 	public final static String JSON_ERROR_MESSAGE = "ErrorMessage";
@@ -35,6 +37,8 @@ public class PlaceOrder extends BaseCommand{
 	private String payType;
 	private String note;
 	private String address;
+	private String serviceTypeMi;
+	private int fee;
 	
 	public static class Response extends BaseResponse {
 		
@@ -120,6 +124,22 @@ public class PlaceOrder extends BaseCommand{
 		this.address = address;
 	}
 
+	public String getServiceTypeMi() {
+		return serviceTypeMi;
+	}
+
+	public void setServiceTypeMi(String serviceTypeMi) {
+		this.serviceTypeMi = serviceTypeMi;
+	}
+
+	public int getFee() {
+		return fee;
+	}
+
+	public void setFee(int fee) {
+		this.fee = fee;
+	}
+
 	@Override
 	protected String getComand() {
 		// TODO Auto-generated method stub
@@ -143,6 +163,8 @@ public class PlaceOrder extends BaseCommand{
 		nvps.add(new BasicNameValuePair(PARAMS_PAY_TYPE, payType));
 		nvps.add(new BasicNameValuePair(PARAMS_NOTE,note));
 		nvps.add(new BasicNameValuePair(PARAMS_ADDRESS, address));
+		nvps.add(new BasicNameValuePair(PARAMS_SERVICE_TYPE_MI, serviceTypeMi));
+		nvps.add(new BasicNameValuePair(PARAMS_FEE, Integer.toString(fee)));
 		return nvps;
 	}
 
@@ -157,7 +179,7 @@ public class PlaceOrder extends BaseCommand{
 
 			placeOrder.responseType = jsonObj.getString(JSON_RESPONSE_TYPE);
 			placeOrder.errorMessage = jsonObj.getString(JSON_ERROR_MESSAGE);
-			placeOrder.fee = jsonObj.getInt(JSON_FEE);
+//			placeOrder.fee = jsonObj.getInt(JSON_FEE);
 			placeOrder.orderId = jsonObj.getLong(JSON_ORDER_ID);
 			
 		} catch (JSONException e) {

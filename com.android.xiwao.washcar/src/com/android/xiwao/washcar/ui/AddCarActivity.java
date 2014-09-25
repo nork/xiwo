@@ -77,6 +77,7 @@ public class AddCarActivity extends Activity {
 
 	// 创建一个以当前时间为名称的文件
 	private File tempFile;
+	private String carPicBase64;	//汽车照片的BASE64字串
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -133,7 +134,7 @@ public class AddCarActivity extends Activity {
 				addCar(carNumEdt.getText().toString().trim(), carBrandEdt
 						.getText().toString().trim(), carColorEdt.getText()
 						.toString().trim(),
-						spinnerCarType.getSelectedItemPosition(), null);
+						spinnerCarType.getSelectedItemPosition(), carPicBase64);
 			}
 		});
 
@@ -336,8 +337,10 @@ public class AddCarActivity extends Activity {
 		if (bundle != null) {
 			Bitmap photo = bundle.getParcelable("data");
 			Drawable drawable = new BitmapDrawable(photo);
-			addImgBtn.setBackground(drawable);
+			addImgBtn.setBackgroundDrawable(drawable);
+//			addImgBtn.setBackground(drawable);
 			addImgBtn.setText("");
+			carPicBase64 = FileUtil.bitmapToBase64(photo);
 		}
 	}
 	@Override

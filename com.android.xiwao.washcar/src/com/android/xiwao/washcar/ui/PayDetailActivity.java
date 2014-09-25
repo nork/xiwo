@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -72,7 +73,7 @@ public class PayDetailActivity extends Activity {
 	public void initContentView() {
 		// TODO Auto-generated method stub
 		TextView title = (TextView) view.findViewById(R.id.title);
-		title.setText(R.string.car_order);
+		title.setText("¶©µ¥");
 		
 		cannelOrderBtn = (Button) view.findViewById(R.id.cannel_order);
 		payNowBtn = (Button) view.findViewById(R.id.pay_now);
@@ -91,6 +92,25 @@ public class PayDetailActivity extends Activity {
 				intent.putExtra("order_id", orderId);
 				intent.putExtra("order_fee", feeStr);
 				startActivityForResult(intent, Constants.PAY_ORDER_RESULT_CODE);
+			}
+		});
+		
+		cannelOrderBtn.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				finish();
+			}
+		});
+		
+		Button backbtn = (Button) view.findViewById(R.id.backbtn);
+		backbtn.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				finish();
 			}
 		});
 		

@@ -12,15 +12,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/car_list_item_bg" >
-
+		
         <ImageView
             android:id="@+id/car_img"
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_margin="10dp"
-            android:background="@drawable/icon_car"
+            android:src="@drawable/icon_car"
             android:visibility="visible" />
 
         <RelativeLayout
@@ -38,7 +38,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/car_num"
-                android:textColor="@android:color/black" />
+                android:textColor="@android:color/black"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/car_num"

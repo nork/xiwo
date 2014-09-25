@@ -65,7 +65,7 @@ public class OrderDetailActivity extends Activity {
 		payNowBtn = (Button) findViewById(R.id.pay_now);
 		cannelOrderBtn = (Button) findViewById(R.id.cannel_order);
 		TextView title = (TextView) findViewById(R.id.title);
-		title.setText(R.string.order_detail);
+		title.setText("∂©µ•»∑»œ");
 		
 		orderId = (TextView) findViewById(R.id.serial_number);
 		transactionAmount = (TextView) findViewById(R.id.transaction_amount);

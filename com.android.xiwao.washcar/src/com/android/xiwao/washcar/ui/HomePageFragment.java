@@ -46,7 +46,7 @@ public class HomePageFragment extends BaseFragment{
 		washCarWaxBtn = (Button)view.findViewById(R.id.wash_car_wax);
 		title = (TextView)view.findViewById(R.id.title); 
 		
-		title.setText(this.getResources().getString(R.string.i_wash_car));
+		title.setText("Ê×Ò³");
 		washCarBtn.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
@@ -74,7 +74,7 @@ public class HomePageFragment extends BaseFragment{
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
 				Intent intent = new Intent(mContext, CarInfoEditActivity.class);
-				intent.putExtra("service_type", 1);
+				intent.putExtra("service_type", 2);
 				startActivity(intent);
 			}
 		});

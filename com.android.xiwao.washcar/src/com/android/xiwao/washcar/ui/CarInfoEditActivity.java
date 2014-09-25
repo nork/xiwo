@@ -29,6 +29,7 @@ import com.android.xiwao.washcar.R;
 import com.android.xiwao.washcar.XiwaoApplication;
 import com.android.xiwao.washcar.data.AddressData;
 import com.android.xiwao.washcar.data.CarInfo;
+import com.android.xiwao.washcar.data.FeeData;
 import com.android.xiwao.washcar.httpconnection.BaseCommand;
 import com.android.xiwao.washcar.httpconnection.BaseResponse;
 import com.android.xiwao.washcar.httpconnection.CommandExecuter;
@@ -47,12 +48,15 @@ public class CarInfoEditActivity extends Activity {
 	private Spinner spinnerServerType;
 	private TextView carNumEdt;
 	private TextView websitEdt;
+	private TextView price;
 	private EditText contactEdt;
+	private Button cleanInBtn;
 
 	private ArrayAdapter typeAdapter;
 	
 	private CarInfo choiceCar;
 	private AddressData choiceAddress;
+	private int priceCount;	//总价
 //	private String branchName;
 	
 	// 工具
@@ -87,7 +91,7 @@ public class CarInfoEditActivity extends Activity {
 		initContentView();
 		setHwView();
 		initAdapter();
-		
+		setPriceView();
 //		((XiwaoApplication)getApplication()).setIfNeedRefreshOrder(true);
 	}
 
@@ -102,8 +106,9 @@ public class CarInfoEditActivity extends Activity {
 		carNumEdt = (TextView) findViewById(R.id.car_num_edt);
 		websitEdt = (TextView) findViewById(R.id.websit_edt);
 		contactEdt = (EditText) findViewById(R.id.contact_edt);
+		price = (TextView) findViewById(R.id.price);
 		TextView title = (TextView) findViewById(R.id.title);
-		title.setText("Wash Me");
+		title.setText("订单");
 		
 		submitBtn.setOnClickListener(new View.OnClickListener() {
 			
@@ -161,6 +166,32 @@ public class CarInfoEditActivity extends Activity {
 			carNumEdt.setText(choiceCar.getCarCode());
 		}
 		contactEdt.setText(mLocalSharePref.getUserName());
+		
+		//清洗内饰
+		cleanInBtn = (Button) findViewById(R.id.clean_in_btn);
+		cleanInBtn.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				int cleanInPrice = 0;
+				for(FeeData feeData : MainActivity.feeDataList){
+					if(feeData.getFeeType().equals("01")){
+						cleanInPrice = feeData.getFee();
+						break;
+					}
+				}
+				if(v.isSelected()){
+					v.setSelected(false);
+					priceCount -= cleanInPrice;
+				}else{
+					v.setSelected(true);
+					priceCount += cleanInPrice;
+				}
+				String priceStr = Integer.toString(priceCount);
+				price.setText(priceStr.subSequence(0, priceStr.length() - 2) + "." + priceStr.substring(priceStr.length() - 2));
+			}
+		});
 	}	
 
 	private void placeOrder(){
@@ -173,9 +204,14 @@ public class CarInfoEditActivity extends Activity {
 			serviceType = "02";
 			break;
 		}
+		String serverTypeMi = "";
+		if(cleanInBtn.isSelected()){
+			serverTypeMi = "01";
+		}
 		BaseCommand carRegister = ClientSession.getInstance().getCmdFactory()
 				.getPlaceOrder(mLocalSharePref.getUserId(), serviceType, contactEdt.getText().toString(), choiceCar.getCarId()
-						, choiceAddress.getDistractId(), choiceAddress.getAddressId(), "00", null, choiceAddress.getAddressDetail());
+						, choiceAddress.getDistractId(), choiceAddress.getAddressId(), "00", null, choiceAddress.getAddressDetail()
+						, serverTypeMi, priceCount);
 
 		mExecuter.execute(carRegister, mPlaceOrderRespHandler);
 
@@ -186,7 +222,7 @@ public class CarInfoEditActivity extends Activity {
 		saveAddrCarInfo();
 		((XiwaoApplication)getApplication()).setIfNeedRefreshOrder(true);
 		Intent intent = new Intent(CarInfoEditActivity.this, PayDetailActivity.class);
-		intent.putExtra("fee", fee);
+		intent.putExtra("fee", priceCount);
 		intent.putExtra("order_id", orderId);
 		intent.putExtra("car_code", carNumEdt.getText().toString());
 		intent.putExtra("server_type", spinnerServerType.getSelectedItem().toString());
@@ -255,24 +291,31 @@ public class CarInfoEditActivity extends Activity {
 		LinearLayout.LayoutParams titleParams = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT
 				, (int)(displayHeight * 0.08f + 0.5f));
 		title.setLayoutParams(titleParams);
-		// 服务类型
+		// 价格
 		LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
 				LayoutParams.MATCH_PARENT,
 				(int) (displayHeight * 0.08f + 0.5f));
 		params.setMargins(0, (int) (displayHeight * 0.04f + 0.5f), 0,
 				0);
-		serverType.setLayoutParams(params);
+		
+		RelativeLayout pricePart = (RelativeLayout) findViewById(R.id.price_part);
+		pricePart.setLayoutParams(params);
+//		serverType.setLayoutParams(params);
 		// 车牌号码
 		params = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT,
 				(int) (displayHeight * 0.08f + 0.5f));
 		params.setMargins(0, (int) (displayHeight * 0.001f + 0.5f),
 				0, 0);
+		serverType.setLayoutParams(params);
 		carNum.setLayoutParams(params);
 		// 所在网点
 		website.setLayoutParams(params);
 		// 联系电话
 		contactNum.setLayoutParams(params);
-
+		//清洗内饰
+		LinearLayout cleanInPart = (LinearLayout) findViewById(R.id.clean_in_part);
+		cleanInPart.setLayoutParams(params);
+		
 		params = new LinearLayout.LayoutParams(
 				(int) (displayWidth * 0.94f + 0.5f),
 				(int) (displayHeight * 0.08f + 0.5f));
@@ -298,6 +341,58 @@ public class CarInfoEditActivity extends Activity {
 		spinnerServerType.setSelection(getIntent().getIntExtra("service_type", 0));
 	}
 	
+	/**
+	 * 设置价格
+	 */
+	private void setPriceView(){
+		priceCount = 0;
+		switch(spinnerServerType.getSelectedItemPosition()){
+		case 0://洗车
+			for(FeeData feeData : MainActivity.feeDataList){
+				if(feeData.getFeeType().equals("A")){
+					priceCount = feeData.getFee();
+					break;
+				}
+			}
+			break;
+		case 1://打蜡
+			for(FeeData feeData : MainActivity.feeDataList){
+				if(feeData.getFeeType().equals("B")){
+					priceCount = feeData.getFee();
+					break;
+				}
+			}
+			break;
+		case 2://包月
+			for(FeeData feeData : MainActivity.feeDataList){
+				if(feeData.getFeeType().equals("C")){
+					priceCount = feeData.getFee();
+					break;
+				}
+			}
+			break;
+		}
+		if(cleanInBtn.isSelected()){
+			for(FeeData feeData : MainActivity.feeDataList){
+				if(feeData.getFeeType().equals("01")){
+					priceCount += feeData.getFee();
+					break;
+				}
+			}
+		}
+		AppLog.v(TAG, "car Type:" + choiceCar.getCarType());
+		if(choiceCar.getCarType().equals("01")){
+			for(FeeData feeData : MainActivity.feeDataList){
+				if(feeData.getFeeType().equals("00")){
+					priceCount += feeData.getFee();
+					break;
+				}
+			}
+		}
+		String priceStr = Integer.toString(priceCount);
+		price.setText(priceStr.subSequence(0, priceStr.length() - 2) + "." + priceStr.substring(priceStr.length() - 2));
+	}
+	
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		// TODO Auto-generated method stub
@@ -312,6 +407,7 @@ public class CarInfoEditActivity extends Activity {
 			choiceCar = data.getParcelableExtra("choice_car");
 			AppLog.v(TAG, "car id:" + choiceCar.getCarCode());
 			carNumEdt.setText(choiceCar.getCarCode());
+			setPriceView();
 			break;
 		case Constants.CHIOCE_ADDRESS_RESULT_CODE:
 			choiceAddress = data.getParcelableExtra("choice_address");
@@ -329,6 +425,7 @@ public class CarInfoEditActivity extends Activity {
 		mLocalSharePref.putLongPref(LocalSharePreference.USER_LAST_ADDRESS_ID, choiceAddress.getAddressId());
 		mLocalSharePref.putLongPref(LocalSharePreference.USER_LAST_CAR_ID, choiceCar.getCarId());
 		mLocalSharePref.putLongPref(LocalSharePreference.USER_LAST_DISTRACT_ID, choiceAddress.getDistractId());
+		mLocalSharePref.putStringPref(LocalSharePreference.USER_LAST_CAR_TYPE, choiceCar.getCarType());
 	}
 
 	private void getAddrCarInfo(){
@@ -343,6 +440,7 @@ public class CarInfoEditActivity extends Activity {
 		choiceCar.setCarCode(mLocalSharePref.getStringPref(LocalSharePreference.USER_LAST_CAR_NUM, ""));
 		choiceCar.setCarId(mLocalSharePref.getLongPref(LocalSharePreference.USER_LAST_CAR_ID, 0));
 		choiceAddress.setBranchName(mLocalSharePref.getStringPref(LocalSharePreference.USER_LAST_BRANCH_NAME, ""));
+		choiceCar.setCarType(mLocalSharePref.getStringPref(LocalSharePreference.USER_LAST_CAR_TYPE, ""));
 	}
 	@Override
 	protected void onResume() {
@@ -356,6 +454,7 @@ public class CarInfoEditActivity extends Activity {
 	class SpinnerXMLSelectedListener implements OnItemSelectedListener {
 		public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2,
 				long arg3) {
+			setPriceView();
 		}
 
 		public void onNothingSelected(AdapterView<?> arg0) {

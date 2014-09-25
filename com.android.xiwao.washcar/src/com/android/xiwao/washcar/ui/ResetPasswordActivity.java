@@ -28,6 +28,7 @@ import com.android.xiwao.washcar.httpconnection.BaseResponse;
 import com.android.xiwao.washcar.httpconnection.CommandExecuter;
 import com.android.xiwao.washcar.httpconnection.PasswordModify;
 import com.android.xiwao.washcar.utils.DialogUtils;
+import com.android.xiwao.washcar.utils.EncryDecryUtils;
 
 /**
  * ÷ÿ÷√√‹¬Î
@@ -171,10 +172,7 @@ public class ResetPasswordActivity extends Activity {
 					dialogUtils.showToast(getString(R.string.new_pwd_null_error));
 					return;
 
-				} else if (psw1.length() < 6 || psw1.length() > 16
-						|| Pattern.matches("[0-9]+", psw1)
-						|| Pattern.matches("[a-zA-Z]+", psw1)
-						|| Pattern.matches("[_]+", psw1)) {
+				} else if (psw1.length() < 6 || psw1.length() > 16) {
 					dialogUtils.showToast(getString(R.string.pwd_format_erro));
 					return;
 				}
@@ -188,7 +186,7 @@ public class ResetPasswordActivity extends Activity {
 					return;
 				}
 				 
-				resetPwd(mLocalSharePref.getUserId(), oldpswstr, psw2);
+				resetPwd(mLocalSharePref.getUserId(), EncryDecryUtils.str2Md5(oldpswstr), EncryDecryUtils.str2Md5(psw2));
 			}
 		});
 

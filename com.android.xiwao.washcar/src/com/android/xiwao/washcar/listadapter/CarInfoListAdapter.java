@@ -6,6 +6,9 @@ import java.util.List;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,12 +21,14 @@ import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.xiwao.washcar.Constants;
 import com.android.xiwao.washcar.R;
 import com.android.xiwao.washcar.data.CarInfo;
 import com.android.xiwao.washcar.ui.AddCarActivity;
 import com.android.xiwao.washcar.ui.ModifyCarActivity;
+import com.android.xiwao.washcar.utils.FileUtil;
 
 public class CarInfoListAdapter extends BaseAdapter{
 	Context mContext;
@@ -96,7 +101,18 @@ public class CarInfoListAdapter extends BaseAdapter{
 //		}
 		
 		CarInfo singleCarInfo = this.mList.get(position);
-		viewHolder.carNum.setText(singleCarInfo.getCarCode());
+		viewHolder.carNum.setText(singleCarInfo.getCarCode() + "\n" + singleCarInfo.getCarColor() + "\n" + singleCarInfo.getCarBrand());
+		String carPicBase64 = singleCarInfo.getCarPic();
+		try{
+			if(!carPicBase64.equals("") && carPicBase64 != null){
+				Bitmap userHeadBitMap = FileUtil.base64ToBitmap(carPicBase64);
+				Drawable drawable = new BitmapDrawable(userHeadBitMap);
+//				viewHolder.carImg.setBackgroundDrawable(drawable);
+				viewHolder.carImg.setImageDrawable(drawable);
+			}	
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 //		viewHolder.carAddr.setText(singleCarInfo.getCarAddr());
 		
 		if(singleCarInfo.getCarCode().equals("-1")){
@@ -110,6 +126,10 @@ public class CarInfoListAdapter extends BaseAdapter{
 				@Override
 				public void onClick(View arg0) {
 					// TODO Auto-generated method stub
+					if(mList.size() > 5){	//此处由于添加了一天默认的标示信息，所以需去除=5条件
+						Toast.makeText(mContext, "车辆信息不能超过5辆，请删除后再添加！", Toast.LENGTH_LONG).show();
+						return;
+					}
 					Intent i = new Intent(mContext, AddCarActivity.class);
 					((Activity)mContext).startActivityForResult(i, Constants.ADD_CAR_RESULT_CODE);
 				}
@@ -124,16 +144,6 @@ public class CarInfoListAdapter extends BaseAdapter{
 				}
 			});
 		}
-			
-		viewHolder.addCar.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View arg0) {
-				// TODO Auto-generated method stub
-				Intent i = new Intent(mContext, AddCarActivity.class);
-				((Activity)mContext).startActivityForResult(i, Constants.ADD_CAR_RESULT_CODE);
-			}
-		});
 		
 		viewHolder.money.setOnClickListener(new View.OnClickListener() {
 			

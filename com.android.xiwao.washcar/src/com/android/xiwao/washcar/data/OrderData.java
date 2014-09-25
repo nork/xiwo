@@ -7,6 +7,7 @@ public class OrderData implements Parcelable{
 	private long orderId;
 	private long custmerId;
 	private String serviceType;
+	private String serviceTypeMi;	//服务小类
 	private String mobileNum;
 	private String carCode;
 	private String addressDetail;
@@ -97,6 +98,12 @@ public class OrderData implements Parcelable{
 	public void setFee(String fee) {
 		this.fee = fee;
 	}
+	public String getServiceTypeMi() {
+		return serviceTypeMi;
+	}
+	public void setServiceTypeMi(String serviceTypeMi) {
+		this.serviceTypeMi = serviceTypeMi;
+	}
 	@Override
 	public int describeContents() {
 		// TODO Auto-generated method stub
@@ -122,6 +129,7 @@ public class OrderData implements Parcelable{
 		dest.writeString(this.washBegin);
 		dest.writeString(this.washEnd);
 		dest.writeString(this.fee);
+		dest.writeString(this.serviceTypeMi);
 	}
 	
 	public static final Parcelable.Creator<OrderData> CREATOR = new Parcelable.Creator<OrderData>(){
@@ -141,6 +149,7 @@ public class OrderData implements Parcelable{
 			brief.washBegin = source.readString();
 			brief.washEnd = source.readString();
 			brief.fee = source.readString();
+			brief.serviceTypeMi = source.readString();
 			return brief;
 		}
 

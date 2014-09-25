@@ -19,7 +19,9 @@ public class LocalSharePreference {
 	public static final String USER_LAST_ADDRESS_ID = "user_last_address_id";
 	public static final String USER_LAST_ADDRESS_DETAIL = "user_last_address_detail";
 	public static final String USER_LAST_BRANCH_NAME = "user_last_branch_name";
+	public static final String USER_LAST_CAR_TYPE = "user_last_car_type";
 	public static final String USER_HEAD_BASE_64 = "user_head_base_64";
+	public static final String USER_TYPE = "user_type";
 	private Context mCtx;
 	private SharedPreferences mSp;
 	private SharedPreferences.Editor mEditor;
@@ -135,6 +137,22 @@ public class LocalSharePreference {
 		return mSp.getString(USER_HEAD_BASE_64, "");
 	}
 
+	/**
+	 * 保存用户类型
+	 * @param userType
+	 */
+	public void setUserType(String userType){
+		mEditor.putString(USER_TYPE, userType);
+		mEditor.commit();
+	}
+	/**
+	 * 获取用户类型
+	 * @return
+	 */
+	public String setUserHead(){
+		return mSp.getString(USER_TYPE, "");
+	}
+	
 	public void putStringPref(String key, String value) {
 		mEditor.putString(key, value);
 		mEditor.commit();

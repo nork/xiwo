@@ -12,6 +12,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
+import android.widget.AbsListView;
+import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
@@ -73,6 +75,15 @@ public class OrderManageFragment extends BaseFragment {
 	private String orderClass;
 	private int curOrderClass;	//当前选中的订单类型  0 已支付 1 未支付 2 交易完成 3交易关闭
 	private boolean ifNeedShowProg; //是否需要显示滚动条
+	private int pagePaid = 0;	//已支付订单列表当前页数
+	private int countPagePaid = 0;	//已支付订单列表总页数
+	private int pageWait = 0;	//未支付订单列表当前页数
+	private int countPageWait = 0;	//已支付订单列表总页数
+	private int pageDone = 0;	//已完成订单列表当前页数
+	private int countPageDone = 0;	//已支付订单列表总页数
+	private int pageClose = 0;	//已关闭订单列表当前页数
+	private int countPageClose = 0;	//已支付订单列表总页数
+	
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -84,8 +95,8 @@ public class OrderManageFragment extends BaseFragment {
 		initContentView();
 		initAdapter();
 		setHwView();
-		curOrderClass = 0;
-		orderClass = "02";
+		curOrderClass = 1;
+		orderClass = "01";
 		getOrderListData();
 		return view;
 	}
@@ -104,13 +115,11 @@ public class OrderManageFragment extends BaseFragment {
 		closedBtn = (Button) view.findViewById(R.id.closed_btn);
 		title = (TextView) view.findViewById(R.id.title);
 		noOrder = (TextView) view.findViewById(R.id.no_order);
-//		backBtn = (Button) view.findViewById(R.id.backbtn);
 
 		setListViewOnEvent();
 		title.setText(getString(R.string.order_manage)); 	
-		paidBtn.setSelected(true);//初次加载时已经支付按钮默认选中
-//		paidListView.setVisibility(View.GONE);
-		setListDisplay(paidListView);
+		setSelected(waitPayBtn);//初次加载时已经支付按钮默认选中
+		setListDisplay(waitListView);
 		paidBtn.setOnClickListener(new View.OnClickListener() {
 
 			@Override
@@ -122,10 +131,6 @@ public class OrderManageFragment extends BaseFragment {
 				if(paidOrderListAdapter.isEmpty()){
 					getOrderListData();
 				}
-//				paidListView.setVisibility(View.VISIBLE);
-//				waitListView.setVisibility(View.GONE);
-//				doneListView.setVisibility(View.GONE);
-//				closeListView.setVisibility(View.GONE);
 			}
 		});
 		waitPayBtn.setOnClickListener(new View.OnClickListener() {
@@ -139,10 +144,6 @@ public class OrderManageFragment extends BaseFragment {
 				if(waitOrderListAdapter.isEmpty()){
 					getOrderListData();
 				}
-//				paidListView.setVisibility(View.GONE);
-//				waitListView.setVisibility(View.VISIBLE);
-//				doneListView.setVisibility(View.GONE);
-//				closeListView.setVisibility(View.GONE);
 			}
 		});
 		completedBtn.setOnClickListener(new View.OnClickListener() {
@@ -156,10 +157,6 @@ public class OrderManageFragment extends BaseFragment {
 				if(doneOrderListAdapter.isEmpty()){
 					getOrderListData();
 				}
-//				paidListView.setVisibility(View.GONE);
-//				waitListView.setVisibility(View.GONE);
-//				doneListView.setVisibility(View.VISIBLE);
-//				closeListView.setVisibility(View.GONE);
 			}
 		});
 		closedBtn.setOnClickListener(new View.OnClickListener() {
@@ -173,12 +170,103 @@ public class OrderManageFragment extends BaseFragment {
 				if(closeOrderListAdapter.isEmpty()){
 					getOrderListData();
 				}
-//				paidListView.setVisibility(View.GONE);
-//				waitListView.setVisibility(View.GONE);
-//				doneListView.setVisibility(View.GONE);
-//				closeListView.setVisibility(View.VISIBLE);
 			}
 		});
+		
+		//已支付列表滑动处理
+		paidListView.setOnScrollListener(new OnScrollListener(){
+
+			@Override
+			public void onScroll(AbsListView view, int firstVisibleItem,
+					int visibleItemCount, int totalItemCount) {
+				// TODO Auto-generated method stub
+				boolean loadMore = (firstVisibleItem + visibleItemCount >= totalItemCount);
+				if(loadMore){
+					if(pagePaid + 1 <= countPagePaid){
+						pagePaid++;
+						getOrderListData();
+					}
+				}
+			}
+
+			@Override
+			public void onScrollStateChanged(AbsListView arg0, int arg1) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+		});
+		
+		//未支付列表滑动处理
+		waitListView.setOnScrollListener(new OnScrollListener(){
+
+			@Override
+			public void onScroll(AbsListView view, int firstVisibleItem,
+					int visibleItemCount, int totalItemCount) {
+				// TODO Auto-generated method stub
+				boolean loadMore = (firstVisibleItem + visibleItemCount >= totalItemCount);
+				if(loadMore){
+					if(pageWait + 1 <= countPageWait){
+						pageWait++;
+						getOrderListData();
+					}
+				}
+			}
+
+			@Override
+			public void onScrollStateChanged(AbsListView arg0, int arg1) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+		});		
+		//交易完成列表滑动处理
+		doneListView.setOnScrollListener(new OnScrollListener(){
+
+			@Override
+			public void onScroll(AbsListView view, int firstVisibleItem,
+					int visibleItemCount, int totalItemCount) {
+				// TODO Auto-generated method stub
+				boolean loadMore = (firstVisibleItem + visibleItemCount >= totalItemCount);
+				if(loadMore){
+					if(pageDone + 1 <= countPageDone){
+						pageDone++;
+						getOrderListData();
+					}
+				}
+			}
+
+			@Override
+			public void onScrollStateChanged(AbsListView arg0, int arg1) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+		});		
+		//交易关闭列表滑动处理
+		closeListView.setOnScrollListener(new OnScrollListener(){
+
+			@Override
+			public void onScroll(AbsListView view, int firstVisibleItem,
+					int visibleItemCount, int totalItemCount) {
+				// TODO Auto-generated method stub
+				boolean loadMore = (firstVisibleItem + visibleItemCount >= totalItemCount);
+				if(loadMore){
+					if(pageClose + 1 <= countPageClose){
+						pageClose++;
+						getOrderListData();
+					}
+				}
+			}
+
+			@Override
+			public void onScrollStateChanged(AbsListView arg0, int arg1) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+		});
+		
 	}
 	
 	private void setSelected(View view){
@@ -243,26 +331,36 @@ public class OrderManageFragment extends BaseFragment {
 
 	public void refreshInfoList(){
 		initAdapter();
+		pagePaid = 0;
+		pageWait = 0;
+		pageDone = 0;
+		pageClose = 0;
 		getOrderListData();
 	}
 	
 	private void getOrderListData(){
+		int page = 0;
 		switch(curOrderClass){
 		case 0:
 			orderClass = "02";
+			page = pagePaid;
 			break;
 		case 1:
 			orderClass = "01";
+			page = pageWait;
 			break;
 		case 2:
 			orderClass = "03";
+			page = pageDone;
 			break;
 		case 3:
 			orderClass = "04";
+			page = pageClose;
 			break;
 		}
+		AppLog.v("TAG", "page:" + page);
 		BaseCommand carRegister = ClientSession.getInstance().getCmdFactory()
-				.getOrderQuery(mLocalSharePref.getUserId(), orderClass, 0, 100);
+				.getOrderQuery(mLocalSharePref.getUserId(), orderClass, page * 20, 20);
 
 		mExecuter.execute(carRegister, mOrderQueryRespHandler);
 
@@ -271,8 +369,8 @@ public class OrderManageFragment extends BaseFragment {
 		}
 	}
 	
-	public void onOrderQuerySuccess(List<OrderData> listOrderData){
-		fetchList(listOrderData);
+	public void onOrderQuerySuccess(List<OrderData> listOrderData, int count){
+		fetchList(listOrderData, count);
 	}
 	
 	/**
@@ -289,7 +387,7 @@ public class OrderManageFragment extends BaseFragment {
 			OrderQuery.Response orderQuery = (OrderQuery.Response) rsp;
 			if (orderQuery.responseType.equals("N")) {
 //				paidListOrderData = orderQuery.orderDataList;
-				onOrderQuerySuccess(orderQuery.orderDataList);
+				onOrderQuerySuccess(orderQuery.orderDataList, orderQuery.orderCount);
 //				dialogUtils.showToast(orderQuery.errorMessage);
 			} else {
 				dialogUtils.showToast(orderQuery.errorMessage); 
@@ -329,7 +427,7 @@ public class OrderManageFragment extends BaseFragment {
 		}
 	};
 	
-	private void fetchList(List<OrderData> listOrderData) {
+	private void fetchList(List<OrderData> listOrderData, int orderCount) {
 		switch(curOrderClass){
 		case 0:
 			if(ifNeedShowProg){//此处利用已有的显示滚动条的标记用来分辨是否需要刷新列表
@@ -342,6 +440,7 @@ public class OrderManageFragment extends BaseFragment {
 				paidListView.setVisibility(View.GONE);
 				noOrder.setVisibility(View.VISIBLE);
 			}
+			countPagePaid = orderCount / 20;
 			break;
 		case 1:
 			if(ifNeedShowProg){//此处利用已有的显示滚动条的标记用来分辨是否需要刷新列表
@@ -354,6 +453,7 @@ public class OrderManageFragment extends BaseFragment {
 				waitListView.setVisibility(View.GONE);
 				noOrder.setVisibility(View.VISIBLE);
 			}
+			countPageWait = orderCount / 20;
 			break;
 		case 2:
 			if(ifNeedShowProg){//此处利用已有的显示滚动条的标记用来分辨是否需要刷新列表
@@ -366,6 +466,7 @@ public class OrderManageFragment extends BaseFragment {
 				doneListView.setVisibility(View.GONE);
 				noOrder.setVisibility(View.VISIBLE);
 			}
+			countPageDone = orderCount / 20;
 			break;
 		case 3:
 			if(ifNeedShowProg){		//此处利用已有的显示滚动条的标记用来分辨是否需要刷新列表
@@ -378,6 +479,7 @@ public class OrderManageFragment extends BaseFragment {
 				closeListView.setVisibility(View.GONE);
 				noOrder.setVisibility(View.VISIBLE);
 			}
+			countPageClose = orderCount / 20;
 			break;
 		}
 	}
@@ -416,6 +518,7 @@ public class OrderManageFragment extends BaseFragment {
 			public void onRefresh() {
 				// Do work to refresh the list here.
 				ifNeedShowProg = true;
+				pagePaid = 0;
 				getOrderListData();
 			}
 		});
@@ -425,6 +528,7 @@ public class OrderManageFragment extends BaseFragment {
 			public void onRefresh() {
 				// Do work to refresh the list here.
 				ifNeedShowProg = true;
+				pageWait = 0;
 				getOrderListData();
 			}
 		});
@@ -434,6 +538,7 @@ public class OrderManageFragment extends BaseFragment {
 			public void onRefresh() {
 				// Do work to refresh the list here.
 				ifNeedShowProg = true;
+				pageDone = 0;
 				getOrderListData();
 			}
 		});
@@ -443,6 +548,7 @@ public class OrderManageFragment extends BaseFragment {
 			public void onRefresh() {
 				// Do work to refresh the list here.
 				ifNeedShowProg = true;
+				pageClose = 0;
 				getOrderListData();
 			}
 		});

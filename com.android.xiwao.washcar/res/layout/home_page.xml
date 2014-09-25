@@ -60,7 +60,7 @@
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/wash_car"
             android:background="@drawable/washwaxcar_btn"
-            android:text="@string/wash_car_wax"
+            android:text="包月"
             android:textColor="@color/white"
             android:textStyle="bold" 
             android:textSize="18sp">

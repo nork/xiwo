@@ -24,6 +24,7 @@ import android.widget.TextView;
 
 import com.android.xiwao.washcar.ActivityManage;
 import com.android.xiwao.washcar.ClientSession;
+import com.android.xiwao.washcar.LocalSharePreference;
 import com.android.xiwao.washcar.R;
 import com.android.xiwao.washcar.XiwaoApplication;
 import com.android.xiwao.washcar.httpconnection.BaseCommand;
@@ -32,6 +33,7 @@ import com.android.xiwao.washcar.httpconnection.CommandExecuter;
 import com.android.xiwao.washcar.httpconnection.GetCode;
 import com.android.xiwao.washcar.httpconnection.Register;
 import com.android.xiwao.washcar.utils.DialogUtils;
+import com.android.xiwao.washcar.utils.EncryDecryUtils;
 
 public class RegisterActivity extends Activity {
 	public static Context mcontext;
@@ -59,6 +61,8 @@ public class RegisterActivity extends Activity {
 	// 网络访问相关对象
 	private Handler mHandler;
 	private CommandExecuter mExecuter;
+	// Preference数据存储对象
+	private LocalSharePreference mLocalSharePref;
 
 	public static final int FINISHREGIST = 0;
 	
@@ -72,7 +76,7 @@ public class RegisterActivity extends Activity {
 		
 		ActivityManage.getInstance().setCurContext(this);
 		ActivityManage.getInstance().addActivity(this);
-		
+		mLocalSharePref = new LocalSharePreference(this);
 		mcontext = this;
 		setContentView(R.layout.registerview);
 		initContentView();
@@ -101,7 +105,7 @@ public class RegisterActivity extends Activity {
 		psw02 = (EditText) findViewById(R.id.pswedt02);
 		Button registerbtn = (Button) findViewById(R.id.registerbtn);
 
-		time = new TimeCount(50000, 1000);
+		time = new TimeCount(60000, 1000);
 		
 		TextView title = (TextView)findViewById(R.id.title);		
 		title.setText(R.string.register);
@@ -117,9 +121,9 @@ public class RegisterActivity extends Activity {
 
 		// 同意相关协议
 		agreebtn = (ImageView) findViewById(R.id.agreebtn);
-		agreebtn.setSelected(true); // 默认选中
-		getcodebtn.setEnabled(true);
-		getcodebtn.setBackgroundResource(R.drawable.orange_btn);
+		agreebtn.setSelected(false); // 默认不选中
+		getcodebtn.setEnabled(false);
+		getcodebtn.setBackgroundResource(R.drawable.graybtn_bg);
 
 		TextView txt = (TextView) findViewById(R.id.agreetxt);
 		agreebtn.setOnClickListener(new OnClickListener() {
@@ -175,6 +179,7 @@ public class RegisterActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				time.start();
+				getCode(phoneedt.getText().toString());
 			}
 		});
 
@@ -210,31 +215,24 @@ public class RegisterActivity extends Activity {
 
 				}
 
-				else if (psw1.length() < 6 || psw1.length() > 16
-						|| Pattern.matches("[0-9]+", psw1)
-						|| Pattern.matches("[a-zA-Z]+", psw1)
-						|| Pattern.matches("[_]+", psw1)) {
+				else if (psw1.length() < 6 || psw1.length() > 20) {
 					dialogUtils.showToast(getString(R.string.pwd_format_erro));
 					return;
 				}
-
+				else if(psw2.length() < 6 || psw2.length() > 20){
+					dialogUtils.showToast(getString(R.string.pwd_format_erro));
+					return;
+				}
 				else if (psw2 == null || psw2.length() == 0) {
 					dialogUtils.showToast(getString(R.string.pwd_dif_erro));
 					return;
 				} else if (!psw1.equals(psw2)) {
 					dialogUtils.showToast(getString(R.string.pwd_dif_erro));
 					return;
-				} else if (nickNameStr.length() < 2) {
-					dialogUtils.showToast(getString(R.string.nickname_length_erro));
-					return;
-				} else if (m.find()) {
-					dialogUtils.showToast(getString(R.string.nickname_format_erro));
-					return;
-
-				}
+				} 
 
 				//此处验证码暂时使用服务器返回的值
-				doRegister(code, phonenumber, psw2, nickNameStr); // 对密码进行加密
+				doRegister(codestr, phonenumber, EncryDecryUtils.str2Md5(psw2), nickNameStr); // 对密码进行加密
 			}
 		});
 
@@ -361,7 +359,7 @@ public class RegisterActivity extends Activity {
 	 */
 	private void getCode(String phone){
 		BaseCommand getCode = ClientSession.getInstance().getCmdFactory()
-				.getCode(phone, "");
+				.getCode(phone, "01");
 
 		mExecuter.execute(getCode, mGetCodeRespHandler);
 
@@ -373,7 +371,7 @@ public class RegisterActivity extends Activity {
 	 * @param identifyCode 获取到的验证码
 	 */
 	private void onGetCodeSuccess(String identifyCode){
-		code = identifyCode;
+//		code = identifyCode;
 		gotoRegisterview();
 		dialogUtils.dismissProgress();
 	}
@@ -394,6 +392,7 @@ public class RegisterActivity extends Activity {
 				onGetCodeSuccess(getCodeRsp.identifyCode);
 			} else {
 				dialogUtils.showToast(getCodeRsp.errorMessage);
+//				gotoRegisterview();
 			}
 		}
 	}
@@ -445,7 +444,7 @@ public class RegisterActivity extends Activity {
 				ClientSession session = ClientSession.getInstance();
 				session.setSessionCookies(rsp.cookies);
 				session.setUserId(registerRsp.id);
-				onRegisterSuccess();
+				onRegisterSuccess(registerRsp.id);
 				dialogUtils.showToast(registerRsp.errorMessage);
 			} else {
 				dialogUtils.showToast(registerRsp.errorMessage);
@@ -456,8 +455,11 @@ public class RegisterActivity extends Activity {
 	/**
 	 * 注册成功之后的处理
 	 */
-	private void onRegisterSuccess(){		
-    	Intent intent = new Intent(this, LoginActivity.class);
+	private void onRegisterSuccess(long userId){		
+    	Intent intent = new Intent(this, MainActivity.class);
+    	mLocalSharePref.setUserName(phoneedt.getText().toString());
+    	mLocalSharePref.setUserPassword(psw01.getText().toString());
+    	mLocalSharePref.setUserId(userId);
     	startActivity(intent);
     	finish();
     }
@@ -492,16 +494,16 @@ public class RegisterActivity extends Activity {
 
 		@Override
 		public void onFinish() {// 计时完毕时触发
-			getaginbtn.setText("再次获取验证码");
+			getaginbtn.setText("重新获取验证码");
 			getaginbtn.setClickable(true);
-			// getaginbtn.setBackgroundResource(R.drawable.button_green);
+			 getaginbtn.setBackgroundResource(R.drawable.orange_btn_bg);
 		}
 
 		@Override
 		public void onTick(long millisUntilFinished) {// 计时过程显示
 			getaginbtn.setClickable(false);
-			getaginbtn.setText(millisUntilFinished / 1000 + "秒后可重新发送");
-			// getaginbtn.setBackgroundResource(R.drawable.button_green_light);
+			getaginbtn.setText(millisUntilFinished / 1000 + "秒后重新发送");
+			 getaginbtn.setBackgroundResource(R.drawable.graybtn_bg);
 		}
 	}
 }

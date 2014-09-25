@@ -2,7 +2,8 @@
 <resources>
     <string-array name="server_types">
         <item>洗车</item>
-        <item>洗车打蜡</item>
+        <item>打蜡</item>
+        <item>包月</item>
     </string-array>
     
     <string-array name="car_types">

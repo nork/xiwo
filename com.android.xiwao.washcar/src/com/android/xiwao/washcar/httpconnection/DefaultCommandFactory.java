@@ -136,7 +136,7 @@ public class DefaultCommandFactory extends CommandFactory {
 	@Override
 	public BaseCommand getPlaceOrder(long customerId, String serviceType,
 			String mobileNum, long carId, long distractId, long addressId,
-			String payType, String note, String address) {
+			String payType, String note, String address, String serviceTypeMi, int fee) {
 		// TODO Auto-generated method stub
 		PlaceOrder placeOrder = new PlaceOrder();
 		placeOrder.setAddress(address);
@@ -148,6 +148,8 @@ public class DefaultCommandFactory extends CommandFactory {
 		placeOrder.setNote(note);
 		placeOrder.setPayType(payType);
 		placeOrder.setServiceType(serviceType);
+		placeOrder.setServiceTypeMi(serviceTypeMi);
+		placeOrder.setFee(fee);
 		return placeOrder;
 	}
 
@@ -218,5 +220,11 @@ public class DefaultCommandFactory extends CommandFactory {
 		addressDelete.setAddressId(addressId);
 		return addressDelete;
 	}
-	
+
+	@Override
+	public BaseCommand getRateQuery() {
+		// TODO Auto-generated method stub
+		RateQuery rateQuery = new RateQuery();
+		return rateQuery;
+	}	
 }

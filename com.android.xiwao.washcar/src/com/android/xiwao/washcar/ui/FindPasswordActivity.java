@@ -1,7 +1,6 @@
 package com.android.xiwao.washcar.ui;
 
 import java.io.IOException;
-import java.util.regex.Pattern;
 
 import android.app.Activity;
 import android.content.Context;
@@ -22,6 +21,7 @@ import android.widget.LinearLayout.LayoutParams;
 
 import com.android.xiwao.washcar.ActivityManage;
 import com.android.xiwao.washcar.ClientSession;
+import com.android.xiwao.washcar.LocalSharePreference;
 import com.android.xiwao.washcar.R;
 import com.android.xiwao.washcar.XiwaoApplication;
 import com.android.xiwao.washcar.httpconnection.BaseCommand;
@@ -30,6 +30,7 @@ import com.android.xiwao.washcar.httpconnection.CommandExecuter;
 import com.android.xiwao.washcar.httpconnection.GetCode;
 import com.android.xiwao.washcar.httpconnection.PasswordReset;
 import com.android.xiwao.washcar.utils.DialogUtils;
+import com.android.xiwao.washcar.utils.EncryDecryUtils;
 
 /**
  * 找回密码
@@ -62,6 +63,8 @@ public class FindPasswordActivity extends Activity {
 	
 	// 工具
 	private DialogUtils dialogUtils;
+	// Preference数据存储对象
+	private LocalSharePreference mLocalSharePref;
 	
 	//参数
 	private String code;	//验证码
@@ -72,7 +75,7 @@ public class FindPasswordActivity extends Activity {
 		
 		ActivityManage.getInstance().setCurContext(this);
 		ActivityManage.getInstance().addActivity(this);
-		
+		mLocalSharePref = new LocalSharePreference(this);
 		mcontext = this;
 
 		LayoutInflater inflater = LayoutInflater.from(mcontext);
@@ -176,7 +179,7 @@ public class FindPasswordActivity extends Activity {
 		TextView title = (TextView)findViewById(R.id.title);
 		title.setText(R.string.find_pwd);
 
-		time = new TimeCount(50000, 1000);
+		time = new TimeCount(60000, 1000);
 
 		backbtn.setOnClickListener(new OnClickListener() {
 
@@ -207,7 +210,7 @@ public class FindPasswordActivity extends Activity {
 
 				phonenumber = phoneedt.getText().toString();
 				if (phonenumber == null || phonenumber.length() == 0) {
-					dialogUtils.showToast(getString(R.string.please_phone));
+					dialogUtils.showToast(getString(R.string.telephone_wrong));
 					return;
 				} else if (phonenumber.length() != 11) {
 					dialogUtils.showToast(getString(R.string.telephone_wrong));
@@ -244,10 +247,7 @@ public class FindPasswordActivity extends Activity {
 					dialogUtils.showToast(getString(R.string.pwd_null_erro));
 					return;
 
-				} else if (psw1.length() < 6 || psw1.length() > 16
-						|| Pattern.matches("[0-9]+", psw1)
-						|| Pattern.matches("[a-zA-Z]+", psw1)
-						|| Pattern.matches("[_]+", psw1)) {
+				} else if (psw1.length() < 6 || psw1.length() > 16) {
 					dialogUtils.showToast(getString(R.string.pwd_format_erro));
 					return;
 				}
@@ -261,7 +261,7 @@ public class FindPasswordActivity extends Activity {
 					return;
 				}
 				
-				 findPsw(code, phonenumber, psw2);
+				 findPsw(code, phonenumber, EncryDecryUtils.str2Md5(psw2));
 			}
 		});
 
@@ -293,6 +293,7 @@ public class FindPasswordActivity extends Activity {
 				onGetCodeSuccess(getCodeRsp.identifyCode);
 			} else {
 				dialogUtils.showToast(getCodeRsp.errorMessage);
+//				gotoResetview();
 			}
 		}
 	}
@@ -366,8 +367,9 @@ public class FindPasswordActivity extends Activity {
 	}
 
 	private void onPasswordResetSuccess(){
-		Intent intent = new Intent(this, LoginActivity.class);
-    	startActivity(intent);
+		mLocalSharePref.setLoginState(false);	//保存登录状态		
+//    	Intent intent = new Intent(this, LoginActivity.class);
+//    	startActivity(intent);
     	finish();
 	}
 	/**
@@ -438,16 +440,16 @@ public class FindPasswordActivity extends Activity {
 
 		@Override
 		public void onFinish() {// 计时完毕时触发
-			getaginbtn.setText("再次获取验证码");
+			getaginbtn.setText("重新获取验证码");
 			getaginbtn.setClickable(true);
-			// getaginbtn.setBackgroundResource(R.drawable.button_green);
+			getaginbtn.setBackgroundResource(R.drawable.orange_btn_bg);
 		}
 
 		@Override
 		public void onTick(long millisUntilFinished) {// 计时过程显示
 			getaginbtn.setClickable(false);
-			getaginbtn.setText(millisUntilFinished / 1000 + "秒后可重新发送");
-			// getaginbtn.setBackgroundResource(R.drawable.button_green_light);
+			getaginbtn.setText(millisUntilFinished / 1000 + "秒后重新发送");
+			getaginbtn.setBackgroundResource(R.drawable.graybtn_bg);
 		}
 	}
 

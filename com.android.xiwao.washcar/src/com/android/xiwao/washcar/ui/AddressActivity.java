@@ -19,6 +19,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.xiwao.washcar.ActivityManage;
 import com.android.xiwao.washcar.AppLog;
@@ -97,6 +98,11 @@ public class AddressActivity extends Activity {
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
+				AppLog.v("TAG", "地址数量:" + addressListData.size());
+				if(addressListData.size() >= 5){
+					Toast.makeText(mContext, "常用地址信息不能超过5条，请删除后再添加！", Toast.LENGTH_LONG).show();
+					return;
+				}
 				Intent intent = new Intent(mContext, AddAddressActivity.class);
 //				intent.putExtra("websit_list", (Serializable)websitListData);
 				startActivityForResult(intent, Constants.ADD_ADDRESS_RESULT_CODE);
@@ -215,6 +221,7 @@ public class AddressActivity extends Activity {
 			AddressQuery.Response addressQueryRsp = (AddressQuery.Response) rsp;
 			if (addressQueryRsp.responseType.equals("N")) {
 				addressListData = addressQueryRsp.addressDataList;
+//				addrNum = addressQueryRsp.addressDataList.size();
 				onAddressQuerySuccess();
 				if(addressQueryRsp.addressDataList.size() <= 0){
 					noAddressTxt.setVisibility(View.VISIBLE);

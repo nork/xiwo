@@ -15,7 +15,7 @@ public abstract class CommandFactory {
 	public abstract BaseCommand getDistractQuery();
 	public abstract BaseCommand getAddressCreate(long distractId, String detailAddress, long customerId);
 	public abstract BaseCommand getPlaceOrder(long customerId, String serviceType, String mobileNum, long carId, long distractId
-			, long addressId, String payType, String note, String address);
+			, long addressId, String payType, String note, String address, String serviceTypeMi, int fee);
 	public abstract BaseCommand getOrderQuery(long custmerId, String orderState, int startIndex, int page);
 	public abstract BaseCommand getActivityQuery(long customerId);
 	public abstract BaseCommand getAccountConsume(long customerId, int changeAmt, long orderId);
@@ -23,4 +23,5 @@ public abstract class CommandFactory {
 	public abstract BaseCommand getCustomerModify(long customerId, String customerName, String email, String headImg);
 	public abstract BaseCommand getCarDelete(long carId);
 	public abstract BaseCommand getAddressDelete(long addressId);
+	public abstract BaseCommand getRateQuery();
 }
