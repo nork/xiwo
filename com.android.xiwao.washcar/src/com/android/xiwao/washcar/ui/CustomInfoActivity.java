@@ -44,7 +44,7 @@ public class CustomInfoActivity extends Activity {
 
 	private Button backBtn;
 	private Button modifyBtn;
-	private Button addBtn;
+//	private Button addBtn;
 	private ImageView headImg;
 
 	// ¹¤¾ß
@@ -88,7 +88,7 @@ public class CustomInfoActivity extends Activity {
 		emailTxt = (EditText) findViewById(R.id.email_txt);
 		phoneTxt = (TextView) findViewById(R.id.phone_txt);
 		modifyBtn = (Button) findViewById(R.id.modify_btn);
-		addBtn = (Button) findViewById(R.id.add);
+//		addBtn = (Button) findViewById(R.id.add);
 		headImg = (ImageView) findViewById(R.id.head);
 
 		String nickName = mLocalSharePref.getNickName();
@@ -127,7 +127,8 @@ public class CustomInfoActivity extends Activity {
 					userTxt.requestFocus();
 					userTxt.requestFocusFromTouch();
 					modifyBtn.setText(getString(R.string.submit));
-					addBtn.setVisibility(View.VISIBLE);
+//					addBtn.setVisibility(View.VISIBLE);
+					headImg.setClickable(true);
 				} else if (btnTxt.equals(getString(R.string.submit))) {
 					modifyUserInfo(userTxt.getText().toString(), emailTxt
 							.getText().toString(), headImgBase64);
@@ -135,7 +136,7 @@ public class CustomInfoActivity extends Activity {
 			}
 		});
 
-		addBtn.setOnClickListener(new View.OnClickListener() {
+		headImg.setOnClickListener(new View.OnClickListener() {
 
 			@Override
 			public void onClick(View arg0) {
@@ -143,6 +144,7 @@ public class CustomInfoActivity extends Activity {
 				showDialog();
 			}
 		});
+		headImg.setClickable(false);
 		
 		String userHeadBase64 = mLocalSharePref.getUserHead();
 		if(!userHeadBase64.equals("") && userHeadBase64 != null){
@@ -168,7 +170,8 @@ public class CustomInfoActivity extends Activity {
 		mLocalSharePref.setUserEmail(emailTxt.getText().toString());
 		emailTxt.setFocusable(false);
 		userTxt.setFocusable(false);
-		addBtn.setVisibility(View.GONE);
+//		addBtn.setVisibility(View.GONE);
+		headImg.setClickable(false);
 	}
 
 	/**
@@ -254,13 +257,13 @@ public class CustomInfoActivity extends Activity {
 		imgParams.addRule(RelativeLayout.RIGHT_OF, R.id.head_title);
 		headImg.setLayoutParams(imgParams);
 
-		imgParams = new RelativeLayout.LayoutParams(
-				(int) (displayHeight * 0.1f + 0.5f),
-				(int) (displayHeight * 0.1f + 0.5f));
-		imgParams.setMargins((int) (displayWidth * 0.04f + 0.5f), 0, 0, 0);
-		imgParams.addRule(RelativeLayout.CENTER_VERTICAL);
-		imgParams.addRule(RelativeLayout.RIGHT_OF, R.id.head);
-		addBtn.setLayoutParams(imgParams);
+//		imgParams = new RelativeLayout.LayoutParams(
+//				(int) (displayHeight * 0.1f + 0.5f),
+//				(int) (displayHeight * 0.1f + 0.5f));
+//		imgParams.setMargins((int) (displayWidth * 0.04f + 0.5f), 0, 0, 0);
+//		imgParams.addRule(RelativeLayout.CENTER_VERTICAL);
+//		imgParams.addRule(RelativeLayout.RIGHT_OF, R.id.head);
+//		addBtn.setLayoutParams(imgParams);
 	}
 
 	/**

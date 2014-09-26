@@ -50,17 +50,33 @@
             android:layout_weight="1"
             android:background="@color/gray_line" />
 
-        <EditText
-            android:id="@+id/pswedt_old"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:background="@null"
-            android:hint="@string/input_old_pwd"
-            android:paddingLeft="25dp"
-            android:inputType="textPassword"
-            android:singleLine="true"
-            android:textColor="@color/blackgrey"
-            android:textSize="16sp" />
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:gravity="center_vertical"
+                android:paddingLeft="20dp"
+                android:text="旧&#160;&#160;&#160;&#160;密&#160;&#160;&#160;&#160;码"
+                android:textColor="@android:color/black"
+                android:textSize="17sp" />
+
+            <EditText
+                android:id="@+id/pswedt_old"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@null"
+                android:hint="@string/input_old_pwd"
+                android:inputType="textPassword"
+                android:paddingLeft="10dp"
+                android:singleLine="true"
+                android:textColor="@color/blackgrey"
+                android:textSize="16sp" />
+        </LinearLayout>
 
         <TextView
             android:layout_width="fill_parent"
@@ -68,17 +84,33 @@
             android:layout_marginLeft="20dp"
             android:background="@color/gray_line" />
 
-        <EditText
-            android:id="@+id/pswedt01"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:background="@null"
-            android:hint="@string/input_new_code"
-            android:paddingLeft="25dp"
-            android:inputType="textPassword"
-            android:singleLine="true"
-            android:textColor="@color/blackgrey"
-            android:textSize="16sp" />
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:gravity="center_vertical"
+                android:paddingLeft="20dp"
+                android:text="新&#160;&#160;&#160;&#160;密&#160;&#160;&#160;&#160;码"
+                android:textColor="@android:color/black"
+                android:textSize="17sp" />
+
+            <EditText
+                android:id="@+id/pswedt01"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@null"
+                android:hint="@string/input_new_code"
+                android:inputType="textPassword"
+                android:paddingLeft="10dp"
+                android:singleLine="true"
+                android:textColor="@color/blackgrey"
+                android:textSize="16sp" />
+        </LinearLayout>
 
         <TextView
             android:layout_width="fill_parent"
@@ -86,17 +118,33 @@
             android:layout_marginLeft="20dp"
             android:background="@color/gray_line" />
 
-        <EditText
-            android:id="@+id/pswedt02"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:background="@null"
-            android:hint="@string/sure_new_code"
-            android:paddingLeft="25dp"
-            android:inputType="textPassword"
-            android:singleLine="true"
-            android:textColor="@color/blackgrey"
-            android:textSize="16sp" />
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:gravity="center_vertical"
+                android:paddingLeft="20dp"
+                android:text="@string/sure_new_pwd"
+                android:textColor="@android:color/black"
+                android:textSize="17sp" />
+
+            <EditText
+                android:id="@+id/pswedt02"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@null"
+                android:hint="@string/sure_new_code"
+                android:inputType="textPassword"
+                android:paddingLeft="10dp"
+                android:singleLine="true"
+                android:textColor="@color/blackgrey"
+                android:textSize="16sp" />
+        </LinearLayout>
 
         <TextView
             android:layout_width="fill_parent"
@@ -111,7 +159,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="80dp"
         android:background="@drawable/orange_btn"
-        android:text="@string/submit"
+        android:text="修改密码"
         android:textColor="@android:color/white"
         android:textSize="19sp" />
 

@@ -17,6 +17,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
+import android.text.method.ReplacementTransformationMethod;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
@@ -31,6 +32,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.android.xiwao.washcar.ActivityManage;
+import com.android.xiwao.washcar.AppLog;
 import com.android.xiwao.washcar.ClientSession;
 import com.android.xiwao.washcar.LocalSharePreference;
 import com.android.xiwao.washcar.R;
@@ -41,6 +43,7 @@ import com.android.xiwao.washcar.httpconnection.CarRegister;
 import com.android.xiwao.washcar.httpconnection.CommandExecuter;
 import com.android.xiwao.washcar.utils.DialogUtils;
 import com.android.xiwao.washcar.utils.FileUtil;
+import com.android.xiwao.washcar.utils.StringUtils;
 
 @SuppressLint("NewApi")
 public class AddCarActivity extends Activity {
@@ -61,23 +64,23 @@ public class AddCarActivity extends Activity {
 	@SuppressWarnings("rawtypes")
 	private ArrayAdapter typeAdapter;
 
-	// ¹¤¾ß
+	// å·¥å…·
 	private DialogUtils dialogUtils;
 
-	// PreferenceÊı¾İ´æ´¢¶ÔÏó
+	// Preferenceæ•°æ®å­˜å‚¨å¯¹è±¡
 	private LocalSharePreference mLocalSharePref;
 
-	// ÍøÂç·ÃÎÊÏà¹Ø¶ÔÏó
+	// ç½‘ç»œè®¿é—®ç›¸å…³å¯¹è±¡
 	private Handler mHandler;
 	private CommandExecuter mExecuter;
 
-	private static final int PHOTO_REQUEST_TAKEPHOTO = 1;// ÅÄÕÕ
-	private static final int PHOTO_REQUEST_GALLERY = 2;// ´ÓÏà²áÖĞÑ¡Ôñ
-	private static final int PHOTO_REQUEST_CUT = 3;// ½á¹û
+	private static final int PHOTO_REQUEST_TAKEPHOTO = 1;// æ‹ç…§
+	private static final int PHOTO_REQUEST_GALLERY = 2;// ä»ç›¸å†Œä¸­é€‰æ‹©
+	private static final int PHOTO_REQUEST_CUT = 3;// ç»“æœ
 
-	// ´´½¨Ò»¸öÒÔµ±Ç°Ê±¼äÎªÃû³ÆµÄÎÄ¼ş
+	// åˆ›å»ºä¸€ä¸ªä»¥å½“å‰æ—¶é—´ä¸ºåç§°çš„æ–‡ä»¶
 	private File tempFile;
-	private String carPicBase64;	//Æû³µÕÕÆ¬µÄBASE64×Ö´®
+	private String carPicBase64;	//æ±½è½¦ç…§ç‰‡çš„BASE64å­—ä¸²
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -146,11 +149,19 @@ public class AddCarActivity extends Activity {
 				finish();
 			}
 		});
+		   
+		carNumEdt.setTransformationMethod(new InputLowerToUpper());	//æ·»åŠ å°å†™è½¬å¤§å†™ç›‘å¬
 	}
 
 	private void addCar(String carCode, String carBrand, String carColor,
 			int type, String carPic) {
-		if (carCode.length() <= 0) {
+		if(carCode.length() <= 0){
+			dialogUtils.showToast(getString(R.string.car_code_null_error));
+			return;
+		}
+		char firstCarCode = carCode.charAt(0);
+		String secondPart = carCode.substring(1);
+		if (carCode.length() != 7 || !StringUtils.isChinese(firstCarCode) || StringUtils.containsChinese(secondPart)) {
 			dialogUtils.showToast(getString(R.string.car_code_null_error));
 			return;
 		} else if (carBrand.length() <= 0) {
@@ -159,7 +170,7 @@ public class AddCarActivity extends Activity {
 		} else if (carColor.length() <= 0) {
 			dialogUtils.showToast(getString(R.string.car_color_null_error));
 			return;
-		}
+		} 
 		long customerId = mLocalSharePref.getUserId();
 		String carType = null;
 		switch (type) {
@@ -187,10 +198,10 @@ public class AddCarActivity extends Activity {
 	}
 
 	/**
-	 * ´¦Àí·şÎñÆ÷·µ»ØµÄ³µÁ¾×¢²á½á¹û
+	 * å¤„ç†æœåŠ¡å™¨è¿”å›çš„è½¦è¾†æ³¨å†Œç»“æœ
 	 * 
 	 * @param rsp
-	 *            ·şÎñ·µ»ØµÄ³µÁ¾×¢²á½á¹ûĞÅÏ¢
+	 *            æœåŠ¡è¿”å›çš„è½¦è¾†æ³¨å†Œç»“æœä¿¡æ¯
 	 */
 	private void onReceiveCarRegisterResponse(BaseResponse rsp) {
 
@@ -229,28 +240,28 @@ public class AddCarActivity extends Activity {
 				.getDisplayHeight();
 		int displayWidth = ((XiwaoApplication) getApplication())
 				.getDisplayWidth();
-		// title¸ß¶È
+		// titleé«˜åº¦
 		RelativeLayout title = (RelativeLayout) findViewById(R.id.header);
 		LinearLayout.LayoutParams titleParams = new LinearLayout.LayoutParams(
 				LayoutParams.MATCH_PARENT, (int) (displayHeight * 0.08f + 0.5f));
 		title.setLayoutParams(titleParams);
-		// ·şÎñÀàĞÍ
+
 		LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-				LayoutParams.MATCH_PARENT, (int) (displayHeight * 0.08f + 0.5f));
+				LayoutParams.MATCH_PARENT, (int) (displayHeight * 0.16f + 0.5f));
 		params.setMargins(0, (int) (displayHeight * 0.04f + 0.5f), 0, 0);
-		carNum.setLayoutParams(params);
-		// ³µÅÆºÅÂë
+		carPic.setLayoutParams(params);
+		
+		// è½¦ç‰Œå·ç 
 		params = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT,
 				(int) (displayHeight * 0.08f + 0.5f));
 		params.setMargins(0, (int) (displayHeight * 0.001f + 0.5f), 0, 0);
 
+		carNum.setLayoutParams(params);
 		carType.setLayoutParams(params);
-		// ËùÔÚÍøµã
+		// æ‰€åœ¨ç½‘ç‚¹
 		carColor.setLayoutParams(params);
-		// ÁªÏµµç»°
+		// è”ç³»ç”µè¯
 		carBrand.setLayoutParams(params);
-		// ÕÕÆ¬
-		carPic.setLayoutParams(params);
 
 		params = new LinearLayout.LayoutParams(
 				(int) (displayWidth * 0.94f + 0.5f),
@@ -260,23 +271,23 @@ public class AddCarActivity extends Activity {
 				(int) (displayWidth * 0.03f + 0.5f), 0);
 		submitBtn.setLayoutParams(params);
 
-		LinearLayout.LayoutParams imgParams = new LinearLayout.LayoutParams(
-				(int) (displayHeight * 0.12f + 0.5f),
-				(int) (displayHeight * 0.12f + 0.5f));
-		imgParams.setMargins(0, (int) (displayHeight * 0.04f + 0.5f), 0, 0);
-		addImgBtn.setLayoutParams(imgParams);
+//		RelativeLayout.LayoutParams imgParams = new RelativeLayout.LayoutParams(
+//				(int) (displayHeight * 0.12f + 0.5f),
+//				(int) (displayHeight * 0.12f + 0.5f));
+//		imgParams.setMargins(0, (int) (displayHeight * 0.04f + 0.5f), 0, 0);
+//		addImgBtn.setLayoutParams(imgParams);
 	}
 
 	private void initAdapter() {
 		typeAdapter = ArrayAdapter.createFromResource(this, R.array.car_types,
 				android.R.layout.simple_spinner_item);
-		// ÉèÖÃÏÂÀ­ÁĞ±íµÄ·ç¸ñ
+		// è®¾ç½®ä¸‹æ‹‰åˆ—è¡¨çš„é£æ ¼
 		typeAdapter
 				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		// ½«adapter2 Ìí¼Óµ½spinnerÖĞ
+		// å°†adapter2 æ·»åŠ åˆ°spinnerä¸­
 		spinnerCarType.setAdapter(typeAdapter);
 
-		// Ìí¼ÓÊÂ¼şSpinnerÊÂ¼ş¼àÌı
+		// æ·»åŠ äº‹ä»¶Spinneräº‹ä»¶ç›‘å¬
 		spinnerCarType
 				.setOnItemSelectedListener(new SpinnerXMLSelectedListener());
 	}
@@ -284,7 +295,7 @@ public class AddCarActivity extends Activity {
 	class SpinnerXMLSelectedListener implements OnItemSelectedListener {
 		public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2,
 				long arg3) {
-			// view2.setText("ÄãÊ¹ÓÃÊ²Ã´ÑùµÄÊÖ»ú£º" + adapter2.getItem(arg2));
+			// view2.setText("ä½ ä½¿ç”¨ä»€ä¹ˆæ ·çš„æ‰‹æœºï¼š" + adapter2.getItem(arg2));
 		}
 
 		public void onNothingSelected(AdapterView<?> arg0) {
@@ -292,7 +303,7 @@ public class AddCarActivity extends Activity {
 	}
 
 	/**
-	 * ³õÊ¼»¯ĞèÒªµÄ¹¤¾ß
+	 * åˆå§‹åŒ–éœ€è¦çš„å·¥å…·
 	 */
 	public void initUtils() {
 		dialogUtils = new DialogUtils();
@@ -306,7 +317,7 @@ public class AddCarActivity extends Activity {
 		mExecuter.setHandler(mHandler);
 	}
 
-	// Ê¹ÓÃÏµÍ³µ±Ç°ÈÕÆÚ¼ÓÒÔµ÷Õû×÷ÎªÕÕÆ¬µÄÃû³Æ
+	// ä½¿ç”¨ç³»ç»Ÿå½“å‰æ—¥æœŸåŠ ä»¥è°ƒæ•´ä½œä¸ºç…§ç‰‡çš„åç§°
 	private String getPhotoFileName() {
 		Date date = new Date(System.currentTimeMillis());
 		SimpleDateFormat dateFormat = new SimpleDateFormat(
@@ -317,14 +328,14 @@ public class AddCarActivity extends Activity {
 	private void startPhotoZoom(Uri uri, int size) {
 		Intent intent = new Intent("com.android.camera.action.CROP");
 		intent.setDataAndType(uri, "image/*");
-		// cropÎªtrueÊÇÉèÖÃÔÚ¿ªÆôµÄintentÖĞÉèÖÃÏÔÊ¾µÄview¿ÉÒÔ¼ô²Ã
+		// cropä¸ºtrueæ˜¯è®¾ç½®åœ¨å¼€å¯çš„intentä¸­è®¾ç½®æ˜¾ç¤ºçš„viewå¯ä»¥å‰ªè£
 		intent.putExtra("crop", "true");
 
-		// aspectX aspectY ÊÇ¿í¸ßµÄ±ÈÀı
+		// aspectX aspectY æ˜¯å®½é«˜çš„æ¯”ä¾‹
 		intent.putExtra("aspectX", 1);
 		intent.putExtra("aspectY", 1);
 
-		// outputX,outputY ÊÇ¼ô²ÃÍ¼Æ¬µÄ¿í¸ß
+		// outputX,outputY æ˜¯å‰ªè£å›¾ç‰‡çš„å®½é«˜
 		intent.putExtra("outputX", size);
 		intent.putExtra("outputY", size);
 		intent.putExtra("return-data", true);
@@ -366,28 +377,28 @@ public class AddCarActivity extends Activity {
 
 	}
 
-	// ÌáÊ¾¶Ô»°¿ò·½·¨
+	// æç¤ºå¯¹è¯æ¡†æ–¹æ³•
 	private void showDialog() {
 		new AlertDialog.Builder(this)
-				.setTitle("Æû³µö¦ÕÕ")
-				.setPositiveButton("ÅÄÕÕ", new DialogInterface.OnClickListener() {
+				.setTitle("æ±½è½¦é“ç…§")
+				.setPositiveButton("æ‹ç…§", new DialogInterface.OnClickListener() {
 
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						// TODO Auto-generated method stub
 						dialog.dismiss();
-						// µ÷ÓÃÏµÍ³µÄÅÄÕÕ¹¦ÄÜ
+						// è°ƒç”¨ç³»ç»Ÿçš„æ‹ç…§åŠŸèƒ½
 						tempFile = new File(FileUtil.createFileOnSD(
 								"/xiwao/img/", getPhotoFileName()));
 						Intent intent = new Intent(
 								MediaStore.ACTION_IMAGE_CAPTURE);
-						// Ö¸¶¨µ÷ÓÃÏà»úÅÄÕÕºóÕÕÆ¬µÄ´¢´æÂ·¾¶
+						// æŒ‡å®šè°ƒç”¨ç›¸æœºæ‹ç…§åç…§ç‰‡çš„å‚¨å­˜è·¯å¾„
 						intent.putExtra(MediaStore.EXTRA_OUTPUT,
 								Uri.fromFile(tempFile));
 						startActivityForResult(intent, PHOTO_REQUEST_TAKEPHOTO);
 					}
 				})
-				.setNegativeButton("Ïà²á", new DialogInterface.OnClickListener() {
+				.setNegativeButton("ç›¸å†Œ", new DialogInterface.OnClickListener() {
 
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
@@ -408,4 +419,24 @@ public class AddCarActivity extends Activity {
 		ActivityManage.getInstance().setCurContext(this);
 		super.onResume();
 	}
+	
+	/**
+	 * å°å†™è½¬å¤§å†™
+	 * @author hpq
+	 *
+	 */
+	public class InputLowerToUpper extends ReplacementTransformationMethod{ 
+	    @Override 
+	    protected char[] getOriginal() { 
+	        char[] lower = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z' }; 
+	        return lower; 
+	    } 
+	   
+	    @Override 
+	    protected char[] getReplacement() { 
+	        char[] upper = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z' }; 
+	        return upper; 
+	    } 
+	   
+	} 
 }

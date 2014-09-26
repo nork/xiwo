@@ -176,7 +176,8 @@
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@+id/contact_title"
             android:background="@null"
-            android:inputType="number" />
+            android:inputType="number"
+            android:maxLength="20" />
     </RelativeLayout>
 
     <LinearLayout android:id="@+id/clean_in_part"

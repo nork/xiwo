@@ -138,10 +138,12 @@ public class OrderQuery extends BaseCommand{
 				brief.setOrderState(jsonSingleInfo.getString(JSON_ORDER_STATE));
 				brief.setPayTime(jsonSingleInfo.getString(JSON_PAY_TIME));
 				String serviceType = jsonSingleInfo.getString(JSON_SERVICE_TYPE);
-				if(serviceType.equals("01")){
+				if(serviceType.equals("A")){
 					serviceType = "洗车";
-				}else if(serviceType.equals("02")){
-					serviceType = "洗车\n打蜡";
+				}else if(serviceType.equals("B")){
+					serviceType = "打蜡";
+				}else if(serviceType.equals("C")){
+					serviceType = "包月";
 				}
 				brief.setServiceType(serviceType);
 				brief.setServiceTypeMi(jsonSingleInfo.getString(JSON_SERVICE_MI));

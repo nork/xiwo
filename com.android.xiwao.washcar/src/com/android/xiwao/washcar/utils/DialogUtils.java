@@ -4,10 +4,13 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.sax.StartElementListener;
 import android.widget.Toast;
 
 import com.android.xiwao.washcar.ActivityManage;
 import com.android.xiwao.washcar.R;
+import com.android.xiwao.washcar.ui.LoginActivity;
 
 /**
  * 弹出框工具类
@@ -51,6 +54,8 @@ public class DialogUtils {
 			@Override
 			public void onClick(DialogInterface arg0, int arg1) {
 				ActivityManage.getInstance().exit();
+//				Intent intent = new Intent(mContext, LoginActivity.class);
+//				mContext.startActivity(intent);
 			}
 		})
 		.setNegativeButton(mContext.getString(R.string.no),

@@ -69,7 +69,7 @@
     <string name="wash">洗</string>
     <string name="wax">蜡</string>
     <string name="add_car">+ 添加车辆信息</string>
-    <string name="car_info_title"> 你好，你名下的豪车有：</string>
+    <string name="car_info_title"> 您好\n您名下的豪车有：</string>
     
     <!-- car info edit ui string -->
     <string name="contact_num">联系电话</string>
@@ -138,9 +138,9 @@
     <string name="new_pwd_null_error">新密码不能为空</string>
     
     <!-- Add car ui -->
-    <string name="car_code_null_error">请输入车牌号码</string>
-    <string name="car_brand_null_error">请输入汽车品牌</string>
-    <string name="car_color_null_error">请输入汽车颜色</string>
+    <string name="car_code_null_error">请正确输入车牌号</string>
+    <string name="car_brand_null_error">请输入车辆品牌</string>
+    <string name="car_color_null_error">请输入车辆颜色</string>
     <string name="add_img">添加照片</string>
     
     <!-- recharge ui -->

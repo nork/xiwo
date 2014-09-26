@@ -91,6 +91,7 @@
             android:background="@drawable/order_manage_on"
             android:textColor="@color/orange"
             android:textSize="18sp"
+            android:visibility="gone"
              />
     </RelativeLayout>
 

@@ -103,6 +103,15 @@ public class OrderDetailActivity extends Activity {
 				finish();
 			}
 		});
+		
+		cannelOrderBtn.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				finish();
+			}
+		});
 	}
 
 	private void fetchOrderData(){

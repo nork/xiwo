@@ -247,7 +247,7 @@ public class FindPasswordActivity extends Activity {
 					dialogUtils.showToast(getString(R.string.pwd_null_erro));
 					return;
 
-				} else if (psw1.length() < 6 || psw1.length() > 16) {
+				} else if (psw1.length() < 6 || psw1.length() > 20) {
 					dialogUtils.showToast(getString(R.string.pwd_format_erro));
 					return;
 				}

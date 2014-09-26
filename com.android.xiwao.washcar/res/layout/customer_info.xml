@@ -148,8 +148,7 @@
 	        android:layout_centerVertical="true"/>
 	    <TextView android:id="@+id/phone_txt"
 	        android:layout_height="wrap_content"
-	        android:layout_width="wrap_content"
-	        android:textColor="@android:color/black"
+	        android:layout_width="wrap_content"	        
 	        android:layout_toRightOf="@+id/my_phone"
 	        android:layout_centerVertical="true"
 	        android:textSize="12sp"/>

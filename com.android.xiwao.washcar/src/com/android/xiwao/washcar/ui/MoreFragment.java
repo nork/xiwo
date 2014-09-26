@@ -26,6 +26,7 @@ public class MoreFragment extends BaseFragment {
 	private RelativeLayout help;
 	private RelativeLayout tellFriend;
 	private RelativeLayout about;
+	private RelativeLayout carInfo;
 	private Button quitBtn;
 
 	// 工具
@@ -55,6 +56,7 @@ public class MoreFragment extends BaseFragment {
 		help = (RelativeLayout) view.findViewById(R.id.help);
 		tellFriend = (RelativeLayout) view.findViewById(R.id.tell_friend);
 		about = (RelativeLayout) view.findViewById(R.id.about);
+		carInfo = (RelativeLayout) view.findViewById(R.id.car_info);
 		TextView title = (TextView)view.findViewById(R.id.title);
 		title.setText(R.string.more);
 
@@ -100,6 +102,17 @@ public class MoreFragment extends BaseFragment {
 				startActivity(intent);
 			}
 		});
+		
+		carInfo.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				Intent intent = new Intent(mContext,
+						CarInfoActivity.class);
+				startActivity(intent);
+			}
+		});
 	}
 
 
@@ -140,6 +153,7 @@ public class MoreFragment extends BaseFragment {
 		tellFriend.setLayoutParams(params);
 		// 关于
 		about.setLayoutParams(params);
+		carInfo.setLayoutParams(params);
 
 		params = new LinearLayout.LayoutParams(
 				(int) (displayWidth * 0.94f + 0.5f),

@@ -116,13 +116,13 @@ public class CarInfoEditActivity extends Activity {
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
 				if(carNumEdt.getText().toString().length() <= 0){
-					dialogUtils.showToast("请填入车辆信息！");
+					dialogUtils.showToast("请填入正确的车辆信息！");
 					return;
 				}else if(websitEdt.getText().toString().length() <= 0){
-					dialogUtils.showToast("请填入地址信息！");
+					dialogUtils.showToast("请填入正确的停车地址！");
 					return;
 				}else if(contactEdt.getText().toString().length() <= 0){
-					dialogUtils.showToast("请填入电话号码！");
+					dialogUtils.showToast("请填入正确的电话号码！");
 					return;
 				}
 				placeOrder();
@@ -198,10 +198,13 @@ public class CarInfoEditActivity extends Activity {
 		String serviceType = "";
 		switch(spinnerServerType.getSelectedItemPosition()){
 		case 0:
-			serviceType = "01";
+			serviceType = "A";
 			break;
 		case 1:
-			serviceType = "02";
+			serviceType = "B";
+			break;
+		case 2:
+			serviceType = "C";
 			break;
 		}
 		String serverTypeMi = "";
@@ -411,7 +414,7 @@ public class CarInfoEditActivity extends Activity {
 			break;
 		case Constants.CHIOCE_ADDRESS_RESULT_CODE:
 			choiceAddress = data.getParcelableExtra("choice_address");
-			websitEdt.setText(choiceAddress.getBranchName() + choiceAddress.getAddressDetail());
+			websitEdt.setText(choiceAddress.getBranchName() + " " + choiceAddress.getAddressDetail());
 			break;
 		}
 	}
