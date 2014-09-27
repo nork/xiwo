@@ -11,10 +11,14 @@
     <string name="sure_exit">确认退出？</string>
     <string name="yes">确定</string>
     <string name="no">取消</string>
+    <string name="phone_wrong">请正确输入手机号码！</string>
+    <string name="pwd_wrong">请输入6-20位密码！</string>
+    <string name="code_wrong">请正确输入验证码！</string>
     <!-- MainActivity UI String-->
     <string name="main">首页</string>
     <string name="car_info">车辆信息</string>
     <string name="order_manage">订单</string>
+    <string name="order_manage1">订单管理</string>
     <string name="more">更多</string>
     <string name="wash_car">洗车</string>
     <string name="wash_car_wax">打蜡</string>

@@ -34,6 +34,7 @@ import com.android.xiwao.washcar.httpconnection.BaseCommand;
 import com.android.xiwao.washcar.httpconnection.BaseResponse;
 import com.android.xiwao.washcar.httpconnection.CommandExecuter;
 import com.android.xiwao.washcar.httpconnection.PlaceOrder;
+import com.android.xiwao.washcar.httpconnection.RateQuery;
 import com.android.xiwao.washcar.utils.DialogUtils;
 
 public class CarInfoEditActivity extends Activity {
@@ -91,6 +92,9 @@ public class CarInfoEditActivity extends Activity {
 		initContentView();
 		setHwView();
 		initAdapter();
+		if(MainActivity.feeDataList.size() <= 0){
+			rateQuery();
+		}
 		setPriceView();
 //		((XiwaoApplication)getApplication()).setIfNeedRefreshOrder(true);
 	}
@@ -189,7 +193,11 @@ public class CarInfoEditActivity extends Activity {
 					priceCount += cleanInPrice;
 				}
 				String priceStr = Integer.toString(priceCount);
-				price.setText(priceStr.subSequence(0, priceStr.length() - 2) + "." + priceStr.substring(priceStr.length() - 2));
+				try{
+					price.setText(priceStr.subSequence(0, priceStr.length() - 2) + "." + priceStr.substring(priceStr.length() - 2));
+				}catch(Exception e){
+					e.printStackTrace();
+				}
 			}
 		});
 	}	
@@ -260,6 +268,52 @@ public class CarInfoEditActivity extends Activity {
 
 		public void handleResponse(BaseResponse rsp) {
 			onReceivePlaceOrderResponse(rsp);
+		}
+
+		public void handleException(IOException e) {
+			dialogUtils.showToast(getString(R.string.connection_error));
+		}
+
+		public void onEnd() {
+			dialogUtils.dismissProgress();
+		}
+	};
+	
+	/**
+	 * 查询费用
+	 */
+	public void rateQuery(){
+		BaseCommand login = ClientSession.getInstance().getCmdFactory()
+				.getRateQuery();
+
+		mExecuter.execute(login, mRespHandler);
+		dialogUtils.showProgress();
+	}
+	
+	/**
+	 * 处理服务器返回的查询结果
+	 * @param rsp 服务返回的登录信息
+	 */
+	private void onReceiveRateQueryResponse(BaseResponse rsp) {
+
+		if (!rsp.isOK()) {
+			String error = getString(R.string.protocol_error) + "(" + rsp.errno
+					+ ")";
+			dialogUtils.showToast(error);
+		} else {
+			RateQuery.Response rateQueryRsp = (RateQuery.Response) rsp;
+			if (rateQueryRsp.responseType.equals("N")) {
+				MainActivity.feeDataList = rateQueryRsp.briefs;
+			} else {
+				dialogUtils.showToast(rateQueryRsp.errorMessage);
+			}
+		}
+	}
+	
+	private CommandExecuter.ResponseHandler mRespHandler = new CommandExecuter.ResponseHandler() {
+
+		public void handleResponse(BaseResponse rsp) {
+			onReceiveRateQueryResponse(rsp);
 		}
 
 		public void handleException(IOException e) {
@@ -393,7 +447,11 @@ public class CarInfoEditActivity extends Activity {
 			}
 		}
 		String priceStr = Integer.toString(priceCount);
+		try{
 		price.setText(priceStr.subSequence(0, priceStr.length() - 2) + "." + priceStr.substring(priceStr.length() - 2));
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 	}
 	
 	@Override

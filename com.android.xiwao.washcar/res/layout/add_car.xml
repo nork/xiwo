@@ -87,34 +87,6 @@
 
 	</RelativeLayout>
 	
-    <RelativeLayout android:id="@+id/car_brand"
-	    android:layout_width="fill_parent"
-	    android:layout_height="wrap_content"
-	    android:gravity="center_vertical"
-	    android:background="@color/white"
-	    android:layout_marginTop="0.1dip"
-	    >
-	    <TextView android:id="@+id/car_brand_title"
-	        android:layout_height="wrap_content"
-	        android:layout_width="wrap_content"
-	        android:text="@string/car_brand"
-	        android:textColor="@android:color/black"
-	        android:layout_centerVertical="true"
-	        android:layout_marginLeft="15dp"
-	        android:textSize="18sp"/>
-		
-	    <EditText android:id="@+id/car_brand_edt"
-	        android:layout_height="wrap_content"
-	        android:layout_width="fill_parent"
-	        android:layout_toRightOf="@+id/car_brand_title"
-	        android:layout_marginLeft="10dp"
-	        android:layout_centerVertical="true"
-	        android:background="@null"
-	        android:inputType="text"
-	        android:maxLength="10"
-	        />
-	</RelativeLayout>
-	
     <RelativeLayout android:id="@+id/car_color"
 	    android:layout_width="fill_parent"
 	    android:layout_height="wrap_content"
@@ -135,6 +107,34 @@
 	        android:layout_height="wrap_content"
 	        android:layout_width="fill_parent"
 	        android:layout_toRightOf="@+id/car_color_title"
+	        android:layout_marginLeft="10dp"
+	        android:layout_centerVertical="true"
+	        android:background="@null"
+	        android:inputType="text"
+	        android:maxLength="10"
+	        />
+	</RelativeLayout>
+	
+    <RelativeLayout android:id="@+id/car_brand"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:gravity="center_vertical"
+	    android:background="@color/white"
+	    android:layout_marginTop="0.1dip"
+	    >
+	    <TextView android:id="@+id/car_brand_title"
+	        android:layout_height="wrap_content"
+	        android:layout_width="wrap_content"
+	        android:text="@string/car_brand"
+	        android:textColor="@android:color/black"
+	        android:layout_centerVertical="true"
+	        android:layout_marginLeft="15dp"
+	        android:textSize="18sp"/>
+		
+	    <EditText android:id="@+id/car_brand_edt"
+	        android:layout_height="wrap_content"
+	        android:layout_width="fill_parent"
+	        android:layout_toRightOf="@+id/car_brand_title"
 	        android:layout_marginLeft="10dp"
 	        android:layout_centerVertical="true"
 	        android:background="@null"

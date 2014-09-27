@@ -209,11 +209,8 @@ public class FindPasswordActivity extends Activity {
 				// Toast.makeText(mcontext, "获取验证码", 1).show();
 
 				phonenumber = phoneedt.getText().toString();
-				if (phonenumber == null || phonenumber.length() == 0) {
-					dialogUtils.showToast(getString(R.string.telephone_wrong));
-					return;
-				} else if (phonenumber.length() != 11) {
-					dialogUtils.showToast(getString(R.string.telephone_wrong));
+				if (phonenumber.length() != 11) {
+					dialogUtils.showToast(getString(R.string.phone_wrong));
 					return;
 				} else {
 					time.start();
@@ -234,26 +231,16 @@ public class FindPasswordActivity extends Activity {
 				String psw1 = psw01.getText().toString();
 				String psw2 = psw02.getText().toString();
 
-				if (codestr == null || codestr.length() == 0) {
-
-					dialogUtils.showToast(getString(R.string.code_null_erro));
+				if (codestr.length() != 6) {
+					dialogUtils.showToast(getString(R.string.code_wrong));
 					return;
-
-				} else if (codestr.length() != 6) {
-					dialogUtils.showToast(getString(R.string.code_length_erro));
-					return;
-				} else if (psw1 == null || psw1.length() == 0) {
-
-					dialogUtils.showToast(getString(R.string.pwd_null_erro));
-					return;
-
 				} else if (psw1.length() < 6 || psw1.length() > 20) {
-					dialogUtils.showToast(getString(R.string.pwd_format_erro));
+					dialogUtils.showToast(getString(R.string.pwd_wrong));
 					return;
 				}
 
-				else if (psw2 == null || psw2.length() == 0) {
-					dialogUtils.showToast(getString(R.string.pwd_dif_erro));
+				else if (psw2.length() < 6 || psw2.length() > 20) {
+					dialogUtils.showToast(getString(R.string.pwd_wrong));
 					return;
 				} else if (!psw1.equals(psw2)) {
 
@@ -319,7 +306,7 @@ public class FindPasswordActivity extends Activity {
 	 */
 	private void getCode(String phone){
 		BaseCommand getCode = ClientSession.getInstance().getCmdFactory()
-				.getCode(phone, "");
+				.getCode(phone, "00");
 
 		mExecuter.execute(getCode, mGetCodeRespHandler);
 

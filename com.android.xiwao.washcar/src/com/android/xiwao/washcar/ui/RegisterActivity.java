@@ -161,11 +161,8 @@ public class RegisterActivity extends Activity {
 				// TODO Auto-generated method stub
 				// Toast.makeText(mcontext, "获取验证码", 1).show();
 				String phonenumber = phoneedt.getText().toString();
-				if (phonenumber == null || phonenumber.length() == 0) {
-					dialogUtils.showToast(getString(R.string.please_phone));
-					return;
-				} else if (phonenumber.length() != 11) {
-					dialogUtils.showToast(getString(R.string.telephone_wrong));
+				if (phonenumber.length() != 11) {
+					dialogUtils.showToast("请正确输入手机号码！");
 					return;
 				} else {
 					time.start();
@@ -199,28 +196,17 @@ public class RegisterActivity extends Activity {
 						.compile("[\\`\\+\\~\\!\\#\\$\\%\\^\\&\\*\\(\\)\\|\\}\\{\\=\\'\\！\\￥\\……\\（\\）\\-\\+\\~\\!\\#\\$\\%\\&\\(\\)\\|\\}\\{\\=\\'\\！\\?\\:\\<\\>\\•\\“\\”\\；\\‘\\‘\\〈\\〉\\...\\（\\）\\——\\｛\\｝\\【\\】\\/\\;\\：\\？\\《\\》\\。\\，\\、\\[\\]\\,\\@\\#]+");
 				Matcher m = p.matcher(nickNameStr);
 
-				if (codestr == null || codestr.length() == 0) {
+				if (codestr.length() != 6) {
 
-					dialogUtils.showToast(getString(R.string.code_null_erro));
+					dialogUtils.showToast(getString(R.string.code_wrong));
 					return;
-
-				} else if (codestr.length() != 6) {
-
-					dialogUtils.showToast(getString(R.string.code_length_erro));
-					return;
-				} else if (psw1 == null || psw1.length() == 0) {
-
-					dialogUtils.showToast(getString(R.string.pwd_null_erro));
-					return;
-
-				}
-
+				} 
 				else if (psw1.length() < 6 || psw1.length() > 20) {
-					dialogUtils.showToast(getString(R.string.pwd_format_erro));
+					dialogUtils.showToast(getString(R.string.pwd_wrong));
 					return;
 				}
 				else if(psw2.length() < 6 || psw2.length() > 20){
-					dialogUtils.showToast(getString(R.string.pwd_format_erro));
+					dialogUtils.showToast(getString(R.string.pwd_wrong));
 					return;
 				}
 				else if (psw2 == null || psw2.length() == 0) {

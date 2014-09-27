@@ -93,7 +93,7 @@
 	    >
 	    <TextView android:layout_height="wrap_content"
 	        android:layout_width="wrap_content"
-	        android:text="@string/password_str"
+	        android:text="修改密码"
 	        android:textColor="@android:color/black"
 	        android:layout_marginLeft="15dp"
 	        android:layout_centerVertical="true"
@@ -188,6 +188,30 @@
 	    <TextView android:layout_height="wrap_content"
 	        android:layout_width="wrap_content"
 	        android:text="@string/about"
+	        android:textColor="@android:color/black"
+	        android:layout_centerVertical="true"
+	        android:layout_marginLeft="15dp"
+	        android:textSize="18sp"/>
+	    <ImageView          
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:background="@drawable/right_icon"
+            android:scaleType="center" 
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="15dp"/>
+	</RelativeLayout>
+	
+	<RelativeLayout android:id="@+id/contact"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:gravity="center_vertical"
+	    android:background="@color/white"
+	    android:layout_marginTop="0.1dip"
+	    >
+	    <TextView android:layout_height="wrap_content"
+	        android:layout_width="wrap_content"
+	        android:text="联系我们"
 	        android:textColor="@android:color/black"
 	        android:layout_centerVertical="true"
 	        android:layout_marginLeft="15dp"

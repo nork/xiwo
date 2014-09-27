@@ -205,14 +205,11 @@ public class LoginActivity extends Activity {
 	 * @param password
 	 */
 	public void doLogin(String user, String password) {
-		if (user.trim().length() == 0) {
-			dialogUtils.showToast(getString(R.string.empty_user));
-			return;
-		} else if (password.trim().length() == 0) {
-			dialogUtils.showToast(getString(R.string.empty_passwd));
+		if (user.trim().length() != 11) {
+			dialogUtils.showToast(getString(R.string.phone_wrong));
 			return;
 		} else if(password.trim().length() < 6 || password.trim().length() > 20){
-			dialogUtils.showToast(getString(R.string.pwd_format_erro));
+			dialogUtils.showToast(getString(R.string.pwd_wrong));
 			return;
 		}
 

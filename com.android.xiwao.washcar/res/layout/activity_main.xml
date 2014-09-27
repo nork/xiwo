@@ -42,7 +42,7 @@
             style="@style/weibo_tab"  
             android:gravity="center_horizontal"
             android:drawableTop="@drawable/order_manage_selector"  
-            android:text="@string/order_manage" 
+            android:text="@string/order_manage1" 
             />  
   
         <RadioButton  

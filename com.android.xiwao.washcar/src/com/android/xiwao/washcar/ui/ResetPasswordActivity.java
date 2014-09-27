@@ -162,23 +162,18 @@ public class ResetPasswordActivity extends Activity {
 				String psw1 = psw01.getText().toString();
 				String psw2 = psw02.getText().toString();
 
-				if (oldpswstr == null || oldpswstr.length() == 0) {
+				if (oldpswstr.length() < 6 || oldpswstr.length() > 20) {
 
-					dialogUtils.showToast(getString(R.string.old_pwd_null_error));
+					dialogUtils.showToast(getString(R.string.pwd_wrong));
 					return;
 
-				} else if (psw1 == null || psw1.length() == 0) {
-
-					dialogUtils.showToast(getString(R.string.new_pwd_null_error));
-					return;
-
-				} else if (psw1.length() < 6 || psw1.length() > 16) {
-					dialogUtils.showToast(getString(R.string.pwd_format_erro));
+				} else if (psw1.length() < 6 || psw1.length() > 20) {
+					dialogUtils.showToast(getString(R.string.pwd_wrong));
 					return;
 				}
 
-				else if (psw2 == null || psw2.length() == 0) {
-					dialogUtils.showToast(getString(R.string.pwd_dif_erro));
+				else if (psw2.length() < 6 || psw2.length() > 20) {
+					dialogUtils.showToast(getString(R.string.pwd_wrong));
 					return;
 				} else if (!psw1.equals(psw2)) {
 

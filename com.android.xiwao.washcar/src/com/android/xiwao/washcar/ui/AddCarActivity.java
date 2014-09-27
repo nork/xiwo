@@ -156,19 +156,19 @@ public class AddCarActivity extends Activity {
 	private void addCar(String carCode, String carBrand, String carColor,
 			int type, String carPic) {
 		if(carCode.length() <= 0){
-			dialogUtils.showToast(getString(R.string.car_code_null_error));
+			dialogUtils.showToast("请正确输入车牌号！");
 			return;
 		}
 		char firstCarCode = carCode.charAt(0);
 		String secondPart = carCode.substring(1);
 		if (carCode.length() != 7 || !StringUtils.isChinese(firstCarCode) || StringUtils.containsChinese(secondPart)) {
-			dialogUtils.showToast(getString(R.string.car_code_null_error));
+			dialogUtils.showToast("请正确输入车牌号！");
 			return;
 		} else if (carBrand.length() <= 0) {
-			dialogUtils.showToast(getString(R.string.car_brand_null_error));
+			dialogUtils.showToast("请输入车辆品牌！");
 			return;
 		} else if (carColor.length() <= 0) {
-			dialogUtils.showToast(getString(R.string.car_color_null_error));
+			dialogUtils.showToast("请输入车辆颜色！");
 			return;
 		} 
 		long customerId = mLocalSharePref.getUserId();

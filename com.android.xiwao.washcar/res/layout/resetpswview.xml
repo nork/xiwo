@@ -61,7 +61,7 @@
                 android:layout_height="fill_parent"
                 android:gravity="center_vertical"
                 android:paddingLeft="20dp"
-                android:text="旧&#160;&#160;&#160;&#160;密&#160;&#160;&#160;&#160;码"
+                android:text="请输入旧密码"
                 android:textColor="@android:color/black"
                 android:textSize="17sp" />
 
@@ -95,7 +95,7 @@
                 android:layout_height="fill_parent"
                 android:gravity="center_vertical"
                 android:paddingLeft="20dp"
-                android:text="新&#160;&#160;&#160;&#160;密&#160;&#160;&#160;&#160;码"
+                android:text="请输入新密码"
                 android:textColor="@android:color/black"
                 android:textSize="17sp" />
 
@@ -129,7 +129,7 @@
                 android:layout_height="fill_parent"
                 android:gravity="center_vertical"
                 android:paddingLeft="20dp"
-                android:text="@string/sure_new_pwd"
+                android:text="确&#160;认&#160;新&#160;密&#160;码"
                 android:textColor="@android:color/black"
                 android:textSize="17sp" />
 
