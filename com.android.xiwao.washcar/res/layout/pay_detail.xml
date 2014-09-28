@@ -305,7 +305,8 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/blue_btn"
                     android:text="@string/cannel_order"
-                    android:textColor="@color/white" />
+                    android:textColor="@color/white"
+                    android:textSize="18sp"  />
 
                 <Button
                     android:id="@+id/pay_now"
@@ -313,7 +314,8 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/orange_btn"
                     android:text="@string/pay_now"
-                    android:textColor="@color/white" />
+                    android:textColor="@color/white"
+                    android:textSize="18sp" />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

@@ -149,7 +149,7 @@ public class LocalSharePreference {
 	 * 获取用户类型
 	 * @return
 	 */
-	public String setUserHead(){
+	public String getUserType(){
 		return mSp.getString(USER_TYPE, "");
 	}
 	

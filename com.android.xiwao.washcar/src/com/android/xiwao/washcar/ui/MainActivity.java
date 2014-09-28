@@ -16,8 +16,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.DisplayMetrics;
 import android.view.KeyEvent;
-import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -28,6 +26,7 @@ import com.android.xiwao.washcar.ActivityManage;
 import com.android.xiwao.washcar.AppLog;
 import com.android.xiwao.washcar.ClientSession;
 import com.android.xiwao.washcar.Constants;
+import com.android.xiwao.washcar.LocalSharePreference;
 import com.android.xiwao.washcar.R;
 import com.android.xiwao.washcar.XiwaoApplication;
 import com.android.xiwao.washcar.data.FeeData;
@@ -50,6 +49,7 @@ public class MainActivity extends FragmentActivity{
 	// 网络访问相关对象
 	private Handler mHandler;
 	private CommandExecuter mExecuter;
+	private LocalSharePreference mLocalSharePref;
 	
 	public static List<FeeData> feeDataList = new ArrayList<FeeData>();
 	private long mExitTime;
@@ -63,13 +63,18 @@ public class MainActivity extends FragmentActivity{
       
         ActivityManage.getInstance().setCurContext(this);
 		ActivityManage.getInstance().addActivity(this);
-		
+		getDisHw();
+		mLocalSharePref = new LocalSharePreference(this);
 		setContentView(R.layout.activity_main);
 		FragmentFactory.initFragment();
 		
         initContentView();
         initExecuter();
         rateQuery();
+        if(mLocalSharePref.getUserType().equals("01") && mLocalSharePref.getLoginState()){
+        	Intent intent = new Intent(this, MonthlyActivity.class);
+			startActivity(intent);
+        }
     }
     
     /**
@@ -91,13 +96,16 @@ public class MainActivity extends FragmentActivity{
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 transaction = fragmentManager.beginTransaction();
+        		
+        		if(!mLocalSharePref.getLoginState() && (checkedId == R.id.order_manager
+        				|| checkedId == R.id.car_info)){
+        			Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+        			startActivity(intent);
+        			ActivityManage.getInstance().exitInError();
+        			return;
+        		}
                 fragment = FragmentFactory.getInstanceByIndex(checkedId);
-                
-//                if(fragment.isAdded()){
-//                	transaction.hide(fragmentManage).show(fragment).commit();
-//                }
-//                transaction.replace(R.id.content, fragment).addToBackStack(null);
-//                transaction.commit();
+
                 if((((XiwaoApplication)getApplication()).isIfNeedRefreshOrder()) && checkedId == R.id.order_manager){
                 	FragmentUtils.removeFragment(fragment, transaction);
                 	FragmentFactory.orderManageFragment = new OrderManageFragment();

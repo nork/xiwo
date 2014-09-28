@@ -42,7 +42,7 @@ import com.android.xiwao.washcar.utils.DialogUtils;
 import com.android.xiwao.washcar.utils.FileUtil;
 
 public class CarInfoActivity extends Activity{
-	private static final String TAG = "CarListActivity";
+	private static final String TAG = "CarInfoActivity";
 	private Context mContext;
 	private SwipeListView carList;
 	private ImageView customerImg;

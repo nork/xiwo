@@ -86,7 +86,8 @@ public class CarInfoListAdapter extends BaseAdapter{
 			viewHolder.carImg = (ImageView) convertView.findViewById(R.id.car_img);
 			viewHolder.carInfo = (RelativeLayout) convertView.findViewById(R.id.car_info);
 			viewHolder.carNumTitle = (TextView) convertView.findViewById(R.id.car_num_title);
-			viewHolder.carAddr = (TextView) convertView.findViewById(R.id.car_addr);
+			viewHolder.carColor = (TextView) convertView.findViewById(R.id.car_color);
+			viewHolder.carBrand = (TextView) convertView.findViewById(R.id.car_brand);
 			viewHolder.money = (TextView) convertView.findViewById(R.id.money);
 			viewHolder.addCar = (TextView) convertView.findViewById(R.id.add_car);
 			viewHolder.carNum = (TextView) convertView.findViewById(R.id.car_num);
@@ -101,15 +102,18 @@ public class CarInfoListAdapter extends BaseAdapter{
 //		}
 		
 		CarInfo singleCarInfo = this.mList.get(position);
-		viewHolder.carNum.setText(singleCarInfo.getCarCode() + "\n" + singleCarInfo.getCarColor() + "\n" + singleCarInfo.getCarBrand());
+		viewHolder.carNum.setText(singleCarInfo.getCarCode());
+		viewHolder.carBrand.setText(singleCarInfo.getCarBrand());
+		viewHolder.carColor.setText(singleCarInfo.getCarColor());
 		String carPicBase64 = singleCarInfo.getCarPic();
 		try{
 			if(!carPicBase64.equals("") && carPicBase64 != null){
 				Bitmap userHeadBitMap = FileUtil.base64ToBitmap(carPicBase64);
 				Drawable drawable = new BitmapDrawable(userHeadBitMap);
-//				viewHolder.carImg.setBackgroundDrawable(drawable);
-				viewHolder.carImg.setImageDrawable(drawable);
-			}	
+				viewHolder.carImg.setBackgroundDrawable(drawable);
+				viewHolder.carImg.setImageDrawable(null);
+//				viewHolder.carImg.setImageDrawable(drawable);
+			}
 		}catch(Exception e){
 			e.printStackTrace();
 		}
@@ -120,6 +124,7 @@ public class CarInfoListAdapter extends BaseAdapter{
 			viewHolder.money.setVisibility(View.GONE);
 			viewHolder.addCar.setVisibility(View.VISIBLE);
 			viewHolder.editBtn.setVisibility(View.GONE);
+			
 			viewHolder.itemLeft.setBackgroundResource(R.drawable.xu_line_box);
 			convertView.setOnClickListener(new View.OnClickListener() {
 				
@@ -205,7 +210,8 @@ public class CarInfoListAdapter extends BaseAdapter{
 		TextView carNumTitle;
 		TextView washBtn;
 		TextView waxBtn;
-		TextView carAddr;
+		TextView carColor;
+		TextView carBrand;
 		TextView money;
 		TextView addCar;
 		TextView carNum;

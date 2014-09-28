@@ -23,6 +23,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.android.xiwao.washcar.ActivityManage;
 import com.android.xiwao.washcar.AppLog;
 import com.android.xiwao.washcar.ClientSession;
 import com.android.xiwao.washcar.Constants;
@@ -73,7 +74,8 @@ public class CarInfoFragment extends BaseFragment {
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {		
+			Bundle savedInstanceState) {	
+		mContext = getActivity();
 		mLocalSharePref = new LocalSharePreference(this.getActivity());
 		
 		view = inflater.inflate(R.layout.car_info_list, null);
@@ -90,7 +92,6 @@ public class CarInfoFragment extends BaseFragment {
 	@Override
 	public void initContentView() {
 		// TODO Auto-generated method stub
-		mContext = this.getActivity();
 		carList = (SwipeListView) view.findViewById(R.id.car_list);
 		backBtn = (Button) view.findViewById(R.id.backbtn);
 		title = (TextView) view.findViewById(R.id.title);

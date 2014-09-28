@@ -12,6 +12,8 @@ import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 
+import com.android.xiwao.washcar.ActivityManage;
+import com.android.xiwao.washcar.LocalSharePreference;
 import com.android.xiwao.washcar.R;
 import com.android.xiwao.washcar.XiwaoApplication;
 
@@ -25,9 +27,13 @@ public class HomePageFragment extends BaseFragment{
 		
 	private View view;
 
+	// Preference数据存储对象
+	private LocalSharePreference mLocalSharePref;
 	@Override  
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {  
 		mContext = getActivity();
+		mLocalSharePref = new LocalSharePreference(this.getActivity());
+		
         view = inflater.inflate(R.layout.home_page, null); 
         initContentView();
         setHwView();
@@ -59,6 +65,13 @@ public class HomePageFragment extends BaseFragment{
 //				//提交修改
 //				transaction.commit();
 //				FragmentUtils.switchContent(FragmentFactory, transaction);
+				
+				if(!mLocalSharePref.getLoginState()){
+					Intent intent = new Intent(mContext, LoginActivity.class);
+					startActivity(intent);
+					ActivityManage.getInstance().exitInError();
+					return;
+				}
 				Intent intent = new Intent(mContext, CarInfoEditActivity.class);
 				intent.putExtra("service_type", 0);
 				startActivity(intent);
@@ -70,6 +83,12 @@ public class HomePageFragment extends BaseFragment{
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
+				if(!mLocalSharePref.getLoginState()){
+					Intent intent = new Intent(mContext, LoginActivity.class);
+					startActivity(intent);
+					ActivityManage.getInstance().exitInError();
+					return;
+				}
 				Intent intent = new Intent(mContext, CarInfoEditActivity.class);
 				intent.putExtra("service_type", 2);
 				startActivity(intent);

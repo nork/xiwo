@@ -73,8 +73,6 @@ public class LoginActivity extends Activity {
 	    	startActivity(intent);
 	    	finish();
 		}
-
-		getDisHw();// 获取屏幕分辨率，供后期使用
 		setContentView(R.layout.login);
 		initExecuter();
 		initUtils();
@@ -234,10 +232,10 @@ public class LoginActivity extends Activity {
 		mLocalSharePref.setUserType(userType);
 		AppLog.v("TAG", "用户ID:" + ClientSession.getInstance().getUserId());
 		mLocalSharePref.setUserId(ClientSession.getInstance().getUserId());
-		
-    	Intent intent = new Intent(this, MainActivity.class);
-    	startActivity(intent);
-    	finish();
+
+		Intent intent = new Intent(this, MainActivity.class);
+		startActivity(intent);
+		finish();
     }
 
 	/**
@@ -282,18 +280,6 @@ public class LoginActivity extends Activity {
 			dialogUtils.dismissProgress();
 		}
 	};
-
-	/**
-	 * 获取屏幕的宽高
-	 */
-	public void getDisHw() {
-		DisplayMetrics displayMetrics = new DisplayMetrics();
-		getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-		((XiwaoApplication) getApplication())
-				.setDisplayWidth(displayMetrics.widthPixels);
-		((XiwaoApplication) getApplication())
-				.setDisplayHeight(displayMetrics.heightPixels);
-	}
 
 	@Override
 	protected void onDestroy() {

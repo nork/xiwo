@@ -90,24 +90,11 @@ public class CarListActivity extends Activity{
 				finish();
 			}
 		});
-		
-//		carList.setOnItemClickListener(new OnItemClickListener() {
-//
-//			@Override
-//			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
-//					long arg3) {
-//				// TODO Auto-generated method stub
-//				Intent intent = new Intent();
-//				intent.putExtra("choice_car", (Parcelable)carInfoListData.get(arg2));
-//				setResult(RESULT_OK, intent);
-//				finish();
-//			}
-//		});
+
 		carList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(mContext, "item onclick " + position, Toast.LENGTH_SHORT)
-                        .show();
+                
             }
         });
 	}
@@ -320,6 +307,5 @@ public class CarListActivity extends Activity{
 		// TODO Auto-generated method stub
 		super.onResume();
 		ActivityManage.getInstance().setCurContext(this);
-	}
-	
+	}	
 }

@@ -22,6 +22,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.android.xiwao.washcar.ActivityManage;
 import com.android.xiwao.washcar.AppLog;
 import com.android.xiwao.washcar.ClientSession;
 import com.android.xiwao.washcar.Constants;
@@ -88,6 +89,7 @@ public class OrderManageFragment extends BaseFragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+		mContext = this.getActivity();
 		mLocalSharePref = new LocalSharePreference(this.getActivity());
 		view = inflater.inflate(R.layout.order_list, null);
 		initExecuter();
@@ -104,7 +106,6 @@ public class OrderManageFragment extends BaseFragment {
 	@Override
 	public void initContentView() {
 		// TODO Auto-generated method stub
-		mContext = this.getActivity();
 		paidListView = (PullToRefreshListView) view.findViewById(R.id.paid_order_list);
 		waitListView = (PullToRefreshListView) view.findViewById(R.id.waitting_order_list);
 		doneListView = (PullToRefreshListView) view.findViewById(R.id.done_order_list);

@@ -1,8 +1,5 @@
 package com.android.xiwao.washcar.ui;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -82,6 +79,9 @@ public class MoreFragment extends BaseFragment {
 			quitBtn.setText("登录");
 		}
 		
+		if(mLocalSharePref.getUserType().equals("01")){
+			allMonthInfo.setVisibility(View.VISIBLE);
+		}
 		quitBtn.setOnClickListener(new View.OnClickListener() {
 
 			@Override
@@ -93,31 +93,7 @@ public class MoreFragment extends BaseFragment {
 					ActivityManage.getInstance().exitInError();
 					return;
 				}
-				mLocalSharePref.setLoginState(false);
 				showExitDialog();
-				new AlertDialog.Builder(mContext)
-				.setTitle(mContext.getString(R.string.remind))
-				.setMessage(mContext.getString(R.string.sure_exit))
-				.setPositiveButton(mContext.getString(R.string.sure),
-						new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface arg0, int arg1) {
-//						ActivityManage.getInstance().exit();
-						Intent intent = new Intent(mContext, MainActivity.class);
-						mContext.startActivity(intent);
-						getActivity().finish();
-					}
-				})
-				.setNegativeButton(mContext.getString(R.string.no),
-						new DialogInterface.OnClickListener() {
-
-					@Override
-					public void onClick(DialogInterface dialog,
-							int which) {
-						// TODO Auto-generated method stub
-						dialog.dismiss();
-					}
-				}).show();
 			}
 		});
 
@@ -172,6 +148,17 @@ public class MoreFragment extends BaseFragment {
 				showCallDialog();
 			}
 		});
+		
+		allMonthInfo.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent intent = new Intent(mContext,
+						MonthlyActivity.class);
+				startActivity(intent);
+			}
+		});
 	}
 
 	public void showCallDialog(){
@@ -203,6 +190,7 @@ public class MoreFragment extends BaseFragment {
 	}
 
 	public void showExitDialog(){
+		mLocalSharePref.setLoginState(false);
 		new AlertDialog.Builder(mContext)
 		.setTitle(mContext.getString(R.string.remind))
 		.setMessage(mContext.getString(R.string.sure_exit))
@@ -250,12 +238,17 @@ public class MoreFragment extends BaseFragment {
 		params.setMargins(0, (int) (displayHeight * 0.04f + 0.5f), 0,
 				0);
 		allMonthInfo.setLayoutParams(params);
+		if(mLocalSharePref.getUserType().equals("00")){
+			customInfo.setLayoutParams(params);
+		}
 		// 修改密码
 		params = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT,
 				(int) (displayHeight * 0.08f + 0.5f));
 		params.setMargins(0, (int) (displayHeight * 0.001f + 0.5f),
 				0, 0);
-		customInfo.setLayoutParams(params);
+		if(mLocalSharePref.getUserType().equals("01")){
+			customInfo.setLayoutParams(params);
+		}
 		password.setLayoutParams(params);
 		// 积分管理
 		integralManage.setLayoutParams(params);

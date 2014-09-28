@@ -4,7 +4,7 @@
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="14"
+        android:minSdkVersion="8"
         android:targetSdkVersion="19" />
 
     <uses-permission android:name="android.permission.VIBRATE" />
@@ -113,6 +113,9 @@
             android:screenOrientation="portrait"></activity>
         
         <activity android:name="com.android.xiwao.washcar.ui.CarInfoActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"></activity>
+        <activity android:name="com.android.xiwao.washcar.ui.MonthlyActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"></activity>
         <activity

@@ -234,5 +234,13 @@ public class DefaultCommandFactory extends CommandFactory {
 		UpdateOrderStateCancel updateOrderStateCancel = new UpdateOrderStateCancel();
 		updateOrderStateCancel.setOrderId(orderId);
 		return updateOrderStateCancel;
+	}
+
+	@Override
+	public BaseCommand getVIPInfoQuery(long customerId) {
+		// TODO Auto-generated method stub
+		VIPInfoQuery vipInfoQuery = new VIPInfoQuery();
+		vipInfoQuery.setCustomerId(customerId);
+		return vipInfoQuery;
 	}	
 }
