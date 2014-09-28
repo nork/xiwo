@@ -263,7 +263,7 @@ public class AddAddressActivity extends Activity {
 		LinearLayout buttonGroup = (LinearLayout) findViewById(R.id.button_group);
 		LinearLayout.LayoutParams sureBtnParams = new LinearLayout.LayoutParams(
 				LayoutParams.MATCH_PARENT, (int) (displayHeight * 0.12f + 0.5f));
-		sureBtnParams.setMargins(0, (int) (displayHeight * 0.002f + 0.5f), 0, 0);
+		sureBtnParams.setMargins(0, (int) (displayHeight * 0.04f + 0.5f), 0, 0);
 		buttonGroup.setLayoutParams(sureBtnParams);
 
 		LinearLayout.LayoutParams btnParams = new LinearLayout.LayoutParams(
@@ -272,9 +272,9 @@ public class AddAddressActivity extends Activity {
 		btnParams.setMargins((int) (displayWidth * 0.05f + 0.5f), 0, 0, 0);
 		cancelBtn.setLayoutParams(btnParams);
 		btnParams = new LinearLayout.LayoutParams(
-				(int) (displayWidth * 0.4f + 0.5f),
+				(int) (displayWidth * 0.9f + 0.5f),
 				(int) (displayHeight * 0.08f + 0.5f));
-		btnParams.setMargins((int) (displayWidth * 0.1f + 0.5f), 0, 0, 0);
+		btnParams.setMargins((int) (displayWidth * 0.05f + 0.5f), 0, (int) (displayWidth * 0.05f + 0.5f), 0);
 		sureBtn.setLayoutParams(btnParams);
 	}
 	

@@ -84,7 +84,7 @@ public class CarQuery extends BaseCommand{
 				jsonSingleInfo = jsonArray.getJSONObject(i);
 				brief = new CarInfo();
 				brief.setCarBrand(jsonSingleInfo.getString(JSON_CAR_BRAND));
-				brief.setCarCode(jsonSingleInfo.getString(JSON_CAR_CODE));
+				brief.setCarCode(jsonSingleInfo.getString(JSON_CAR_CODE).toUpperCase());
 				brief.setCarColor(jsonSingleInfo.getString(JSON_CAR_COLOR));
 				brief.setCarId(jsonSingleInfo.getLong(JSON_CAR_ID));
 				brief.setCarPic(jsonSingleInfo.getString(JSON_CAR_PIC));

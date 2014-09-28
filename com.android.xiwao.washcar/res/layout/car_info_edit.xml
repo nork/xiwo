@@ -61,7 +61,8 @@
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@+id/price_title"
             android:background="@null"
-            android:textColor="@android:color/black" />
+            android:textColor="@android:color/black"
+            android:textSize="18sp"  />
     </RelativeLayout>
     
     <RelativeLayout
@@ -89,6 +90,7 @@
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@+id/server_type_title"
             android:background="@null"
+            android:textSize="18sp" 
             android:spinnerMode="dropdown" />
     </RelativeLayout>
 
@@ -118,7 +120,8 @@
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@+id/car_num_title"
             android:background="@null"
-            android:textColor="@android:color/black" />
+            android:textColor="@android:color/black"
+            android:textSize="18sp"  />
     </RelativeLayout>
 
     <RelativeLayout
@@ -135,7 +138,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="15dp"
-            android:text="@string/website"
+            android:text="停放地点"
             android:textColor="@android:color/black"
             android:textSize="18sp" />
 
@@ -147,7 +150,8 @@
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@+id/websit_edt_title"
             android:background="@null"
-            android:textColor="@android:color/black" />
+            android:textColor="@android:color/black"
+            android:textSize="18sp"  />
     </RelativeLayout>
 
     <RelativeLayout
@@ -177,9 +181,55 @@
             android:layout_toRightOf="@+id/contact_title"
             android:background="@null"
             android:inputType="number"
-            android:maxLength="20" />
+            android:maxLength="20"
+            android:textSize="18sp"  />
     </RelativeLayout>
 
+    <LinearLayout android:id="@+id/all_month_time_part"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:text="包月数量"
+            android:textColor="@android:color/black"
+            android:textSize="18sp" />
+
+        <Button android:id="@+id/add_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="+"
+            android:layout_marginLeft="20dp"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:background="@null"/>
+        <EditText android:id="@+id/all_month_time"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="20dp"
+            android:text="1"
+            android:background="@null"
+            android:textSize="18sp"
+            android:inputType="number"
+            android:gravity="center_horizontal"
+            android:textColor="@android:color/black" />
+        <Button android:id="@+id/plus_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="—"
+            android:textStyle="bold"
+            android:layout_marginLeft="20dp"
+            android:textSize="20sp"
+            android:background="@null"/>
+    </LinearLayout>
+    
     <LinearLayout android:id="@+id/clean_in_part"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"

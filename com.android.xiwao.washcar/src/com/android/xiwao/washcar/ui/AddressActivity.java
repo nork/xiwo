@@ -133,20 +133,20 @@ public class AddressActivity extends Activity {
 		title.setLayoutParams(titleParams);
 		
 		
-		LinearLayout.LayoutParams addressBtnParams = new LinearLayout.LayoutParams(
-				(int) (displayWidth * 0.94f + 0.5f),
-				(int) (displayHeight * 0.08f + 0.5f));
-		addressBtnParams.setMargins((int) (displayWidth * 0.03f + 0.5f),
-				(int) (displayHeight * 0.02f + 0.5f),
-				(int) (displayWidth * 0.03f + 0.5f), 0);
-		addAddressBtn.setLayoutParams(addressBtnParams);
+//		LinearLayout.LayoutParams addressBtnParams = new LinearLayout.LayoutParams(
+//				(int) (displayWidth * 0.94f + 0.5f),
+//				(int) (displayHeight * 0.08f + 0.5f));
+//		addressBtnParams.setMargins((int) (displayWidth * 0.03f + 0.5f),
+//				(int) (displayHeight * 0.02f + 0.5f),
+//				(int) (displayWidth * 0.03f + 0.5f), 0);
+//		addAddressBtn.setLayoutParams(addressBtnParams);
 		
 		LinearLayout.LayoutParams listParams = new LinearLayout.LayoutParams(
 				LayoutParams.MATCH_PARENT,
 				(int) (displayHeight * 0.7f + 0.5f));
-		addressList.setLayoutParams(listParams);
+//		addressList.setLayoutParams(listParams);
 		noAddressTxt.setLayoutParams(listParams);
-		
+//		
 		addressList.setRightViewWidth((int) (displayWidth * 0.15f + 0.5f));	//设置列表删除键宽度
 	}
 	/**
@@ -183,6 +183,10 @@ public class AddressActivity extends Activity {
 				}
 			}
         });
+		//添加一个按钮项
+		AddressData singleOrderData = new AddressData();
+		singleOrderData.setAddressId(-1);
+		addressListData.add(singleOrderData);
 		usefulAddressListAdapter.addBriefs(addressDataList);
 		addressList.setAdapter(usefulAddressListAdapter);
 		if(addressDataList.size() <= 0 || addressDataList == null){
@@ -230,8 +234,8 @@ public class AddressActivity extends Activity {
 //				dialogUtils.showToast(addressQueryRsp.errorMessage);
 			} else {
 				dialogUtils.showToast(addressQueryRsp.errorMessage);
-				noAddressTxt.setVisibility(View.VISIBLE);
-				addressList.setVisibility(View.GONE);
+				addressListData.clear();
+				fetchListAdapter(addressListData);
 			}
 		}
 	}

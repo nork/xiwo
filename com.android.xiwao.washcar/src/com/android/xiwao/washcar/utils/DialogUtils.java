@@ -11,6 +11,7 @@ import android.widget.Toast;
 import com.android.xiwao.washcar.ActivityManage;
 import com.android.xiwao.washcar.R;
 import com.android.xiwao.washcar.ui.LoginActivity;
+import com.android.xiwao.washcar.ui.MainActivity;
 
 /**
  * 弹出框工具类
@@ -43,30 +44,5 @@ public class DialogUtils {
 	
 	public void showToast(String toastContent){
 		Toast.makeText(mContext, toastContent, Toast.LENGTH_LONG).show();
-	}
-	
-	public void showExitDialog(){
-		new AlertDialog.Builder(mContext)
-		.setTitle(mContext.getString(R.string.remind))
-		.setMessage(mContext.getString(R.string.sure_exit))
-		.setPositiveButton(mContext.getString(R.string.sure),
-				new DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(DialogInterface arg0, int arg1) {
-				ActivityManage.getInstance().exit();
-//				Intent intent = new Intent(mContext, LoginActivity.class);
-//				mContext.startActivity(intent);
-			}
-		})
-		.setNegativeButton(mContext.getString(R.string.no),
-				new DialogInterface.OnClickListener() {
-
-			@Override
-			public void onClick(DialogInterface dialog,
-					int which) {
-				// TODO Auto-generated method stub
-				dialog.dismiss();
-			}
-		}).show();
 	}
 }

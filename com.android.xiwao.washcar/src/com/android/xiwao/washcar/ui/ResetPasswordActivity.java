@@ -189,9 +189,9 @@ public class ResetPasswordActivity extends Activity {
 	/**
 	 * 登录成功之后的处理
 	 */
-	private void onModifySuccess(){
-		mLocalSharePref.setLoginState(false);	//保存登录状态		
-    	Intent intent = new Intent(this, LoginActivity.class);
+	private void onModifySuccess(){	
+		ActivityManage.getInstance().exitInError();
+    	Intent intent = new Intent(this, MainActivity.class);
     	startActivity(intent);
     	finish();
     }

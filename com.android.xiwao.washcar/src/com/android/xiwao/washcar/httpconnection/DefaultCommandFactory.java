@@ -226,5 +226,13 @@ public class DefaultCommandFactory extends CommandFactory {
 		// TODO Auto-generated method stub
 		RateQuery rateQuery = new RateQuery();
 		return rateQuery;
+	}
+
+	@Override
+	public BaseCommand updateOrderStateCancel(int orderId) {
+		// TODO Auto-generated method stub
+		UpdateOrderStateCancel updateOrderStateCancel = new UpdateOrderStateCancel();
+		updateOrderStateCancel.setOrderId(orderId);
+		return updateOrderStateCancel;
 	}	
 }

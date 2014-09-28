@@ -73,7 +73,7 @@ public class PayDetailActivity extends Activity {
 	public void initContentView() {
 		// TODO Auto-generated method stub
 		TextView title = (TextView) view.findViewById(R.id.title);
-		title.setText("¶©µ¥");
+		title.setText("¶©µ¥Ö§¸¶");
 		
 		cannelOrderBtn = (Button) view.findViewById(R.id.cannel_order);
 		payNowBtn = (Button) view.findViewById(R.id.pay_now);

@@ -1,7 +1,13 @@
 package com.android.xiwao.washcar.ui;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.android.xiwao.washcar.ActivityManage;
 import com.android.xiwao.washcar.LocalSharePreference;
 import com.android.xiwao.washcar.R;
 import com.android.xiwao.washcar.XiwaoApplication;
@@ -27,6 +34,8 @@ public class MoreFragment extends BaseFragment {
 	private RelativeLayout tellFriend;
 	private RelativeLayout about;
 	private RelativeLayout carInfo;
+	private RelativeLayout allMonthInfo;
+	private RelativeLayout contactInfo;
 	private Button quitBtn;
 
 	// 工具
@@ -57,17 +66,58 @@ public class MoreFragment extends BaseFragment {
 		tellFriend = (RelativeLayout) view.findViewById(R.id.tell_friend);
 		about = (RelativeLayout) view.findViewById(R.id.about);
 		carInfo = (RelativeLayout) view.findViewById(R.id.car_info);
+		allMonthInfo = (RelativeLayout) view.findViewById(R.id.allmonth_info);
+		contactInfo = (RelativeLayout) view.findViewById(R.id.contact_info);
 		TextView title = (TextView)view.findViewById(R.id.title);
 		title.setText(R.string.more);
 
 		quitBtn = (Button) view.findViewById(R.id.quit);
+		
+		if(!mLocalSharePref.getLoginState()){
+			customInfo.setVisibility(View.GONE);
+			password.setVisibility(View.GONE);
+			integralManage.setVisibility(View.GONE);
+			carInfo.setVisibility(View.GONE);
+			allMonthInfo.setVisibility(View.GONE);
+			quitBtn.setText("登录");
+		}
+		
 		quitBtn.setOnClickListener(new View.OnClickListener() {
 
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
+				if(quitBtn.getText().equals("登录")){
+					Intent intent = new Intent(mContext, LoginActivity.class);
+					startActivity(intent);
+					ActivityManage.getInstance().exitInError();
+					return;
+				}
 				mLocalSharePref.setLoginState(false);
-				dialogUtils.showExitDialog();
+				showExitDialog();
+				new AlertDialog.Builder(mContext)
+				.setTitle(mContext.getString(R.string.remind))
+				.setMessage(mContext.getString(R.string.sure_exit))
+				.setPositiveButton(mContext.getString(R.string.sure),
+						new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface arg0, int arg1) {
+//						ActivityManage.getInstance().exit();
+						Intent intent = new Intent(mContext, MainActivity.class);
+						mContext.startActivity(intent);
+						getActivity().finish();
+					}
+				})
+				.setNegativeButton(mContext.getString(R.string.no),
+						new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog,
+							int which) {
+						// TODO Auto-generated method stub
+						dialog.dismiss();
+					}
+				}).show();
 			}
 		});
 
@@ -113,9 +163,70 @@ public class MoreFragment extends BaseFragment {
 				startActivity(intent);
 			}
 		});
+		
+		contactInfo.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				showCallDialog();
+			}
+		});
 	}
 
+	public void showCallDialog(){
+		final String phone = "4008-591-577";
+		new AlertDialog.Builder(mContext)
+		.setTitle(mContext.getResources().getString(R.string.remind))
+		.setMessage(phone)
+		.setPositiveButton("取消", new DialogInterface.OnClickListener()
+		{
+			@Override
+			public void onClick(DialogInterface dialog, int arg1)
+			{
+				dialog.dismiss();
+			}
+		})
+		.setNegativeButton("呼叫", new DialogInterface.OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				// TODO Auto-generated method stub
+				try{
+					Intent phoneIntent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + phone));
+					mContext.startActivity(phoneIntent);
+				}catch(Exception e){
+					e.printStackTrace();
+				}
+			}
+		}).show();
+	}
 
+	public void showExitDialog(){
+		new AlertDialog.Builder(mContext)
+		.setTitle(mContext.getString(R.string.remind))
+		.setMessage(mContext.getString(R.string.sure_exit))
+		.setPositiveButton(mContext.getString(R.string.sure),
+				new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface arg0, int arg1) {
+				Intent intent = new Intent(mContext, MainActivity.class);
+				mContext.startActivity(intent);
+				getActivity().finish();
+			}
+		})
+		.setNegativeButton(mContext.getString(R.string.no),
+				new DialogInterface.OnClickListener() {
+
+			@Override
+			public void onClick(DialogInterface dialog,
+					int which) {
+				// TODO Auto-generated method stub
+				dialog.dismiss();
+			}
+		}).show();
+	}
+	
 	/**
 	 * 初始化需要的工具
 	 */
@@ -138,12 +249,13 @@ public class MoreFragment extends BaseFragment {
 				(int) (displayHeight * 0.08f + 0.5f));
 		params.setMargins(0, (int) (displayHeight * 0.04f + 0.5f), 0,
 				0);
-		customInfo.setLayoutParams(params);
+		allMonthInfo.setLayoutParams(params);
 		// 修改密码
 		params = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT,
 				(int) (displayHeight * 0.08f + 0.5f));
 		params.setMargins(0, (int) (displayHeight * 0.001f + 0.5f),
 				0, 0);
+		customInfo.setLayoutParams(params);
 		password.setLayoutParams(params);
 		// 积分管理
 		integralManage.setLayoutParams(params);
@@ -154,6 +266,8 @@ public class MoreFragment extends BaseFragment {
 		// 关于
 		about.setLayoutParams(params);
 		carInfo.setLayoutParams(params);
+		//联系我们
+		contactInfo.setLayoutParams(params);
 
 		params = new LinearLayout.LayoutParams(
 				(int) (displayWidth * 0.94f + 0.5f),

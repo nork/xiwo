@@ -35,6 +35,30 @@
             android:background="@color/orange" />
     </RelativeLayout>
     
+    <RelativeLayout android:id="@+id/allmonth_info"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:gravity="center_vertical"
+	    android:background="@color/white"
+	    >
+	    <TextView android:layout_height="wrap_content"
+	        android:layout_width="wrap_content"
+	        android:text="包月信息"
+	        android:textColor="@android:color/black"
+	        android:layout_centerVertical="true"
+	        android:layout_marginLeft="15dp"
+	        android:textSize="18sp"/>
+	    <ImageView          
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:background="@drawable/right_icon"
+            android:scaleType="center" 
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="15dp"
+            />
+	</RelativeLayout>
+	
 	<RelativeLayout android:id="@+id/custom_info"
 	    android:layout_width="fill_parent"
 	    android:layout_height="wrap_content"
@@ -187,7 +211,7 @@
 	    >
 	    <TextView android:layout_height="wrap_content"
 	        android:layout_width="wrap_content"
-	        android:text="@string/about"
+	        android:text="关于我们"
 	        android:textColor="@android:color/black"
 	        android:layout_centerVertical="true"
 	        android:layout_marginLeft="15dp"
@@ -202,7 +226,7 @@
             android:layout_marginRight="15dp"/>
 	</RelativeLayout>
 	
-	<RelativeLayout android:id="@+id/contact"
+	<RelativeLayout android:id="@+id/contact_info"
 	    android:layout_width="fill_parent"
 	    android:layout_height="wrap_content"
 	    android:gravity="center_vertical"

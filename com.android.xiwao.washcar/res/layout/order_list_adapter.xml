@@ -8,10 +8,11 @@
     android:paddingTop="5dp"
     android:paddingBottom="5dp">
     
-    <TextView android:layout_height="wrap_content"
+    <TextView android:id="@+id/order_time"
+        android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         android:textColor="@android:color/black"
-        android:text="@string/serial_number"
+        android:text="2014-08-09"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
         />
@@ -21,7 +22,27 @@
 	    android:textColor="@android:color/black"
 	    android:layout_centerHorizontal="true"
 	    android:layout_centerVertical="true"
-	    android:text="0025655122"/>
+	    android:text="0025655122"
+	    android:visibility="gone"/>
+	
+	<LinearLayout android:layout_height="wrap_content"
+	    android:layout_width="wrap_content"
+	    android:orientation="vertical"
+	    android:gravity="center_horizontal"
+	    android:layout_centerHorizontal="true"
+	    android:layout_centerVertical="true">
+	    <TextView android:id="@+id/server_type"
+	        android:layout_height="wrap_content"
+        	android:layout_width="wrap_content"
+        	android:textColor="@android:color/black"
+        	android:text="洗车"/>
+		<TextView android:id="@+id/car_num"
+	    	android:layout_width="wrap_content"
+	    	android:layout_height="wrap_content"
+	    	android:textColor="@android:color/black"
+	    	android:text="沪B88888"/>
+	</LinearLayout>
+	
 	<LinearLayout android:layout_height="wrap_content"
 	    android:layout_width="wrap_content"
 	    android:orientation="vertical"

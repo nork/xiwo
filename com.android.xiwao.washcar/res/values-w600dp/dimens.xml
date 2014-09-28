@@ -1,0 +1,88 @@
+<resources>
+
+    <dimen name="window_width">600dp</dimen>
+    
+
+    <dimen name="layout_margin_l_r">10dp</dimen>
+    <dimen name="layout_padding_l">10dp</dimen>
+    
+    <dimen name="button_margin_l_r">30dp</dimen>
+
+    <dimen name="top_height">65dp</dimen>
+    
+
+    <dimen name="main_financing_rate_margin_top">55dp</dimen>
+    <dimen name="main_financing_finger_margin_top">55dp</dimen>
+  
+    <dimen name="deal_record_icon_margin_right">6.5dp</dimen>
+    <dimen name="deal_record_line_width">1dp</dimen>
+    
+    <dimen name="moremenu_view_width">410dp</dimen>
+    
+    <dimen name="_1dp">1.5dp</dimen>
+    <dimen name="_2dp">3dp</dimen>
+    <dimen name="_5dp">7dp</dimen>
+    <dimen name="_10dp">13dp</dimen>
+    <dimen name="_13dp">13.5dp</dimen>
+    <dimen name="_15dp">20dp</dimen>
+    <dimen name="_20dp">27dp</dimen>
+    <dimen name="_25dp">34dp</dimen>
+    <dimen name="_30dp">40dp</dimen>
+    <dimen name="_35dp">47dp</dimen>
+    <dimen name="_40dp">54dp</dimen>
+    <dimen name="_45dp">60dp</dimen>
+    <dimen name="_50dp">67dp</dimen>
+    <dimen name="_55dp">74dp</dimen>
+    <dimen name="_60dp">80dp</dimen>
+    <dimen name="_65dp">87dp</dimen>
+    <dimen name="_70dp">94dp</dimen>
+    <dimen name="_75dp">100dp</dimen>
+    <dimen name="_80dp">107dp</dimen>
+    <dimen name="_85dp">114dp</dimen>
+    <dimen name="_90dp">120dp</dimen>
+    <dimen name="_95dp">127dp</dimen>
+    <dimen name="_100dp">133dp</dimen>
+    <dimen name="_105dp">140dp</dimen>
+    <dimen name="_110dp">147dp</dimen>
+    <dimen name="_115dp">153dp</dimen>
+    <dimen name="_120dp">160dp</dimen>
+    <dimen name="_125dp">167dp</dimen>
+    <dimen name="_130dp">173dp</dimen>
+    <dimen name="_135dp">180dp</dimen>
+    <dimen name="_140dp">187dp</dimen>
+    <dimen name="_145dp">194dp</dimen>
+    <dimen name="_150dp">200dp</dimen>   
+    <dimen name="_160dp">213dp</dimen>
+    <dimen name="_170dp">227dp</dimen>
+    <dimen name="_180dp">240dp</dimen>
+    <dimen name="_190dp">253dp</dimen>
+    <dimen name="_200dp">267dp</dimen>   
+    <dimen name="_210dp">280dp</dimen>
+    <dimen name="_220dp">293dp</dimen>
+    <dimen name="_230dp">306dp</dimen>
+    <dimen name="_240dp">320dp</dimen>
+    <dimen name="_250dp">333dp</dimen>
+    <dimen name="_260dp">347dp</dimen>
+    <dimen name="_270dp">360dp</dimen>
+    <dimen name="_280dp">373dp</dimen>
+    <dimen name="_290dp">387dp</dimen>
+    <dimen name="_300dp">400dp</dimen>
+    <dimen name="_320dp">426dp</dimen>
+    <dimen name="_340dp">453dp</dimen>
+    <dimen name="_350dp">466dp</dimen>
+    
+    <!-- 字体大小 -->
+    <dimen name="text_10sp">13sp</dimen>
+    <dimen name="text_12sp">16sp</dimen>
+    <dimen name="text_14sp">19sp</dimen>  
+    <dimen name="text_16sp">22sp</dimen>
+    <dimen name="text_18sp">24sp</dimen>
+    <dimen name="text_20sp">27sp</dimen>    
+    <dimen name="text_22sp">30sp</dimen>   
+    <dimen name="text_24sp">32sp</dimen>     
+    <dimen name="text_26sp">35sp</dimen>
+    <dimen name="text_28sp">38sp</dimen>
+    <dimen name="text_30sp">40sp</dimen>
+    <dimen name="text_32sp">43sp</dimen>
+    <dimen name="text_38sp">51sp</dimen>
+</resources>

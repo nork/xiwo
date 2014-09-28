@@ -60,6 +60,8 @@ public class AddCarActivity extends Activity {
 	private EditText carBrandEdt;
 	private EditText carColorEdt;
 	private Button addImgBtn;
+	private Button fiveBtn;
+	private Button sevenBtn;
 
 	@SuppressWarnings("rawtypes")
 	private ArrayAdapter typeAdapter;
@@ -81,6 +83,7 @@ public class AddCarActivity extends Activity {
 	// 创建一个以当前时间为名称的文件
 	private File tempFile;
 	private String carPicBase64;	//汽车照片的BASE64字串
+	private String carTypeStr = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -116,6 +119,8 @@ public class AddCarActivity extends Activity {
 		carColorEdt = (EditText) findViewById(R.id.car_color_edt);
 		backBtn = (Button) findViewById(R.id.backbtn);
 		addImgBtn = (Button) findViewById(R.id.add);
+		fiveBtn = (Button) findViewById(R.id.five);
+		sevenBtn = (Button) findViewById(R.id.seven);
 
 		TextView title = (TextView) findViewById(R.id.title);
 		title.setText(R.string.car_info);
@@ -151,6 +156,29 @@ public class AddCarActivity extends Activity {
 		});
 		   
 		carNumEdt.setTransformationMethod(new InputLowerToUpper());	//添加小写转大写监听
+		//设置汽车类型按钮
+		fiveBtn.setSelected(true);
+		carTypeStr = "00";
+		fiveBtn.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				fiveBtn.setSelected(true);
+				sevenBtn.setSelected(false);
+				carTypeStr = "00";
+			}
+		});
+		sevenBtn.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				sevenBtn.setSelected(true);
+				fiveBtn.setSelected(false);
+				carTypeStr = "01";
+			}
+		});
 	}
 
 	private void addCar(String carCode, String carBrand, String carColor,
@@ -172,19 +200,11 @@ public class AddCarActivity extends Activity {
 			return;
 		} 
 		long customerId = mLocalSharePref.getUserId();
-		String carType = null;
-		switch (type) {
-		case 0:
-			carType = "00";
-			break;
-		case 1:
-			carType = "01";
-			break;
-		}
+
 		BaseCommand carRegister = ClientSession
 				.getInstance()
 				.getCmdFactory()
-				.getCarRegister(carCode, carBrand, carColor, carType, carPic,
+				.getCarRegister(carCode, carBrand, carColor, carTypeStr, carPic,
 						customerId);
 
 		mExecuter.execute(carRegister, mRespHandler);

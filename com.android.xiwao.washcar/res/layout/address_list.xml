@@ -115,12 +115,15 @@
         android:layout_height="0.1dip"
         android:background="@color/orange" />
     
-    <com.android.xiwao.washcar.ui.widget.SwipeListView android:id="@+id/useful_address_list"
+    <com.android.xiwao.washcar.ui.widget.SwipeListView 
+        android:id="@+id/useful_address_list"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="18dp"
         android:divider="@null"
-        android:background="@null"       
+        android:background="@null"   
+        android:layout_marginLeft="18dp"
+        android:layout_marginRight="18dp"  
         />
     
     <TextView android:id="@+id/no_address_txt"
@@ -141,5 +144,6 @@
         android:textSize="18sp"
         android:layout_marginTop="20dp"
         android:background="@drawable/orange_btn_bg"
-        android:layout_gravity="center_horizontal"/>
+        android:layout_gravity="center_horizontal"
+        android:visibility="gone"/>
 </LinearLayout>

@@ -113,7 +113,6 @@ public class CarInfoListAdapter extends BaseAdapter{
 		}catch(Exception e){
 			e.printStackTrace();
 		}
-//		viewHolder.carAddr.setText(singleCarInfo.getCarAddr());
 		
 		if(singleCarInfo.getCarCode().equals("-1")){
 			viewHolder.carImg.setVisibility(View.GONE);
@@ -121,6 +120,7 @@ public class CarInfoListAdapter extends BaseAdapter{
 			viewHolder.money.setVisibility(View.GONE);
 			viewHolder.addCar.setVisibility(View.VISIBLE);
 			viewHolder.editBtn.setVisibility(View.GONE);
+			viewHolder.itemLeft.setBackgroundResource(R.drawable.xu_line_box);
 			convertView.setOnClickListener(new View.OnClickListener() {
 				
 				@Override

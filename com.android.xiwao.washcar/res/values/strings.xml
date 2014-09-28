@@ -73,7 +73,7 @@
     <string name="wash">洗</string>
     <string name="wax">蜡</string>
     <string name="add_car">+ 添加车辆信息</string>
-    <string name="car_info_title"> 您好\n您名下的豪车有：</string>
+    <string name="car_info_title"> ，您好！\n您名下的豪车有：</string>
     
     <!-- car info edit ui string -->
     <string name="contact_num">联系电话</string>

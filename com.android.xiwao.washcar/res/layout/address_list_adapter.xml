@@ -2,75 +2,87 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingTop="10dp"
+    android:orientation="horizontal"
     android:paddingBottom="10dp"
-    android:orientation="horizontal" >
-        <RelativeLayout
-            android:id="@+id/item_left"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@android:color/white" 
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp">
+    android:paddingTop="10dp" >
 
-            <TextView
-                android:id="@+id/website_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                
-                android:text="玉桥路网点"
-                android:textColor="@color/blackgrey"
-                android:textSize="18sp" />
+    <RelativeLayout
+        android:id="@+id/item_left"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@drawable/car_list_item_bg"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp" 
+        android:gravity="center_vertical">
 
-            <Button
-                android:id="@+id/default_edit_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:background="@drawable/order_manage_on" />
-
-            <TextView
-                android:id="@+id/address_detail"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/website_name"             
-                android:layout_marginLeft="20dp"
-                android:text="地杰二期三号楼附近"
-                android:textSize="18sp" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/item_right_wash"
+        <TextView
+            android:id="@+id/website_name"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:background="@color/orange" >
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:text="玉桥路网点"
+            android:textColor="@color/blackgrey"
+            android:textSize="18sp" />
 
-            <TextView
-                android:id="@+id/item_right_txt1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:gravity="center"
-                android:text="确定"
-                android:textColor="@color/blur_bg" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/item_right_delete"
+        <Button
+            android:id="@+id/default_edit_btn"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:background="@color/right_bg" >
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/order_manage_on"
+            android:visibility="gone" />
 
-            <TextView
-                android:id="@+id/item_right_txt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:gravity="center"
-                android:text="删除"
-                android:textColor="@color/blur_bg" />
-        </RelativeLayout>
- 
+        <TextView
+            android:id="@+id/address_detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/website_name"
+            android:layout_marginLeft="20dp"
+            android:text="地杰二期三号楼附近"
+            android:textSize="18sp" />
+        
+        <TextView
+            android:id="@+id/add_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="+添加新地址"
+            android:layout_centerInParent="true"
+            android:textColor="@android:color/black"
+            android:textSize="18sp" 
+            android:visibility="gone"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/item_right_wash"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:background="@color/orange" >
+
+        <TextView
+            android:id="@+id/item_right_txt1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="确定"
+            android:textColor="@color/blur_bg" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/item_right_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:background="@android:color/holo_red_light" >
+
+        <TextView
+            android:id="@+id/item_right_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="删除"
+            android:textColor="@color/blur_bg" />
+    </RelativeLayout>
+
 </LinearLayout>

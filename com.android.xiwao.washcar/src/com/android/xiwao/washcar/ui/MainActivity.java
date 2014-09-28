@@ -37,7 +37,7 @@ import com.android.xiwao.washcar.httpconnection.CommandExecuter;
 import com.android.xiwao.washcar.httpconnection.RateQuery;
 import com.android.xiwao.washcar.utils.FragmentUtils;
 
-public class MainActivity extends FragmentActivity implements OnClickListener {
+public class MainActivity extends FragmentActivity{
 	private final static String TAG = "MainActivity";
     private FragmentManager fragmentManager;
     private RadioGroup radioGroup;
@@ -64,13 +64,12 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
         ActivityManage.getInstance().setCurContext(this);
 		ActivityManage.getInstance().addActivity(this);
 		
+		setContentView(R.layout.activity_main);
 		FragmentFactory.initFragment();
 		
-        setContentView(R.layout.activity_main);
         initContentView();
         initExecuter();
         rateQuery();
-//      setHwView();
     }
     
     /**
@@ -115,11 +114,6 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
             }
         });
     }
-	@Override
-	public void onClick(View arg0) {
-		// TODO Auto-generated method stub
-		
-	}
 	
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {

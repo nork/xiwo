@@ -7,6 +7,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
@@ -44,6 +46,8 @@ public class CarInfoEditActivity extends Activity {
 	private RelativeLayout carNum;
 	private RelativeLayout website;
 	private RelativeLayout contactNum;
+	private LinearLayout allMountTimePart;
+	private LinearLayout cleanInPart;
 	private Button submitBtn;
 	private Button backBtn;
 	private Spinner spinnerServerType;
@@ -58,6 +62,7 @@ public class CarInfoEditActivity extends Activity {
 	private CarInfo choiceCar;
 	private AddressData choiceAddress;
 	private int priceCount;	//总价
+	private int monthTime = 1;	//包月次数
 //	private String branchName;
 	
 	// 工具
@@ -105,6 +110,8 @@ public class CarInfoEditActivity extends Activity {
 		carNum = (RelativeLayout) findViewById(R.id.car_num);
 		website = (RelativeLayout) findViewById(R.id.website);
 		contactNum = (RelativeLayout) findViewById(R.id.contact);
+		allMountTimePart = (LinearLayout) findViewById(R.id.all_month_time_part);
+		cleanInPart = (LinearLayout) findViewById(R.id.clean_in_part);
 		submitBtn = (Button) findViewById(R.id.submit);
 		spinnerServerType = (Spinner) findViewById(R.id.spinner_server_type);
 		carNumEdt = (TextView) findViewById(R.id.car_num_edt);
@@ -200,6 +207,74 @@ public class CarInfoEditActivity extends Activity {
 				}
 			}
 		});
+		
+		//包月部分
+		Button addBtn = (Button) findViewById(R.id.add_btn);
+		Button plusBtn = (Button) findViewById(R.id.plus_btn);
+		final EditText monthTimeEdt = (EditText) findViewById(R.id.all_month_time);
+		monthTimeEdt.setText(Integer.toString(monthTime));
+		monthTimeEdt.addTextChangedListener(new TextWatcher() {
+			
+			@Override
+			public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void beforeTextChanged(CharSequence arg0, int arg1, int arg2,
+					int arg3) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void afterTextChanged(Editable arg0) {
+				// TODO Auto-generated method stub
+				try{
+					monthTime = Integer.parseInt(monthTimeEdt.getText().toString());
+				}catch(Exception e){
+					monthTime = 1;
+					monthTimeEdt.setText(Integer.toString(monthTime));
+					dialogUtils.showToast("包月次数只能在1-12之间");
+				}
+				if(monthTime > 12 || monthTime < 1){
+					monthTime = 1;
+					monthTimeEdt.setText(Integer.toString(monthTime));
+					dialogUtils.showToast("包月次数只能在1-12之间");
+				}
+				String priceStr = Integer.toString(priceCount * monthTime);
+				try{
+					price.setText(priceStr.subSequence(0, priceStr.length() - 2) + "." + priceStr.substring(priceStr.length() - 2));
+				}catch(Exception e){
+					e.printStackTrace();
+				}
+			}
+		});
+		addBtn.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				monthTime ++;
+				if(monthTime > 12){
+					monthTime = 1;
+				}
+				monthTimeEdt.setText(Integer.toString(monthTime));
+			}
+		});
+		plusBtn.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				monthTime --;
+				if(monthTime < 1){
+					monthTime = 12;
+				}
+				monthTimeEdt.setText(Integer.toString(monthTime));
+			}
+		});
 	}	
 
 	private void placeOrder(){
@@ -207,12 +282,18 @@ public class CarInfoEditActivity extends Activity {
 		switch(spinnerServerType.getSelectedItemPosition()){
 		case 0:
 			serviceType = "A";
+			cleanInPart.setVisibility(View.VISIBLE);
+			allMountTimePart.setVisibility(View.GONE);
 			break;
 		case 1:
 			serviceType = "B";
+			cleanInPart.setVisibility(View.VISIBLE);
+			allMountTimePart.setVisibility(View.GONE);
 			break;
 		case 2:
 			serviceType = "C";
+			cleanInPart.setVisibility(View.GONE);
+			allMountTimePart.setVisibility(View.VISIBLE);
 			break;
 		}
 		String serverTypeMi = "";
@@ -369,8 +450,8 @@ public class CarInfoEditActivity extends Activity {
 		website.setLayoutParams(params);
 		// 联系电话
 		contactNum.setLayoutParams(params);
+		allMountTimePart.setLayoutParams(params);
 		//清洗内饰
-		LinearLayout cleanInPart = (LinearLayout) findViewById(R.id.clean_in_part);
 		cleanInPart.setLayoutParams(params);
 		
 		params = new LinearLayout.LayoutParams(
@@ -438,17 +519,19 @@ public class CarInfoEditActivity extends Activity {
 			}
 		}
 		AppLog.v(TAG, "car Type:" + choiceCar.getCarType());
-		if(choiceCar.getCarType().equals("01")){
-			for(FeeData feeData : MainActivity.feeDataList){
-				if(feeData.getFeeType().equals("00")){
-					priceCount += feeData.getFee();
-					break;
+		if(spinnerServerType.getSelectedItemPosition() != 2){	//包月不分车型
+			if(choiceCar.getCarType().equals("01")){
+				for(FeeData feeData : MainActivity.feeDataList){
+					if(feeData.getFeeType().equals("00")){
+						priceCount += feeData.getFee();
+						break;
+					}
 				}
 			}
 		}
 		String priceStr = Integer.toString(priceCount);
 		try{
-		price.setText(priceStr.subSequence(0, priceStr.length() - 2) + "." + priceStr.substring(priceStr.length() - 2));
+			price.setText(priceStr.subSequence(0, priceStr.length() - 2) + "." + priceStr.substring(priceStr.length() - 2));
 		}catch(Exception e){
 			e.printStackTrace();
 		}
@@ -516,6 +599,20 @@ public class CarInfoEditActivity extends Activity {
 		public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2,
 				long arg3) {
 			setPriceView();
+			switch(arg2){
+			case 0:
+				cleanInPart.setVisibility(View.VISIBLE);
+				allMountTimePart.setVisibility(View.GONE);
+				break;
+			case 1:
+				cleanInPart.setVisibility(View.VISIBLE);
+				allMountTimePart.setVisibility(View.GONE);
+				break;
+			case 2:
+				cleanInPart.setVisibility(View.GONE);
+				allMountTimePart.setVisibility(View.VISIBLE);
+				break;
+			}
 		}
 
 		public void onNothingSelected(AdapterView<?> arg0) {

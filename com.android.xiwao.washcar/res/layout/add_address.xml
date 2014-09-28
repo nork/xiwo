@@ -73,7 +73,7 @@
 	    <TextView android:id="@+id/address_detail_title"
 	        android:layout_height="wrap_content"
 	        android:layout_width="wrap_content"
-	        android:text="@string/detail_address"
+	        android:text="停放地点"
 	        android:textColor="@android:color/black"
 	        android:layout_marginLeft="15dp"
 	        android:layout_centerVertical="true"
@@ -108,14 +108,15 @@
             android:background="@drawable/blue_btn"
             android:text="@string/cannel"
             android:textColor="@color/white" 
-            android:textSize="18sp"/>
+            android:textSize="18sp"
+            android:visibility="gone"/>
 
         <Button
             android:id="@+id/sure_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/orange_btn"
-            android:text="@string/sure"
+            android:text="@string/submit"
             android:textColor="@color/white"
             android:textSize="18sp" />
     </LinearLayout>

@@ -67,6 +67,9 @@ public class OrderListAdapter extends BaseAdapter{
 			viewHolder.serialNumber = (TextView) convertView.findViewById(R.id.serial_number);
 			viewHolder.money = (TextView) convertView.findViewById(R.id.money);
 			viewHolder.payState = (TextView) convertView.findViewById(R.id.pay_state);
+			viewHolder.carNum = (TextView) convertView.findViewById(R.id.car_num);
+			viewHolder.serverType = (TextView) convertView.findViewById(R.id.server_type);
+			viewHolder.orderDate = (TextView) convertView.findViewById(R.id.order_time);
 			convertView.setTag(viewHolder);
 		}else{
 			viewHolder = (ViewHolder) convertView.getTag();
@@ -86,11 +89,9 @@ public class OrderListAdapter extends BaseAdapter{
 			orderState = "交易完成";
 		}
 		viewHolder.payState.setText(orderState);
-		
-//		AbsListView.LayoutParams params;			
-//		params = new AbsListView.LayoutParams(LayoutParams.FILL_PARENT, (int)(Constants.displayHeight * 0.1f + 0.5f));
-//		convertView.setLayoutParams(params);
-		
+		viewHolder.orderDate.setText(singleOrderData.getCreateTime().substring(0, 10));
+		viewHolder.carNum.setText(singleOrderData.getCarCode());
+		viewHolder.serverType.setText(singleOrderData.getServiceType());	
 		return convertView;
 	}
 
@@ -98,5 +99,8 @@ public class OrderListAdapter extends BaseAdapter{
 		TextView serialNumber;
 		TextView money;
 		TextView payState;
+		TextView serverType;
+		TextView carNum;
+		TextView orderDate;
 	}
 }

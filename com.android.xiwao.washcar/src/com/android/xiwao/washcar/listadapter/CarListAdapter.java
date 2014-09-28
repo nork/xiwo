@@ -72,7 +72,7 @@ public class CarListAdapter extends BaseAdapter{
 		ViewHolder viewHolder;
 //		if(convertView == null){
 			viewHolder = new ViewHolder();
-			convertView = LayoutInflater.from(mContext).inflate(R.layout.car_info_list_adapter, null);
+			convertView = LayoutInflater.from(mContext).inflate(R.layout.car_list_adapter, null);
 			viewHolder.carImg = (ImageView) convertView.findViewById(R.id.car_img);
 			viewHolder.carInfo = (RelativeLayout) convertView.findViewById(R.id.car_info);
 			viewHolder.carNumTitle = (TextView) convertView.findViewById(R.id.car_num_title);
