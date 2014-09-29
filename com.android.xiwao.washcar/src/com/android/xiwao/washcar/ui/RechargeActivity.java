@@ -80,19 +80,7 @@ public class RechargeActivity extends Activity {
 	private void initContentView() {
 		TextView title = (TextView) findViewById(R.id.title);
 		title.setText(R.string.recharge);
-
-		rechargeTitle = (RelativeLayout) findViewById(R.id.recharge_title);
-		moneyPart = (LinearLayout) findViewById(R.id.money_part);
 		buttonGroup = (LinearLayout) findViewById(R.id.button_group);
-
-		curMoney = (TextView) findViewById(R.id.cur_blance);
-		btn200 = (Button) findViewById(R.id.btn200);
-		btn400 = (Button) findViewById(R.id.btn400);
-		btn600 = (Button) findViewById(R.id.btn600);
-		btn800 = (Button) findViewById(R.id.btn800);
-		btn1000 = (Button) findViewById(R.id.btn1000);
-		btn1200 = (Button) findViewById(R.id.btn1200);
-		customMoney = (EditText) findViewById(R.id.custom_money);
 		backBtn = (Button) findViewById(R.id.backbtn);
 
 		rechargeBtn = (Button) findViewById(R.id.pay_now);

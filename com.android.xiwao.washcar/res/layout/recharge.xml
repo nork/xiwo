@@ -37,177 +37,114 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/recharge_title"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical" 
-        android:padding="10dp">
+        android:background="@color/orange"
+        android:paddingBottom="20dp"
+        android:paddingLeft="20dp"
+        android:paddingTop="20dp" >
 
-        <TextView
-            android:id="@+id/user_recharge"
+        <ImageView
+            android:id="@+id/custom_img"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/user_recharge"
-            android:textColor="@color/blackgrey"
+            android:background="@drawable/people_icon" />
+
+        <TextView
+            android:id="@+id/nick"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/custom_img"
+            android:paddingLeft="20dp"
+            android:text="昵称"
+            android:textColor="@color/white"
+            android:textSize="18sp"  />
+
+        <TextView
+            android:id="@+id/phone"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_toRightOf="@+id/custom_img"
+            android:layout_centerVertical="true"
+            android:paddingLeft="20dp"
+            android:text="13699423263"
+            android:textColor="@color/white" 
             android:textSize="18sp" />
 
         <TextView
-            android:id="@+id/cur_blance_title"
+            android:id="@+id/amt_title"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/custom_img"
+            android:layout_marginTop="20dp"
+            android:layout_toRightOf="@+id/custom_img"
+            android:paddingLeft="20dp"
+            android:text="500.00"
+            android:textColor="@color/white" 
+            android:textSize="18sp" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/remind_title"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="本次充值金额：500元     可享受9折"
+        android:background="@color/orange"
+        android:gravity="center_horizontal"
+        android:textColor="@color/white"
+        android:textSize="18sp" 
+        android:paddingBottom="10dp"/>
+    
+    <RelativeLayout
+        android:id="@+id/alipay_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/_10dp"
+        android:paddingLeft="@dimen/_20dp"
+        android:paddingTop="@dimen/_10dp" 
+        android:background="@color/white"
+        android:layout_marginTop="@dimen/_20dp">
+
+        <ImageView android:id="@+id/alipay_img"
+            android:layout_width="@dimen/_30dp"
+            android:layout_height="@dimen/_30dp"
+            android:layout_alignParentLeft="true"           
+            android:background="@drawable/alipay_icon"
+            android:scaleType="center" 
+            android:layout_centerVertical="true"/>
+        
+        <TextView
+            android:id="@+id/bank_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/user_recharge"
-            android:layout_marginLeft="15dp"
-            android:text="@string/cur_balance" 
-            android:textSize="16sp" />
-
-        <TextView
-            android:id="@+id/cur_blance"
+            android:text="@string/alipay"
+            android:textSize="18sp"
+            android:layout_marginLeft="10dp"
+            android:textColor="@android:color/black" 
+            android:layout_toRightOf="@+id/alipay_img"
+            android:layout_centerVertical="true"/>
+        
+        <ImageView android:id="@+id/right_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_below="@+id/user_recharge"
-            android:layout_marginRight="50dp"    
-            android:text="0元"     
-            android:textColor="@color/orange"
-            android:textSize="16sp"  />
+            android:layout_marginRight="15dp"
+            android:background="@drawable/right_icon"
+            android:scaleType="center" 
+            android:layout_centerVertical="true"
+            />
     </RelativeLayout>
-
-    <LinearLayout
-        android:id="@+id/money_part"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:orientation="vertical"
-        >
-
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="1dip"
-            android:background="@color/background" 
-            android:layout_marginTop="15dp"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/chose_money"
-            android:textColor="@color/orange" 
-            android:layout_marginTop="15dp"
-            android:layout_marginLeft="10dp"/>
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingTop="20dp" >
-
-            <Button
-                android:id="@+id/btn200"
-                android:layout_width="0dip"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/money200"
-                android:background="@drawable/recharge_btn_bg" 
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                />
-
-            <Button
-                android:id="@+id/btn400"
-                android:layout_width="0dip"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/money400" 
-                android:background="@drawable/recharge_btn_bg"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp" />
-
-            <Button
-                android:id="@+id/btn600"
-                android:layout_width="0dip"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/money600" 
-                android:background="@drawable/recharge_btn_bg"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal" 
-            android:paddingTop="20dp">
-
-            <Button
-                android:id="@+id/btn800"
-                android:layout_width="0dip"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/money800" 
-                android:background="@drawable/recharge_btn_bg"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp" />
-
-            <Button
-                android:id="@+id/btn1000"
-                android:layout_width="0dip"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/money1000" 
-                android:background="@drawable/recharge_btn_bg" 
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"/>
-
-            <Button
-                android:id="@+id/btn1200"
-                android:layout_width="0dip"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/money1200"
-                android:background="@drawable/recharge_btn_bg"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"  />
-        </LinearLayout>
-
-        <EditText
-            android:id="@+id/custom_money"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/input_custom_money"
-            android:layout_marginTop="20dp" 
-            android:layout_marginBottom="20dp"
-            android:background="@drawable/black_border_bg"
-            android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/button_group"
+    
+    <TextView
+        android:id="@+id/explain_title"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:layout_marginTop="1dp"
-        android:gravity="center_vertical"
-        android:background="@android:color/white"
-        android:orientation="horizontal" >
-
-        <Button
-            android:id="@+id/cannel_order"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/blue_btn"
-            android:text="@string/cannel"
-            android:textColor="@color/white" 
-            android:textSize="18sp"/>
-
-        <Button
-            android:id="@+id/pay_now"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/orange_btn"
-            android:text="@string/recharge"
-            android:textColor="@color/white" 
-            android:textSize="18sp"/>
-    </LinearLayout>
-
+        android:text="账户充值，有利您下次服务时，直接从账户付费，既可享受折扣，也可快速下单"
+        android:textColor="@android:color/black"
+        android:textSize="18sp" 
+        android:layout_marginLeft="@dimen/_20dp"
+        android:layout_marginRight="@dimen/_20dp"
+        android:layout_marginTop="@dimen/_40dp"/>
 </LinearLayout>
