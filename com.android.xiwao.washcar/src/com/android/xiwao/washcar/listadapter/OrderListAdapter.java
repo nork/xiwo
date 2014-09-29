@@ -92,6 +92,9 @@ public class OrderListAdapter extends BaseAdapter{
 		viewHolder.orderDate.setText(singleOrderData.getCreateTime().substring(0, 10));
 		viewHolder.carNum.setText(singleOrderData.getCarCode());
 		viewHolder.serverType.setText(singleOrderData.getServiceType());	
+		if(singleOrderData.getServiceType().equals("≥‰÷µ")){
+			viewHolder.carNum.setVisibility(View.GONE);
+		}
 		return convertView;
 	}
 

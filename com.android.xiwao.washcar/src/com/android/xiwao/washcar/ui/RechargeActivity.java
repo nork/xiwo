@@ -1,49 +1,51 @@
 package com.android.xiwao.washcar.ui;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
 import android.widget.Button;
-import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.alipay.android.app.sdk.AliPay;
 import com.android.xiwao.washcar.ActivityManage;
 import com.android.xiwao.washcar.ClientSession;
 import com.android.xiwao.washcar.LocalSharePreference;
 import com.android.xiwao.washcar.R;
 import com.android.xiwao.washcar.XiwaoApplication;
-import com.android.xiwao.washcar.httpconnection.AccountCharge;
+import com.android.xiwao.washcar.alipay.Keys;
+import com.android.xiwao.washcar.alipay.Result;
+import com.android.xiwao.washcar.alipay.Rsa;
 import com.android.xiwao.washcar.httpconnection.AccountQuery;
 import com.android.xiwao.washcar.httpconnection.BaseCommand;
 import com.android.xiwao.washcar.httpconnection.BaseResponse;
 import com.android.xiwao.washcar.httpconnection.CommandExecuter;
+import com.android.xiwao.washcar.httpconnection.PlaceOrder;
 import com.android.xiwao.washcar.utils.DialogUtils;
+import com.android.xiwao.washcar.utils.FileUtil;
 
 public class RechargeActivity extends Activity {
 
-	private RelativeLayout rechargeTitle;
-	private LinearLayout moneyPart;
-	private LinearLayout buttonGroup;
+	private RelativeLayout alipayLayout;
 
 	private TextView curMoney;
-	private Button btn200;
-	private Button btn400;
-	private Button btn600;
-	private Button btn800;
-	private Button btn1000;
-	private Button btn1200;
 	private Button backBtn;
-	private EditText customMoney;	//自定义金额
-
-	private Button rechargeBtn;
-	private Button cancelBtn;
+	private ImageView userHeadImg;
+	private TextView phone;
 
 	// 工具
 	private DialogUtils dialogUtils;
@@ -54,9 +56,14 @@ public class RechargeActivity extends Activity {
 	// 网络访问相关对象
 	private Handler mHandler;
 	private CommandExecuter mExecuter;
+	
+	private Bitmap userHeadBitMap;
+	
+	private long orderId;
+	
+	private static final int RQF_PAY = 1;
 
-	private int curCharge = -1; // 当前选中的充值金额 0:200 1:400 2:600 3:800 4:1000
-								// 5:1200
+	private static final int RQF_LOGIN = 2;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -80,112 +87,7 @@ public class RechargeActivity extends Activity {
 	private void initContentView() {
 		TextView title = (TextView) findViewById(R.id.title);
 		title.setText(R.string.recharge);
-		buttonGroup = (LinearLayout) findViewById(R.id.button_group);
 		backBtn = (Button) findViewById(R.id.backbtn);
-
-		rechargeBtn = (Button) findViewById(R.id.pay_now);
-		cancelBtn = (Button) findViewById(R.id.cannel_order);
-		
-		btn200.setOnClickListener(new View.OnClickListener() {
-
-			@Override
-			public void onClick(View arg0) {
-				// TODO Auto-generated method stub
-				changeBackGround(arg0);
-				curCharge = 200;
-				btn200.setBackgroundResource(R.drawable.orange_border_bg);
-			}
-		});
-
-		btn400.setOnClickListener(new View.OnClickListener() {
-
-			@Override
-			public void onClick(View arg0) {
-				// TODO Auto-generated method stub
-				changeBackGround(arg0);
-				curCharge = 400;
-			}
-		});
-
-		btn600.setOnClickListener(new View.OnClickListener() {
-
-			@Override
-			public void onClick(View arg0) {
-				// TODO Auto-generated method stub
-				changeBackGround(arg0);
-				curCharge = 600;
-			}
-		});
-
-		btn800.setOnClickListener(new View.OnClickListener() {
-
-			@Override
-			public void onClick(View arg0) {
-				// TODO Auto-generated method stub
-				changeBackGround(arg0);
-				curCharge = 800;
-			}
-		});
-
-		btn1000.setOnClickListener(new View.OnClickListener() {
-
-			@Override
-			public void onClick(View arg0) {
-				// TODO Auto-generated method stub
-				changeBackGround(arg0);
-				curCharge = 1000;
-			}
-		});
-
-		btn1200.setOnClickListener(new View.OnClickListener() {
-
-			@Override
-			public void onClick(View arg0) {
-				// TODO Auto-generated method stub
-				changeBackGround(arg0);
-				curCharge = 1200;
-			}
-		});
-		
-		customMoney.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View arg0) {
-				// TODO Auto-generated method stub
-				changeBackGround(arg0);
-				curCharge = -1;
-			}
-		});
-
-		rechargeBtn.setOnClickListener(new View.OnClickListener() {
-
-			@Override
-			public void onClick(View arg0) {
-				// TODO Auto-generated method stub
-				int customMoneyNum = 0;
-				try{
-					customMoneyNum = Integer.parseInt(customMoney.getText().toString());
-				}catch(Exception e){
-					e.printStackTrace();
-				}
-				if(curCharge == -1 && customMoneyNum <= 0){
-					dialogUtils.showToast("请选择或者输入充值金额！");
-				}else if(curCharge >= 0){
-					accountRecharge(curCharge);
-				}else if(customMoneyNum > 0){
-					accountRecharge(customMoneyNum);
-				}
-			}
-		});
-
-		cancelBtn.setOnClickListener(new View.OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				finish();
-			}
-		});
 
 		backBtn.setOnClickListener(new View.OnClickListener() {
 
@@ -195,36 +97,31 @@ public class RechargeActivity extends Activity {
 				finish();
 			}
 		});
-	}
-
-	/**
-	 * 修改按钮点击时相关按钮的背景
-	 */
-	private void changeBackGround(View view){
-		switch(curCharge){
-		case 200:
-			btn200.setBackgroundResource(R.drawable.black_border_bg);
-			break;
-		case 400:
-			btn400.setBackgroundResource(R.drawable.black_border_bg);
-			break;
-		case 600:
-			btn600.setBackgroundResource(R.drawable.black_border_bg);
-			break;
-		case 800:
-			btn800.setBackgroundResource(R.drawable.black_border_bg);
-			break;
-		case 1000:
-			btn1000.setBackgroundResource(R.drawable.black_border_bg);
-			break;
-		case 1200:
-			btn1200.setBackgroundResource(R.drawable.black_border_bg);
-			break;
-		case -1:
-			customMoney.setBackgroundResource(R.drawable.black_border_bg);
-			break;
+		
+		TextView nickName = (TextView) findViewById(R.id.nick_name);
+		phone = (TextView) findViewById(R.id.phone);
+		userHeadImg = (ImageView) findViewById(R.id.custom_img);
+		curMoney = (TextView) findViewById(R.id.amt_title);
+		
+		nickName.setText("昵称：" + mLocalSharePref.getNickName());
+		phone.setText("我的手机：" + mLocalSharePref.getUserName());
+		String userHeadBase64 = mLocalSharePref.getUserHead();
+		if(!userHeadBase64.equals("") && userHeadBase64 != null){
+			userHeadBitMap = FileUtil.base64ToBitmap(userHeadBase64);
+			Drawable drawable = new BitmapDrawable(userHeadBitMap);
+			userHeadImg.setBackgroundDrawable(drawable);
+//			customerImg.setBackground(drawable);
 		}
-		view.setBackgroundResource(R.drawable.orange_border_bg);
+		
+		alipayLayout = (RelativeLayout) findViewById(R.id.alipay_layout);
+		alipayLayout.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				placeOrder();
+			}
+		});
 	}
 
 	private void setHwView() {
@@ -237,35 +134,127 @@ public class RechargeActivity extends Activity {
 		LinearLayout.LayoutParams titleParams = new LinearLayout.LayoutParams(
 				LayoutParams.MATCH_PARENT, (int) (displayHeight * 0.08f + 0.5f));
 		title.setLayoutParams(titleParams);
-
-		// 充值title部分
-		LinearLayout.LayoutParams rechargeTitleParams = new LinearLayout.LayoutParams(
-				LayoutParams.MATCH_PARENT, (int) (displayHeight * 0.12f + 0.5f));
-		rechargeTitle.setLayoutParams(rechargeTitleParams);
-
-		// 金额按钮部分
-		LinearLayout.LayoutParams moneyBtnParams = new LinearLayout.LayoutParams(
-				LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-		moneyPart.setLayoutParams(moneyBtnParams);
-
-		// 付款按钮部分
-		LinearLayout.LayoutParams payBtnParams = new LinearLayout.LayoutParams(
-				LayoutParams.MATCH_PARENT, (int) (displayHeight * 0.12f + 0.5f));
-		payBtnParams.setMargins(0, (int) (displayHeight * 0.002f + 0.5f), 0, 0);
-		buttonGroup.setLayoutParams(payBtnParams);
-
-		LinearLayout.LayoutParams btnParams = new LinearLayout.LayoutParams(
-				(int) (displayWidth * 0.4f + 0.5f),
-				(int) (displayHeight * 0.06f + 0.5f));
-		btnParams.setMargins((int) (displayWidth * 0.05f + 0.5f), 0, 0, 0);
-		cancelBtn.setLayoutParams(btnParams);
-		btnParams = new LinearLayout.LayoutParams(
-				(int) (displayWidth * 0.4f + 0.5f),
-				(int) (displayHeight * 0.06f + 0.5f));
-		btnParams.setMargins((int) (displayWidth * 0.1f + 0.5f), 0, 0, 0);
-		rechargeBtn.setLayoutParams(btnParams);
+		
+		// 头像和添加头像按钮的宽高度设置
+		RelativeLayout.LayoutParams imgParams = new RelativeLayout.LayoutParams(
+				(int) (displayHeight * 0.12f + 0.5f),
+				(int) (displayHeight * 0.12f + 0.5f));
+		imgParams.addRule(RelativeLayout.CENTER_VERTICAL);
+		imgParams.addRule(RelativeLayout.RIGHT_OF, R.id.head_title);
+		userHeadImg.setLayoutParams(imgParams);
 	}
 
+	private void placeOrder(){
+		BaseCommand carRegister = ClientSession.getInstance().getCmdFactory()
+				.getPlaceOrder(mLocalSharePref.getUserId(), "D", mLocalSharePref.getUserName(), 0
+						, 0, 0, "00", null, null
+						, null, 50000);
+
+		mExecuter.execute(carRegister, mPlaceOrderRespHandler);
+
+		dialogUtils.showProgress();
+	}
+	
+	public void onPlaceOrderSuccess(int saleFee, long orderId){
+		try {	
+			Log.i("ExternalPartner", "onItemClick");
+			String info = getNewOrderInfo();
+			String sign = Rsa.sign(info, Keys.PRIVATE);
+			sign = URLEncoder.encode(sign);
+			info += "&sign=\"" + sign + "\"&" + getSignType();
+
+			final String orderInfo = info;
+			new Thread() {
+				public void run() {
+					AliPay alipay = new AliPay(RechargeActivity.this, mHandlerForAlipay);
+
+					String result = alipay.pay(orderInfo);
+					Message msg = new Message();
+					msg.what = RQF_PAY;
+					msg.obj = result;
+					mHandlerForAlipay.sendMessage(msg);
+				}
+			}.start();
+
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			Toast.makeText(RechargeActivity.this, "连接服务器失败",
+					Toast.LENGTH_SHORT).show();
+		}
+	}
+	
+	private String getNewOrderInfo() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("partner=\"");
+		sb.append(Keys.DEFAULT_PARTNER);
+		sb.append("\"&out_trade_no=\"");
+		sb.append(orderId);
+		sb.append("\"&subject=\"");
+		sb.append("上海洗沃公司洗车服务费");
+		sb.append("\"&body=\"");
+		sb.append("上海洗沃公司洗车服务费");
+		sb.append("\"&total_fee=\"");
+		sb.append("0.01");
+		sb.append("\"&notify_url=\"");
+
+		// 网址需要做URL编码
+		sb.append(URLEncoder.encode("http://washmycar.sinaapp.com/washmycar/notifyurl.do"));
+		sb.append("\"&service=\"mobile.securitypay.pay");
+		sb.append("\"&_input_charset=\"UTF-8");
+		sb.append("\"&return_url=\"");
+		sb.append(URLEncoder.encode("http://m.alipay.com"));
+		sb.append("\"&payment_type=\"1");
+		sb.append("\"&seller_id=\"");
+		sb.append(Keys.DEFAULT_SELLER);
+
+		// 如果show_url值为空，可不传
+		// sb.append("\"&show_url=\"");
+		sb.append("\"&it_b_pay=\"1m");
+		sb.append("\"");
+
+		return new String(sb);
+	}
+	
+	private String getSignType() {
+		return "sign_type=\"RSA\"";
+	}
+	
+	/**
+	 * 处理服务器返回的车辆注册结果
+	 * @param rsp 服务返回的车辆注册结果信息
+	 */
+	private void onReceivePlaceOrderResponse(BaseResponse rsp) {
+
+		if (!rsp.isOK()) {
+			String error = getString(R.string.protocol_error) + "(" + rsp.errno
+					+ ")";
+			dialogUtils.showToast(error);
+		} else {
+			PlaceOrder.Response placeOrder = (PlaceOrder.Response) rsp;
+			if (placeOrder.responseType.equals("N")) {
+				onPlaceOrderSuccess(placeOrder.saleFee, placeOrder.orderId);
+//				dialogUtils.showToast(placeOrder.errorMessage);
+			} else {
+				dialogUtils.showToast(placeOrder.errorMessage);
+			}
+		}
+	}
+	
+	private CommandExecuter.ResponseHandler mPlaceOrderRespHandler = new CommandExecuter.ResponseHandler() {
+
+		public void handleResponse(BaseResponse rsp) {
+			onReceivePlaceOrderResponse(rsp);
+		}
+
+		public void handleException(IOException e) {
+			dialogUtils.showToast(getString(R.string.connection_error));
+		}
+
+		public void onEnd() {
+			dialogUtils.dismissProgress();
+		}
+	};
+	
 	private void getBalance() {
 		BaseCommand accountQuery = ClientSession.getInstance().getCmdFactory()
 				.getAccountQuery(mLocalSharePref.getUserId());
@@ -276,7 +265,7 @@ public class RechargeActivity extends Activity {
 	}
 
 	public void onAccountQuerySuccess(long accountInfo) {
-		curMoney.setText(Long.toString(accountInfo) + "元");
+		curMoney.setText("账户金额：" + Long.toString(accountInfo) + "元");
 	}
 
 	/**
@@ -317,58 +306,6 @@ public class RechargeActivity extends Activity {
 		}
 	};
 
-	private void accountRecharge(int money) {
-		BaseCommand accountRecharge = ClientSession.getInstance()
-				.getCmdFactory()
-				.getAccountRecharge(mLocalSharePref.getUserId(), money);
-
-		mExecuter.execute(accountRecharge, mAccountRechargeRespHandler);
-
-		dialogUtils.showProgress();
-	}
-
-	public void onAccountRechargeSuccess(long accountInfo) {
-		curMoney.setText(Long.toString(accountInfo) + "元");
-	}
-
-	/**
-	 * 处理服务器返回的车辆注册结果
-	 * 
-	 * @param rsp
-	 *            服务返回的车辆注册结果信息
-	 */
-	private void onReceiveAccountRechargeResponse(BaseResponse rsp) {
-
-		if (!rsp.isOK()) {
-			String error = getString(R.string.protocol_error) + "(" + rsp.errno
-					+ ")";
-			dialogUtils.showToast(error);
-		} else {
-			AccountCharge.Response accountChargeRsp = (AccountCharge.Response) rsp;
-			if (accountChargeRsp.responseType.equals("N")) {
-				onAccountRechargeSuccess(accountChargeRsp.accountInfo);
-				dialogUtils.showToast(accountChargeRsp.errorMessage);
-			} else {
-				dialogUtils.showToast(accountChargeRsp.errorMessage);
-			}
-		}
-	}
-
-	private CommandExecuter.ResponseHandler mAccountRechargeRespHandler = new CommandExecuter.ResponseHandler() {
-
-		public void handleResponse(BaseResponse rsp) {
-			onReceiveAccountRechargeResponse(rsp);
-		}
-
-		public void handleException(IOException e) {
-			dialogUtils.showToast(getString(R.string.connection_error));
-		}
-
-		public void onEnd() {
-			dialogUtils.dismissProgress();
-		}
-	};
-
 	/**
 	 * 初始化需要的工具
 	 */
@@ -388,6 +325,12 @@ public class RechargeActivity extends Activity {
 	protected void onDestroy() {
 		// TODO Auto-generated method stub
 		super.onDestroy();
+		userHeadImg.setImageBitmap(null);	//此处将ImageView的背景bitmap设置为空，断开setImageBitmap对bitmap的引用，然后才能回收bitmap，否则后面回收方法将不起效果
+		if(userHeadBitMap != null && !userHeadBitMap.isRecycled()){
+			userHeadBitMap.recycle();
+			userHeadBitMap = null;
+		}
+		System.gc();
 	}
 
 	@Override
@@ -408,5 +351,30 @@ public class RechargeActivity extends Activity {
 		// TODO Auto-generated method stub
 		super.onStop();
 	}
+	
+	Handler mHandlerForAlipay = new Handler() {
+		public void handleMessage(android.os.Message msg) {
+			Result result = new Result((String) msg.obj);
+
+			switch (msg.what) {
+			case RQF_PAY:
+
+				result.parseResult();
+				String message = result.getResult();
+				if(result.resultCode.equals("9000")){
+					message += "账户充值成功！您可到客户信息中查询！";
+					dialogUtils.showToast(message);
+				}				
+				break;
+			case RQF_LOGIN: {
+				Toast.makeText(RechargeActivity.this, result.getResult(),
+						Toast.LENGTH_SHORT).show();
+			}
+				break;
+			default:
+				break;
+			}
+		};
+	};
 
 }

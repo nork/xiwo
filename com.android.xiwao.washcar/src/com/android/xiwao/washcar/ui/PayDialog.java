@@ -7,6 +7,7 @@ import java.util.Date;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -110,6 +111,12 @@ public class PayDialog extends Activity{
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
+				if(sureBtn.getText().toString().equals("≥‰÷µ")){
+					Intent intent = new Intent(PayDialog.this, RechargeActivity.class);
+					startActivity(intent);
+					finish();
+					return;
+				}
 				switch(payWay){
 				case 1:
 					activityConsume();

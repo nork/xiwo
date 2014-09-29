@@ -170,7 +170,8 @@ public class CustomInfoActivity extends Activity {
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
-				
+				Intent intent = new Intent(CustomInfoActivity.this, RechargeActivity.class);
+				startActivity(intent);
 			}
 		});
 	}

@@ -144,6 +144,9 @@ public class OrderQuery extends BaseCommand{
 					serviceType = "打蜡";
 				}else if(serviceType.equals("C")){
 					serviceType = "包月";
+				}else if(serviceType.equals("D")){
+					serviceType = "充值";
+					brief.setCarCode("");
 				}
 				brief.setServiceType(serviceType);
 				brief.setServiceTypeMi(jsonSingleInfo.getString(JSON_SERVICE_MI));
@@ -157,7 +160,6 @@ public class OrderQuery extends BaseCommand{
 					e.printStackTrace();
 					brief.setFee("获取价格失败");
 				}
-//				brief.setFee(jsonSingleInfo.getString(JSON_FEE));
 				
 				orderQuery.orderDataList.add(brief);
 			}
