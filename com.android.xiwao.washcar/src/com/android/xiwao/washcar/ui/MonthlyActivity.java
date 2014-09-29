@@ -24,19 +24,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.xiwao.washcar.ActivityManage;
-import com.android.xiwao.washcar.AppLog;
 import com.android.xiwao.washcar.ClientSession;
-import com.android.xiwao.washcar.Constants;
 import com.android.xiwao.washcar.LocalSharePreference;
 import com.android.xiwao.washcar.R;
 import com.android.xiwao.washcar.XiwaoApplication;
 import com.android.xiwao.washcar.data.MonthlyCarData;
 import com.android.xiwao.washcar.httpconnection.BaseCommand;
 import com.android.xiwao.washcar.httpconnection.BaseResponse;
-import com.android.xiwao.washcar.httpconnection.CarDelete;
 import com.android.xiwao.washcar.httpconnection.CommandExecuter;
 import com.android.xiwao.washcar.httpconnection.VIPInfoQuery;
-import com.android.xiwao.washcar.listadapter.CarInfoListAdapter;
 import com.android.xiwao.washcar.listadapter.MonthlyCarInfoListAdapter;
 import com.android.xiwao.washcar.ui.widget.SwipeListView;
 import com.android.xiwao.washcar.utils.DialogUtils;
@@ -48,7 +44,6 @@ import com.android.xiwao.washcar.utils.FileUtil;
  *
  */
 public class MonthlyActivity extends Activity{
-	private static final String TAG = "CarInfoActivity";
 	private Context mContext;
 	private SwipeListView carList;
 	private ImageView customerImg;
@@ -95,7 +90,7 @@ public class MonthlyActivity extends Activity{
 		backBtn = (Button) findViewById(R.id.backbtn);
 		backBtn.setVisibility(View.VISIBLE);
 		title = (TextView) findViewById(R.id.title);
-		title.setText(getString(R.string.car_info));
+		title.setText("包月信息");
 		TextView carInfoTitle = (TextView) findViewById(R.id.car_info_title);
 		carInfoTitle.setText(mLocalSharePref.getNickName() + getString(R.string.monthly_info_title));
 		
@@ -126,22 +121,6 @@ public class MonthlyActivity extends Activity{
         });
 	}
 
-	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		// TODO Auto-generated method stub
-		super.onActivityResult(requestCode, resultCode, data);
-		AppLog.v(TAG, "收到反馈22");
-		
-		switch(requestCode){
-		case Constants.ADD_CAR_RESULT_CODE:
-			refreshInfoList();
-			break;
-		case Constants.MODIFY_CAR_RESULT_CODE:
-			refreshInfoList();
-			break;
-		}
-	}
-
 	public void refreshInfoList(){
 		initAdapter();
 		getCarListData();
@@ -162,14 +141,12 @@ public class MonthlyActivity extends Activity{
             	
             	switch(option){
 				case 1:		//删除
-					deleteCar(monthlyCarDataList.get(position).getCarId());
 					break;
 				case 2:		//洗车
-					Intent intent = new Intent(mContext, CarInfoEditActivity.class);
+					Intent intent = new Intent(mContext, MonthlyDetailActivity.class);
 					intent.putExtra("service_type", 0);
-					intent.putExtra("choice_car", (Parcelable)monthlyCarDataList.get(position));
+					intent.putExtra("choice_monthly_car", (Parcelable)monthlyCarDataList.get(position));
 					startActivity(intent);
-					finish();
 					break;
 				case 3:		//点击编辑按钮
 					if(mCurrentDisplayItemView != v){
@@ -189,6 +166,14 @@ public class MonthlyActivity extends Activity{
 	 * 填充数据
 	 */
 	private void fetchList() {
+//		monthlyCarDataList.remove(1);
+//		if(monthlyCarDataList.size() == 1){
+//			Intent intent = new Intent(mContext, MonthlyDetailActivity.class);
+//			intent.putExtra("service_type", 0);
+//			intent.putExtra("choice_monthly_car", (Parcelable)monthlyCarDataList.get(0));
+//			startActivity(intent);
+//			finish();
+//		}
 		carInfoListAdapter.addBriefs(monthlyCarDataList);
 	}
 
@@ -238,52 +223,6 @@ public class MonthlyActivity extends Activity{
 
 		dialogUtils.showProgress();
 	}
-	
-	private void deleteCar(long carId){
-		BaseCommand deleteCar = ClientSession.getInstance().getCmdFactory()
-				.getCarDelete(carId);
-
-		mExecuter.execute(deleteCar, mCarDeleteRespHandler);
-
-		dialogUtils.showProgress();
-	}
-	
-	/**
-	 * 处理服务器返回的登录结果
-	 * @param rsp 服务返回的登录信息
-	 */
-	private void onReceiveCarDeleteResponse(BaseResponse rsp) {
-
-		if (!rsp.isOK()) {
-			String error = getString(R.string.protocol_error) + "(" + rsp.errno
-					+ ")";
-			dialogUtils.showToast(error);
-		} else {
-			CarDelete.Response carDeleteRsp = (CarDelete.Response) rsp;
-			if (carDeleteRsp.responseType.equals("N")) {
-				refreshInfoList();
-			} else {
-				dialogUtils.showToast(carDeleteRsp.errorMessage);
-			}
-		}
-		dialogUtils.dismissProgress();
-	}
-	
-	private CommandExecuter.ResponseHandler mCarDeleteRespHandler = new CommandExecuter.ResponseHandler() {
-
-		public void handleResponse(BaseResponse rsp) {
-			onReceiveCarDeleteResponse(rsp);
-		}
-
-		public void handleException(IOException e) {
-			dialogUtils.showToast(getString(R.string.connection_error));
-			fetchList();
-		}
-
-		public void onEnd() {
-			dialogUtils.dismissProgress();
-		}
-	};
 
 	/**
 	 * 初始化需要的工具

@@ -29,6 +29,7 @@ import com.android.xiwao.washcar.data.CarInfo;
 import com.android.xiwao.washcar.data.MonthlyCarData;
 import com.android.xiwao.washcar.ui.AddCarActivity;
 import com.android.xiwao.washcar.ui.ModifyCarActivity;
+import com.android.xiwao.washcar.ui.MonthlyDetailActivity;
 import com.android.xiwao.washcar.utils.FileUtil;
 
 public class MonthlyCarInfoListAdapter extends BaseAdapter{
@@ -106,18 +107,18 @@ public class MonthlyCarInfoListAdapter extends BaseAdapter{
 		viewHolder.carNum.setText(singleCarInfo.getCarCode());
 		viewHolder.carBrand.setText(singleCarInfo.getCarBrand());
 		viewHolder.carColor.setText(singleCarInfo.getCarColor());
-//		String carPicBase64 = singleCarInfo.getCarPic();
-//		try{
-//			if(!carPicBase64.equals("") && carPicBase64 != null){
-//				Bitmap userHeadBitMap = FileUtil.base64ToBitmap(carPicBase64);
-//				Drawable drawable = new BitmapDrawable(userHeadBitMap);
-//				viewHolder.carImg.setBackgroundDrawable(drawable);
-//				viewHolder.carImg.setImageDrawable(null);
-////				viewHolder.carImg.setImageDrawable(drawable);
-//			}
-//		}catch(Exception e){
-//			e.printStackTrace();
-//		}
+		String carPicBase64 = singleCarInfo.getCarPic();
+		try{
+			if(!carPicBase64.equals("") && carPicBase64 != null){
+				Bitmap userHeadBitMap = FileUtil.base64ToBitmap(carPicBase64);
+				Drawable drawable = new BitmapDrawable(userHeadBitMap);
+				viewHolder.carImg.setBackgroundDrawable(drawable);
+				viewHolder.carImg.setImageDrawable(null);
+//				viewHolder.carImg.setImageDrawable(drawable);
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 		
 		if(singleCarInfo.getCarCode().equals("-1")){
 			viewHolder.carImg.setVisibility(View.GONE);
@@ -136,7 +137,7 @@ public class MonthlyCarInfoListAdapter extends BaseAdapter{
 						Toast.makeText(mContext, "车辆信息不能超过5辆，请删除后再添加！", Toast.LENGTH_LONG).show();
 						return;
 					}
-					Intent i = new Intent(mContext, AddCarActivity.class);
+					Intent i = new Intent(mContext, MonthlyDetailActivity.class);
 					((Activity)mContext).startActivityForResult(i, Constants.ADD_CAR_RESULT_CODE);
 				}
 			});

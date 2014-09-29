@@ -64,6 +64,8 @@ public class CarInfoFragment extends BaseFragment {
 	private CommandExecuter mExecuter;
 	
 	private View mCurrentDisplayItemView;
+	
+	private Bitmap userHeadBitMap;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -102,7 +104,7 @@ public class CarInfoFragment extends BaseFragment {
 		
 		String userHeadBase64 = mLocalSharePref.getUserHead();
 		if(!userHeadBase64.equals("") && userHeadBase64 != null){
-			Bitmap userHeadBitMap = FileUtil.base64ToBitmap(userHeadBase64);
+			userHeadBitMap = FileUtil.base64ToBitmap(userHeadBase64);
 			Drawable drawable = new BitmapDrawable(userHeadBitMap);
 			customerImg.setBackgroundDrawable(drawable);
 //			customerImg.setBackground(drawable);
@@ -127,7 +129,7 @@ public class CarInfoFragment extends BaseFragment {
 		case Constants.REFRESH_HEAD_IMG:
 			String userHeadBase64 = mLocalSharePref.getUserHead();
 			if(!userHeadBase64.equals("") && userHeadBase64 != null){
-				Bitmap userHeadBitMap = FileUtil.base64ToBitmap(userHeadBase64);
+				userHeadBitMap = FileUtil.base64ToBitmap(userHeadBase64);
 				Drawable drawable = new BitmapDrawable(userHeadBitMap);
 				customerImg.setBackgroundDrawable(drawable);
 			}
@@ -318,4 +320,13 @@ public class CarInfoFragment extends BaseFragment {
 //		imgParams.addRule(RelativeLayout.RIGHT_OF, R.id.head_title);
 		customerImg.setLayoutParams(imgParams);
 	}
+
+	@Override
+	public void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+		AppLog.v("TAG", "onPause");
+		userHeadBitMap.recycle();
+	}
+	
 }

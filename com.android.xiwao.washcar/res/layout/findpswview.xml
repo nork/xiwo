@@ -69,7 +69,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:background="@null"
-                android:hint="@string/phone"
+                android:hint="请输入手机号码"
                 android:inputType="phone"
                 android:maxLength="11"
                 android:paddingLeft="10dp"
@@ -191,7 +191,8 @@
                     android:singleLine="true"
                     android:hint="@string/setpwd"
                     android:textColor="@color/blackgrey"
-                    android:textSize="16sp" />
+                    android:textSize="16sp" 
+                    android:maxLength="20"/>
             </LinearLayout>
 
             <TextView
@@ -226,7 +227,8 @@
                     android:singleLine="true"
                     android:textColor="@color/blackgrey"
                     android:hint="@string/setpwdagin"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    android:maxLength="20" />
             </LinearLayout>
 
             <TextView

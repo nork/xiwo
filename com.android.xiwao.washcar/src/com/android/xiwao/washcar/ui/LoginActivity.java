@@ -235,7 +235,8 @@ public class LoginActivity extends Activity {
 
 		Intent intent = new Intent(this, MainActivity.class);
 		startActivity(intent);
-		finish();
+//		finish();
+		ActivityManage.getInstance().exitInError();
     }
 
 	/**

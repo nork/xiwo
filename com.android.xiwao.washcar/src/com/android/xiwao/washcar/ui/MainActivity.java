@@ -101,7 +101,6 @@ public class MainActivity extends FragmentActivity{
         				|| checkedId == R.id.car_info)){
         			Intent intent = new Intent(MainActivity.this, LoginActivity.class);
         			startActivity(intent);
-        			ActivityManage.getInstance().exitInError();
         			return;
         		}
                 fragment = FragmentFactory.getInstanceByIndex(checkedId);

@@ -9,7 +9,7 @@
     <RelativeLayout
         android:id="@+id/item_left"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="80dp"
         android:background="@drawable/car_list_item_bg"
         android:paddingBottom="10dp"
         android:paddingTop="10dp" 

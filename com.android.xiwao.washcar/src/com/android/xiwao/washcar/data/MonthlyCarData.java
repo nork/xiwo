@@ -22,6 +22,7 @@ public class MonthlyCarData implements Parcelable, Serializable{
 	private int buffTimes;
 	private int washTimes;
 	private int interiorTimes;
+	private String carPic;
 	
 	public int getCarId() {
 		return carId;
@@ -111,6 +112,14 @@ public class MonthlyCarData implements Parcelable, Serializable{
 		this.interiorTimes = interiorTimes;
 	}
 
+	public String getCarPic() {
+		return carPic;
+	}
+
+	public void setCarPic(String carPic) {
+		this.carPic = carPic;
+	}
+
 	@Override
 	public int describeContents() {
 		// TODO Auto-generated method stub
@@ -134,6 +143,7 @@ public class MonthlyCarData implements Parcelable, Serializable{
 		dest.writeInt(this.buffTimes);
 		dest.writeInt(this.washTimes);
 		dest.writeInt(this.interiorTimes);
+		dest.writeString(this.carPic);
 	}
 	
 	public static final Parcelable.Creator<MonthlyCarData> CREATOR = new Parcelable.Creator<MonthlyCarData>(){
@@ -151,6 +161,7 @@ public class MonthlyCarData implements Parcelable, Serializable{
 			brief.buffTimes = source.readInt();
 			brief.washTimes = source.readInt();
 			brief.interiorTimes = source.readInt();
+			brief.carPic = source.readString();
 			return brief;
 		}
 

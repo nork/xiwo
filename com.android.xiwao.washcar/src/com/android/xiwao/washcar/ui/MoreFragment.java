@@ -90,7 +90,6 @@ public class MoreFragment extends BaseFragment {
 				if(quitBtn.getText().equals("µÇÂ¼")){
 					Intent intent = new Intent(mContext, LoginActivity.class);
 					startActivity(intent);
-					ActivityManage.getInstance().exitInError();
 					return;
 				}
 				showExitDialog();

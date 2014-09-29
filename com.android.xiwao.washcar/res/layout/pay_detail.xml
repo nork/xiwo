@@ -84,7 +84,40 @@
                     android:layout_gravity="center_horizontal"
                     android:background="@drawable/queue_statu"
                     android:visibility="gone" />
+
                 <TableRow
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="1dp"
+                    android:background="@color/white"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:text="@string/fee"
+                        android:textColor="@android:color/black" />
+
+                    <TextView
+                        android:id="@+id/fee"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:textColor="@android:color/black" />
+                </TableRow>
+
+                <TableLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="1dip"
+                        android:background="@color/background" />
+
+                    <TableRow
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="1dp"
@@ -96,22 +129,18 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="20dp"
-                            android:text="@string/fee"
+                            android:text="账户支付价格"
                             android:textColor="@android:color/black" />
 
                         <TextView
-                            android:id="@+id/fee"
+                            android:id="@+id/account_pay_amt"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="20dp"
-                           
+                            android:text="@string/wash_car"
                             android:textColor="@android:color/black" />
                     </TableRow>
-
-                <TableLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content" >
-
+                    
                     <TextView
                         android:layout_width="fill_parent"
                         android:layout_height="1dip"
@@ -138,6 +167,64 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="20dp"
                             android:text="@string/wash_car"
+                            android:textColor="@android:color/black" />
+                    </TableRow>
+                    
+                    <TextView android:id="@+id/clean_in_row_line"
+                        android:layout_width="fill_parent"
+                        android:layout_height="1dip"
+                        android:background="@color/background" />
+
+                    <TableRow	android:id="@+id/clean_in_row"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="1dp"
+                        android:background="@color/white"
+                        android:paddingBottom="10dp"
+                        android:paddingTop="10dp" >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="20dp"
+                            android:text="是否清洗内饰"
+                            android:textColor="@android:color/black" />
+
+                        <TextView
+                            android:id="@+id/ifclean_in"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="20dp"
+                            android:text="否"
+                            android:textColor="@android:color/black" />
+                    </TableRow>
+                    
+                    <TextView android:id="@+id/monthly_time_part_line"
+                        android:layout_width="fill_parent"
+                        android:layout_height="1dip"
+                        android:background="@color/background" />
+
+                    <TableRow	android:id="@+id/monthly_time_part"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="1dp"
+                        android:background="@color/white"
+                        android:paddingBottom="10dp"
+                        android:paddingTop="10dp" >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="20dp"
+                            android:text="数量"
+                            android:textColor="@android:color/black" />
+
+                        <TextView
+                            android:id="@+id/monthly_time"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="20dp"
+                            android:text="否"
                             android:textColor="@android:color/black" />
                     </TableRow>
 
@@ -216,7 +303,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="20dp"
-                            android:text="@string/your_statu"
+                            android:text="订单状态"
                             android:textColor="@android:color/black" />
 
                         <TextView
@@ -269,16 +356,15 @@
                         android:background="@color/white"
                         android:orientation="horizontal"
                         android:paddingBottom="20dp"
-                        android:paddingTop="20dp" 
-                        android:visibility="gone">
+                        android:paddingTop="20dp"
+                        android:visibility="gone" >
 
                         <Button
                             android:id="@+id/agreebtn"
                             android:layout_width="20dp"
                             android:layout_height="20dp"
                             android:layout_marginLeft="20dp"
-                            android:background="@drawable/agree_radio"
-                             />
+                            android:background="@drawable/agree_radio" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -295,8 +381,8 @@
                 android:id="@+id/button_group"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
                 android:orientation="horizontal" >
 
                 <Button
@@ -306,7 +392,7 @@
                     android:background="@drawable/blue_btn"
                     android:text="@string/cannel_order"
                     android:textColor="@color/white"
-                    android:textSize="18sp"  />
+                    android:textSize="18sp" />
 
                 <Button
                     android:id="@+id/pay_now"

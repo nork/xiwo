@@ -32,7 +32,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.android.xiwao.washcar.ActivityManage;
-import com.android.xiwao.washcar.AppLog;
 import com.android.xiwao.washcar.ClientSession;
 import com.android.xiwao.washcar.LocalSharePreference;
 import com.android.xiwao.washcar.R;
@@ -84,6 +83,8 @@ public class AddCarActivity extends Activity {
 	private File tempFile;
 	private String carPicBase64;	//汽车照片的BASE64字串
 	private String carTypeStr = null;
+	
+	private Bitmap carImgBitmap;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -183,6 +184,7 @@ public class AddCarActivity extends Activity {
 
 	private void addCar(String carCode, String carBrand, String carColor,
 			int type, String carPic) {
+		carCode = carCode.toUpperCase();
 		if(carCode.length() <= 0){
 			dialogUtils.showToast("请正确输入车牌号！");
 			return;
@@ -192,11 +194,11 @@ public class AddCarActivity extends Activity {
 		if (carCode.length() != 7 || !StringUtils.isChinese(firstCarCode) || StringUtils.containsChinese(secondPart)) {
 			dialogUtils.showToast("请正确输入车牌号！");
 			return;
-		} else if (carBrand.length() <= 0) {
-			dialogUtils.showToast("请输入车辆品牌！");
-			return;
 		} else if (carColor.length() <= 0) {
 			dialogUtils.showToast("请输入车辆颜色！");
+			return;
+		} else if (carBrand.length() <= 0) {
+			dialogUtils.showToast("请输入车辆品牌！");
 			return;
 		} 
 		long customerId = mLocalSharePref.getUserId();
@@ -366,12 +368,12 @@ public class AddCarActivity extends Activity {
 	private void setPicToViewAndSave(Intent picdata) {
 		Bundle bundle = picdata.getExtras();
 		if (bundle != null) {
-			Bitmap photo = bundle.getParcelable("data");
-			Drawable drawable = new BitmapDrawable(photo);
+			carImgBitmap = bundle.getParcelable("data");
+			Drawable drawable = new BitmapDrawable(carImgBitmap);
 			addImgBtn.setBackgroundDrawable(drawable);
 //			addImgBtn.setBackground(drawable);
 			addImgBtn.setText("");
-			carPicBase64 = FileUtil.bitmapToBase64(photo);
+			carPicBase64 = FileUtil.bitmapToBase64(carImgBitmap);
 		}
 	}
 	@Override
@@ -438,6 +440,18 @@ public class AddCarActivity extends Activity {
 		// TODO Auto-generated method stub
 		ActivityManage.getInstance().setCurContext(this);
 		super.onResume();
+	}
+	
+	@Override
+	protected void onDestroy() {
+		// TODO Auto-generated method stub
+		super.onDestroy();
+		addImgBtn.setBackgroundDrawable(null);	//此处将ImageView的背景bitmap设置为空，断开setImageBitmap对bitmap的引用，然后才能回收bitmap，否则后面回收方法将不起效果
+		if(carImgBitmap != null && !carImgBitmap.isRecycled()){
+			carImgBitmap.recycle();
+			carImgBitmap = null;
+		}
+		System.gc();
 	}
 	
 	/**

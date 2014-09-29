@@ -84,7 +84,7 @@ public class OrderManageFragment extends BaseFragment {
 	private int countPageDone = 0;	//已支付订单列表总页数
 	private int pageClose = 0;	//已关闭订单列表当前页数
 	private int countPageClose = 0;	//已支付订单列表总页数
-	
+	private boolean ifLoading = false;	
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -253,7 +253,7 @@ public class OrderManageFragment extends BaseFragment {
 				// TODO Auto-generated method stub
 				boolean loadMore = (firstVisibleItem + visibleItemCount >= totalItemCount);
 				if(loadMore){
-					if(pageClose + 1 <= countPageClose){
+					if(pageClose + 1 <= countPageClose && !ifLoading){
 						pageClose++;
 						getOrderListData();
 					}
@@ -351,7 +351,7 @@ public class OrderManageFragment extends BaseFragment {
 			page = pageWait;
 			break;
 		case 2:
-			orderClass = "03";
+			orderClass = "04";
 			page = pageDone;
 			break;
 		case 3:
@@ -360,6 +360,7 @@ public class OrderManageFragment extends BaseFragment {
 			break;
 		}
 		AppLog.v("TAG", "page:" + page);
+		ifLoading = true;
 		BaseCommand carRegister = ClientSession.getInstance().getCmdFactory()
 				.getOrderQuery(mLocalSharePref.getUserId(), orderClass, page * 20, 20);
 
@@ -394,6 +395,8 @@ public class OrderManageFragment extends BaseFragment {
 				dialogUtils.showToast(orderQuery.errorMessage); 
 				ifNeedShowProg = false;
 			}
+			dialogUtils.dismissProgress();
+			ifLoading = false;
 		}
 	}
 	
@@ -631,10 +634,10 @@ public class OrderManageFragment extends BaseFragment {
 		if(resultCode != Activity.RESULT_OK){
 			return;
 		}
-		switch(requestCode){
-		case Constants.CHECK_ORDER_RESULT_CODE:
-			refreshInfoList();
-			break;
-		}
+//		switch(requestCode){
+//		case Constants.CHECK_ORDER_RESULT_CODE:
+//			refreshInfoList();
+//			break;
+//		}
 	}
 }

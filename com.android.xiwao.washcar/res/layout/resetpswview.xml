@@ -75,6 +75,7 @@
                 android:paddingLeft="10dp"
                 android:singleLine="true"
                 android:textColor="@color/blackgrey"
+                android:maxLength="20"
                 android:textSize="16sp" />
         </LinearLayout>
 
@@ -109,6 +110,7 @@
                 android:paddingLeft="10dp"
                 android:singleLine="true"
                 android:textColor="@color/blackgrey"
+                android:maxLength="20"
                 android:textSize="16sp" />
         </LinearLayout>
 
@@ -143,7 +145,8 @@
                 android:paddingLeft="10dp"
                 android:singleLine="true"
                 android:textColor="@color/blackgrey"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:maxLength="20" />
         </LinearLayout>
 
         <TextView

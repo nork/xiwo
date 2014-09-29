@@ -26,7 +26,7 @@ public class PlaceOrder extends BaseCommand{
 	public final static String JSON_RESPONSE_TYPE = "ResponseType";
 	public final static String JSON_ERROR_MESSAGE = "ErrorMessage";
 	public final static String JSON_ORDER_ID = "Order_id";
-	public final static String JSON_FEE = "Fee";
+	public final static String JSON_FEE = "SaleFee";
 	
 	private long customerId;
 	private String serviceType;
@@ -48,7 +48,7 @@ public class PlaceOrder extends BaseCommand{
 		public String errorMessage;
 		public String responseType;
 		public long orderId;
-		public int fee;
+		public int saleFee;
 	}
 
 	
@@ -179,7 +179,7 @@ public class PlaceOrder extends BaseCommand{
 
 			placeOrder.responseType = jsonObj.getString(JSON_RESPONSE_TYPE);
 			placeOrder.errorMessage = jsonObj.getString(JSON_ERROR_MESSAGE);
-//			placeOrder.fee = jsonObj.getInt(JSON_FEE);
+			placeOrder.saleFee = jsonObj.getInt(JSON_FEE);
 			placeOrder.orderId = jsonObj.getLong(JSON_ORDER_ID);
 			
 		} catch (JSONException e) {

@@ -18,7 +18,7 @@
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_margin="10dp"
-            android:src="@drawable/icon_car"
+            android:background="@drawable/icon_car"
             android:visibility="visible" />
 
         <RelativeLayout

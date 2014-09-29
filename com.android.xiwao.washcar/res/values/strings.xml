@@ -38,7 +38,7 @@
     <string name="agree">同意</string>
     <string name="agreement">客户服务协议</string>
     <string name="send_code">发送验证码</string>
-    <string name="input_code">输入验证码</string>
+    <string name="input_code">请输入验证码</string>
     <string name="setpwd">设置登录密码</string>
     <string name="setpwdagin">确认密码</string>
     <string name="nick_name">昵称</string>

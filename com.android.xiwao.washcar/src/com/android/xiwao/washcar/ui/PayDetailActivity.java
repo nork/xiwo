@@ -1,19 +1,24 @@
 package com.android.xiwao.washcar.ui;
 
+import java.io.IOException;
+
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.android.xiwao.washcar.ActivityManage;
@@ -23,10 +28,10 @@ import com.android.xiwao.washcar.Constants;
 import com.android.xiwao.washcar.LocalSharePreference;
 import com.android.xiwao.washcar.R;
 import com.android.xiwao.washcar.XiwaoApplication;
-import com.android.xiwao.washcar.data.AddressData;
-import com.android.xiwao.washcar.data.CarInfo;
 import com.android.xiwao.washcar.httpconnection.BaseCommand;
+import com.android.xiwao.washcar.httpconnection.BaseResponse;
 import com.android.xiwao.washcar.httpconnection.CommandExecuter;
+import com.android.xiwao.washcar.httpconnection.UpdateOrderStateCancel;
 import com.android.xiwao.washcar.utils.DialogUtils;
 
 public class PayDetailActivity extends Activity {
@@ -48,7 +53,10 @@ public class PayDetailActivity extends Activity {
 	private CommandExecuter mExecuter;
 	
 	private long orderId;
-	private int fee;
+	private int fee;//订单价格
+	private int saleFee; //账户支付价格
+	private String feeStr;
+	private String saleFeeStr;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -59,13 +67,15 @@ public class PayDetailActivity extends Activity {
 		ActivityManage.getInstance().addActivity(this);
 
 		mLocalSharePref = new LocalSharePreference(this);
-		
+		initExecuter();
+		initUtils();
 		LayoutInflater inflater = LayoutInflater.from(mContext);
 		view = inflater.inflate(R.layout.pay_detail, null);
 		setContentView(view);
 		
 		fee = getIntent().getIntExtra("fee", 0);
 		orderId = getIntent().getLongExtra("order_id", 0);
+		saleFee = getIntent().getIntExtra("sale_fee", 0);
 		initContentView();
 		setHwView();
 	}
@@ -81,7 +91,8 @@ public class PayDetailActivity extends Activity {
 		agreebtn.setSelected(true); // 默认选中
 
 		String feeStr = Integer.toString(fee / 100) + ".00";
-		
+		saleFeeStr = Integer.toString(saleFee);
+		saleFeeStr = saleFeeStr.substring(0, saleFeeStr.length() - 2) + "." + saleFeeStr.substring(saleFeeStr.length() - 2);
 		payNowBtn.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
@@ -91,6 +102,7 @@ public class PayDetailActivity extends Activity {
 				Intent intent = new Intent(mContext, PayDialog.class);
 				intent.putExtra("order_id", orderId);
 				intent.putExtra("order_fee", feeStr);
+				intent.putExtra("order_account_fee", saleFeeStr);
 				startActivityForResult(intent, Constants.PAY_ORDER_RESULT_CODE);
 			}
 		});
@@ -100,7 +112,7 @@ public class PayDetailActivity extends Activity {
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
-				finish();
+				showCannelOrderDialog();
 			}
 		});
 		
@@ -119,12 +131,32 @@ public class PayDetailActivity extends Activity {
 		TextView webCenter = (TextView) findViewById(R.id.web_center);
 		TextView phone = (TextView) findViewById(R.id.phone);
 		TextView fee = (TextView) findViewById(R.id.fee);
-		
+		TextView accountPayAmt = (TextView) findViewById(R.id.account_pay_amt);
+		TextView ifCleanIn = (TextView) findViewById(R.id.ifclean_in);
+		TextView monthlyTime = (TextView) findViewById(R.id.monthly_time);
+
 		serverType.setText(getIntent().getStringExtra("server_type"));
 		carNum.setText(getIntent().getStringExtra("car_code"));
 		webCenter.setText(getIntent().getStringExtra("address"));
 		phone.setText(getIntent().getStringExtra("phone"));
 		fee.setText(feeStr);
+	
+		accountPayAmt.setText(saleFeeStr);
+		if(getIntent().getStringExtra("server_type").equals("包月")){
+			TableRow ifCleanInRow = (TableRow) findViewById(R.id.clean_in_row);
+			TextView ifCleanInLine = (TextView) findViewById(R.id.clean_in_row_line);
+			ifCleanInLine.setVisibility(View.GONE);
+			ifCleanInRow.setVisibility(View.GONE);
+			monthlyTime.setText(getIntent().getIntExtra("monthly_time", 0) + " ");
+		}else{
+			TableRow monthlyTimeRow = (TableRow) findViewById(R.id.monthly_time_part);
+			TextView ifCleanInLine = (TextView) findViewById(R.id.monthly_time_part_line);
+			ifCleanInLine.setVisibility(View.GONE);
+			monthlyTimeRow.setVisibility(View.GONE);
+			if(getIntent().getBooleanExtra("if_clean_in", false)){
+				ifCleanIn.setText("是");
+			}
+		}
 	}
 	
 	public void setHwView() {
@@ -152,6 +184,96 @@ public class PayDetailActivity extends Activity {
 				(int)(displayHeight * 0.08f + 0.5f));
 		btnParams.setMargins((int)(displayWidth * 0.2f + 0.5f), (int)(displayHeight * 0.04f + 0.5f), 0, 0);
 		payNowBtn.setLayoutParams(btnParams);
+	}
+	
+	public void showCannelOrderDialog(){
+		new AlertDialog.Builder(mContext)
+		.setTitle(mContext.getString(R.string.remind))
+		.setMessage("确定取消订单？")
+		.setPositiveButton(mContext.getString(R.string.sure),
+				new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface arg0, int arg1) {
+				cannelOrder();
+			}
+		})
+		.setNegativeButton(mContext.getString(R.string.no),
+				new DialogInterface.OnClickListener() {
+
+			@Override
+			public void onClick(DialogInterface dialog,
+					int which) {
+				// TODO Auto-generated method stub
+				dialog.dismiss();
+			}
+		}).show();
+	}
+	
+	private void cannelOrder(){
+		BaseCommand cannelOrder = ClientSession.getInstance().getCmdFactory()
+				.updateOrderStateCancel((int)orderId);
+
+		mExecuter.execute(cannelOrder, mRespHandler);
+
+		dialogUtils.showProgress();
+	}
+	
+	public void onCannelOrderSuccess() {
+		finish();
+	}
+
+	/**
+	 * 处理服务器返回的车辆注册结果
+	 * 
+	 * @param rsp
+	 *            服务返回的车辆注册结果信息
+	 */
+	private void onReceiveCannelOrderResponse(BaseResponse rsp) {
+
+		if (!rsp.isOK()) {
+			String error = getString(R.string.protocol_error) + "(" + rsp.errno
+					+ ")";
+			dialogUtils.showToast(error);
+		} else {
+			UpdateOrderStateCancel.Response updateOrderStateCancel = (UpdateOrderStateCancel.Response) rsp;
+			if (updateOrderStateCancel.responseType.equals("N")) {
+				onCannelOrderSuccess();
+				dialogUtils.showToast(updateOrderStateCancel.errorMessage);
+			} else {
+				dialogUtils.showToast(updateOrderStateCancel.errorMessage);
+			}
+		}
+	}
+
+	private CommandExecuter.ResponseHandler mRespHandler = new CommandExecuter.ResponseHandler() {
+
+		public void handleResponse(BaseResponse rsp) {
+			onReceiveCannelOrderResponse(rsp);
+		}
+
+		public void handleException(IOException e) {
+			dialogUtils.showToast(getString(R.string.connection_error));
+		}
+
+		public void onEnd() {
+			dialogUtils.dismissProgress();
+		}
+	};
+	
+	
+	/**
+	 * 初始化需要的工具
+	 */
+	public void initUtils() {
+		dialogUtils = new DialogUtils();
+	}
+
+	private void initExecuter() {
+
+		mHandler = new Handler();
+
+		mExecuter = new CommandExecuter();
+		mExecuter.setHandler(mHandler);
 	}
 	
 	@Override

@@ -90,7 +90,7 @@ public class OrderDetailActivity extends Activity {
 		payNowBtn = (Button) findViewById(R.id.pay_now);
 		cannelOrderBtn = (Button) findViewById(R.id.cannel_order);
 		TextView title = (TextView) findViewById(R.id.title);
-		title.setText("订单确认");
+		title.setText("交易详情");
 		
 		orderId = (TextView) findViewById(R.id.serial_number);
 		transactionAmount = (TextView) findViewById(R.id.transaction_amount);
@@ -150,11 +150,11 @@ public class OrderDetailActivity extends Activity {
 		phone.setText(orderData.getMobileNum());
 		vipCustomer.setText(mLocalSharePref.getNickName());
 		address.setText(orderData.getAddressDetail());
-		endTime.setText(orderData.getWashEnd());
+		endTime.setText(orderData.getWashEnd().replace("T", " "));
 		TextView payTime = (TextView) findViewById(R.id.paytime);
 		TextView orderTime = (TextView) findViewById(R.id.ordertime);
-		payTime.setText(orderData.getPayTime());
-		orderTime.setText(orderData.getCreateTime());
+		payTime.setText(orderData.getPayTime().replace("T", " "));
+		orderTime.setText(orderData.getCreateTime().replace("T", " "));
 		
 		LinearLayout remindTitle = (LinearLayout) findViewById(R.id.remind_title);
 		
@@ -242,6 +242,7 @@ public class OrderDetailActivity extends Activity {
 	
 	public void onCannelOrderSuccess() {
 		ifNeedRefresh = true;
+		dialogUtils.dismissProgress();
 		finish();
 	}
 
@@ -348,9 +349,9 @@ public class OrderDetailActivity extends Activity {
 	public void finish() {
 		// TODO Auto-generated method stub
 		if(ifNeedRefresh){
-			AppLog.v("123", "订单列表需要刷新");
 			setResult(RESULT_OK);
 		}
+		dialogUtils.dismissProgress();
 		super.finish();
 	}
 

@@ -63,7 +63,8 @@ public class PayDialog extends Activity{
 	
 	private int payWay;	//付款方式，1为活动付款，2为余额付款
 //	private OrderData orderData;
-	private String fee;
+	private String fee; //订单原价
+	private String accountFee;//余额支付价格
 	private long orderId;
 	private boolean ifPaySuc = false;
 	
@@ -80,6 +81,7 @@ public class PayDialog extends Activity{
 		mContext = this;
 //		orderData = getIntent().getParcelableExtra("order_detail");
 		fee = getIntent().getStringExtra("order_fee");
+		accountFee = getIntent().getStringExtra("order_account_fee");
 		orderId = getIntent().getLongExtra("order_id", 0);
 		setContentView(R.layout.pay_dialog);
 		initExecuter();
@@ -98,6 +100,11 @@ public class PayDialog extends Activity{
 		cancelBtn = (Button) findViewById(R.id.cannel_btn);
 		payMoneyTxt = (TextView) findViewById(R.id.pay_money);
 		payMoneyTxt.setText(fee);
+		
+		TextView alipayAmt = (TextView) findViewById(R.id.alipay_amt);
+		TextView accountPayAmt = (TextView) findViewById(R.id.account_pay_amt);
+		alipayAmt.setText(fee);
+		accountPayAmt.setText(accountFee);
 		sureBtn.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
@@ -135,6 +142,7 @@ public class PayDialog extends Activity{
 				payListPart.setVisibility(View.GONE);
 				sureBtn.setVisibility(View.VISIBLE);
 				cancelBtn.setVisibility(View.VISIBLE);
+				payMoneyTxt.setVisibility(View.VISIBLE);
 				payMoneyTxt.setText("您当前剩余的活动次数:  " + activityTime);
 				payWay = 1;
 				if(activityTime <= 0){
@@ -152,12 +160,14 @@ public class PayDialog extends Activity{
 				payListPart.setVisibility(View.GONE);
 				sureBtn.setVisibility(View.VISIBLE);
 				cancelBtn.setVisibility(View.VISIBLE);
+				payMoneyTxt.setVisibility(View.VISIBLE);
 				payMoneyTxt.setText("您的当前余额:  " + accountBalance);
 				payWay = 2;
 				int feeInt = Integer.parseInt(fee.split("\\.")[0]);
 				if(accountBalance < feeInt){
-					payMoneyTxt.setText("您的当前余额:  " + accountBalance + "\n余额不足\n请使用其他付款方式");
-					sureBtn.setVisibility(View.GONE);
+					payMoneyTxt.setText("您的当前余额:  " + accountBalance + "\n余额不足\n请充值或者使用其他付款方式");
+//					sureBtn.setVisibility(View.GONE);
+					sureBtn.setText("充值");
 				}
 			}
 		});
@@ -300,7 +310,7 @@ public class PayDialog extends Activity{
 //		String fee = orderData.getFee();
 		
 		BaseCommand carRegister = ClientSession.getInstance().getCmdFactory()
-				.getAccountConsume(mLocalSharePref.getUserId(), Integer.parseInt(fee.split("\\.")[0]), orderId);
+				.getAccountConsume(mLocalSharePref.getUserId(), Integer.parseInt(accountFee.split("\\.")[0]), orderId);
 
 		mExecuter.execute(carRegister, mAccountConsumeRespHandler);
 
@@ -359,6 +369,9 @@ public class PayDialog extends Activity{
 	public void onActivityQuerySuccess(int time){
 		activityTime = time;
 		getBalance();
+		if(activityTime <= 0){	//如果没有活动，自动屏蔽活动支付
+			activityPayLayout.setVisibility(View.GONE);
+		}
 	}
 
 	private void onReceiveActivityQueryResponse(BaseResponse rsp) {
@@ -366,15 +379,12 @@ public class PayDialog extends Activity{
 		if (!rsp.isOK()) {
 			String error = getString(R.string.protocol_error) + "(" + rsp.errno
 					+ ")";
-			dialogUtils.showToast(error);
+//			dialogUtils.showToast(error);
 		} else {
 			CustomActivityQuery.Response customActivityQuery = (CustomActivityQuery.Response) rsp;
-			if (customActivityQuery.responseType.equals("N")) {
-				onActivityQuerySuccess(customActivityQuery.time);
-//				dialogUtils.showToast(customActivityQuery.errorMessage);
-			} else {
-				dialogUtils.showToast(customActivityQuery.errorMessage);
-			}
+
+			onActivityQuerySuccess(customActivityQuery.time);
+
 		}
 	}
 	
@@ -385,7 +395,7 @@ public class PayDialog extends Activity{
 		}
 
 		public void handleException(IOException e) {
-			dialogUtils.showToast(getString(R.string.connection_error));
+//			dialogUtils.showToast(getString(R.string.connection_error));
 		}
 
 		public void onEnd() {
@@ -422,7 +432,7 @@ public class PayDialog extends Activity{
 				onAccountQuerySuccess(accountQueryRsp.accountInfo);
 //				dialogUtils.showToast(accountQueryRsp.errorMessage);
 			} else {
-				dialogUtils.showToast(accountQueryRsp.errorMessage);
+//				dialogUtils.showToast(accountQueryRsp.errorMessage);
 			}
 		}
 	}
@@ -434,7 +444,7 @@ public class PayDialog extends Activity{
 		}
 
 		public void handleException(IOException e) {
-			dialogUtils.showToast(getString(R.string.connection_error));
+//			dialogUtils.showToast(getString(R.string.connection_error));
 		}
 
 		public void onEnd() {

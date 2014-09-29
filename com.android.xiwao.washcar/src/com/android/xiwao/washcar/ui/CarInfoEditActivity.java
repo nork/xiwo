@@ -171,7 +171,7 @@ public class CarInfoEditActivity extends Activity {
 		});
 		
 		if(choiceAddress != null){
-			websitEdt.setText(choiceAddress.getBranchName() + choiceAddress.getAddressDetail());
+			websitEdt.setText(choiceAddress.getBranchName() + " " + choiceAddress.getAddressDetail());
 		}
 		if(choiceCar != null){
 			carNumEdt.setText(choiceCar.getCarCode());
@@ -302,24 +302,27 @@ public class CarInfoEditActivity extends Activity {
 		}
 		BaseCommand carRegister = ClientSession.getInstance().getCmdFactory()
 				.getPlaceOrder(mLocalSharePref.getUserId(), serviceType, contactEdt.getText().toString(), choiceCar.getCarId()
-						, choiceAddress.getDistractId(), choiceAddress.getAddressId(), "00", null, choiceAddress.getAddressDetail()
-						, serverTypeMi, priceCount);
+						, choiceAddress.getDistractId(), choiceAddress.getAddressId(), "00", null, websitEdt.getText().toString()
+						, serverTypeMi, priceCount * monthTime);
 
 		mExecuter.execute(carRegister, mPlaceOrderRespHandler);
 
 		dialogUtils.showProgress();
 	}
 	
-	public void onPlaceOrderSuccess(int fee, long orderId){
+	public void onPlaceOrderSuccess(int saleFee, long orderId){
 		saveAddrCarInfo();
 		((XiwaoApplication)getApplication()).setIfNeedRefreshOrder(true);
 		Intent intent = new Intent(CarInfoEditActivity.this, PayDetailActivity.class);
-		intent.putExtra("fee", priceCount);
+		intent.putExtra("fee", priceCount * monthTime);
+		intent.putExtra("sale_fee", saleFee);//账户支付价格
 		intent.putExtra("order_id", orderId);
 		intent.putExtra("car_code", carNumEdt.getText().toString());
 		intent.putExtra("server_type", spinnerServerType.getSelectedItem().toString());
 		intent.putExtra("phone", contactEdt.getText().toString());
 		intent.putExtra("address", websitEdt.getText().toString());
+		intent.putExtra("monthly_time", monthTime);	//包月数量
+		intent.putExtra("if_clean_in", cleanInBtn.isSelected());//是否清洗内饰
 		startActivity(intent);
 		finish();
 	}
@@ -337,7 +340,7 @@ public class CarInfoEditActivity extends Activity {
 		} else {
 			PlaceOrder.Response placeOrder = (PlaceOrder.Response) rsp;
 			if (placeOrder.responseType.equals("N")) {
-				onPlaceOrderSuccess(placeOrder.fee, placeOrder.orderId);
+				onPlaceOrderSuccess(placeOrder.saleFee, placeOrder.orderId);
 				dialogUtils.showToast(placeOrder.errorMessage);
 			} else {
 				dialogUtils.showToast(placeOrder.errorMessage);
@@ -510,19 +513,19 @@ public class CarInfoEditActivity extends Activity {
 			}
 			break;
 		}
-		if(cleanInBtn.isSelected()){
-			for(FeeData feeData : MainActivity.feeDataList){
-				if(feeData.getFeeType().equals("01")){
-					priceCount += feeData.getFee();
-					break;
-				}
-			}
-		}
 		AppLog.v(TAG, "car Type:" + choiceCar.getCarType());
-		if(spinnerServerType.getSelectedItemPosition() != 2){	//包月不分车型
+		if(spinnerServerType.getSelectedItemPosition() != 2){	//包月不分车型和是否清洗内饰
 			if(choiceCar.getCarType().equals("01")){
 				for(FeeData feeData : MainActivity.feeDataList){
 					if(feeData.getFeeType().equals("00")){
+						priceCount += feeData.getFee();
+						break;
+					}
+				}
+			}
+			if(cleanInBtn.isSelected()){
+				for(FeeData feeData : MainActivity.feeDataList){
+					if(feeData.getFeeType().equals("01")){
 						priceCount += feeData.getFee();
 						break;
 					}

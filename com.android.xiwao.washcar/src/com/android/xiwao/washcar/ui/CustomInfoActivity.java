@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -24,11 +25,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import com.android.xiwao.washcar.ActivityManage;
 import com.android.xiwao.washcar.ClientSession;
 import com.android.xiwao.washcar.LocalSharePreference;
 import com.android.xiwao.washcar.R;
 import com.android.xiwao.washcar.XiwaoApplication;
+import com.android.xiwao.washcar.httpconnection.AccountQuery;
 import com.android.xiwao.washcar.httpconnection.BaseCommand;
 import com.android.xiwao.washcar.httpconnection.BaseResponse;
 import com.android.xiwao.washcar.httpconnection.CommandExecuter;
@@ -46,6 +49,8 @@ public class CustomInfoActivity extends Activity {
 	private Button modifyBtn;
 //	private Button addBtn;
 	private ImageView headImg;
+	private RelativeLayout accountMoneyPart;
+	private TextView accountMoneyTxt;
 
 	// 工具
 	private DialogUtils dialogUtils;
@@ -64,6 +69,9 @@ public class CustomInfoActivity extends Activity {
 	// 创建一个以当前时间为名称的文件
 	private File tempFile;
 	private String headImgBase64;
+	
+	private Bitmap userHeadBitMap;
+	private int accountBalance = 0;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -78,6 +86,7 @@ public class CustomInfoActivity extends Activity {
 		initUtils();
 		initContentView();
 		setViewHw();
+		getBalance();
 	}
 
 	public void initContentView() {
@@ -90,6 +99,8 @@ public class CustomInfoActivity extends Activity {
 		modifyBtn = (Button) findViewById(R.id.modify_btn);
 //		addBtn = (Button) findViewById(R.id.add);
 		headImg = (ImageView) findViewById(R.id.head);
+		accountMoneyPart = (RelativeLayout) findViewById(R.id.account_money);
+		accountMoneyTxt = (TextView) findViewById(R.id.account_money_txt);
 
 		String nickName = mLocalSharePref.getNickName();
 		if(nickName.equals("null") || nickName == null || nickName.equals("")){
@@ -148,11 +159,20 @@ public class CustomInfoActivity extends Activity {
 		
 		String userHeadBase64 = mLocalSharePref.getUserHead();
 		if(!userHeadBase64.equals("") && userHeadBase64 != null){
-			Bitmap userHeadBitMap = FileUtil.base64ToBitmap(userHeadBase64);
+			userHeadBitMap = FileUtil.base64ToBitmap(userHeadBase64);
 			Drawable drawable = new BitmapDrawable(userHeadBitMap);
             headImg.setBackgroundDrawable(drawable);
 //			headImg.setBackground(drawable);
 		}
+		
+		accountMoneyPart.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 	}
 
 	private void modifyUserInfo(String userName, String email, String headImg) {
@@ -197,6 +217,7 @@ public class CustomInfoActivity extends Activity {
 		}
 	}
 
+	
 	private CommandExecuter.ResponseHandler mCustomerModifyRespHandler = new CommandExecuter.ResponseHandler() {
 
 		public void handleResponse(BaseResponse rsp) {
@@ -211,7 +232,67 @@ public class CustomInfoActivity extends Activity {
 			dialogUtils.dismissProgress();
 		}
 	};
+	
+	/**
+	 * 账户余额查询
+	 */
+	private void getBalance(){
+		BaseCommand accountQuery = ClientSession.getInstance().getCmdFactory()
+				.getAccountQuery(mLocalSharePref.getUserId());
 
+		mExecuter.execute(accountQuery, mAccountQueryRespHandler);
+
+		dialogUtils.showProgress();
+	}
+	
+	public void onAccountQuerySuccess(long accountInfo){
+		accountBalance = (int) accountInfo;
+		String accountMoneyStr = Integer.toString(accountBalance);
+		if(accountBalance > 0){
+			accountMoneyTxt.setText(accountMoneyStr.substring(0, accountMoneyStr.length() - 2)
+					+ "." + accountMoneyStr.substring(accountMoneyStr.length() - 2));
+		}
+	}
+	
+	/**
+	 * 处理服务器返回的车辆注册结果
+	 * @param rsp 服务返回的车辆注册结果信息
+	 */
+	private void onReceiveAccountQueryResponse(BaseResponse rsp) {
+
+		if (!rsp.isOK()) {
+			String error = getString(R.string.protocol_error) + "(" + rsp.errno
+					+ ")";
+			dialogUtils.showToast(error);
+		} else {
+			AccountQuery.Response accountQueryRsp = (AccountQuery.Response) rsp;
+			if (accountQueryRsp.responseType.equals("N")) {
+				onAccountQuerySuccess(accountQueryRsp.accountInfo);
+//				dialogUtils.showToast(accountQueryRsp.errorMessage);
+			} else {
+//				dialogUtils.showToast(accountQueryRsp.errorMessage);
+			}
+		}
+	}
+	
+	private CommandExecuter.ResponseHandler mAccountQueryRespHandler = new CommandExecuter.ResponseHandler() {
+
+		public void handleResponse(BaseResponse rsp) {
+			onReceiveAccountQueryResponse(rsp);
+		}
+
+		public void handleException(IOException e) {
+//			dialogUtils.showToast(getString(R.string.connection_error));
+		}
+
+		public void onEnd() {
+			dialogUtils.dismissProgress();
+		}
+	};
+
+	/**
+	 * 
+	 */
 	public void setViewHw() {
 		int displayHeight = ((XiwaoApplication) getApplication())
 				.getDisplayHeight();
@@ -240,6 +321,7 @@ public class CustomInfoActivity extends Activity {
 		user.setLayoutParams(listParams);
 		email.setLayoutParams(listParams);
 		phone.setLayoutParams(listParams);
+		accountMoneyPart.setLayoutParams(listParams);
 
 		LinearLayout.LayoutParams btnParams = new LinearLayout.LayoutParams(
 				(int) (displayWidth * 0.94f + 0.5f),
@@ -345,12 +427,12 @@ public class CustomInfoActivity extends Activity {
 	private void setPicToViewAndSave(Intent picdata){
 		Bundle bundle = picdata.getExtras();
         if (bundle != null) {
-            Bitmap photo = bundle.getParcelable("data");
-            headImgBase64 = FileUtil.bitmapToBase64(photo);
+        	userHeadBitMap = bundle.getParcelable("data");
+            headImgBase64 = FileUtil.bitmapToBase64(userHeadBitMap);
             mLocalSharePref.setUserHead(headImgBase64);
             
             ((XiwaoApplication)getApplication()).setIfNeedRefreshHeadImg(true);
-            Drawable drawable = new BitmapDrawable(photo);
+            Drawable drawable = new BitmapDrawable(userHeadBitMap);
             headImg.setBackgroundDrawable(drawable);
 //            headImg.setBackground(drawable);
         }
@@ -387,4 +469,16 @@ public class CustomInfoActivity extends Activity {
 		ActivityManage.getInstance().setCurContext(this);
 	}
 
+	
+	@Override
+	protected void onDestroy() {
+		// TODO Auto-generated method stub
+		super.onDestroy();
+		headImg.setImageBitmap(null);	//此处将ImageView的背景bitmap设置为空，断开setImageBitmap对bitmap的引用，然后才能回收bitmap，否则后面回收方法将不起效果
+		if(userHeadBitMap != null && !userHeadBitMap.isRecycled()){
+			userHeadBitMap.recycle();
+			userHeadBitMap = null;
+		}
+		System.gc();
+	}
 }

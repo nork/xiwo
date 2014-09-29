@@ -69,7 +69,6 @@ public class HomePageFragment extends BaseFragment{
 				if(!mLocalSharePref.getLoginState()){
 					Intent intent = new Intent(mContext, LoginActivity.class);
 					startActivity(intent);
-					ActivityManage.getInstance().exitInError();
 					return;
 				}
 				Intent intent = new Intent(mContext, CarInfoEditActivity.class);
@@ -86,7 +85,6 @@ public class HomePageFragment extends BaseFragment{
 				if(!mLocalSharePref.getLoginState()){
 					Intent intent = new Intent(mContext, LoginActivity.class);
 					startActivity(intent);
-					ActivityManage.getInstance().exitInError();
 					return;
 				}
 				Intent intent = new Intent(mContext, CarInfoEditActivity.class);

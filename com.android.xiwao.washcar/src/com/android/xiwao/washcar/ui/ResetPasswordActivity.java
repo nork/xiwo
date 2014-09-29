@@ -164,16 +164,16 @@ public class ResetPasswordActivity extends Activity {
 
 				if (oldpswstr.length() < 6 || oldpswstr.length() > 20) {
 
-					dialogUtils.showToast(getString(R.string.pwd_wrong));
+					dialogUtils.showToast("请输入6-20位旧密码！");
 					return;
 
 				} else if (psw1.length() < 6 || psw1.length() > 20) {
-					dialogUtils.showToast(getString(R.string.pwd_wrong));
+					dialogUtils.showToast("请输入6-20位新密码！");
 					return;
 				}
 
 				else if (psw2.length() < 6 || psw2.length() > 20) {
-					dialogUtils.showToast(getString(R.string.pwd_wrong));
+					dialogUtils.showToast("请输入6-20位新密码！");
 					return;
 				} else if (!psw1.equals(psw2)) {
 

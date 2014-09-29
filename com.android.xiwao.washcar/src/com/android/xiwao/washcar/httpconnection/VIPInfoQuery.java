@@ -21,8 +21,8 @@ public class VIPInfoQuery extends BaseCommand{
 	public final static String JSON_VIPINFO_LIST = "VIPInfoList";
 	public final static String JSON_CAR_ID = "car_id";
 	public final static String JSON_CAR_CODE = "car_code";
-	public final static String JSON_CAR_COLOR = "car_color";
-	public final static String JSON_CAR_BRAND = "car_brand";
+	public final static String JSON_CAR_COLOR = "car_Color";
+	public final static String JSON_CAR_BRAND = "car_Brand";
 	public final static String JSON_CUSTOMER_ID = "customer_id";
 	public final static String JSON_START_DATE = "start_date";
 	public final static String JSON_END_DATE = "end_date";
@@ -30,6 +30,7 @@ public class VIPInfoQuery extends BaseCommand{
 	public final static String JSON_BUFF_TIMES = "buff_times";
 	public final static String JSON_WASH_TIMES = "wash_times";
 	public final static String JSON_INTERIOR_TIMES = "interior_times";
+	public final static String JSON_CAR_PIC = "car_pic";
 	
 	private long customerId;
 	
@@ -97,6 +98,7 @@ public class VIPInfoQuery extends BaseCommand{
 				brief.setInteriorTimes(jsonSingleInfo.getInt(JSON_INTERIOR_TIMES));
 				brief.setStartDate(jsonSingleInfo.getString(JSON_START_DATE));
 				brief.setWashTimes(jsonSingleInfo.getInt(JSON_WASH_TIMES));
+				brief.setCarPic(jsonSingleInfo.getString(JSON_CAR_PIC));
 				
 				vipInfoQuery.monthlyCarDataList.add(brief);
 			}
