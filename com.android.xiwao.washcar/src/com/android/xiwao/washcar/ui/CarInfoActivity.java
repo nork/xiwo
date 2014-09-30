@@ -63,6 +63,7 @@ public class CarInfoActivity extends Activity{
 	private CommandExecuter mExecuter;
 	
 	private View mCurrentDisplayItemView;
+	private int displayHeight;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -159,7 +160,7 @@ public class CarInfoActivity extends Activity{
 			carInfoListData.clear();
 		}
 		carInfoListAdapter = new CarInfoListAdapter(mContext, false,
-				R.layout.car_info_list_adapter, carList.getRightViewWidth());
+				R.layout.car_info_list_adapter, carList.getRightViewWidth(), displayHeight);
 		carInfoListAdapter.setOnRightItemClickListener(new CarInfoListAdapter.onRightItemClickListener() {
         	
             @Override
@@ -315,7 +316,7 @@ public class CarInfoActivity extends Activity{
 	}
 	
 	public void setHwView() {
-		int displayHeight = ((XiwaoApplication)getApplication()).getDisplayHeight();
+		displayHeight = ((XiwaoApplication)getApplication()).getDisplayHeight();
 		RelativeLayout title = (RelativeLayout) findViewById(R.id.header);
 		LinearLayout.LayoutParams titleParams = new LinearLayout.LayoutParams(
 				LayoutParams.MATCH_PARENT,

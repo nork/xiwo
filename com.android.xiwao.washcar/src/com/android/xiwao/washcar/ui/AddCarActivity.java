@@ -63,7 +63,7 @@ public class AddCarActivity extends Activity {
 	private Button sevenBtn;
 
 	@SuppressWarnings("rawtypes")
-	private ArrayAdapter typeAdapter;
+	private ArrayAdapter<String> typeAdapter;
 
 	// 工具
 	private DialogUtils dialogUtils;
@@ -301,17 +301,13 @@ public class AddCarActivity extends Activity {
 	}
 
 	private void initAdapter() {
-		typeAdapter = ArrayAdapter.createFromResource(this, R.array.car_types,
-				android.R.layout.simple_spinner_item);
-		// 设置下拉列表的风格
-		typeAdapter
-				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		// 将adapter2 添加到spinner中
-		spinnerCarType.setAdapter(typeAdapter);
-
-		// 添加事件Spinner事件监听
-		spinnerCarType
-				.setOnItemSelectedListener(new SpinnerXMLSelectedListener());
+		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.simple_spinner_item);
+		String level[] = getResources().getStringArray(R.array.server_types);//资源文件
+		for (int i = 0; i < level.length; i++) {
+			adapter.add(level[i]);
+		}
+		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		spinnerCarType.setAdapter(adapter);
 	}
 
 	class SpinnerXMLSelectedListener implements OnItemSelectedListener {

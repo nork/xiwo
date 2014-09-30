@@ -446,12 +446,12 @@ public class CustomInfoActivity extends Activity {
 
         switch (requestCode) {
         case PHOTO_REQUEST_TAKEPHOTO:
-            startPhotoZoom(Uri.fromFile(tempFile), 150);
+            startPhotoZoom(Uri.fromFile(tempFile), 100);
             break;
 
         case PHOTO_REQUEST_GALLERY:
             if (data != null)
-                startPhotoZoom(data.getData(), 150);
+                startPhotoZoom(data.getData(), 100);
             break;
 
         case PHOTO_REQUEST_CUT:

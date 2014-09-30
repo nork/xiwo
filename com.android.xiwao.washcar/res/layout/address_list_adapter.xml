@@ -11,8 +11,6 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/_80dp"
         android:background="@drawable/car_list_item_bg"
-        android:paddingBottom="10dp"
-        android:paddingTop="10dp" 
         android:gravity="center_vertical">
 
         <TextView

@@ -36,14 +36,16 @@ public class CarInfoListAdapter extends BaseAdapter{
 	Boolean mInternetpic;
 	public List<CarInfo> mList;	
 	private int mRightWidth = 0;
+	private int displayHeight = 0;
 	int mlayout;
-	public CarInfoListAdapter(Context paramContext, Boolean paramBoolean, int paramInt, int rightWidth){
+	public CarInfoListAdapter(Context paramContext, Boolean paramBoolean, int paramInt, int rightWidth, int displayHeight){
 		mContext = paramContext;
 //		mInflater = LayoutInflater.from(mContext);
 		mList = new ArrayList<CarInfo>();
 		mInternetpic = paramBoolean;
 		mlayout = paramInt;
 		mRightWidth = rightWidth;
+		this.displayHeight = displayHeight;
 	}
 	
 	public void addBriefs(List<CarInfo> mList){
@@ -139,6 +141,14 @@ public class CarInfoListAdapter extends BaseAdapter{
 					((Activity)mContext).startActivityForResult(i, Constants.ADD_CAR_RESULT_CODE);
 				}
 			});
+			
+			LinearLayout.LayoutParams lp1 = new LayoutParams(LayoutParams.MATCH_PARENT,
+	                (int)(displayHeight * 0.08f + 0.5f));
+			viewHolder.itemLeft.setLayoutParams(lp1);
+			LinearLayout.LayoutParams lp2 = new LayoutParams(mRightWidth, (int)(displayHeight * 0.08f + 0.5f));       
+	        viewHolder.itemRightDelete.setLayoutParams(lp2);
+	        viewHolder.itemRightWash.setLayoutParams(lp2);
+	        viewHolder.itemRightWash.setVisibility(View.GONE);
 		}else{
 			convertView.setOnClickListener(new View.OnClickListener() {
 				
@@ -148,6 +158,13 @@ public class CarInfoListAdapter extends BaseAdapter{
 					mListener.onRightItemClick(arg0, position, 2);
 				}
 			});
+			LinearLayout.LayoutParams lp1 = new LayoutParams(LayoutParams.MATCH_PARENT,
+	                (int)(displayHeight * 0.14f + 0.5f));
+			viewHolder.itemLeft.setLayoutParams(lp1);
+			LinearLayout.LayoutParams lp2 = new LayoutParams(mRightWidth, (int)(displayHeight * 0.14f + 0.5f));       
+	        viewHolder.itemRightDelete.setLayoutParams(lp2);
+	        viewHolder.itemRightWash.setLayoutParams(lp2);
+	        viewHolder.itemRightWash.setVisibility(View.GONE);
 		}
 		
 		viewHolder.money.setOnClickListener(new View.OnClickListener() {
@@ -162,14 +179,6 @@ public class CarInfoListAdapter extends BaseAdapter{
 				((Activity)mContext).startActivityForResult(i, Constants.MODIFY_CAR_RESULT_CODE);
 			}
 		});
-
-		LinearLayout.LayoutParams lp1 = new LayoutParams(LayoutParams.MATCH_PARENT,
-                LayoutParams.MATCH_PARENT);
-		viewHolder.itemLeft.setLayoutParams(lp1);
-		LinearLayout.LayoutParams lp2 = new LayoutParams(mRightWidth, LayoutParams.MATCH_PARENT);       
-        viewHolder.itemRightDelete.setLayoutParams(lp2);
-        viewHolder.itemRightWash.setLayoutParams(lp2);
-        viewHolder.itemRightWash.setVisibility(View.GONE);
         
         viewHolder.itemRightDelete.setOnClickListener(new OnClickListener() {
             @Override

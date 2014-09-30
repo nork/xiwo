@@ -83,7 +83,7 @@
             android:layout_marginTop="20dp"
             android:layout_toRightOf="@+id/custom_img"
             android:paddingLeft="20dp"
-            android:text="0.00元"
+            android:text="账户金额：0.00元"
             android:textColor="@color/white" 
             android:textSize="18sp"
              />
@@ -144,7 +144,7 @@
         android:id="@+id/explain_title"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="账户充值，有利您下次服务时，直接从账户付费，既可享受折扣，也可快速下单"
+        android:text="账户充值，有利您下次服务时，直接从账户付费，既可享受折扣，也可快速下单。"
         android:textColor="@android:color/black"
         android:textSize="18sp" 
         android:layout_marginLeft="@dimen/_20dp"

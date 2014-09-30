@@ -47,6 +47,9 @@ public class OrderDetailActivity extends Activity {
 	private TextView address;
 	private TextView endTime;
 	private TextView orderState;
+	private TextView saleFee;
+	private TextView quantity;
+	private TextView ifCleanIn;
 	private LinearLayout buttonGroup;
 	private LinearLayout bottomStatePart;
 	private ImageView orderStateImg;
@@ -54,6 +57,8 @@ public class OrderDetailActivity extends Activity {
 	private TableRow payTimeRow;
 	private TableRow orderTimeRow;
 	private TableRow doneTimeRow;
+	private TableRow quantityRow;
+	private TableRow ifCleanInRow;
 	
 	private OrderData orderData;
 	// 工具
@@ -108,6 +113,11 @@ public class OrderDetailActivity extends Activity {
 		payTimeRow = (TableRow) findViewById(R.id.pay_time);
 		orderTimeRow = (TableRow) findViewById(R.id.order_time);
 		doneTimeRow = (TableRow) findViewById(R.id.done_time);
+		saleFee = (TextView) findViewById(R.id.sale_fee);
+		ifCleanIn = (TextView) findViewById(R.id.if_clean);
+		quantity = (TextView) findViewById(R.id.quantity);
+		ifCleanInRow = (TableRow) findViewById(R.id.if_clean_row);
+		quantityRow = (TableRow) findViewById(R.id.quantity_row);
 		
 		payNowBtn.setOnClickListener(new View.OnClickListener() {
 
@@ -155,6 +165,7 @@ public class OrderDetailActivity extends Activity {
 		TextView orderTime = (TextView) findViewById(R.id.ordertime);
 		payTime.setText(orderData.getPayTime().replace("T", " "));
 		orderTime.setText(orderData.getCreateTime().replace("T", " "));
+		TextView saleFeeTitle = (TextView) findViewById(R.id.sale_fee_title);
 		
 		LinearLayout remindTitle = (LinearLayout) findViewById(R.id.remind_title);
 		
@@ -167,6 +178,9 @@ public class OrderDetailActivity extends Activity {
 			bottomStatePart.setVisibility(View.GONE);
 			payTimeRow.setVisibility(View.GONE);
 			doneTimeRow.setVisibility(View.GONE);
+			String saleFeeStr = orderData.getSaleFee();
+			saleFeeStr = saleFeeStr.substring(0, saleFeeStr.length() - 2) + "." + saleFeeStr.substring(saleFeeStr.length() - 2);
+			saleFee.setText(saleFeeStr);
 		}else if(orderStateStr.equals("02")){
 			orderStateStr = "已支付";
 			buttonGroup.setBackgroundResource(R.color.white);
@@ -177,6 +191,8 @@ public class OrderDetailActivity extends Activity {
 			bottomOrderState.setText("已经支付");
 			doneTimeRow.setVisibility(View.GONE);
 			remindTitle.setVisibility(View.GONE);
+			saleFeeTitle.setText("支付方式");
+			saleFee.setText(orderData.getPayType());
 		}else if(orderStateStr.equals("03")){
 			orderStateStr = "服务中";
 			buttonGroup.setBackgroundResource(R.color.background);
@@ -186,6 +202,8 @@ public class OrderDetailActivity extends Activity {
 			orderStateImg.setBackgroundResource(R.drawable.yes);
 			bottomOrderState.setText("服务中");
 			remindTitle.setVisibility(View.GONE);
+			saleFeeTitle.setText("支付方式");
+			saleFee.setText(orderData.getPayType());
 		}else if(orderStateStr.equals("04")){
 			orderStateStr = "已完成";
 			buttonGroup.setBackgroundResource(R.color.background);
@@ -195,8 +213,19 @@ public class OrderDetailActivity extends Activity {
 			orderStateImg.setBackgroundResource(R.drawable.yes);
 			bottomOrderState.setText("已经完成");
 			remindTitle.setVisibility(View.GONE);
+			saleFeeTitle.setText("支付方式");
+			saleFee.setText(orderData.getPayType());
 		}
 		orderState.setText(orderStateStr);
+		quantity.setText(orderData.getQuantity() + "");
+		if(orderData.getServiceTypeMi().equals("01")){
+			ifCleanIn.setText("是");
+		}
+		if(orderData.getServiceType().equals("包月")){
+			ifCleanInRow.setVisibility(View.GONE);		
+		}else if(orderData.getServiceType().equals("打蜡") || orderData.getServiceType().equals("洗车")){
+			quantityRow.setVisibility(View.GONE);
+		}
 	}
 	public void setHwView() {
 		int displayHeight = ((XiwaoApplication)getApplication()).getDisplayHeight();

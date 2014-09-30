@@ -65,11 +65,12 @@
         android:id="@+id/car_list"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="@null"
         android:cacheColorHint="#00000000"
         android:clickable="false"
-        android:divider="@null"
+        android:divider="#00000000"
+        android:dividerHeight="@dimen/_20dp"
         android:layout_marginLeft="18dp"
         android:layout_marginRight="18dp"
+        android:layout_marginTop="@dimen/_20dp"
         />
 </LinearLayout>

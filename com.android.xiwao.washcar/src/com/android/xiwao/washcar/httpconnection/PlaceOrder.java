@@ -22,6 +22,7 @@ public class PlaceOrder extends BaseCommand{
 	private final static String PARAMS_ADDRESS = "Address";
 	private final static String PARAMS_SERVICE_TYPE_MI = "Service_type_mi";
 	private final static String PARAMS_FEE = "fee";
+	private final static String PARAMS_QUANTITY= "Quantity";
 	
 	public final static String JSON_RESPONSE_TYPE = "ResponseType";
 	public final static String JSON_ERROR_MESSAGE = "ErrorMessage";
@@ -39,6 +40,7 @@ public class PlaceOrder extends BaseCommand{
 	private String address;
 	private String serviceTypeMi;
 	private int fee;
+	private int quantity;
 	
 	public static class Response extends BaseResponse {
 		
@@ -139,6 +141,14 @@ public class PlaceOrder extends BaseCommand{
 	public void setFee(int fee) {
 		this.fee = fee;
 	}
+	
+	public int getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
 
 	@Override
 	protected String getComand() {
@@ -165,6 +175,7 @@ public class PlaceOrder extends BaseCommand{
 		nvps.add(new BasicNameValuePair(PARAMS_ADDRESS, address));
 		nvps.add(new BasicNameValuePair(PARAMS_SERVICE_TYPE_MI, serviceTypeMi));
 		nvps.add(new BasicNameValuePair(PARAMS_FEE, Integer.toString(fee)));
+		nvps.add(new BasicNameValuePair(PARAMS_QUANTITY, Integer.toString(quantity)));
 		return nvps;
 	}
 

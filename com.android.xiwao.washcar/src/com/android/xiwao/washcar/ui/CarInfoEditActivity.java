@@ -3,7 +3,11 @@ package com.android.xiwao.washcar.ui;
 import java.io.IOException;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.AlertDialog.Builder;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -12,14 +16,10 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.android.xiwao.washcar.ActivityManage;
@@ -50,14 +50,12 @@ public class CarInfoEditActivity extends Activity {
 	private LinearLayout cleanInPart;
 	private Button submitBtn;
 	private Button backBtn;
-	private Spinner spinnerServerType;
 	private TextView carNumEdt;
 	private TextView websitEdt;
 	private TextView price;
+	private TextView serverTypeDetail;
 	private EditText contactEdt;
 	private Button cleanInBtn;
-
-	private ArrayAdapter typeAdapter;
 	
 	private CarInfo choiceCar;
 	private AddressData choiceAddress;
@@ -74,6 +72,9 @@ public class CarInfoEditActivity extends Activity {
 	// 网络访问相关对象
 	private Handler mHandler;
 	private CommandExecuter mExecuter;
+	
+	private int position = 0;
+	private final int LISTDIALOG = 1;  
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -96,11 +97,12 @@ public class CarInfoEditActivity extends Activity {
 		initUtils();
 		initContentView();
 		setHwView();
-		initAdapter();
+//		initAdapter();
 		if(MainActivity.feeDataList.size() <= 0){
 			rateQuery();
 		}
 		setPriceView();
+		setDisView();
 //		((XiwaoApplication)getApplication()).setIfNeedRefreshOrder(true);
 	}
 
@@ -113,11 +115,15 @@ public class CarInfoEditActivity extends Activity {
 		allMountTimePart = (LinearLayout) findViewById(R.id.all_month_time_part);
 		cleanInPart = (LinearLayout) findViewById(R.id.clean_in_part);
 		submitBtn = (Button) findViewById(R.id.submit);
-		spinnerServerType = (Spinner) findViewById(R.id.spinner_server_type);
 		carNumEdt = (TextView) findViewById(R.id.car_num_edt);
 		websitEdt = (TextView) findViewById(R.id.websit_edt);
 		contactEdt = (EditText) findViewById(R.id.contact_edt);
 		price = (TextView) findViewById(R.id.price);
+		serverTypeDetail = (TextView) findViewById(R.id.server_type_detail);
+		//初始化服务类型
+		serverTypeDetail.setText(getResources().getStringArray(R.array.server_types)[getIntent().getIntExtra("service_type", 0)]);
+		position = getIntent().getIntExtra("service_type", 0);
+		
 		TextView title = (TextView) findViewById(R.id.title);
 		title.setText("订单");
 		
@@ -126,14 +132,15 @@ public class CarInfoEditActivity extends Activity {
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
+				AppLog.v(TAG, "fd" + websitEdt.getText().toString().length());
 				if(carNumEdt.getText().toString().length() <= 0){
-					dialogUtils.showToast("请填入正确的车辆信息！");
+					dialogUtils.showToast("请正确输入车牌号码！");
 					return;
-				}else if(websitEdt.getText().toString().length() <= 0){
-					dialogUtils.showToast("请填入正确的停车地址！");
+				}else if(websitEdt.getText().toString().length() <= 0 || websitEdt.getText().toString().equals(" ")){
+					dialogUtils.showToast("请正确输入停放地点！");
 					return;
 				}else if(contactEdt.getText().toString().length() <= 0){
-					dialogUtils.showToast("请填入正确的电话号码！");
+					dialogUtils.showToast("请正确输入电话号码！");
 					return;
 				}
 				placeOrder();
@@ -275,11 +282,20 @@ public class CarInfoEditActivity extends Activity {
 				monthTimeEdt.setText(Integer.toString(monthTime));
 			}
 		});
+		
+		serverTypeDetail.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				showDialog(LISTDIALOG);
+			}
+		});
 	}	
 
 	private void placeOrder(){
 		String serviceType = "";
-		switch(spinnerServerType.getSelectedItemPosition()){
+		switch(position){
 		case 0:
 			serviceType = "A";
 			cleanInPart.setVisibility(View.VISIBLE);
@@ -303,7 +319,7 @@ public class CarInfoEditActivity extends Activity {
 		BaseCommand carRegister = ClientSession.getInstance().getCmdFactory()
 				.getPlaceOrder(mLocalSharePref.getUserId(), serviceType, contactEdt.getText().toString(), choiceCar.getCarId()
 						, choiceAddress.getDistractId(), choiceAddress.getAddressId(), "00", null, websitEdt.getText().toString()
-						, serverTypeMi, priceCount * monthTime);
+						, serverTypeMi, priceCount * monthTime, monthTime);
 
 		mExecuter.execute(carRegister, mPlaceOrderRespHandler);
 
@@ -318,7 +334,8 @@ public class CarInfoEditActivity extends Activity {
 		intent.putExtra("sale_fee", saleFee);//账户支付价格
 		intent.putExtra("order_id", orderId);
 		intent.putExtra("car_code", carNumEdt.getText().toString());
-		intent.putExtra("server_type", spinnerServerType.getSelectedItem().toString());
+		intent.putExtra("server_type", getResources()  
+                .getStringArray(R.array.server_types)[position]);
 		intent.putExtra("phone", contactEdt.getText().toString());
 		intent.putExtra("address", websitEdt.getText().toString());
 		intent.putExtra("monthly_time", monthTime);	//包月数量
@@ -464,30 +481,13 @@ public class CarInfoEditActivity extends Activity {
 				(int) (displayHeight * 0.1f + 0.5f),
 				(int) (displayWidth * 0.03f + 0.5f), 0);
 		submitBtn.setLayoutParams(params);
-	}
-
-	private void initAdapter() {
-		typeAdapter = ArrayAdapter.createFromResource(mContext, R.array.server_types,
-				android.R.layout.simple_spinner_item);
-		// 设置下拉列表的风格
-		typeAdapter
-				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		// 将adapter2 添加到spinner中
-		spinnerServerType.setAdapter(typeAdapter);
-
-		// 添加事件Spinner事件监听
-		spinnerServerType
-				.setOnItemSelectedListener(new SpinnerXMLSelectedListener());
-		
-		spinnerServerType.setSelection(getIntent().getIntExtra("service_type", 0));
-	}
-	
+	}	
 	/**
 	 * 设置价格
 	 */
 	private void setPriceView(){
 		priceCount = 0;
-		switch(spinnerServerType.getSelectedItemPosition()){
+		switch(position){
 		case 0://洗车
 			for(FeeData feeData : MainActivity.feeDataList){
 				if(feeData.getFeeType().equals("A")){
@@ -514,7 +514,7 @@ public class CarInfoEditActivity extends Activity {
 			break;
 		}
 		AppLog.v(TAG, "car Type:" + choiceCar.getCarType());
-		if(spinnerServerType.getSelectedItemPosition() != 2){	//包月不分车型和是否清洗内饰
+		if(position != 2){	//包月不分车型和是否清洗内饰
 			if(choiceCar.getCarType().equals("01")){
 				for(FeeData feeData : MainActivity.feeDataList){
 					if(feeData.getFeeType().equals("00")){
@@ -537,6 +537,23 @@ public class CarInfoEditActivity extends Activity {
 			price.setText(priceStr.subSequence(0, priceStr.length() - 2) + "." + priceStr.substring(priceStr.length() - 2));
 		}catch(Exception e){
 			e.printStackTrace();
+		}
+	}
+	
+	private void setDisView(){
+		switch(position){
+		case 0:
+			cleanInPart.setVisibility(View.VISIBLE);
+			allMountTimePart.setVisibility(View.GONE);
+			break;
+		case 1:
+			cleanInPart.setVisibility(View.VISIBLE);
+			allMountTimePart.setVisibility(View.GONE);
+			break;
+		case 2:
+			cleanInPart.setVisibility(View.GONE);
+			allMountTimePart.setVisibility(View.VISIBLE);
+			break;
 		}
 	}
 	
@@ -596,29 +613,29 @@ public class CarInfoEditActivity extends Activity {
 		ActivityManage.getInstance().setCurContext(this);
 	}
 
-
-
-	class SpinnerXMLSelectedListener implements OnItemSelectedListener {
-		public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2,
-				long arg3) {
-			setPriceView();
-			switch(arg2){
-			case 0:
-				cleanInPart.setVisibility(View.VISIBLE);
-				allMountTimePart.setVisibility(View.GONE);
-				break;
-			case 1:
-				cleanInPart.setVisibility(View.VISIBLE);
-				allMountTimePart.setVisibility(View.GONE);
-				break;
-			case 2:
-				cleanInPart.setVisibility(View.GONE);
-				allMountTimePart.setVisibility(View.VISIBLE);
-				break;
-			}
-		}
-
-		public void onNothingSelected(AdapterView<?> arg0) {
-		}
-	}
+	@Override  
+    protected Dialog onCreateDialog(int id) {  
+        Dialog dialog = null;  
+        switch(id) {  
+            case LISTDIALOG:  
+                Builder builder = new AlertDialog.Builder(this);  
+                DialogInterface.OnClickListener listener =   
+                    new DialogInterface.OnClickListener() {  
+                          
+                        @Override  
+                        public void onClick(DialogInterface dialogInterface,   
+                                int which) {  
+                        	serverTypeDetail.setText(getResources()  
+                                    .getStringArray(R.array.server_types)[which]);  
+                        	position = which;
+                        	setPriceView();
+                        	setDisView();
+                        }  
+                    };  
+                builder.setItems(R.array.server_types, listener);  
+                dialog = builder.create();  
+                break;  
+        }  
+        return dialog;  
+    }
 }

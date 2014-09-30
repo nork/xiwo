@@ -37,6 +37,9 @@ public class OrderQuery extends BaseCommand{
 	public final static String JSON_ORDER_STATE = "order_state";
 	public final static String JSON_NOTE = "note";
 	public final static String JSON_FEE = "fee";
+	public final static String JSON_SALE_FEE = "saleFee";
+	public final static String JSON_QUANTITY = "quantity";
+	public final static String JSON_PAY_TYPE = "pay_type";
 	
 	private long customerId;
 	private String orderState;
@@ -152,6 +155,8 @@ public class OrderQuery extends BaseCommand{
 				brief.setServiceTypeMi(jsonSingleInfo.getString(JSON_SERVICE_MI));
 				brief.setWashBegin(jsonSingleInfo.getString(JSON_WASH_BEGINTIME));
 				brief.setWashEnd(jsonSingleInfo.getString(JSON_WASH_ENDTIME));
+				brief.setSaleFee(jsonSingleInfo.getString(JSON_SALE_FEE));
+				brief.setQuantity(jsonSingleInfo.getInt(JSON_QUANTITY));
 				int fee = 0;
 				try{
 					fee = jsonSingleInfo.getInt(JSON_FEE);
@@ -160,7 +165,15 @@ public class OrderQuery extends BaseCommand{
 					e.printStackTrace();
 					brief.setFee("获取价格失败");
 				}
-				
+				String payType = jsonSingleInfo.getString(JSON_PAY_TYPE);
+				if(payType.equals("00")){
+					payType = "支付宝";
+				}else if(payType.equals("01")){
+					payType = "余额";
+				}else if(payType.equals("02")){
+					payType = "活动次数";
+				}
+				brief.setPayType(payType);
 				orderQuery.orderDataList.add(brief);
 			}
 		} catch (JSONException e) {

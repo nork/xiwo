@@ -94,6 +94,8 @@ public class OrderListAdapter extends BaseAdapter{
 		viewHolder.serverType.setText(singleOrderData.getServiceType());	
 		if(singleOrderData.getServiceType().equals("≥‰÷µ")){
 			viewHolder.carNum.setVisibility(View.GONE);
+		}else{
+			viewHolder.carNum.setVisibility(View.VISIBLE);
 		}
 		return convertView;
 	}

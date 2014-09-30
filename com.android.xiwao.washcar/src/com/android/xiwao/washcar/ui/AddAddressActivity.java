@@ -4,7 +4,11 @@ import java.io.IOException;
 import java.util.List;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -17,6 +21,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.android.xiwao.washcar.ActivityManage;
 import com.android.xiwao.washcar.ClientSession;
@@ -35,12 +40,16 @@ public class AddAddressActivity extends Activity {
 	private Context mContext;
 	private Spinner websitInfo;
 	private EditText detailAddressEdt;
+	private TextView websitDetail;
 	private Button cancelBtn;
 	private Button sureBtn;
 	private Button backBtn;
+	private final int LISTDIALOG = 1;  
 
 	private ArrayAdapter<String> typeAdapter;
 	private List<WebSiteData> websitListData;
+	private String [] websitArray;
+	private int position;
 
 	// 工具
 	private DialogUtils dialogUtils;
@@ -79,6 +88,7 @@ public class AddAddressActivity extends Activity {
 		sureBtn = (Button) findViewById(R.id.sure_btn);
 		cancelBtn = (Button) findViewById(R.id.cancel_btn);
 		backBtn = (Button) findViewById(R.id.backbtn);
+		websitDetail = (TextView) findViewById(R.id.websit_detail);
 		
 		backBtn.setOnClickListener(new View.OnClickListener() {
 			
@@ -95,7 +105,6 @@ public class AddAddressActivity extends Activity {
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
 				String detailAddress = detailAddressEdt.getText().toString();
-				long position = websitInfo.getSelectedItemId();
 				addressCreate(detailAddress, position);
 			}
 		});
@@ -106,6 +115,15 @@ public class AddAddressActivity extends Activity {
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
 				finish();
+			}
+		});
+		
+		websitDetail.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				showDialog(LISTDIALOG);
 			}
 		});
 	}
@@ -121,7 +139,13 @@ public class AddAddressActivity extends Activity {
 	}
 	
 	public void onAddressQuerySuccess(){
-		initSpinner();
+		websitDetail.setText(websitListData.get(0).getBranchName());
+		position = 0;
+		int listLength = websitListData.size();
+		websitArray = new String[listLength];
+		for(int i = 0; i<listLength; i++){
+			websitArray[i] = websitListData.get(i).getBranchName();
+		}
 	}
 	
 	/**
@@ -280,7 +304,7 @@ public class AddAddressActivity extends Activity {
 	
 	private void initSpinner() {
 		int listLength = websitListData.size();
-		String [] websitArray = new String[listLength];
+		websitArray = new String[listLength];
 		for(int i = 0; i<listLength; i++){
 			websitArray[i] = websitListData.get(i).getBranchName();
 		}
@@ -293,6 +317,29 @@ public class AddAddressActivity extends Activity {
 		// 添加事件Spinner事件监听
 		websitInfo.setOnItemSelectedListener(new SpinnerXMLSelectedListener());
 	}
+	
+	@Override  
+    protected Dialog onCreateDialog(int id) {  
+        Dialog dialog = null;  
+        switch(id) {  
+            case LISTDIALOG:  
+                Builder builder = new AlertDialog.Builder(this);  
+                DialogInterface.OnClickListener listener =   
+                    new DialogInterface.OnClickListener() {  
+                          
+                        @Override  
+                        public void onClick(DialogInterface dialogInterface,   
+                                int which) {  
+                        	websitDetail.setText(websitArray[which]);  
+                        	position = which;
+                        }  
+                    };  
+                builder.setItems(websitArray, listener);  
+                dialog = builder.create();  
+                break;  
+        }  
+        return dialog;  
+    }
 
 	class SpinnerXMLSelectedListener implements OnItemSelectedListener {
 		public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2,

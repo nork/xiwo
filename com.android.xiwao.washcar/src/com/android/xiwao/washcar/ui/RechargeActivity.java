@@ -148,7 +148,7 @@ public class RechargeActivity extends Activity {
 		BaseCommand carRegister = ClientSession.getInstance().getCmdFactory()
 				.getPlaceOrder(mLocalSharePref.getUserId(), "D", mLocalSharePref.getUserName(), 0
 						, 0, 0, "00", null, null
-						, null, 50000);
+						, null, 50000, 1);
 
 		mExecuter.execute(carRegister, mPlaceOrderRespHandler);
 
@@ -364,7 +364,9 @@ public class RechargeActivity extends Activity {
 				if(result.resultCode.equals("9000")){
 					message += "账户充值成功！您可到客户信息中查询！";
 					dialogUtils.showToast(message);
-				}				
+				}else{
+					dialogUtils.showToast(message);
+				}			
 				break;
 			case RQF_LOGIN: {
 				Toast.makeText(RechargeActivity.this, result.getResult(),

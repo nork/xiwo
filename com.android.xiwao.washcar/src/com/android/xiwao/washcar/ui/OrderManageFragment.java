@@ -182,7 +182,7 @@ public class OrderManageFragment extends BaseFragment {
 					int visibleItemCount, int totalItemCount) {
 				// TODO Auto-generated method stub
 				boolean loadMore = (firstVisibleItem + visibleItemCount >= totalItemCount);
-				if(loadMore){
+				if(loadMore  && !ifLoading){
 					if(pagePaid + 1 <= countPagePaid){
 						pagePaid++;
 						getOrderListData();
@@ -206,7 +206,7 @@ public class OrderManageFragment extends BaseFragment {
 					int visibleItemCount, int totalItemCount) {
 				// TODO Auto-generated method stub
 				boolean loadMore = (firstVisibleItem + visibleItemCount >= totalItemCount);
-				if(loadMore){
+				if(loadMore  && !ifLoading){
 					if(pageWait + 1 <= countPageWait){
 						pageWait++;
 						getOrderListData();
@@ -229,7 +229,7 @@ public class OrderManageFragment extends BaseFragment {
 					int visibleItemCount, int totalItemCount) {
 				// TODO Auto-generated method stub
 				boolean loadMore = (firstVisibleItem + visibleItemCount >= totalItemCount);
-				if(loadMore){
+				if(loadMore  && !ifLoading){
 					if(pageDone + 1 <= countPageDone){
 						pageDone++;
 						getOrderListData();
@@ -252,8 +252,8 @@ public class OrderManageFragment extends BaseFragment {
 					int visibleItemCount, int totalItemCount) {
 				// TODO Auto-generated method stub
 				boolean loadMore = (firstVisibleItem + visibleItemCount >= totalItemCount);
-				if(loadMore){
-					if(pageClose + 1 <= countPageClose && !ifLoading){
+				if(loadMore  && !ifLoading){
+					if(pageClose + 1 <= countPageClose){
 						pageClose++;
 						getOrderListData();
 					}
@@ -340,6 +340,9 @@ public class OrderManageFragment extends BaseFragment {
 	}
 	
 	private void getOrderListData(){
+		if(ifLoading){
+			return;
+		}
 		int page = 0;
 		switch(curOrderClass){
 		case 0:
@@ -634,10 +637,10 @@ public class OrderManageFragment extends BaseFragment {
 		if(resultCode != Activity.RESULT_OK){
 			return;
 		}
-//		switch(requestCode){
-//		case Constants.CHECK_ORDER_RESULT_CODE:
-//			refreshInfoList();
-//			break;
-//		}
+		switch(requestCode){
+		case Constants.CHECK_ORDER_RESULT_CODE:
+			refreshInfoList();
+			break;
+		}
 	}
 }

@@ -57,6 +57,7 @@ public class LoginActivity extends Activity {
 	private String email;
 	private String headStr;
 	private String userType;
+	private long userId;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -223,6 +224,16 @@ public class LoginActivity extends Activity {
 	 * 登录成功之后的处理
 	 */
 	private void onLoginSuccess(){
+		if(!userName.equals(mLocalSharePref.getUserName())){
+			mLocalSharePref.putStringPref(LocalSharePreference.USER_LAST_ADDRESS_DETAIL, "");
+			mLocalSharePref.putStringPref(LocalSharePreference.USER_LAST_BRANCH_NAME, "");
+			mLocalSharePref.putStringPref(LocalSharePreference.USER_LAST_CAR_NUM, "");
+			mLocalSharePref.putLongPref(LocalSharePreference.USER_LAST_ADDRESS_ID, 0);
+			mLocalSharePref.putLongPref(LocalSharePreference.USER_LAST_CAR_ID, 0);
+			mLocalSharePref.putLongPref(LocalSharePreference.USER_LAST_DISTRACT_ID, 0);
+			mLocalSharePref.putStringPref(LocalSharePreference.USER_LAST_CAR_TYPE, "");
+			mLocalSharePref.setUserHead("");
+		}
 		mLocalSharePref.setUserName(userName);
 		mLocalSharePref.setUserPassword(password);
 		mLocalSharePref.setLoginState(true);	//保存登录状态
@@ -230,8 +241,7 @@ public class LoginActivity extends Activity {
 		mLocalSharePref.setUserEmail(email);
 		mLocalSharePref.setUserHead(headStr);
 		mLocalSharePref.setUserType(userType);
-		AppLog.v("TAG", "用户ID:" + ClientSession.getInstance().getUserId());
-		mLocalSharePref.setUserId(ClientSession.getInstance().getUserId());
+		mLocalSharePref.setUserId(userId);
 
 		Intent intent = new Intent(this, MainActivity.class);
 		startActivity(intent);
@@ -252,13 +262,11 @@ public class LoginActivity extends Activity {
 		} else {
 			Login.Response loginRsp = (Login.Response) rsp;
 			if (loginRsp.responseType.equals("N")) {
-				ClientSession session = ClientSession.getInstance();
-				session.setSessionCookies(rsp.cookies);
-				session.setUserId(loginRsp.id);
 				nickName = loginRsp.customerName;
 				email = loginRsp.email;
 				headStr = loginRsp.headStr;
 				userType = loginRsp.customerType;
+				userId = loginRsp.id;
 				onLoginSuccess();
 			} else {
 				dialogUtils.showToast(loginRsp.errorMessage);

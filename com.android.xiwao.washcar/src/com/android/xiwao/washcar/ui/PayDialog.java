@@ -538,6 +538,7 @@ public class PayDialog extends Activity{
 				payMoneyTxt.setText(message);
 				cancelBtn.setText("ÖªµÀÁË");
 				sureBtn.setVisibility(View.GONE);
+				payMoneyTxt.setVisibility(View.VISIBLE);
 				
 				break;
 			case RQF_LOGIN: {

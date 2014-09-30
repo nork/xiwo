@@ -189,7 +189,7 @@
                         <Button
                             android:id="@+id/getagin"
                             android:layout_width="130dp"
-                            android:layout_height="wrap_content"
+                            android:layout_height="35dp"
                             android:layout_gravity="right|center_vertical"
                             android:layout_marginRight="15dp"
                             android:background="@drawable/orange_btn_bg"

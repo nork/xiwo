@@ -446,8 +446,9 @@ public class RegisterActivity extends Activity {
     	mLocalSharePref.setUserName(phoneedt.getText().toString());
     	mLocalSharePref.setUserPassword(psw01.getText().toString());
     	mLocalSharePref.setUserId(userId);
+    	mLocalSharePref.setLoginState(true);
     	startActivity(intent);
-    	finish();
+    	ActivityManage.getInstance().exitInError();
     }
 	
 	private CommandExecuter.ResponseHandler mRespHandler = new CommandExecuter.ResponseHandler() {

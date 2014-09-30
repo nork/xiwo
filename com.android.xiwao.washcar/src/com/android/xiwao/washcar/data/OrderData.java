@@ -18,6 +18,9 @@ public class OrderData implements Parcelable{
 	private String OrderState;
 	private String note;
 	private String fee;
+	private String saleFee;
+	private int quantity;
+	private String payType;
 	
 	public long getOrderId() {
 		return orderId;
@@ -104,6 +107,24 @@ public class OrderData implements Parcelable{
 	public void setServiceTypeMi(String serviceTypeMi) {
 		this.serviceTypeMi = serviceTypeMi;
 	}
+	public String getSaleFee() {
+		return saleFee;
+	}
+	public void setSaleFee(String saleFee) {
+		this.saleFee = saleFee;
+	}
+	public int getQuantity() {
+		return quantity;
+	}
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
+	public String getPayType() {
+		return payType;
+	}
+	public void setPayType(String payType) {
+		this.payType = payType;
+	}
 	@Override
 	public int describeContents() {
 		// TODO Auto-generated method stub
@@ -130,6 +151,9 @@ public class OrderData implements Parcelable{
 		dest.writeString(this.washEnd);
 		dest.writeString(this.fee);
 		dest.writeString(this.serviceTypeMi);
+		dest.writeString(this.saleFee);
+		dest.writeInt(this.quantity);
+		dest.writeString(this.payType);
 	}
 	
 	public static final Parcelable.Creator<OrderData> CREATOR = new Parcelable.Creator<OrderData>(){
@@ -150,6 +174,9 @@ public class OrderData implements Parcelable{
 			brief.washEnd = source.readString();
 			brief.fee = source.readString();
 			brief.serviceTypeMi = source.readString();
+			brief.saleFee = source.readString();
+			brief.quantity = source.readInt();
+			brief.payType = source.readString();
 			return brief;
 		}
 

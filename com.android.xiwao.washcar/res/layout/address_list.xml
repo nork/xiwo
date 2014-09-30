@@ -119,9 +119,7 @@
         android:id="@+id/useful_address_list"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="18dp"
-        android:divider="@null"
-        android:background="@null"   
+        android:layout_marginTop="@dimen/_20dp"
         android:layout_marginLeft="18dp"
         android:layout_marginRight="18dp"  
         />

@@ -66,6 +66,7 @@ public class CarInfoFragment extends BaseFragment {
 	private View mCurrentDisplayItemView;
 	
 	private Bitmap userHeadBitMap;
+	private int displayHeight;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -150,7 +151,7 @@ public class CarInfoFragment extends BaseFragment {
 		}
 //		carList.setRightViewWidth(0);
 		carInfoListAdapter = new CarInfoListAdapter(mContext, false,
-				R.layout.car_info_list_adapter, carList.getRightViewWidth());
+				R.layout.car_info_list_adapter, carList.getRightViewWidth(), displayHeight);
 		carInfoListAdapter.setOnRightItemClickListener(new CarInfoListAdapter.onRightItemClickListener() {
 
 			@Override
@@ -303,7 +304,7 @@ public class CarInfoFragment extends BaseFragment {
 	}
 	
 	public void setHwView() {
-		int displayHeight = ((XiwaoApplication)getActivity().getApplication()).getDisplayHeight();
+		displayHeight = ((XiwaoApplication)getActivity().getApplication()).getDisplayHeight();
 //		int displayWidth = ((XiwaoApplication)getActivity().getApplication()).getDisplayWidth();
 		// title¸ß¶È
 		RelativeLayout title = (RelativeLayout) view.findViewById(R.id.header);
@@ -326,7 +327,9 @@ public class CarInfoFragment extends BaseFragment {
 		// TODO Auto-generated method stub
 		super.onPause();
 		AppLog.v("TAG", "onPause");
-		userHeadBitMap.recycle();
+		if(userHeadBitMap != null){
+			userHeadBitMap.recycle();
+		}
 	}
 	
 }
