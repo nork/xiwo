@@ -167,11 +167,11 @@ public class OrderQuery extends BaseCommand{
 				}
 				String payType = jsonSingleInfo.getString(JSON_PAY_TYPE);
 				if(payType.equals("00")){
-					payType = "支付宝";
+					payType = "支付宝支付";
 				}else if(payType.equals("01")){
-					payType = "余额";
+					payType = "账户支付";
 				}else if(payType.equals("02")){
-					payType = "活动次数";
+					payType = "活动支付";
 				}
 				brief.setPayType(payType);
 				orderQuery.orderDataList.add(brief);

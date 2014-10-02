@@ -71,6 +71,16 @@ public class MonthlyDetailActivity extends Activity{
 				finish();
 			}
 		});
+		
+		Button backBtn = (Button) findViewById(R.id.backbtn);
+		backBtn.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				finish();
+			}
+		});
 	}
 	
 	/**

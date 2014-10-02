@@ -334,7 +334,7 @@ public class FileUtil {
 		try {
 			if (bitmap != null) {
 				baos = new ByteArrayOutputStream();
-				bitmap.compress(Bitmap.CompressFormat.JPEG, 30, baos); //30 压缩�? 100不压�?
+				bitmap.compress(Bitmap.CompressFormat.JPEG, 80, baos); //30 压缩�? 100不压�?
 				baos.flush();
 				baos.close();
 
@@ -372,7 +372,7 @@ public class FileUtil {
 	    try {  
 	        if (bitmap != null) {  
 	            baos = new ByteArrayOutputStream();  
-	            bitmap.compress(Bitmap.CompressFormat.JPEG, 10, baos);  
+	            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);  
 	  
 	            baos.flush();  
 	            baos.close();  

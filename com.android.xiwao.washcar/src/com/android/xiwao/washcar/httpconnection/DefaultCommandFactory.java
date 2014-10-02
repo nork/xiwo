@@ -243,5 +243,13 @@ public class DefaultCommandFactory extends CommandFactory {
 		VIPInfoQuery vipInfoQuery = new VIPInfoQuery();
 		vipInfoQuery.setCustomerId(customerId);
 		return vipInfoQuery;
+	}
+
+	@Override
+	public BaseCommand getLastAddressQuery(long customerId) {
+		// TODO Auto-generated method stub
+		LastAddressQuery lastAddressQuery = new LastAddressQuery();
+		lastAddressQuery.setCustomerId(customerId);
+		return lastAddressQuery;
 	}	
 }

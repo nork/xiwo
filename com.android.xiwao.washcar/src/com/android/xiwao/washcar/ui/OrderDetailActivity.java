@@ -128,6 +128,11 @@ public class OrderDetailActivity extends Activity {
 //				intent.putExtra("order_detail", orderData);
 				intent.putExtra("order_id", orderData.getOrderId());
 				intent.putExtra("order_fee", orderData.getFee());
+				String saleFeeStr = orderData.getSaleFee();
+				saleFeeStr = saleFeeStr.substring(0, saleFeeStr.length() - 2) + "." 
+						+ saleFeeStr.substring(saleFeeStr.length() - 2);
+				intent.putExtra("order_account_fee", saleFeeStr);
+				intent.putExtra("server_type", orderData.getServiceType());
 				startActivityForResult(intent, Constants.PAY_ORDER_RESULT_CODE);
 			}
 		});

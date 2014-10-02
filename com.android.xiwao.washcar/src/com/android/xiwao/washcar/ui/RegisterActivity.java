@@ -442,13 +442,18 @@ public class RegisterActivity extends Activity {
 	 * 注册成功之后的处理
 	 */
 	private void onRegisterSuccess(long userId){		
-    	Intent intent = new Intent(this, MainActivity.class);
-    	mLocalSharePref.setUserName(phoneedt.getText().toString());
-    	mLocalSharePref.setUserPassword(psw01.getText().toString());
-    	mLocalSharePref.setUserId(userId);
-    	mLocalSharePref.setLoginState(true);
-    	startActivity(intent);
-    	ActivityManage.getInstance().exitInError();
+//    	Intent intent = new Intent(this, MainActivity.class);
+//    	mLocalSharePref.setUserName(phoneedt.getText().toString());
+//    	mLocalSharePref.setUserPassword(psw01.getText().toString());
+//    	mLocalSharePref.setUserId(userId);
+//    	mLocalSharePref.setLoginState(true);
+//    	startActivity(intent);
+//    	ActivityManage.getInstance().exitInError();
+		Intent intent = new Intent();
+		intent.putExtra("user_name", phoneedt.getText().toString());
+		intent.putExtra("password", psw02.getText().toString());
+		setResult(RESULT_OK, intent);
+		finish();
     }
 	
 	private CommandExecuter.ResponseHandler mRespHandler = new CommandExecuter.ResponseHandler() {

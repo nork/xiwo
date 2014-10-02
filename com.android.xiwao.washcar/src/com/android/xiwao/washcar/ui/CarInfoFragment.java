@@ -104,7 +104,8 @@ public class CarInfoFragment extends BaseFragment {
 		customerImg = (ImageView) view.findViewById(R.id.custom_img);
 		
 		String userHeadBase64 = mLocalSharePref.getUserHead();
-		if(!userHeadBase64.equals("") && userHeadBase64 != null){
+		if(!userHeadBase64.equals("") && userHeadBase64 != null && !userHeadBase64.equals("null")){
+			AppLog.v("TAG11", userHeadBase64);
 			userHeadBitMap = FileUtil.base64ToBitmap(userHeadBase64);
 			Drawable drawable = new BitmapDrawable(userHeadBitMap);
 			customerImg.setBackgroundDrawable(drawable);
@@ -128,8 +129,10 @@ public class CarInfoFragment extends BaseFragment {
 			refreshInfoList();
 			break;
 		case Constants.REFRESH_HEAD_IMG:
+			mContext = getActivity();
+			mLocalSharePref = new LocalSharePreference(mContext);
 			String userHeadBase64 = mLocalSharePref.getUserHead();
-			if(!userHeadBase64.equals("") && userHeadBase64 != null){
+			if(!userHeadBase64.equals("") && userHeadBase64 != null && !userHeadBase64.equals("null")){
 				userHeadBitMap = FileUtil.base64ToBitmap(userHeadBase64);
 				Drawable drawable = new BitmapDrawable(userHeadBitMap);
 				customerImg.setBackgroundDrawable(drawable);

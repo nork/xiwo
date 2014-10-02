@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.android.xiwao.washcar.ActivityManage;
 import com.android.xiwao.washcar.AppLog;
 import com.android.xiwao.washcar.ClientSession;
+import com.android.xiwao.washcar.Constants;
 import com.android.xiwao.washcar.LocalSharePreference;
 import com.android.xiwao.washcar.R;
 import com.android.xiwao.washcar.XiwaoApplication;
@@ -116,7 +117,7 @@ public class LoginActivity extends Activity {
 				// TODO Auto-generated method stub
 				Intent intent = new Intent(LoginActivity.this,
 						RegisterActivity.class);
-				startActivity(intent);
+				startActivityForResult(intent, Constants.REGISTER_RESULT);
 			}
 		});
 
@@ -282,13 +283,23 @@ public class LoginActivity extends Activity {
 
 		public void handleException(IOException e) {
 			dialogUtils.showToast(getString(R.string.connection_error));
-			onLoginSuccess();
 		}
 
 		public void onEnd() {
 			dialogUtils.dismissProgress();
 		}
 	};
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		// TODO Auto-generated method stub
+		super.onActivityResult(requestCode, resultCode, data);
+		if(requestCode == Constants.REGISTER_RESULT && resultCode == RESULT_OK){
+			String userName = data.getStringExtra("user_name");
+			String password = data.getStringExtra("password");
+			doLogin(userName, password);
+		}
+	}
 
 	@Override
 	protected void onDestroy() {

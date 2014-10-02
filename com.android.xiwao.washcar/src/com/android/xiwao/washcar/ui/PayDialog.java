@@ -67,6 +67,7 @@ public class PayDialog extends Activity{
 	private String fee; //订单原价
 	private String accountFee;//余额支付价格
 	private long orderId;
+	private String serverType;//服务类型
 	private boolean ifPaySuc = false;
 	
 	private static final int RQF_PAY = 1;
@@ -84,6 +85,7 @@ public class PayDialog extends Activity{
 		fee = getIntent().getStringExtra("order_fee");
 		accountFee = getIntent().getStringExtra("order_account_fee");
 		orderId = getIntent().getLongExtra("order_id", 0);
+		serverType = getIntent().getStringExtra("server_type");
 		setContentView(R.layout.pay_dialog);
 		initExecuter();
 		initUtils();
@@ -106,6 +108,10 @@ public class PayDialog extends Activity{
 		TextView accountPayAmt = (TextView) findViewById(R.id.account_pay_amt);
 		alipayAmt.setText(fee);
 		accountPayAmt.setText(accountFee);
+		
+		if(serverType.equals("充值")){
+			accountPayLayout.setVisibility(View.GONE);
+		}
 		sureBtn.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
@@ -168,9 +174,12 @@ public class PayDialog extends Activity{
 				sureBtn.setVisibility(View.VISIBLE);
 				cancelBtn.setVisibility(View.VISIBLE);
 				payMoneyTxt.setVisibility(View.VISIBLE);
-				payMoneyTxt.setText("您的当前余额:  " + accountBalance);
+				String accountBalanceStr = Integer.toString(accountBalance);
+				accountBalanceStr = accountBalanceStr.substring(0, accountBalanceStr.length() - 2) 
+						+ "." + accountBalanceStr.substring(accountBalanceStr.length() - 2);
+				payMoneyTxt.setText("您的当前余额:  " + accountBalanceStr);
 				payWay = 2;
-				int feeInt = Integer.parseInt(fee.split("\\.")[0]);
+				int feeInt = Integer.parseInt(fee.replace(".", ""));
 				if(accountBalance < feeInt){
 					payMoneyTxt.setText("您的当前余额:  " + accountBalance + "\n余额不足\n请充值或者使用其他付款方式");
 //					sureBtn.setVisibility(View.GONE);
@@ -317,7 +326,7 @@ public class PayDialog extends Activity{
 //		String fee = orderData.getFee();
 		
 		BaseCommand carRegister = ClientSession.getInstance().getCmdFactory()
-				.getAccountConsume(mLocalSharePref.getUserId(), Integer.parseInt(accountFee.split("\\.")[0]), orderId);
+				.getAccountConsume(mLocalSharePref.getUserId(), Integer.parseInt(accountFee.replace(".", "")), orderId);
 
 		mExecuter.execute(carRegister, mAccountConsumeRespHandler);
 
@@ -325,7 +334,10 @@ public class PayDialog extends Activity{
 	}
 	public void onAccountConsumeSuccess(int accountInfo, String payMessage){
 		accountBalance = accountInfo;
-		payMoneyTxt.setText(payMessage + "\n您的当前余额:  " + accountBalance);
+		String accountBalanceStr = Integer.toString(accountBalance);
+		accountBalanceStr = accountBalanceStr.substring(0, accountBalanceStr.length() - 2) 
+				+ "." + accountBalanceStr.substring(accountBalanceStr.length() - 2);
+		payMoneyTxt.setText(payMessage + "\n您的当前余额:  " + accountBalanceStr);
 		cancelBtn.setText("知道了");
 		sureBtn.setVisibility(View.GONE);
 		ifPaySuc = true;

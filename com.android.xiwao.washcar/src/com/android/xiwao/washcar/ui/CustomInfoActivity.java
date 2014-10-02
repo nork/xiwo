@@ -158,7 +158,7 @@ public class CustomInfoActivity extends Activity {
 		headImg.setClickable(false);
 		
 		String userHeadBase64 = mLocalSharePref.getUserHead();
-		if(!userHeadBase64.equals("") && userHeadBase64 != null){
+		if(!userHeadBase64.equals("") && userHeadBase64 != null && !userHeadBase64.equals("null")){
 			userHeadBitMap = FileUtil.base64ToBitmap(userHeadBase64);
 			Drawable drawable = new BitmapDrawable(userHeadBitMap);
             headImg.setBackgroundDrawable(drawable);

@@ -109,7 +109,7 @@ public class CarInfoListAdapter extends BaseAdapter{
 		viewHolder.carColor.setText(singleCarInfo.getCarColor());
 		String carPicBase64 = singleCarInfo.getCarPic();
 		try{
-			if(!carPicBase64.equals("") && carPicBase64 != null){
+			if(!carPicBase64.equals("") && carPicBase64 != null && !carPicBase64.equals("null")){
 				Bitmap userHeadBitMap = FileUtil.base64ToBitmap(carPicBase64);
 				Drawable drawable = new BitmapDrawable(userHeadBitMap);
 				viewHolder.carImg.setBackgroundDrawable(drawable);

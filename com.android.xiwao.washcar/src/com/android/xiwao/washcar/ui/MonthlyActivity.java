@@ -69,18 +69,6 @@ public class MonthlyActivity extends Activity{
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		
-		ActivityManage.getInstance().setCurContext(this);
-		ActivityManage.getInstance().addActivity(this);
-		mLocalSharePref = new LocalSharePreference(this);
-		
-		setContentView(R.layout.car_info_list);
-		initExecuter();
-		initUtils();
-		initContentView();
-		setHwView();
-		initAdapter();
-		getCarListData();
 	}
 
 	public void initContentView() {
@@ -98,7 +86,7 @@ public class MonthlyActivity extends Activity{
 		customerImg = (ImageView) findViewById(R.id.custom_img);
 		
 		String userHeadBase64 = mLocalSharePref.getUserHead();
-		if(!userHeadBase64.equals("") && userHeadBase64 != null){
+		if(!userHeadBase64.equals("") && userHeadBase64 != null && !userHeadBase64.equals("null")){
 			Bitmap userHeadBitMap = FileUtil.base64ToBitmap(userHeadBase64);
 			Drawable drawable = new BitmapDrawable(userHeadBitMap);
 			customerImg.setBackgroundDrawable(drawable);
@@ -168,13 +156,13 @@ public class MonthlyActivity extends Activity{
 	 */
 	private void fetchList() {
 //		monthlyCarDataList.remove(1);
-//		if(monthlyCarDataList.size() == 1){
-//			Intent intent = new Intent(mContext, MonthlyDetailActivity.class);
-//			intent.putExtra("service_type", 0);
-//			intent.putExtra("choice_monthly_car", (Parcelable)monthlyCarDataList.get(0));
-//			startActivity(intent);
-//			finish();
-//		}
+		if(monthlyCarDataList.size() == 1){
+			Intent intent = new Intent(mContext, MonthlyDetailActivity.class);
+			intent.putExtra("service_type", 0);
+			intent.putExtra("choice_monthly_car", (Parcelable)monthlyCarDataList.get(0));
+			startActivity(intent);
+			finish();
+		}
 		carInfoListAdapter.addBriefs(monthlyCarDataList);
 	}
 
@@ -272,5 +260,15 @@ public class MonthlyActivity extends Activity{
 		// TODO Auto-generated method stub
 		super.onResume();
 		ActivityManage.getInstance().setCurContext(this);
+		ActivityManage.getInstance().addActivity(this);
+		mLocalSharePref = new LocalSharePreference(this);
+		
+		setContentView(R.layout.car_info_list);
+		initExecuter();
+		initUtils();
+		initContentView();
+		setHwView();
+		initAdapter();
+		getCarListData();
 	}
 }

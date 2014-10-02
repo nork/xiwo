@@ -104,7 +104,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:text="@string/transaction_amount"
+                android:text="订单价格"
                 android:textColor="@android:color/black" />
 
             <TextView
@@ -128,7 +128,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:text="余额支付价格"
+                android:text="账户支付价格"
                 android:textColor="@android:color/black" />
 
             <TextView

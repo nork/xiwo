@@ -103,6 +103,7 @@ public class PayDetailActivity extends Activity {
 				intent.putExtra("order_id", orderId);
 				intent.putExtra("order_fee", feeStr);
 				intent.putExtra("order_account_fee", saleFeeStr);
+				intent.putExtra("server_type", getIntent().getStringExtra("server_type"));
 				startActivityForResult(intent, Constants.PAY_ORDER_RESULT_CODE);
 			}
 		});

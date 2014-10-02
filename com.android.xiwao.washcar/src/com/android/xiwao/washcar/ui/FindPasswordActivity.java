@@ -248,7 +248,7 @@ public class FindPasswordActivity extends Activity {
 					return;
 				}
 				
-				 findPsw(code, phonenumber, EncryDecryUtils.str2Md5(psw2));
+				 findPsw(codestr, phonenumber, EncryDecryUtils.str2Md5(psw2));
 			}
 		});
 
@@ -259,7 +259,7 @@ public class FindPasswordActivity extends Activity {
 	 * @param identifyCode 获取到的验证码
 	 */
 	private void onGetCodeSuccess(String identifyCode){
-		code = identifyCode;
+//		code = identifyCode;
 		gotoResetview();
 		dialogUtils.dismissProgress();
 	}

@@ -106,7 +106,7 @@ public class RechargeActivity extends Activity {
 		nickName.setText("昵称：" + mLocalSharePref.getNickName());
 		phone.setText("我的手机：" + mLocalSharePref.getUserName());
 		String userHeadBase64 = mLocalSharePref.getUserHead();
-		if(!userHeadBase64.equals("") && userHeadBase64 != null){
+		if(!userHeadBase64.equals("") && userHeadBase64 != null && !userHeadBase64.equals("null")){
 			userHeadBitMap = FileUtil.base64ToBitmap(userHeadBase64);
 			Drawable drawable = new BitmapDrawable(userHeadBitMap);
 			userHeadImg.setBackgroundDrawable(drawable);
@@ -158,7 +158,7 @@ public class RechargeActivity extends Activity {
 	public void onPlaceOrderSuccess(int saleFee, long orderId){
 		try {	
 			Log.i("ExternalPartner", "onItemClick");
-			String info = getNewOrderInfo();
+			String info = getNewOrderInfo(orderId);
 			String sign = Rsa.sign(info, Keys.PRIVATE);
 			sign = URLEncoder.encode(sign);
 			info += "&sign=\"" + sign + "\"&" + getSignType();
@@ -183,7 +183,7 @@ public class RechargeActivity extends Activity {
 		}
 	}
 	
-	private String getNewOrderInfo() {
+	private String getNewOrderInfo(long orderId) {
 		StringBuilder sb = new StringBuilder();
 		sb.append("partner=\"");
 		sb.append(Keys.DEFAULT_PARTNER);
@@ -265,7 +265,10 @@ public class RechargeActivity extends Activity {
 	}
 
 	public void onAccountQuerySuccess(long accountInfo) {
-		curMoney.setText("账户金额：" + Long.toString(accountInfo) + "元");
+		String accountStr = Long.toString(accountInfo);
+		accountStr = accountStr.substring(0, accountStr.length() - 2) 
+				+ "." + accountStr.substring(accountStr.length() - 2);
+		curMoney.setText("账户金额：" + accountStr + "元");
 	}
 
 	/**
@@ -364,6 +367,7 @@ public class RechargeActivity extends Activity {
 				if(result.resultCode.equals("9000")){
 					message += "账户充值成功！您可到客户信息中查询！";
 					dialogUtils.showToast(message);
+					getBalance();
 				}else{
 					dialogUtils.showToast(message);
 				}			

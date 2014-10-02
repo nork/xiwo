@@ -96,7 +96,7 @@ public class CarInfoActivity extends Activity{
 		customerImg = (ImageView) findViewById(R.id.custom_img);
 		
 		String userHeadBase64 = mLocalSharePref.getUserHead();
-		if(!userHeadBase64.equals("") && userHeadBase64 != null){
+		if(!userHeadBase64.equals("") && userHeadBase64 != null && !userHeadBase64.equals("null")){
 			Bitmap userHeadBitMap = FileUtil.base64ToBitmap(userHeadBase64);
 			Drawable drawable = new BitmapDrawable(userHeadBitMap);
 			customerImg.setBackgroundDrawable(drawable);

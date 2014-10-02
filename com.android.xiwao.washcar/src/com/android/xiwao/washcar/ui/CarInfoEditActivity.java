@@ -35,6 +35,7 @@ import com.android.xiwao.washcar.data.FeeData;
 import com.android.xiwao.washcar.httpconnection.BaseCommand;
 import com.android.xiwao.washcar.httpconnection.BaseResponse;
 import com.android.xiwao.washcar.httpconnection.CommandExecuter;
+import com.android.xiwao.washcar.httpconnection.LastAddressQuery;
 import com.android.xiwao.washcar.httpconnection.PlaceOrder;
 import com.android.xiwao.washcar.httpconnection.RateQuery;
 import com.android.xiwao.washcar.utils.DialogUtils;
@@ -103,7 +104,9 @@ public class CarInfoEditActivity extends Activity {
 		}
 		setPriceView();
 		setDisView();
-//		((XiwaoApplication)getApplication()).setIfNeedRefreshOrder(true);
+		if(position != 2){
+			getLastAddress();
+		}
 	}
 
 	public void initContentView() {
@@ -405,6 +408,7 @@ public class CarInfoEditActivity extends Activity {
 			RateQuery.Response rateQueryRsp = (RateQuery.Response) rsp;
 			if (rateQueryRsp.responseType.equals("N")) {
 				MainActivity.feeDataList = rateQueryRsp.briefs;
+				setPriceView();
 			} else {
 				dialogUtils.showToast(rateQueryRsp.errorMessage);
 			}
@@ -425,7 +429,56 @@ public class CarInfoEditActivity extends Activity {
 			dialogUtils.dismissProgress();
 		}
 	};
+	/**
+	 * 查询上一次洗车记录
+	 */
+	public void getLastAddress(){
+		BaseCommand login = ClientSession.getInstance().getCmdFactory()
+				.getLastAddressQuery(mLocalSharePref.getUserId());
+
+		mExecuter.execute(login, mRespLastAddressHandler);
+		dialogUtils.showProgress();
+	}
 	
+	/**
+	 * 处理服务器返回的查询结果
+	 * @param rsp 服务返回的登录信息
+	 */
+	private void onReceiveLastAddressResponse(BaseResponse rsp) {
+
+		if (!rsp.isOK()) {
+			String error = getString(R.string.protocol_error) + "(" + rsp.errno
+					+ ")";
+			dialogUtils.showToast(error);
+		} else {
+			LastAddressQuery.Response lastAddressQuery = (LastAddressQuery.Response) rsp;
+			if (lastAddressQuery.responseType.equals("N")) {
+				carNumEdt.setText(lastAddressQuery.carCode);
+				websitEdt.setText(lastAddressQuery.address);
+				choiceCar.setCarCode(lastAddressQuery.carCode);
+				choiceCar.setCarId(lastAddressQuery.carId);
+				choiceAddress.setAddressDetail(lastAddressQuery.address);
+				choiceAddress.setAddressId(lastAddressQuery.addressId);
+			} else {
+				dialogUtils.showToast(lastAddressQuery.errorMessage);
+			}
+		}
+	}
+	
+	private CommandExecuter.ResponseHandler mRespLastAddressHandler = new CommandExecuter.ResponseHandler() {
+
+		public void handleResponse(BaseResponse rsp) {
+			onReceiveLastAddressResponse(rsp);
+		}
+
+		public void handleException(IOException e) {
+			dialogUtils.showToast(getString(R.string.connection_error));
+		}
+
+		public void onEnd() {
+			dialogUtils.dismissProgress();
+		}
+	};
 	/**
 	 * 初始化需要的工具
 	 */

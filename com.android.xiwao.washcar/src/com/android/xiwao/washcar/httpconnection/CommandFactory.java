@@ -26,4 +26,5 @@ public abstract class CommandFactory {
 	public abstract BaseCommand getRateQuery();
 	public abstract BaseCommand updateOrderStateCancel(int orderId);
 	public abstract BaseCommand getVIPInfoQuery(long customerId);
+	public abstract BaseCommand getLastAddressQuery(long customerId);
 }
