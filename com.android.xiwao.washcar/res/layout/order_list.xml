@@ -45,15 +45,26 @@
         android:background="@drawable/order_btn_group_bg"
         android:gravity="center_horizontal"
         android:orientation="horizontal" >
+        
+        <Button
+            android:id="@+id/closed_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_margin="1dp"
+            android:layout_weight="1"
+            android:background="@drawable/paidbtn_bg"  
+            android:text="全部订单"
+            android:textColor="@color/order_btn_textcolor_selector" 
+            />
 
         <Button
             android:id="@+id/wait_pay_btn"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:layout_margin="1dp"
-            android:layout_weight="1"
-            android:background="@drawable/paidbtn_bg"         
+            android:layout_weight="1"       
             android:text="@string/wait_pay"
+            android:background="@drawable/wait_pay_btn_bg"
             android:textColor="@color/order_btn_textcolor_selector" />
 
         <Button
@@ -77,16 +88,6 @@
             android:textColor="@color/order_btn_textcolor_selector" 
             />
 
-        <Button
-            android:id="@+id/closed_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:layout_margin="1dp"
-            android:layout_weight="1"
-            android:background="@drawable/closed_btn_bg"
-            android:text="@string/closed"
-            android:textColor="@color/order_btn_textcolor_selector" 
-            android:visibility="gone"/>
     </LinearLayout>
 
     <RelativeLayout

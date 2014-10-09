@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -34,6 +35,8 @@ import com.android.xiwao.washcar.httpconnection.BaseCommand;
 import com.android.xiwao.washcar.httpconnection.BaseResponse;
 import com.android.xiwao.washcar.httpconnection.CommandExecuter;
 import com.android.xiwao.washcar.httpconnection.RateQuery;
+import com.android.xiwao.washcar.httpconnection.VIPInfoQuery;
+import com.android.xiwao.washcar.utils.DialogUtils;
 import com.android.xiwao.washcar.utils.FragmentUtils;
 
 public class MainActivity extends FragmentActivity{
@@ -50,6 +53,9 @@ public class MainActivity extends FragmentActivity{
 	private Handler mHandler;
 	private CommandExecuter mExecuter;
 	private LocalSharePreference mLocalSharePref;
+	
+	// 工具
+//	private DialogUtils dialogUtils;
 	
 	public static List<FeeData> feeDataList = new ArrayList<FeeData>();
 	private long mExitTime;
@@ -72,8 +78,9 @@ public class MainActivity extends FragmentActivity{
         initExecuter();
         rateQuery();
         if(mLocalSharePref.getUserType().equals("01") && mLocalSharePref.getLoginState()){
-        	Intent intent = new Intent(this, MonthlyActivity.class);
-			startActivity(intent);
+//        	Intent intent = new Intent(this, MonthlyActivity.class);
+//			startActivity(intent);
+        	getCarListData();
         }
     }
     
@@ -227,6 +234,62 @@ public class MainActivity extends FragmentActivity{
 //			dialogUtils.dismissProgress();
 		}
 	};
+	
+	/**
+	 * 处理服务器返回的登录结果
+	 * @param rsp 服务返回的登录信息
+	 */
+	private void onReceiveCarListResponse(BaseResponse rsp) {
+
+		if (!rsp.isOK()) {
+			String error = getString(R.string.protocol_error) + "(" + rsp.errno
+					+ ")";
+//			dialogUtils.showToast(error);
+		} else {
+			VIPInfoQuery.Response vipInfoQuery = (VIPInfoQuery.Response) rsp;
+			if (vipInfoQuery.responseType.equals("N")) {
+//				monthlyCarDataList = vipInfoQuery.monthlyCarDataList;
+				if(vipInfoQuery.monthlyCarDataList.size() == 1){
+					Intent intent = new Intent(this, MonthlyDetailActivity.class);
+					intent.putExtra("service_type", 0);
+					intent.putExtra("choice_monthly_car", (Parcelable)vipInfoQuery.monthlyCarDataList.get(0));
+					startActivity(intent);
+				}else{
+					Intent intent = new Intent(this, MonthlyActivity.class);
+					startActivity(intent);
+				}
+			} else {
+//				dialogUtils.showToast(vipInfoQuery.errorMessage);
+			}
+//			fetchList();
+		}
+//		dialogUtils.dismissProgress();
+	}
+	
+	private CommandExecuter.ResponseHandler mRespMonthlyCarHandler = new CommandExecuter.ResponseHandler() {
+
+		public void handleResponse(BaseResponse rsp) {
+			onReceiveCarListResponse(rsp);
+		}
+
+		public void handleException(IOException e) {
+//			dialogUtils.showToast(getString(R.string.connection_error));
+//			fetchList();
+		}
+
+		public void onEnd() {
+//			dialogUtils.dismissProgress();
+		}
+	};
+	
+	private void getCarListData(){
+		BaseCommand login = ClientSession.getInstance().getCmdFactory()
+				.getVIPInfoQuery(mLocalSharePref.getUserId());
+
+		mExecuter.execute(login, mRespMonthlyCarHandler);
+
+//		dialogUtils.showProgress();
+	}
 	
 	private void initExecuter() {
 

@@ -116,13 +116,14 @@
                 />
         </TableRow>
         
-        <TableRow 
+        <TableRow android:id="@+id/sale_fee_row"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="1dp"
             android:background="@color/white"
             android:paddingBottom="10dp"
-            android:paddingTop="10dp" >
+            android:paddingTop="10dp" 
+            >
 
             <TextView android:id="@+id/sale_fee_title"
                 android:layout_width="wrap_content"

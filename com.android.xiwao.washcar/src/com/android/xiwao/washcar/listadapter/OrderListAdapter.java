@@ -87,6 +87,8 @@ public class OrderListAdapter extends BaseAdapter{
 			orderState = "服务中";
 		}else if(orderState.equals("04")){
 			orderState = "交易完成";
+		}else if(orderState.equals("05")){
+			orderState = "已取消";
 		}
 		viewHolder.payState.setText(orderState);
 		viewHolder.orderDate.setText(singleOrderData.getCreateTime().substring(0, 10));

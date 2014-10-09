@@ -160,19 +160,6 @@ public class MonthlyCarInfoListAdapter extends BaseAdapter{
 	        viewHolder.itemRightWash.setLayoutParams(lp2);
 	        viewHolder.itemRightWash.setVisibility(View.GONE);
 		}
-		
-		viewHolder.money.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View arg0) {
-				// TODO Auto-generated method stub
-				Intent i = new Intent(mContext, ModifyCarActivity.class);
-				Bundle bundle = new Bundle();
-				bundle.putParcelable(Constants.CAR_INFO_SEND, mList.get(pos));
-				i.putExtras(bundle);
-				((Activity)mContext).startActivityForResult(i, Constants.MODIFY_CAR_RESULT_CODE);
-			}
-		});
         
         viewHolder.itemRightDelete.setOnClickListener(new OnClickListener() {
             @Override

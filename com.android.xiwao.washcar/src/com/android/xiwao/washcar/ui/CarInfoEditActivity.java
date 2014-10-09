@@ -39,6 +39,7 @@ import com.android.xiwao.washcar.httpconnection.LastAddressQuery;
 import com.android.xiwao.washcar.httpconnection.PlaceOrder;
 import com.android.xiwao.washcar.httpconnection.RateQuery;
 import com.android.xiwao.washcar.utils.DialogUtils;
+import com.android.xiwao.washcar.utils.StringUtils;
 
 public class CarInfoEditActivity extends Activity {
 	private final static String TAG = "CarInfoEditActivity";
@@ -209,9 +210,9 @@ public class CarInfoEditActivity extends Activity {
 					v.setSelected(true);
 					priceCount += cleanInPrice;
 				}
-				String priceStr = Integer.toString(priceCount);
+				String priceStr = StringUtils.getPriceStr(priceCount);//Integer.toString(priceCount);
 				try{
-					price.setText(priceStr.subSequence(0, priceStr.length() - 2) + "." + priceStr.substring(priceStr.length() - 2));
+					price.setText(priceStr);
 				}catch(Exception e){
 					e.printStackTrace();
 				}
@@ -253,9 +254,9 @@ public class CarInfoEditActivity extends Activity {
 					monthTimeEdt.setText(Integer.toString(monthTime));
 					dialogUtils.showToast("包月次数只能在1-12之间");
 				}
-				String priceStr = Integer.toString(priceCount * monthTime);
+				String priceStr = StringUtils.getPriceStr(priceCount * monthTime);//Integer.toString(priceCount * monthTime);
 				try{
-					price.setText(priceStr.subSequence(0, priceStr.length() - 2) + "." + priceStr.substring(priceStr.length() - 2));
+					price.setText(priceStr);
 				}catch(Exception e){
 					e.printStackTrace();
 				}
@@ -457,6 +458,9 @@ public class CarInfoEditActivity extends Activity {
 				websitEdt.setText(lastAddressQuery.address);
 				choiceCar.setCarCode(lastAddressQuery.carCode);
 				choiceCar.setCarId(lastAddressQuery.carId);
+				if(choiceAddress == null){
+					choiceAddress = new AddressData();
+				}
 				choiceAddress.setAddressDetail(lastAddressQuery.address);
 				choiceAddress.setAddressId(lastAddressQuery.addressId);
 			} else {
@@ -585,9 +589,9 @@ public class CarInfoEditActivity extends Activity {
 				}
 			}
 		}
-		String priceStr = Integer.toString(priceCount);
+		String priceStr = StringUtils.getPriceStr(priceCount);//Integer.toString(priceCount);
 		try{
-			price.setText(priceStr.subSequence(0, priceStr.length() - 2) + "." + priceStr.substring(priceStr.length() - 2));
+			price.setText(priceStr);
 		}catch(Exception e){
 			e.printStackTrace();
 		}
@@ -646,6 +650,9 @@ public class CarInfoEditActivity extends Activity {
 	}
 
 	private void getAddrCarInfo(){
+//		if(choiceAddress == null){
+//			choiceAddress = new AddressData();
+//		}
 		if(choiceCar != null){
 			return;
 		}

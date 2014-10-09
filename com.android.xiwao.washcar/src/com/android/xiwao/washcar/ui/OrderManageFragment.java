@@ -74,7 +74,7 @@ public class OrderManageFragment extends BaseFragment {
 	private CommandExecuter mExecuter;
 	
 	private String orderClass;
-	private int curOrderClass;	//当前选中的订单类型  0 已支付 1 未支付 2 交易完成 3交易关闭
+	private int curOrderClass;	//当前选中的订单类型  0 已支付 1 未支付 2 交易完成 3全部
 	private boolean ifNeedShowProg; //是否需要显示滚动条
 	private int pagePaid = 0;	//已支付订单列表当前页数
 	private int countPagePaid = 0;	//已支付订单列表总页数
@@ -97,8 +97,7 @@ public class OrderManageFragment extends BaseFragment {
 		initContentView();
 		initAdapter();
 		setHwView();
-		curOrderClass = 1;
-		orderClass = "01";
+		curOrderClass = 3;
 		getOrderListData();
 		return view;
 	}
@@ -119,8 +118,8 @@ public class OrderManageFragment extends BaseFragment {
 
 		setListViewOnEvent();
 		title.setText(getString(R.string.order_manage)); 	
-		setSelected(waitPayBtn);//初次加载时已经支付按钮默认选中
-		setListDisplay(waitListView);
+		setSelected(closedBtn);//初次加载时已经支付按钮默认选中
+		setListDisplay(closeListView);
 		paidBtn.setOnClickListener(new View.OnClickListener() {
 
 			@Override
@@ -293,21 +292,11 @@ public class OrderManageFragment extends BaseFragment {
 	 */
 	private void setListDisplay(PullToRefreshListView view){	
 		LinearLayout.LayoutParams listParams = new LinearLayout.LayoutParams(0, 0);
-		switch(curOrderClass){
-		case 0:
-			paidListView.setLayoutParams(listParams);
-			break;
-		case 1:
-			waitListView.setLayoutParams(listParams);
-			break;
-		case 2:
-			doneListView.setLayoutParams(listParams);
-			break;
-		case 3:
-			closeListView.setLayoutParams(listParams);
-			break;
-		}
-		
+		paidListView.setLayoutParams(listParams);
+		waitListView.setLayoutParams(listParams);
+		doneListView.setLayoutParams(listParams);
+		closeListView.setLayoutParams(listParams);
+
 		listParams = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
 		view.setLayoutParams(listParams);
 	}
@@ -358,7 +347,7 @@ public class OrderManageFragment extends BaseFragment {
 			page = pageDone;
 			break;
 		case 3:
-			orderClass = "04";
+			orderClass = "";
 			page = pageClose;
 			break;
 		}

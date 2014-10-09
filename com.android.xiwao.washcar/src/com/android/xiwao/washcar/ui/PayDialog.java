@@ -38,6 +38,7 @@ import com.android.xiwao.washcar.httpconnection.BaseResponse;
 import com.android.xiwao.washcar.httpconnection.CommandExecuter;
 import com.android.xiwao.washcar.httpconnection.CustomActivityQuery;
 import com.android.xiwao.washcar.utils.DialogUtils;
+import com.android.xiwao.washcar.utils.StringUtils;
 
 public class PayDialog extends Activity{
 	private static final String TAG = "PayDialog";
@@ -174,14 +175,20 @@ public class PayDialog extends Activity{
 				sureBtn.setVisibility(View.VISIBLE);
 				cancelBtn.setVisibility(View.VISIBLE);
 				payMoneyTxt.setVisibility(View.VISIBLE);
-				String accountBalanceStr = Integer.toString(accountBalance);
-				accountBalanceStr = accountBalanceStr.substring(0, accountBalanceStr.length() - 2) 
-						+ "." + accountBalanceStr.substring(accountBalanceStr.length() - 2);
+//				String accountBalanceStr = Integer.toString(accountBalance);
+				String accountBalanceStr = StringUtils.getPriceStr(accountBalance);
+//				try{
+//				accountBalanceStr = accountBalanceStr.substring(0, accountBalanceStr.length() - 2) 
+//						+ "." + accountBalanceStr.substring(accountBalanceStr.length() - 2);
+//				}catch(Exception e){
+//					accountBalanceStr = accountBalanceStr + ".00";
+//					e.printStackTrace();
+//				}
 				payMoneyTxt.setText("您的当前余额:  " + accountBalanceStr);
 				payWay = 2;
 				int feeInt = Integer.parseInt(fee.replace(".", ""));
 				if(accountBalance < feeInt){
-					payMoneyTxt.setText("您的当前余额:  " + accountBalance + "\n余额不足\n请充值或者使用其他付款方式");
+					payMoneyTxt.setText("您的当前余额:  " + accountBalanceStr + "\n余额不足\n请充值或者使用其他付款方式");
 //					sureBtn.setVisibility(View.GONE);
 					sureBtn.setText("充值");
 				}
@@ -334,9 +341,9 @@ public class PayDialog extends Activity{
 	}
 	public void onAccountConsumeSuccess(int accountInfo, String payMessage){
 		accountBalance = accountInfo;
-		String accountBalanceStr = Integer.toString(accountBalance);
-		accountBalanceStr = accountBalanceStr.substring(0, accountBalanceStr.length() - 2) 
-				+ "." + accountBalanceStr.substring(accountBalanceStr.length() - 2);
+		String accountBalanceStr = StringUtils.getPriceStr(accountBalance);//Integer.toString(accountBalance);
+//		accountBalanceStr = accountBalanceStr.substring(0, accountBalanceStr.length() - 2) 
+//				+ "." + accountBalanceStr.substring(accountBalanceStr.length() - 2);
 		payMoneyTxt.setText(payMessage + "\n您的当前余额:  " + accountBalanceStr);
 		cancelBtn.setText("知道了");
 		sureBtn.setVisibility(View.GONE);
@@ -517,6 +524,9 @@ public class PayDialog extends Activity{
 	public void finish() {
 		// TODO Auto-generated method stub
 		if(ifPaySuc){
+			if(serverType.equals("包月")){
+				mLocalSharePref.setUserType("01");
+			}
 			AppLog.v(TAG, "付款成功");
 			setResult(RESULT_OK);
 //			((XiwaoApplication)getApplication()).setIfNeedRefreshOrder(true);

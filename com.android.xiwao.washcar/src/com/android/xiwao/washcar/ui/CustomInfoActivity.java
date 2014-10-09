@@ -38,6 +38,7 @@ import com.android.xiwao.washcar.httpconnection.CommandExecuter;
 import com.android.xiwao.washcar.httpconnection.CustomerModify;
 import com.android.xiwao.washcar.utils.DialogUtils;
 import com.android.xiwao.washcar.utils.FileUtil;
+import com.android.xiwao.washcar.utils.StringUtils;
 
 @SuppressLint("NewApi")
 public class CustomInfoActivity extends Activity {
@@ -248,10 +249,12 @@ public class CustomInfoActivity extends Activity {
 	
 	public void onAccountQuerySuccess(long accountInfo){
 		accountBalance = (int) accountInfo;
-		String accountMoneyStr = Integer.toString(accountBalance);
+//		String accountMoneyStr = Integer.toString(accountBalance);
+		String accountMoneyStr = StringUtils.getPriceStr(accountBalance);
 		if(accountBalance > 0){
-			accountMoneyTxt.setText(accountMoneyStr.substring(0, accountMoneyStr.length() - 2)
-					+ "." + accountMoneyStr.substring(accountMoneyStr.length() - 2));
+//			accountMoneyTxt.setText(accountMoneyStr.substring(0, accountMoneyStr.length() - 2)
+//					+ "." + accountMoneyStr.substring(accountMoneyStr.length() - 2));
+			accountMoneyTxt.setText(accountMoneyStr);
 		}
 	}
 	

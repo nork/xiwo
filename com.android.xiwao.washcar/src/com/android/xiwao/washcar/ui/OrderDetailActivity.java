@@ -159,7 +159,6 @@ public class OrderDetailActivity extends Activity {
 
 	private void fetchOrderData(){
 		orderId.setText(Long.toString(orderData.getOrderId()));
-		transactionAmount.setText(orderData.getFee());
 		serviceType.setText(orderData.getServiceType());
 		carNum.setText(orderData.getCarCode());
 		phone.setText(orderData.getMobileNum());
@@ -183,9 +182,14 @@ public class OrderDetailActivity extends Activity {
 			bottomStatePart.setVisibility(View.GONE);
 			payTimeRow.setVisibility(View.GONE);
 			doneTimeRow.setVisibility(View.GONE);
+			TableRow saleFeeRow = (TableRow) findViewById(R.id.sale_fee_row);
+			saleFeeRow.setVisibility(View.GONE);
 			String saleFeeStr = orderData.getSaleFee();
 			saleFeeStr = saleFeeStr.substring(0, saleFeeStr.length() - 2) + "." + saleFeeStr.substring(saleFeeStr.length() - 2);
-			saleFee.setText(saleFeeStr);
+			transactionAmount.setText(orderData.getFee() + "      账户支付价格    " + saleFeeStr);
+//			String saleFeeStr = orderData.getSaleFee();
+//			saleFeeStr = saleFeeStr.substring(0, saleFeeStr.length() - 2) + "." + saleFeeStr.substring(saleFeeStr.length() - 2);
+//			saleFee.setText(saleFeeStr);
 		}else if(orderStateStr.equals("02")){
 			orderStateStr = "已支付";
 			buttonGroup.setBackgroundResource(R.color.white);
@@ -198,6 +202,8 @@ public class OrderDetailActivity extends Activity {
 			remindTitle.setVisibility(View.GONE);
 			saleFeeTitle.setText("支付方式");
 			saleFee.setText(orderData.getPayType());
+
+			transactionAmount.setText(orderData.getFee());
 		}else if(orderStateStr.equals("03")){
 			orderStateStr = "服务中";
 			buttonGroup.setBackgroundResource(R.color.background);
@@ -209,6 +215,8 @@ public class OrderDetailActivity extends Activity {
 			remindTitle.setVisibility(View.GONE);
 			saleFeeTitle.setText("支付方式");
 			saleFee.setText(orderData.getPayType());
+			
+			transactionAmount.setText(orderData.getFee());
 		}else if(orderStateStr.equals("04")){
 			orderStateStr = "已完成";
 			buttonGroup.setBackgroundResource(R.color.background);
@@ -220,6 +228,16 @@ public class OrderDetailActivity extends Activity {
 			remindTitle.setVisibility(View.GONE);
 			saleFeeTitle.setText("支付方式");
 			saleFee.setText(orderData.getPayType());
+			transactionAmount.setText(orderData.getFee());
+		}else if(orderStateStr.equals("05")){
+			orderStateStr = "已取消";
+			payNowBtn.setVisibility(View.GONE);
+			cannelOrderBtn.setVisibility(View.GONE);
+			bottomStatePart.setVisibility(View.GONE);
+			payTimeRow.setVisibility(View.GONE);
+			doneTimeRow.setVisibility(View.GONE);
+			remindTitle.setVisibility(View.GONE);
+			transactionAmount.setText(orderData.getFee());
 		}
 		orderState.setText(orderStateStr);
 		quantity.setText(orderData.getQuantity() + "");

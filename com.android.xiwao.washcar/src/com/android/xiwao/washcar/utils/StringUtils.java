@@ -1,5 +1,9 @@
 package com.android.xiwao.washcar.utils;
 
+import java.text.DecimalFormat;
+
+import com.android.xiwao.washcar.AppLog;
+
 public class StringUtils {
 	public static boolean isChinese(char a) {
 		int v = (int) a;
@@ -14,5 +18,16 @@ public class StringUtils {
 				return true;
 		}
 		return false;
+	}
+	
+	public static String getPriceStr(int price){
+		DecimalFormat df = new DecimalFormat("###.00");
+		double priceDouble = ((double)price) / 100;
+		String priceStr = df.format(priceDouble);
+		AppLog.v("TAG", "¼Û¸ñ×Ö´®£º" + priceStr);
+		if(priceDouble < 1){
+			priceStr = "0" + priceStr; 
+		}
+		return priceStr;
 	}
 }

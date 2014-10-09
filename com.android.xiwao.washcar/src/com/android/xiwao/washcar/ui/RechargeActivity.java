@@ -37,6 +37,7 @@ import com.android.xiwao.washcar.httpconnection.CommandExecuter;
 import com.android.xiwao.washcar.httpconnection.PlaceOrder;
 import com.android.xiwao.washcar.utils.DialogUtils;
 import com.android.xiwao.washcar.utils.FileUtil;
+import com.android.xiwao.washcar.utils.StringUtils;
 
 public class RechargeActivity extends Activity {
 
@@ -156,6 +157,7 @@ public class RechargeActivity extends Activity {
 	}
 	
 	public void onPlaceOrderSuccess(int saleFee, long orderId){
+		((XiwaoApplication)getApplication()).setIfNeedRefreshOrder(true);
 		try {	
 			Log.i("ExternalPartner", "onItemClick");
 			String info = getNewOrderInfo(orderId);
@@ -265,9 +267,9 @@ public class RechargeActivity extends Activity {
 	}
 
 	public void onAccountQuerySuccess(long accountInfo) {
-		String accountStr = Long.toString(accountInfo);
-		accountStr = accountStr.substring(0, accountStr.length() - 2) 
-				+ "." + accountStr.substring(accountStr.length() - 2);
+		String accountStr = StringUtils.getPriceStr((int)accountInfo);//Long.toString(accountInfo);
+//		accountStr = accountStr.substring(0, accountStr.length() - 2) 
+//				+ "." + accountStr.substring(accountStr.length() - 2);
 		curMoney.setText("ÕË»§½ð¶î£º" + accountStr + "Ôª");
 	}
 

@@ -33,6 +33,7 @@ import com.android.xiwao.washcar.httpconnection.BaseResponse;
 import com.android.xiwao.washcar.httpconnection.CommandExecuter;
 import com.android.xiwao.washcar.httpconnection.UpdateOrderStateCancel;
 import com.android.xiwao.washcar.utils.DialogUtils;
+import com.android.xiwao.washcar.utils.StringUtils;
 
 public class PayDetailActivity extends Activity {
 
@@ -90,9 +91,9 @@ public class PayDetailActivity extends Activity {
 		agreebtn = (Button) view.findViewById(R.id.agreebtn);
 		agreebtn.setSelected(true); // 默认选中
 
-		String feeStr = Integer.toString(fee / 100) + ".00";
-		saleFeeStr = Integer.toString(saleFee);
-		saleFeeStr = saleFeeStr.substring(0, saleFeeStr.length() - 2) + "." + saleFeeStr.substring(saleFeeStr.length() - 2);
+		String feeStr = StringUtils.getPriceStr(fee);//Integer.toString(fee / 100) + ".00";
+		saleFeeStr = StringUtils.getPriceStr(saleFee);//Integer.toString(saleFee);
+//		saleFeeStr = saleFeeStr.substring(0, saleFeeStr.length() - 2) + "." + saleFeeStr.substring(saleFeeStr.length() - 2);
 		payNowBtn.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
@@ -140,7 +141,7 @@ public class PayDetailActivity extends Activity {
 		carNum.setText(getIntent().getStringExtra("car_code"));
 		webCenter.setText(getIntent().getStringExtra("address"));
 		phone.setText(getIntent().getStringExtra("phone"));
-		fee.setText(feeStr);
+		fee.setText(feeStr + "    账户支付价格    " + saleFeeStr);
 	
 		accountPayAmt.setText(saleFeeStr);
 		if(getIntent().getStringExtra("server_type").equals("包月")){

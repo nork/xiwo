@@ -13,6 +13,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
@@ -44,6 +45,7 @@ import com.android.xiwao.washcar.utils.FileUtil;
  *
  */
 public class MonthlyActivity extends Activity{
+	private View listView;//列表界面
 	private Context mContext;
 	private SwipeListView carList;
 	private ImageView customerImg;
@@ -71,19 +73,22 @@ public class MonthlyActivity extends Activity{
 		super.onCreate(savedInstanceState);
 	}
 
-	public void initContentView() {
+	/**
+	 * 初始化包月列表界面控件
+	 */
+	public void initListContentView() {
 		// TODO Auto-generated method stub
 		mContext = this;
-		carList = (SwipeListView) findViewById(R.id.car_list);
+		carList = (SwipeListView) listView.findViewById(R.id.car_list);
 		carList.setRightViewWidth(0);	//设置列表删除键宽度
-		backBtn = (Button) findViewById(R.id.backbtn);
+		backBtn = (Button) listView.findViewById(R.id.backbtn);
 		backBtn.setVisibility(View.VISIBLE);
-		title = (TextView) findViewById(R.id.title);
+		title = (TextView) listView.findViewById(R.id.title);
 		title.setText("包月信息");
-		TextView carInfoTitle = (TextView) findViewById(R.id.car_info_title);
+		TextView carInfoTitle = (TextView) listView.findViewById(R.id.car_info_title);
 		carInfoTitle.setText(mLocalSharePref.getNickName() + getString(R.string.monthly_info_title));
 		
-		customerImg = (ImageView) findViewById(R.id.custom_img);
+		customerImg = (ImageView) listView.findViewById(R.id.custom_img);
 		
 		String userHeadBase64 = mLocalSharePref.getUserHead();
 		if(!userHeadBase64.equals("") && userHeadBase64 != null && !userHeadBase64.equals("null")){
@@ -131,7 +136,7 @@ public class MonthlyActivity extends Activity{
             	switch(option){
 				case 1:		//删除
 					break;
-				case 2:		//洗车
+				case 2:
 					Intent intent = new Intent(mContext, MonthlyDetailActivity.class);
 					intent.putExtra("service_type", 0);
 					intent.putExtra("choice_monthly_car", (Parcelable)monthlyCarDataList.get(position));
@@ -156,13 +161,6 @@ public class MonthlyActivity extends Activity{
 	 */
 	private void fetchList() {
 //		monthlyCarDataList.remove(1);
-		if(monthlyCarDataList.size() == 1){
-			Intent intent = new Intent(mContext, MonthlyDetailActivity.class);
-			intent.putExtra("service_type", 0);
-			intent.putExtra("choice_monthly_car", (Parcelable)monthlyCarDataList.get(0));
-			startActivity(intent);
-			finish();
-		}
 		carInfoListAdapter.addBriefs(monthlyCarDataList);
 	}
 
@@ -228,9 +226,12 @@ public class MonthlyActivity extends Activity{
 		mExecuter.setHandler(mHandler);
 	}
 	
-	public void setHwView() {
+	/**
+	 * 设置包月列表界面控件宽高度
+	 */
+	public void setListHwView() {
 		displayHeight = ((XiwaoApplication)getApplication()).getDisplayHeight();
-		RelativeLayout title = (RelativeLayout) findViewById(R.id.header);
+		RelativeLayout title = (RelativeLayout) listView.findViewById(R.id.header);
 		LinearLayout.LayoutParams titleParams = new LinearLayout.LayoutParams(
 				LayoutParams.MATCH_PARENT,
 				(int) (displayHeight * 0.08f + 0.5f));
@@ -262,12 +263,16 @@ public class MonthlyActivity extends Activity{
 		ActivityManage.getInstance().setCurContext(this);
 		ActivityManage.getInstance().addActivity(this);
 		mLocalSharePref = new LocalSharePreference(this);
+
+		LayoutInflater layoutInflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		listView = (LinearLayout) layoutInflater.inflate(R.layout.car_info_list, null);
 		
-		setContentView(R.layout.car_info_list);
+		setContentView(listView);
+		
 		initExecuter();
 		initUtils();
-		initContentView();
-		setHwView();
+		initListContentView();
+		setListHwView();
 		initAdapter();
 		getCarListData();
 	}
