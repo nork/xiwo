@@ -194,7 +194,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="15dp"
-                    android:text="@string/help"
+                    android:text="客户服务协议"
                     android:textColor="@android:color/black"
                     android:textSize="18sp" />
 

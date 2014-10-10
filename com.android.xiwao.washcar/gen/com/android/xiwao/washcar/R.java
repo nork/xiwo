@@ -525,6 +525,7 @@ containing a value of this type.
         public static final int registerview=0x7f030020;
         public static final int resetpswview=0x7f030021;
         public static final int simple_spinner_item=0x7f030022;
+        public static final int user_server_protocal=0x7f030023;
     }
     public static final class menu {
         public static final int activity_main=0x7f0b0000;
@@ -788,7 +789,7 @@ containing a value of this type.
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
 <p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
 "<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
-          @attr name com.android.xiwao.washcar:adapterViewBackground
+          @attr name android:adapterViewBackground
         */
         public static final int PullToRefresh_adapterViewBackground = 0;
         /**
@@ -800,7 +801,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
 <p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
 "<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
-          @attr name com.android.xiwao.washcar:headerBackground
+          @attr name android:headerBackground
         */
         public static final int PullToRefresh_headerBackground = 1;
         /**
@@ -815,7 +816,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
-          @attr name com.android.xiwao.washcar:headerTextColor
+          @attr name android:headerTextColor
         */
         public static final int PullToRefresh_headerTextColor = 2;
         /**
@@ -833,7 +834,7 @@ containing a value of this type.
 <tr><td><code>pullUpFromBottom</code></td><td>0x2</td><td></td></tr>
 <tr><td><code>both</code></td><td>0x3</td><td></td></tr>
 </table>
-          @attr name com.android.xiwao.washcar:mode
+          @attr name android:mode
         */
         public static final int PullToRefresh_mode = 3;
         /** Attributes that can be used with a swipelistviewstyle.
@@ -862,7 +863,7 @@ in (inches), mm (millimeters).
 theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
-          @attr name com.android.xiwao.washcar:right_width
+          @attr name android:right_width
         */
         public static final int swipelistviewstyle_right_width = 0;
     };

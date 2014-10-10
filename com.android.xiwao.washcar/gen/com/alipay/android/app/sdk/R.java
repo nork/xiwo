@@ -4,78 +4,867 @@
  * aapt tool from the resource data it found.  It
  * should not be modified by hand.
  */
+
 package com.alipay.android.app.sdk;
 
 public final class R {
-	public static final class color {
-		public static final int TextColorBlack = 0x7f050000;
-		public static final int TextColorGray = 0x7f050002;
-		public static final int TextColorWhite = 0x7f050001;
-		public static final int ToastBgColor = 0x7f050003;
-		public static final int bgColor = 0x7f050008;
-		public static final int btnColor = 0x7f050004;
-		public static final int dialog_tiltle_blue = 0x7f05000e;
-		public static final int downLoadBackFocus = 0x7f05000c;
-		public static final int downLoadBackNomal = 0x7f05000b;
-		public static final int downLoadBackPressed = 0x7f05000d;
-		public static final int downLoadTextNomal = 0x7f050009;
-		public static final int downLoadTextPressed = 0x7f05000a;
-		public static final int secondbtntextColor = 0x7f050006;
-		public static final int textColorforCheckBox = 0x7f050007;
-		public static final int textColorforItemTitle = 0x7f050005;
-	}
-	public static final class drawable {
-		public static final int dialog_bg_click = 0x7f020013;
-		public static final int dialog_bg_normal = 0x7f020014;
-		public static final int dialog_button_colorlist = 0x7f020015;
-		public static final int dialog_button_submit = 0x7f020016;
-		public static final int dialog_cut_line = 0x7f020017;
-		public static final int dialog_split_h = 0x7f020018;
-		public static final int dialog_split_v = 0x7f020019;
-		public static final int popup_bg = 0x7f020035;
-		public static final int refresh = 0x7f02003a;
-		public static final int refresh_button = 0x7f02003b;
-		public static final int refresh_push = 0x7f02003c;
-		public static final int title = 0x7f02003f;
-		public static final int title_background = 0x7f020040;
-	}
-	public static final class id {
-		public static final int AlipayTitle = 0x7f090037;
-		public static final int btn_refresh = 0x7f090038;
-		public static final int dialog_button_group = 0x7f09006b;
-		public static final int dialog_content_view = 0x7f09006a;
-		public static final int dialog_divider = 0x7f090068;
-		public static final int dialog_message = 0x7f090069;
-		public static final int dialog_split_v = 0x7f09006d;
-		public static final int dialog_title = 0x7f090067;
-		public static final int left_button = 0x7f09006c;
-		public static final int mainView = 0x7f090035;
-		public static final int right_button = 0x7f09006e;
-		public static final int webView = 0x7f090036;
-	}
-	public static final class layout {
-		public static final int alipay = 0x7f030005;
-		public static final int alipay_title = 0x7f030006;
-		public static final int dialog_alert = 0x7f03000e;
-	}
-	public static final class string {
-		public static final int cancel = 0x7f060002;
-		public static final int cancel_install_alipay = 0x7f060009;
-		public static final int cancel_install_msp = 0x7f060008;
-		public static final int confirm_title = 0x7f060000;
-		public static final int content_description_icon = 0x7f060003;
-		public static final int download = 0x7f060006;
-		public static final int download_fail = 0x7f060007;
-		public static final int ensure = 0x7f060001;
-		public static final int install_alipay = 0x7f06000c;
-		public static final int install_msp = 0x7f06000b;
-		public static final int processing = 0x7f060005;
-		public static final int redo = 0x7f06000a;
-		public static final int refresh = 0x7f060004;
-	}
-	public static final class style {
-		public static final int AlertDialog = 0x7f070002;
-		public static final int AppBaseTheme = 0x7f070000;
-		public static final int AppTheme = 0x7f070001;
-	}
+    public static final class array {
+        public static final int car_types=0x7f080001;
+        public static final int server_types=0x7f080000;
+    }
+    public static final class attr {
+        /** <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+<p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+         */
+        public static final int adapterViewBackground=0x7f010000;
+        /** <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+<p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+         */
+        public static final int headerBackground=0x7f010001;
+        /** <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int headerTextColor=0x7f010002;
+        /** <p>Must be one or more (separated by '|') of the following constant values.</p>
+<table>
+<colgroup align="left" />
+<colgroup align="left" />
+<colgroup align="left" />
+<tr><th>Constant</th><th>Value</th><th>Description</th></tr>
+<tr><td><code>pullDownFromTop</code></td><td>0x1</td><td></td></tr>
+<tr><td><code>pullUpFromBottom</code></td><td>0x2</td><td></td></tr>
+<tr><td><code>both</code></td><td>0x3</td><td></td></tr>
+</table>
+         */
+        public static final int mode=0x7f010003;
+        /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+in (inches), mm (millimeters).
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int right_width=0x7f010004;
+    }
+    public static final class color {
+        public static final int TextColorBlack=0x7f050000;
+        public static final int TextColorGray=0x7f050002;
+        public static final int TextColorWhite=0x7f050001;
+        public static final int ToastBgColor=0x7f050003;
+        public static final int background=0x7f050014;
+        public static final int bgColor=0x7f050008;
+        public static final int blackgrey=0x7f050016;
+        public static final int blue=0x7f050013;
+        public static final int blur_bg=0x7f05001c;
+        public static final int btnColor=0x7f050004;
+        /**  黑灰色  字体颜色 
+         */
+        public static final int buletext=0x7f050017;
+        public static final int dialog_tiltle_blue=0x7f05000e;
+        public static final int downLoadBackFocus=0x7f05000c;
+        public static final int downLoadBackNomal=0x7f05000b;
+        public static final int downLoadBackPressed=0x7f05000d;
+        public static final int downLoadTextNomal=0x7f050009;
+        public static final int downLoadTextPressed=0x7f05000a;
+        public static final int gray_line=0x7f050015;
+        public static final int grey=0x7f050018;
+        public static final int orange=0x7f050012;
+        public static final int order_btn_textcolor_selector=0x7f05001e;
+        public static final int right_bg=0x7f05001d;
+        public static final int search_tabcolor_selector=0x7f05001f;
+        public static final int secondbtntextColor=0x7f050006;
+        public static final int space_list_selector=0x7f050020;
+        public static final int tab_off_text_color=0x7f05001b;
+        public static final int tab_on_text_color=0x7f05001a;
+        public static final int textColorforCheckBox=0x7f050007;
+        public static final int textColorforItemTitle=0x7f050005;
+        public static final int transparent=0x7f05000f;
+        public static final int weibo_listtab_off=0x7f050011;
+        public static final int weibolist_bottombar_textcolor_selector=0x7f050021;
+        public static final int white=0x7f050010;
+        public static final int yellow=0x7f050019;
+    }
+    public static final class dimen {
+        public static final int _100dp=0x7f0a0020;
+        public static final int _105dp=0x7f0a0021;
+        public static final int _10dp=0x7f0a000d;
+        public static final int _110dp=0x7f0a0022;
+        public static final int _115dp=0x7f0a0023;
+        public static final int _120dp=0x7f0a0024;
+        public static final int _125dp=0x7f0a0025;
+        public static final int _130dp=0x7f0a0026;
+        public static final int _135dp=0x7f0a0027;
+        public static final int _13dp=0x7f0a000e;
+        public static final int _140dp=0x7f0a0028;
+        public static final int _145dp=0x7f0a0029;
+        public static final int _150dp=0x7f0a002a;
+        public static final int _15dp=0x7f0a000f;
+        public static final int _160dp=0x7f0a002b;
+        public static final int _170dp=0x7f0a002c;
+        public static final int _180dp=0x7f0a002d;
+        public static final int _190dp=0x7f0a002e;
+        public static final int _1dp=0x7f0a000a;
+        public static final int _200dp=0x7f0a002f;
+        public static final int _20dp=0x7f0a0010;
+        public static final int _210dp=0x7f0a0030;
+        public static final int _220dp=0x7f0a0031;
+        public static final int _230dp=0x7f0a0032;
+        public static final int _240dp=0x7f0a0033;
+        public static final int _250dp=0x7f0a0034;
+        public static final int _25dp=0x7f0a0011;
+        public static final int _260dp=0x7f0a0035;
+        public static final int _270dp=0x7f0a0036;
+        public static final int _280dp=0x7f0a0037;
+        public static final int _290dp=0x7f0a0038;
+        public static final int _2dp=0x7f0a000b;
+        public static final int _300dp=0x7f0a0039;
+        public static final int _30dp=0x7f0a0012;
+        public static final int _320dp=0x7f0a003a;
+        public static final int _340dp=0x7f0a003b;
+        public static final int _350dp=0x7f0a003c;
+        public static final int _35dp=0x7f0a0013;
+        public static final int _40dp=0x7f0a0014;
+        public static final int _45dp=0x7f0a0015;
+        public static final int _50dp=0x7f0a0016;
+        public static final int _55dp=0x7f0a0017;
+        public static final int _5dp=0x7f0a000c;
+        public static final int _60dp=0x7f0a0018;
+        public static final int _65dp=0x7f0a0019;
+        public static final int _70dp=0x7f0a001a;
+        public static final int _75dp=0x7f0a001b;
+        public static final int _80dp=0x7f0a001c;
+        public static final int _85dp=0x7f0a001d;
+        public static final int _90dp=0x7f0a001e;
+        public static final int _95dp=0x7f0a001f;
+        public static final int button_margin_l_r=0x7f0a0003;
+        public static final int deal_record_icon_margin_right=0x7f0a0007;
+        public static final int deal_record_line_width=0x7f0a0008;
+        /**  480/360 = 1.33 
+         */
+        public static final int layout_margin_l_r=0x7f0a0001;
+        public static final int layout_padding_l=0x7f0a0002;
+        public static final int main_financing_finger_margin_top=0x7f0a0006;
+        public static final int main_financing_rate_margin_top=0x7f0a0005;
+        public static final int moremenu_view_width=0x7f0a0009;
+        public static final int padding_large=0x7f0a004c;
+        public static final int padding_medium=0x7f0a004b;
+        public static final int padding_small=0x7f0a004a;
+        /**  字体大小 
+ 字体大小 
+ 字体大小 
+         */
+        public static final int text_10sp=0x7f0a003d;
+        public static final int text_12sp=0x7f0a003e;
+        public static final int text_14sp=0x7f0a003f;
+        public static final int text_16sp=0x7f0a0040;
+        public static final int text_18sp=0x7f0a0041;
+        public static final int text_20sp=0x7f0a0042;
+        public static final int text_22sp=0x7f0a0043;
+        public static final int text_24sp=0x7f0a0044;
+        public static final int text_26sp=0x7f0a0045;
+        public static final int text_28sp=0x7f0a0046;
+        public static final int text_30sp=0x7f0a0047;
+        public static final int text_32sp=0x7f0a0048;
+        public static final int text_38sp=0x7f0a0049;
+        public static final int top_height=0x7f0a0004;
+        /**  Default screen margins, per the Android Design guidelines. 
+         */
+        public static final int window_width=0x7f0a0000;
+    }
+    public static final class drawable {
+        public static final int agree_radio=0x7f020000;
+        public static final int agreeselect=0x7f020001;
+        public static final int agreeunselect=0x7f020002;
+        public static final int alipay_icon=0x7f020003;
+        public static final int backbt=0x7f020004;
+        public static final int bg_weibo_listab=0x7f020005;
+        public static final int black_border_bg=0x7f020006;
+        public static final int blue_btn=0x7f020007;
+        public static final int blue_btn_bg=0x7f020008;
+        public static final int bule_circle_btn=0x7f020009;
+        public static final int bule_circle_btn_unclick=0x7f02000a;
+        public static final int car_info_off=0x7f02000b;
+        public static final int car_info_on=0x7f02000c;
+        public static final int car_info_selector=0x7f02000d;
+        public static final int car_list_item_bg=0x7f02000e;
+        public static final int car_type_btn_bg=0x7f02000f;
+        public static final int clock_icon=0x7f020010;
+        public static final int closed_btn_bg=0x7f020011;
+        public static final int completed_btn_bg=0x7f020012;
+        public static final int dialog_bg_click=0x7f020013;
+        public static final int dialog_bg_normal=0x7f020014;
+        public static final int dialog_button_colorlist=0x7f020015;
+        public static final int dialog_button_submit=0x7f020016;
+        public static final int dialog_cut_line=0x7f020017;
+        public static final int dialog_split_h=0x7f020018;
+        public static final int dialog_split_v=0x7f020019;
+        public static final int dialog_white_bg=0x7f02001a;
+        public static final int dotted_line_gray=0x7f02001b;
+        public static final int fork_icon=0x7f02001c;
+        public static final int graybtn_bg=0x7f02001d;
+        public static final int homepage_off=0x7f02001e;
+        public static final int homepage_on=0x7f02001f;
+        public static final int homepage_selector=0x7f020020;
+        public static final int ic_action_search=0x7f020021;
+        public static final int ic_launcher=0x7f020022;
+        public static final int icon_car=0x7f020023;
+        public static final int icon_redcar=0x7f020024;
+        public static final int line_bg=0x7f020025;
+        public static final int main_bg=0x7f020026;
+        public static final int more_off=0x7f020027;
+        public static final int more_on=0x7f020028;
+        public static final int more_selector=0x7f020029;
+        public static final int more_single_bg=0x7f02002a;
+        public static final int orange_border_bg=0x7f02002b;
+        public static final int orange_btn=0x7f02002c;
+        public static final int orange_btn_bg=0x7f02002d;
+        public static final int order_btn_group_bg=0x7f02002e;
+        public static final int order_manage_off=0x7f02002f;
+        public static final int order_manage_on=0x7f020030;
+        public static final int order_manage_selector=0x7f020031;
+        public static final int paidbtn_bg=0x7f020032;
+        public static final int pay_title_img=0x7f020033;
+        public static final int people_icon=0x7f020034;
+        public static final int popup_bg=0x7f020035;
+        public static final int pulltorefresh_down_arrow=0x7f020036;
+        public static final int pulltorefresh_up_arrow=0x7f020037;
+        public static final int queue_statu=0x7f020038;
+        public static final int recharge_btn_bg=0x7f020039;
+        public static final int refresh=0x7f02003a;
+        public static final int refresh_button=0x7f02003b;
+        public static final int refresh_push=0x7f02003c;
+        public static final int right_icon=0x7f02003d;
+        public static final int text_selector=0x7f02003e;
+        public static final int title=0x7f02003f;
+        public static final int title_background=0x7f020040;
+        public static final int wait_pay_btn_bg=0x7f020041;
+        public static final int wash_icon=0x7f020042;
+        public static final int wash_me_logo=0x7f020043;
+        public static final int washcar_btn=0x7f020044;
+        public static final int washwaxcar_btn=0x7f020045;
+        public static final int wax_icon=0x7f020046;
+        public static final int weibo_detail_bottom_bg=0x7f020047;
+        public static final int weibo_detail_buttombar_itembg_on=0x7f020048;
+        public static final int weibolist_bottombar_itembg_selector=0x7f020049;
+        public static final int weibolist_global_selector=0x7f02004a;
+        public static final int xu_line_box=0x7f02004b;
+        public static final int yellow_btn_bg=0x7f02004c;
+        public static final int yes=0x7f02004d;
+    }
+    public static final class id {
+        public static final int AlipayTitle=0x7f090037;
+        public static final int about=0x7f090093;
+        public static final int account_money=0x7f090063;
+        public static final int account_money_layout=0x7f0900cc;
+        public static final int account_money_pay=0x7f0900ce;
+        public static final int account_money_title=0x7f090064;
+        public static final int account_money_txt=0x7f090065;
+        public static final int account_pay_amt=0x7f0900bc;
+        public static final int account_pay_img=0x7f0900cd;
+        public static final int activity_pay=0x7f0900d1;
+        public static final int activity_pay_img=0x7f0900d0;
+        public static final int activity_pay_layout=0x7f0900cf;
+        public static final int add=0x7f090018;
+        public static final int add_address=0x7f09002f;
+        public static final int add_btn=0x7f090048;
+        public static final int add_car=0x7f090052;
+        public static final int address=0x7f090010;
+        public static final int address_detail=0x7f090012;
+        public static final int address_detail_title=0x7f090011;
+        public static final int agreebtn=0x7f0900c4;
+        public static final int agreementview=0x7f0900dd;
+        public static final int agreetxt=0x7f0900da;
+        public static final int alipay_amt=0x7f0900ca;
+        public static final int alipay_img=0x7f0900c8;
+        public static final int alipay_layout=0x7f0900c7;
+        public static final int all_month_time=0x7f090049;
+        public static final int all_month_time_part=0x7f090047;
+        public static final int all_pay=0x7f0900b3;
+        public static final int allmonth_info=0x7f09008e;
+        public static final int amt_title=0x7f0900d7;
+        public static final int backbtn=0x7f09000a;
+        public static final int bank_info=0x7f0900c9;
+        public static final int bank_list=0x7f090039;
+        public static final int both=0x7f090002;
+        public static final int bottom_order_state=0x7f0900ae;
+        public static final int bottom_state_part=0x7f0900ac;
+        public static final int btn_part=0x7f09007b;
+        public static final int btn_refresh=0x7f090038;
+        public static final int buffs_time=0x7f09008a;
+        public static final int button_group=0x7f090013;
+        public static final int cancel_btn=0x7f090014;
+        public static final int cannel_btn=0x7f0900d2;
+        public static final int cannel_order=0x7f0900aa;
+        public static final int car_addr=0x7f090054;
+        public static final int car_brand=0x7f09001f;
+        public static final int car_brand_edt=0x7f090021;
+        public static final int car_brand_title=0x7f090020;
+        public static final int car_code=0x7f090088;
+        public static final int car_color=0x7f09001c;
+        public static final int car_color_edt=0x7f09001e;
+        public static final int car_color_title=0x7f09001d;
+        public static final int car_img=0x7f090050;
+        public static final int car_info=0x7f090006;
+        public static final int car_info_title=0x7f09004e;
+        public static final int car_list=0x7f09004f;
+        public static final int car_num=0x7f090019;
+        public static final int car_num_edt=0x7f09001b;
+        public static final int car_num_title=0x7f09001a;
+        public static final int car_pic=0x7f090016;
+        public static final int car_pic_edt=0x7f090086;
+        public static final int car_pic_title=0x7f090017;
+        public static final int car_type=0x7f090022;
+        public static final int car_type_title=0x7f090023;
+        public static final int clean_in_btn=0x7f09004c;
+        public static final int clean_in_part=0x7f09004b;
+        public static final int clean_in_row=0x7f0900be;
+        public static final int clean_in_row_line=0x7f0900bd;
+        public static final int clean_in_time=0x7f09008c;
+        public static final int close_order_list=0x7f0900b7;
+        public static final int closed_btn=0x7f0900af;
+        public static final int code_input_part=0x7f0900db;
+        public static final int code_input_text=0x7f090074;
+        public static final int codeedt=0x7f090075;
+        public static final int completed_btn=0x7f0900b2;
+        public static final int contact=0x7f090044;
+        public static final int contact_edt=0x7f090046;
+        public static final int contact_info=0x7f090094;
+        public static final int contact_title=0x7f090045;
+        public static final int content=0x7f090003;
+        public static final int custom_img=0x7f09004d;
+        public static final int custom_info=0x7f09008f;
+        public static final int default_addr_part=0x7f09002a;
+        public static final int default_edit_btn=0x7f09002c;
+        public static final int dialog_button_group=0x7f09006b;
+        public static final int dialog_content_view=0x7f09006a;
+        public static final int dialog_divider=0x7f090068;
+        public static final int dialog_message=0x7f090069;
+        public static final int dialog_split_v=0x7f09006d;
+        public static final int dialog_title=0x7f090067;
+        public static final int done_order_list=0x7f0900b6;
+        public static final int done_time=0x7f0900a8;
+        public static final int editText=0x7f09007e;
+        public static final int edit_btn=0x7f090053;
+        public static final int email=0x7f09005d;
+        public static final int email_txt=0x7f09005f;
+        public static final int endtime=0x7f0900a9;
+        public static final int explain_title=0x7f0900d8;
+        public static final int fee=0x7f0900bb;
+        public static final int five=0x7f090025;
+        public static final int forget_pwd=0x7f090085;
+        public static final int getagin=0x7f090076;
+        public static final int getcodebtn=0x7f090072;
+        public static final int getcodeview=0x7f09006f;
+        public static final int head=0x7f090057;
+        public static final int head_img=0x7f090055;
+        public static final int head_title=0x7f090056;
+        public static final int header=0x7f090009;
+        public static final int help=0x7f090091;
+        public static final int home_page=0x7f090005;
+        public static final int if_clean=0x7f09009f;
+        public static final int if_clean_row=0x7f09009e;
+        public static final int ifclean_in=0x7f0900bf;
+        public static final int input_part=0x7f0900d9;
+        public static final int integral_manage=0x7f090090;
+        public static final int item_left=0x7f090030;
+        public static final int item_right_delete=0x7f090033;
+        public static final int item_right_txt=0x7f090034;
+        public static final int item_right_txt1=0x7f090032;
+        public static final int item_right_wash=0x7f090031;
+        public static final int last_record=0x7f090089;
+        public static final int left_button=0x7f09006c;
+        public static final int line=0x7f090097;
+        public static final int lock_addr_btn=0x7f090029;
+        public static final int login_btn=0x7f090083;
+        public static final int mainView=0x7f090035;
+        public static final int menu_settings=0x7f0900e0;
+        public static final int modify_btn=0x7f090066;
+        public static final int money=0x7f090051;
+        public static final int monthly_btn=0x7f09008d;
+        public static final int monthly_time=0x7f090087;
+        public static final int monthly_time_part=0x7f0900c1;
+        public static final int monthly_time_part_line=0x7f0900c0;
+        public static final int more=0x7f090008;
+        public static final int my_email=0x7f09005e;
+        public static final int my_phone=0x7f090061;
+        public static final int name=0x7f090058;
+        public static final int name_title=0x7f090059;
+        public static final int nick_name=0x7f0900d6;
+        public static final int nick_name_part=0x7f0900dc;
+        public static final int no_address_txt=0x7f09002e;
+        public static final int no_order=0x7f0900b8;
+        public static final int okbtn=0x7f0900df;
+        public static final int order_manager=0x7f090007;
+        public static final int order_state=0x7f0900a3;
+        public static final int order_state_img=0x7f0900ad;
+        public static final int order_time=0x7f0900a4;
+        public static final int ordertime=0x7f0900a5;
+        public static final int paid_btn=0x7f0900b1;
+        public static final int paid_order_list=0x7f0900b4;
+        public static final int password=0x7f090082;
+        public static final int password_view=0x7f090081;
+        public static final int pay_list_part=0x7f0900c6;
+        public static final int pay_money=0x7f0900c5;
+        public static final int pay_now=0x7f0900ab;
+        public static final int pay_state=0x7f0900b9;
+        public static final int pay_time=0x7f0900a6;
+        public static final int pay_title_img=0x7f0900ba;
+        public static final int paytime=0x7f0900a7;
+        public static final int phone=0x7f090060;
+        public static final int phone_num=0x7f090080;
+        public static final int phone_txt=0x7f090062;
+        public static final int phone_view=0x7f09007f;
+        public static final int plus_btn=0x7f09004a;
+        public static final int price=0x7f09003c;
+        public static final int price_part=0x7f09003a;
+        public static final int price_title=0x7f09003b;
+        public static final int pswedt01=0x7f090077;
+        public static final int pswedt02=0x7f090078;
+        public static final int pswedt_old=0x7f0900de;
+        public static final int pullDownFromTop=0x7f090000;
+        public static final int pullUpFromBottom=0x7f090001;
+        public static final int pull_to_refresh_image=0x7f0900d5;
+        public static final int pull_to_refresh_progress=0x7f0900d4;
+        public static final int pull_to_refresh_text=0x7f0900d3;
+        public static final int quantity=0x7f0900a1;
+        public static final int quantity_row=0x7f0900a0;
+        public static final int quit=0x7f090095;
+        public static final int register_btn=0x7f090084;
+        public static final int registerbtn=0x7f090079;
+        public static final int registerview=0x7f090073;
+        public static final int remind_title=0x7f090096;
+        public static final int rg_tab=0x7f090004;
+        public static final int right_button=0x7f09006e;
+        public static final int right_icon=0x7f0900cb;
+        public static final int sale_fee=0x7f09009d;
+        public static final int sale_fee_row=0x7f09009b;
+        public static final int sale_fee_title=0x7f09009c;
+        public static final int serial_number=0x7f090099;
+        public static final int server_type=0x7f09003d;
+        public static final int server_type_detail=0x7f09003f;
+        public static final int server_type_title=0x7f09003e;
+        public static final int seven=0x7f090026;
+        public static final int spinner_car_type=0x7f090024;
+        public static final int spinner_server_type=0x7f090040;
+        public static final int submit=0x7f090027;
+        public static final int sure_btn=0x7f090015;
+        public static final int table=0x7f090098;
+        public static final int tele_input_text=0x7f090070;
+        public static final int teledt=0x7f090071;
+        public static final int tell_friend=0x7f090092;
+        public static final int title=0x7f09000b;
+        public static final int transaction_amount=0x7f09009a;
+        public static final int txt_content=0x7f09007a;
+        public static final int useful_address_list=0x7f09002d;
+        public static final int user=0x7f09005a;
+        public static final int user_name=0x7f09005b;
+        public static final int user_name_txt=0x7f09005c;
+        public static final int vip_customer=0x7f0900a2;
+        public static final int wait_pay_btn=0x7f0900b0;
+        public static final int waitting_order_list=0x7f0900b5;
+        public static final int wash_car=0x7f09007c;
+        public static final int wash_car_wax=0x7f09007d;
+        public static final int wash_time=0x7f09008b;
+        public static final int webView=0x7f090036;
+        public static final int web_center=0x7f0900c2;
+        public static final int websit=0x7f09000c;
+        public static final int websit_detail=0x7f09000f;
+        public static final int websit_edt=0x7f090043;
+        public static final int websit_edt_title=0x7f090042;
+        public static final int websit_info=0x7f09000e;
+        public static final int websit_info_title=0x7f09000d;
+        public static final int website=0x7f090041;
+        public static final int website_name=0x7f09002b;
+        public static final int website_title_part=0x7f090028;
+        public static final int your_statu=0x7f0900c3;
+    }
+    public static final class layout {
+        public static final int activity_main=0x7f030000;
+        public static final int add_address=0x7f030001;
+        public static final int add_car=0x7f030002;
+        public static final int address_list=0x7f030003;
+        public static final int address_list_adapter=0x7f030004;
+        public static final int alipay=0x7f030005;
+        public static final int alipay_title=0x7f030006;
+        public static final int bank_info_list=0x7f030007;
+        public static final int car_info_edit=0x7f030008;
+        public static final int car_info_list=0x7f030009;
+        public static final int car_info_list_adapter=0x7f03000a;
+        public static final int car_list=0x7f03000b;
+        public static final int car_list_adapter=0x7f03000c;
+        public static final int customer_info=0x7f03000d;
+        public static final int dialog_alert=0x7f03000e;
+        public static final int findpswview=0x7f03000f;
+        public static final int fragment=0x7f030010;
+        public static final int home_page=0x7f030011;
+        public static final int list_dialog_layout=0x7f030012;
+        public static final int login=0x7f030013;
+        public static final int modify_car=0x7f030014;
+        public static final int modify_suc_dialog=0x7f030015;
+        public static final int monthly_detail=0x7f030016;
+        public static final int more=0x7f030017;
+        public static final int order_detail=0x7f030018;
+        public static final int order_list=0x7f030019;
+        public static final int order_list_adapter=0x7f03001a;
+        public static final int order_manage=0x7f03001b;
+        public static final int pay_detail=0x7f03001c;
+        public static final int pay_dialog=0x7f03001d;
+        public static final int pull_to_refresh_header=0x7f03001e;
+        public static final int recharge=0x7f03001f;
+        public static final int registerview=0x7f030020;
+        public static final int resetpswview=0x7f030021;
+        public static final int simple_spinner_item=0x7f030022;
+        public static final int user_server_protocal=0x7f030023;
+    }
+    public static final class menu {
+        public static final int activity_main=0x7f0b0000;
+    }
+    public static final class raw {
+        public static final int prometheus=0x7f040000;
+    }
+    public static final class string {
+        public static final int about=0x7f06007a;
+        public static final int account_money_pay=0x7f060064;
+        public static final int activity_pay=0x7f060065;
+        public static final int add_car=0x7f06004c;
+        public static final int add_img=0x7f060088;
+        /**  Car info ui string 
+         */
+        public static final int add_symbol=0x7f060049;
+        /**  Order Detail ui string 
+         */
+        public static final int address=0x7f060068;
+        public static final int agree=0x7f06002c;
+        public static final int agreement=0x7f06002d;
+        public static final int agreement01=0x7f060037;
+        public static final int agreementtxt=0x7f060033;
+        public static final int alert=0x7f060034;
+        public static final int alipay=0x7f060063;
+        public static final int app_name=0x7f06000d;
+        public static final int cancel=0x7f060002;
+        public static final int cancel_install_alipay=0x7f060009;
+        public static final int cancel_install_msp=0x7f060008;
+        public static final int cannel=0x7f060071;
+        public static final int cannel_order=0x7f06006f;
+        public static final int cant_complete=0x7f060061;
+        public static final int car_brand=0x7f060052;
+        public static final int car_brand_null_error=0x7f060086;
+        /**  Add car ui 
+         */
+        public static final int car_code_null_error=0x7f060085;
+        public static final int car_color=0x7f060053;
+        public static final int car_color_null_error=0x7f060087;
+        public static final int car_info=0x7f06001c;
+        public static final int car_info_title=0x7f06004d;
+        public static final int car_num=0x7f06006b;
+        public static final int car_order=0x7f060062;
+        public static final int car_pic=0x7f060054;
+        public static final int car_type=0x7f060051;
+        /**  bank info list string 
+         */
+        public static final int choice_pay_type=0x7f060082;
+        public static final int chose_money=0x7f06008b;
+        public static final int clean_in=0x7f06009a;
+        public static final int closed=0x7f060058;
+        public static final int code_length_erro=0x7f06003a;
+        public static final int code_null_erro=0x7f060039;
+        public static final int code_wrong=0x7f06001a;
+        public static final int completed=0x7f060057;
+        public static final int confirm_title=0x7f060000;
+        public static final int connection_error=0x7f060012;
+        /**  car info edit ui string 
+         */
+        public static final int contact_num=0x7f06004f;
+        public static final int content_description_icon=0x7f060003;
+        public static final int cur_balance=0x7f06008a;
+        /**  more ui string 
+         */
+        public static final int custom_info=0x7f060075;
+        public static final int default_addr=0x7f060095;
+        public static final int detail_address=0x7f060098;
+        public static final int download=0x7f060006;
+        public static final int download_fail=0x7f060007;
+        public static final int email=0x7f06007f;
+        public static final int empty_passwd=0x7f06002a;
+        public static final int empty_user=0x7f060029;
+        public static final int end_time=0x7f060073;
+        public static final int ensure=0x7f060001;
+        public static final int fee=0x7f060067;
+        /**  find pwd uiString 
+         */
+        public static final int find_pwd=0x7f060040;
+        public static final int forget_pwd=0x7f060028;
+        public static final int get_code=0x7f060044;
+        /**  customer ui string 
+         */
+        public static final int head=0x7f06007c;
+        public static final int hello_world=0x7f06000e;
+        public static final int help=0x7f060078;
+        public static final int i_wash_car=0x7f060022;
+        public static final int input_code=0x7f06002f;
+        public static final int input_custom_money=0x7f06008c;
+        /**  modify password ui string 
+         */
+        public static final int input_new_code=0x7f060041;
+        public static final int input_new_pwd=0x7f060045;
+        public static final int input_old_pwd=0x7f060047;
+        public static final int install_alipay=0x7f06000c;
+        public static final int install_msp=0x7f06000b;
+        public static final int integral_manage=0x7f060077;
+        /**  website set ui 
+         */
+        public static final int lock_addr=0x7f060094;
+        public static final int login=0x7f060027;
+        /**  MainActivity UI String
+         */
+        public static final int main=0x7f06001b;
+        public static final int menu_settings=0x7f06000f;
+        public static final int modify_info=0x7f060081;
+        public static final int modify_pwd=0x7f060048;
+        public static final int money1000=0x7f060091;
+        public static final int money1200=0x7f060092;
+        public static final int money200=0x7f06008d;
+        public static final int money400=0x7f06008e;
+        public static final int money600=0x7f06008f;
+        public static final int money800=0x7f060090;
+        public static final int monthly_info_title=0x7f06004e;
+        public static final int more=0x7f06001f;
+        public static final int my_phone=0x7f060080;
+        public static final int name=0x7f06007d;
+        public static final int new_pwd_null_error=0x7f060084;
+        public static final int nick_name=0x7f060032;
+        public static final int nickname_format_erro=0x7f06003f;
+        public static final int nickname_length_erro=0x7f06003e;
+        public static final int no=0x7f060017;
+        /**  modify password ui 
+         */
+        public static final int old_pwd_null_error=0x7f060083;
+        public static final int order_detail=0x7f06006e;
+        public static final int order_manage=0x7f06001d;
+        public static final int order_manage1=0x7f06001e;
+        public static final int order_state=0x7f060074;
+        /**  Order Manage ui string 
+         */
+        public static final int paid=0x7f060055;
+        public static final int password=0x7f060025;
+        public static final int password_str=0x7f060076;
+        public static final int pay_now=0x7f060070;
+        public static final int pay_sure=0x7f060072;
+        /**  Pay detail ui String 
+         */
+        public static final int pay_title_txt=0x7f06005e;
+        public static final int phone=0x7f06006a;
+        /**  Login UI String 
+         */
+        public static final int phone_num=0x7f060023;
+        public static final int phone_wrong=0x7f060018;
+        /**  add address ui 
+         */
+        public static final int please_detail_address=0x7f060097;
+        public static final int please_password=0x7f060026;
+        public static final int please_phone=0x7f060024;
+        public static final int price_title=0x7f06009b;
+        public static final int processing=0x7f060005;
+        public static final int protocol_error=0x7f060013;
+        public static final int pull_to_refresh_pull_label=0x7f06005b;
+        public static final int pull_to_refresh_refreshing_label=0x7f06005d;
+        public static final int pull_to_refresh_release_label=0x7f06005c;
+        public static final int pwd_dif_erro=0x7f06003d;
+        public static final int pwd_format_erro=0x7f06003c;
+        public static final int pwd_null_erro=0x7f06003b;
+        public static final int pwd_wrong=0x7f060019;
+        public static final int qiut=0x7f06007b;
+        public static final int recharge=0x7f060093;
+        public static final int redo=0x7f06000a;
+        public static final int refresh=0x7f060004;
+        /**  Register UI String 
+         */
+        public static final int register=0x7f06002b;
+        public static final int register_suc=0x7f060035;
+        public static final int remind=0x7f060014;
+        public static final int send_code=0x7f06002e;
+        public static final int serial_number=0x7f060059;
+        public static final int server_type=0x7f06006c;
+        public static final int setpwd=0x7f060030;
+        public static final int setpwdagin=0x7f060031;
+        public static final int submit=0x7f060043;
+        public static final int sure=0x7f060036;
+        public static final int sure_exit=0x7f060015;
+        public static final int sure_new_code=0x7f060042;
+        public static final int sure_new_pwd=0x7f060046;
+        public static final int sure_pay=0x7f060066;
+        public static final int telephone_wrong=0x7f060038;
+        public static final int tell_friend=0x7f060079;
+        public static final int this_month=0x7f06005a;
+        public static final int title_activity_main=0x7f060010;
+        public static final int transaction_amount=0x7f06006d;
+        public static final int user_name=0x7f06007e;
+        /**  recharge ui 
+         */
+        public static final int user_recharge=0x7f060089;
+        public static final int vip_customer=0x7f060069;
+        public static final int wait_in_progress=0x7f060011;
+        public static final int wait_pay=0x7f060056;
+        public static final int wash=0x7f06004a;
+        public static final int wash_car=0x7f060020;
+        public static final int wash_car_wax=0x7f060021;
+        public static final int wax=0x7f06004b;
+        public static final int web_center=0x7f06005f;
+        public static final int websit_info=0x7f060099;
+        public static final int website=0x7f060050;
+        public static final int website_set=0x7f060096;
+        public static final int yes=0x7f060016;
+        public static final int your_statu=0x7f060060;
+    }
+    public static final class style {
+        public static final int AlertDialog=0x7f070002;
+        /** 
+        Base application theme, dependent on API level. This theme is replaced
+        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
+    
+
+            Theme customizations available in newer API levels can go in
+            res/values-vXX/styles.xml, while customizations related to
+            backward-compatibility can go here.
+        
+
+        Base application theme for API 11+. This theme completely replaces
+        AppBaseTheme from res/values/styles.xml on API 11+ devices.
+    
+ API 11 theme customizations can go here. 
+
+        Base application theme for API 14+. This theme completely replaces
+        AppBaseTheme from BOTH res/values/styles.xml and
+        res/values-v11/styles.xml on API 14+ devices.
+    
+ API 14 theme customizations can go here. 
+         */
+        public static final int AppBaseTheme=0x7f070000;
+        /**  Application theme. 
+ All customizations that are NOT specific to a particular API-level can go here. 
+ Base application theme. 
+ Customize your theme here. 
+         */
+        public static final int AppTheme=0x7f070001;
+        public static final int activtydialog=0x7f070004;
+        public static final int weibo_tab=0x7f070003;
+    }
+    public static final class styleable {
+        /** Attributes that can be used with a PullToRefresh.
+           <p>Includes the following attributes:</p>
+           <table>
+           <colgroup align="left" />
+           <colgroup align="left" />
+           <tr><th>Attribute</th><th>Description</th></tr>
+           <tr><td><code>{@link #PullToRefresh_adapterViewBackground com.android.xiwao.washcar:adapterViewBackground}</code></td><td></td></tr>
+           <tr><td><code>{@link #PullToRefresh_headerBackground com.android.xiwao.washcar:headerBackground}</code></td><td></td></tr>
+           <tr><td><code>{@link #PullToRefresh_headerTextColor com.android.xiwao.washcar:headerTextColor}</code></td><td></td></tr>
+           <tr><td><code>{@link #PullToRefresh_mode com.android.xiwao.washcar:mode}</code></td><td></td></tr>
+           </table>
+           @see #PullToRefresh_adapterViewBackground
+           @see #PullToRefresh_headerBackground
+           @see #PullToRefresh_headerTextColor
+           @see #PullToRefresh_mode
+         */
+        public static final int[] PullToRefresh = {
+            0x7f010000, 0x7f010001, 0x7f010002, 0x7f010003
+        };
+        /**
+          <p>This symbol is the offset where the {@link com.android.xiwao.washcar.R.attr#adapterViewBackground}
+          attribute's value can be found in the {@link #PullToRefresh} array.
+
+
+          <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+<p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+          @attr name android:adapterViewBackground
+        */
+        public static final int PullToRefresh_adapterViewBackground = 0;
+        /**
+          <p>This symbol is the offset where the {@link com.android.xiwao.washcar.R.attr#headerBackground}
+          attribute's value can be found in the {@link #PullToRefresh} array.
+
+
+          <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+<p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+          @attr name android:headerBackground
+        */
+        public static final int PullToRefresh_headerBackground = 1;
+        /**
+          <p>This symbol is the offset where the {@link com.android.xiwao.washcar.R.attr#headerTextColor}
+          attribute's value can be found in the {@link #PullToRefresh} array.
+
+
+          <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name android:headerTextColor
+        */
+        public static final int PullToRefresh_headerTextColor = 2;
+        /**
+          <p>This symbol is the offset where the {@link com.android.xiwao.washcar.R.attr#mode}
+          attribute's value can be found in the {@link #PullToRefresh} array.
+
+
+          <p>Must be one or more (separated by '|') of the following constant values.</p>
+<table>
+<colgroup align="left" />
+<colgroup align="left" />
+<colgroup align="left" />
+<tr><th>Constant</th><th>Value</th><th>Description</th></tr>
+<tr><td><code>pullDownFromTop</code></td><td>0x1</td><td></td></tr>
+<tr><td><code>pullUpFromBottom</code></td><td>0x2</td><td></td></tr>
+<tr><td><code>both</code></td><td>0x3</td><td></td></tr>
+</table>
+          @attr name android:mode
+        */
+        public static final int PullToRefresh_mode = 3;
+        /** Attributes that can be used with a swipelistviewstyle.
+           <p>Includes the following attributes:</p>
+           <table>
+           <colgroup align="left" />
+           <colgroup align="left" />
+           <tr><th>Attribute</th><th>Description</th></tr>
+           <tr><td><code>{@link #swipelistviewstyle_right_width com.android.xiwao.washcar:right_width}</code></td><td></td></tr>
+           </table>
+           @see #swipelistviewstyle_right_width
+         */
+        public static final int[] swipelistviewstyle = {
+            0x7f010004
+        };
+        /**
+          <p>This symbol is the offset where the {@link com.android.xiwao.washcar.R.attr#right_width}
+          attribute's value can be found in the {@link #swipelistviewstyle} array.
+
+
+          <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+in (inches), mm (millimeters).
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name android:right_width
+        */
+        public static final int swipelistviewstyle_right_width = 0;
+    };
 }
