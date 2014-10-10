@@ -368,7 +368,7 @@ public class RechargeActivity extends Activity {
 				String message = result.getResult();
 				if(result.resultCode.equals("9000")){
 					message += "账户充值成功！您可到客户信息中查询！";
-					dialogUtils.showToast(message);
+//					dialogUtils.showToast(message);
 					getBalance();
 				}else{
 					dialogUtils.showToast(message);

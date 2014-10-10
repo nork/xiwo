@@ -87,7 +87,6 @@ public class CustomInfoActivity extends Activity {
 		initUtils();
 		initContentView();
 		setViewHw();
-		getBalance();
 	}
 
 	public void initContentView() {
@@ -471,6 +470,7 @@ public class CustomInfoActivity extends Activity {
 		// TODO Auto-generated method stub
 		super.onResume();
 		ActivityManage.getInstance().setCurContext(this);
+		getBalance();
 	}
 
 	

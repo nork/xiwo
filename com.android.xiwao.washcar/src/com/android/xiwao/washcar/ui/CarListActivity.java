@@ -108,7 +108,13 @@ public class CarListActivity extends Activity{
 		
 		switch(requestCode){
 		case Constants.ADD_CAR_RESULT_CODE:
-			refreshInfoList();
+//			refreshInfoList();
+			CarInfo newCar = new CarInfo();
+			newCar = data.getParcelableExtra("new_car");
+			Intent intent = new Intent();
+			intent.putExtra("choice_car", (Parcelable)newCar);
+			setResult(RESULT_OK, intent);
+			finish();
 			break;
 		case Constants.MODIFY_CAR_RESULT_CODE:
 			refreshInfoList();

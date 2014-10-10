@@ -16,6 +16,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.text.method.ReplacementTransformationMethod;
 import android.view.View;
@@ -36,6 +37,7 @@ import com.android.xiwao.washcar.ClientSession;
 import com.android.xiwao.washcar.LocalSharePreference;
 import com.android.xiwao.washcar.R;
 import com.android.xiwao.washcar.XiwaoApplication;
+import com.android.xiwao.washcar.data.CarInfo;
 import com.android.xiwao.washcar.httpconnection.BaseCommand;
 import com.android.xiwao.washcar.httpconnection.BaseResponse;
 import com.android.xiwao.washcar.httpconnection.CarRegister;
@@ -85,6 +87,8 @@ public class AddCarActivity extends Activity {
 	private String carTypeStr = null;
 	
 	private Bitmap carImgBitmap;
+	
+	private CarInfo newCarInfo;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -203,6 +207,13 @@ public class AddCarActivity extends Activity {
 		} 
 		long customerId = mLocalSharePref.getUserId();
 
+		newCarInfo = new CarInfo();
+		newCarInfo.setCarBrand(carBrand);
+		newCarInfo.setCarCode(carCode);
+		newCarInfo.setCarColor(carColor);
+		newCarInfo.setCarPic(carPic);
+		newCarInfo.setCarType(carTypeStr);
+		newCarInfo.setCustomerId(customerId);
 		BaseCommand carRegister = ClientSession
 				.getInstance()
 				.getCmdFactory()
@@ -215,7 +226,9 @@ public class AddCarActivity extends Activity {
 	}
 
 	public void onCarRegisterSuccess() {
-		setResult(RESULT_OK);
+		Intent intent = new Intent();
+		intent.putExtra("new_car", (Parcelable)newCarInfo);
+		setResult(RESULT_OK, intent);		
 		finish();
 	}
 
@@ -234,6 +247,7 @@ public class AddCarActivity extends Activity {
 		} else {
 			CarRegister.Response carRegisterRsp = (CarRegister.Response) rsp;
 			if (carRegisterRsp.responseType.equals("N")) {
+				newCarInfo.setCarId(Long.parseLong(carRegisterRsp.carId));
 				onCarRegisterSuccess();
 				dialogUtils.showToast(carRegisterRsp.errorMessage);
 			} else {

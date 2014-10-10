@@ -168,6 +168,7 @@ public class CarInfoFragment extends BaseFragment {
 					Intent intent = new Intent(mContext, CarInfoEditActivity.class);
 					intent.putExtra("service_type", 0);
 					intent.putExtra("choice_car", (Parcelable)carInfoListData.get(position));
+					intent.putExtra("is_need_last_car", true);
 					startActivity(intent);
 					break;
 				case 3:		//µã»÷±à¼­°´Å¥

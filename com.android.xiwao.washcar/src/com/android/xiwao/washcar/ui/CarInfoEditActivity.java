@@ -106,7 +106,14 @@ public class CarInfoEditActivity extends Activity {
 		setPriceView();
 		setDisView();
 		if(position != 2){
-			getLastAddress();
+			try{
+				if(!getIntent().getBooleanExtra("is_need_last_car", false)){
+					getLastAddress();
+				}
+			}catch(Exception e){
+				e.printStackTrace();
+				getLastAddress();
+			}
 		}
 	}
 
