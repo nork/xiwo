@@ -69,8 +69,8 @@ public class MainActivity extends FragmentActivity{
       
         ActivityManage.getInstance().setCurContext(this);
 		ActivityManage.getInstance().addActivity(this);
-//		UpdateApp updateApp = new UpdateApp(this);
-//		updateApp.checkVersion();
+		UpdateApp updateApp = new UpdateApp(this);
+		updateApp.checkVersion();
 		getDisHw();
 		mLocalSharePref = new LocalSharePreference(this);
 		setContentView(R.layout.activity_main);
