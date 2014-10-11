@@ -247,20 +247,35 @@ public class CarInfoEditActivity extends Activity {
 			}
 			
 			@Override
-			public void afterTextChanged(Editable arg0) {
+			public void afterTextChanged(Editable s) {
 				// TODO Auto-generated method stub
 				try{
 					monthTime = Integer.parseInt(monthTimeEdt.getText().toString());
 				}catch(Exception e){
-					monthTime = 1;
-					monthTimeEdt.setText(Integer.toString(monthTime));
+					monthTime = 0;
+//					monthTimeEdt.setText(Integer.toString(monthTime));
 					dialogUtils.showToast("包月次数只能在1-12之间");
+					e.printStackTrace();
 				}
-				if(monthTime > 12 || monthTime < 1){
-					monthTime = 1;
-					monthTimeEdt.setText(Integer.toString(monthTime));
-					dialogUtils.showToast("包月次数只能在1-12之间");
+				if(s.length() >= 2){
+					if(monthTime > 12 || monthTime < 1){
+						monthTime = 1;
+						monthTimeEdt.setText(Integer.toString(monthTime));
+						dialogUtils.showToast("包月次数只能在1-12之间");
+						monthTimeEdt.setSelection(1);
+					}
 				}
+				if(s.length() == 1){
+					if(monthTime == 0){
+						monthTime = 1;
+						monthTimeEdt.setText(Integer.toString(monthTime));
+						dialogUtils.showToast("包月次数只能在1-12之间");
+						monthTimeEdt.setSelection(1);
+					}
+				}
+//				if(9 >= monthTime && monthTime >= 2){
+//					monthTimeEdt.setText(Integer.toString(monthTime));
+//				}
 				String priceStr = StringUtils.getPriceStr(priceCount * monthTime);//Integer.toString(priceCount * monthTime);
 				try{
 					price.setText(priceStr);
@@ -326,6 +341,11 @@ public class CarInfoEditActivity extends Activity {
 		String serverTypeMi = "";
 		if(cleanInBtn.isSelected()){
 			serverTypeMi = "01";
+		}
+		
+		if(monthTime <= 0 || monthTime > 12){
+			dialogUtils.showToast("请正确填入包月数量！");
+			return;
 		}
 		BaseCommand carRegister = ClientSession.getInstance().getCmdFactory()
 				.getPlaceOrder(mLocalSharePref.getUserId(), serviceType, contactEdt.getText().toString(), choiceCar.getCarId()

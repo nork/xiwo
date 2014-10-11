@@ -1,11 +1,7 @@
 package com.android.xiwao.washcar.update;
 
 public class VersionInfo {
-//	public static final String UPDATE_APKNAME = "com.kvdvb.advanced.app.AppStart.apk";
-//	public static final String UPDATE_VERJSON = "versionc.json";
-//	public static final String UPDATE_SAVENAME = "com.kvdvb.advanced.app.AppStart.apk";
-	public static final String PACKAGE_NAME = "com.jinlufinancial.android.prometheus";
-//	public static final String SAVE_PATH = "/data/data/com.kingvon.dvbc.basic/files/";
+	public static final String PACKAGE_NAME = "com.android.xiwao.washcar";
 	private int verCode;
 	private String verName;
 	private String url;

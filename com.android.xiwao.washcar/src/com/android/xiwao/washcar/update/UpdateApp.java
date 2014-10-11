@@ -147,21 +147,8 @@ public class UpdateApp {
 						updateUrl= props.getProperty("Update_changeUrl");
 						
 						newVerInfo = NetworkTool.getContent(context, updateUrl);  
-//						Log.v(TAG, "version url:" + verjson);											
-//						JSONArray array = new JSONArray(verjson);   
-//						if (array.length() > 0) {   
-//							JSONObject obj = array.getJSONObject(0);   
-//							try {   
-//								newVerInfo.setVerCode(Integer.parseInt(obj.getString("verCode")));
-//								Log.v(TAG, "new Version:" + Integer.parseInt(obj.getString("verCode")));
-//								newVerInfo.setVerName(obj.getString("verName"));
-//								newVerInfo.setApkName(obj.getString("apkname"));
-//							} catch (Exception e) {   
-//								newVerInfo.setVerCode(-1);   
-//								newVerInfo.setVerName("");   
-//								updateHandler.sendEmptyMessage(1);
-//							}   
-//						}   
+
+ 
 					} catch(Exception e) {  
 						e.printStackTrace();
 						newVerInfo.setVerCode(-1);   
@@ -234,7 +221,6 @@ public class UpdateApp {
 		Dialog dialog = null;
 		if(newVerInfo.force){
 			dialog = new AlertDialog.Builder(this.context)
-			.setIcon(R.drawable.ic_launcher)
 			.setTitle("升级提示")
 			.setMessage("由于服务器产生变动，需要升级才能正常使用\n" + sb.toString())
 			.setPositiveButton("立刻升级", 
@@ -260,7 +246,6 @@ public class UpdateApp {
 				.create();
 		}else{
 			dialog = new AlertDialog.Builder(this.context)
-			.setIcon(R.drawable.ic_launcher)
 			.setTitle("升级提示")
 			.setMessage(sb.toString())
 			.setPositiveButton("现在升级", 
@@ -330,7 +315,7 @@ public class UpdateApp {
 		new Thread() {
 			public void run() {
 				HttpClient client = new DefaultHttpClient();
-//				CustomerHttpClient.enableSSL(client);
+				CustomerHttpClient.enableSSL(client);
 //				HttpPost get = new HttpPost(url);
 				HttpGet get = new HttpGet(url);
 				Log.v(TAG, "url:"+url);

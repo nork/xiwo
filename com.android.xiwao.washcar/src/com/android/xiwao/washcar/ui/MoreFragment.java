@@ -184,6 +184,17 @@ public class MoreFragment extends BaseFragment {
 				startActivity(intent);
 			}
 		});
+		
+		about.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				Intent intent = new Intent(mContext,
+						AboutActivity.class);
+				startActivity(intent);
+			}
+		});
 	}
 
 	public void showCallDialog(){

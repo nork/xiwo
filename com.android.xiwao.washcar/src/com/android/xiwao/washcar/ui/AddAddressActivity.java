@@ -9,8 +9,10 @@ import android.app.AlertDialog.Builder;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Parcelable;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
@@ -28,6 +30,8 @@ import com.android.xiwao.washcar.ClientSession;
 import com.android.xiwao.washcar.LocalSharePreference;
 import com.android.xiwao.washcar.R;
 import com.android.xiwao.washcar.XiwaoApplication;
+import com.android.xiwao.washcar.data.AddressData;
+import com.android.xiwao.washcar.data.CarInfo;
 import com.android.xiwao.washcar.data.WebSiteData;
 import com.android.xiwao.washcar.httpconnection.AddressCreate;
 import com.android.xiwao.washcar.httpconnection.BaseCommand;
@@ -60,6 +64,8 @@ public class AddAddressActivity extends Activity {
 	// 网络访问相关对象
 	private Handler mHandler;
 	private CommandExecuter mExecuter;
+	
+	private AddressData newAddressInfo;
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -193,6 +199,12 @@ public class AddAddressActivity extends Activity {
 	private void addressCreate(String detailAddress, long pos){
 		long distractId = websitListData.get((int) pos).getDistractId();
 		long customerId = mLocalSharePref.getUserId();
+		
+		newAddressInfo = new AddressData();
+		newAddressInfo.setAddressDetail(detailAddress);
+		newAddressInfo.setDistractId(distractId);
+		newAddressInfo.setCustomerId(customerId);
+		newAddressInfo.setBranchName(websitListData.get((int)pos).getBranchName());
 		BaseCommand addressCreate = ClientSession.getInstance().getCmdFactory()
 				.getAddressCreate(distractId, detailAddress, customerId);	//网点ID，此处暂时设置为1，为玉桥路网点
 
@@ -202,7 +214,9 @@ public class AddAddressActivity extends Activity {
 	}
 	
 	public void onAddressCreateSuccess(){
-		setResult(RESULT_OK);
+		Intent intent = new Intent();
+		intent.putExtra("new_address", (Parcelable)newAddressInfo);
+		setResult(RESULT_OK, intent);
 		finish();
 	}
 	
@@ -219,7 +233,7 @@ public class AddAddressActivity extends Activity {
 		} else {
 			AddressCreate.Response addressCreate = (AddressCreate.Response) rsp;
 			if (addressCreate.responseType.equals("N")) {
-				
+				newAddressInfo.setAddressId(addressCreate.addressId);
 				onAddressCreateSuccess();
 				dialogUtils.showToast(addressCreate.errorMessage);
 			} else {

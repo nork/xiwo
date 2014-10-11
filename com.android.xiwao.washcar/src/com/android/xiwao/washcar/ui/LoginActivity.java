@@ -225,6 +225,8 @@ public class LoginActivity extends Activity {
 	 * 登录成功之后的处理
 	 */
 	private void onLoginSuccess(){
+		AppLog.v("TAG", "userName:" + userName);
+		AppLog.v("TAG", "getUserName:" + mLocalSharePref.getUserName());
 		if(!userName.equals(mLocalSharePref.getUserName())){
 			mLocalSharePref.putStringPref(LocalSharePreference.USER_LAST_ADDRESS_DETAIL, "");
 			mLocalSharePref.putStringPref(LocalSharePreference.USER_LAST_BRANCH_NAME, "");
@@ -295,8 +297,8 @@ public class LoginActivity extends Activity {
 		// TODO Auto-generated method stub
 		super.onActivityResult(requestCode, resultCode, data);
 		if(requestCode == Constants.REGISTER_RESULT && resultCode == RESULT_OK){
-			String userName = data.getStringExtra("user_name");
-			String password = data.getStringExtra("password");
+			userName = data.getStringExtra("user_name");
+			password = data.getStringExtra("password");
 			doLogin(userName, password);
 		}
 	}

@@ -36,7 +36,7 @@ import com.android.xiwao.washcar.httpconnection.BaseResponse;
 import com.android.xiwao.washcar.httpconnection.CommandExecuter;
 import com.android.xiwao.washcar.httpconnection.RateQuery;
 import com.android.xiwao.washcar.httpconnection.VIPInfoQuery;
-import com.android.xiwao.washcar.utils.DialogUtils;
+import com.android.xiwao.washcar.update.UpdateApp;
 import com.android.xiwao.washcar.utils.FragmentUtils;
 
 public class MainActivity extends FragmentActivity{
@@ -69,6 +69,8 @@ public class MainActivity extends FragmentActivity{
       
         ActivityManage.getInstance().setCurContext(this);
 		ActivityManage.getInstance().addActivity(this);
+//		UpdateApp updateApp = new UpdateApp(this);
+//		updateApp.checkVersion();
 		getDisHw();
 		mLocalSharePref = new LocalSharePreference(this);
 		setContentView(R.layout.activity_main);

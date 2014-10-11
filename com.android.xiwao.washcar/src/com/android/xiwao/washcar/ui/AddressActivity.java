@@ -29,6 +29,7 @@ import com.android.xiwao.washcar.LocalSharePreference;
 import com.android.xiwao.washcar.R;
 import com.android.xiwao.washcar.XiwaoApplication;
 import com.android.xiwao.washcar.data.AddressData;
+import com.android.xiwao.washcar.data.CarInfo;
 import com.android.xiwao.washcar.httpconnection.AddressDelete;
 import com.android.xiwao.washcar.httpconnection.AddressQuery;
 import com.android.xiwao.washcar.httpconnection.BaseCommand;
@@ -324,7 +325,13 @@ public class AddressActivity extends Activity {
 		}
 		switch(requestCode){
 		case Constants.ADD_ADDRESS_RESULT_CODE:
-			getAddressInfo();
+//			getAddressInfo();
+			AddressData newAddress = new AddressData();
+			newAddress = data.getParcelableExtra("new_address");
+			Intent intent = new Intent();
+			intent.putExtra("choice_address", (Parcelable)newAddress);
+			setResult(RESULT_OK, intent);
+			finish();
 			break;
 		}
 	}

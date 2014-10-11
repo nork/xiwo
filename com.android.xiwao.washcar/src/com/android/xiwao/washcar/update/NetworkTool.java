@@ -7,17 +7,15 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
 
 import android.content.Context;
-import android.util.Log;
 
 public class NetworkTool {
 	public static VersionInfo getContent(Context context, String url) throws Exception{
 	
-		VersionInfo versionInfo = new VersionInfo();	//±£´æ½âÎöµ½µÄ°æ±¾ĞÅÏ¢
+		VersionInfo versionInfo = new VersionInfo();	//ä¿å­˜è§£æåˆ°çš„ç‰ˆæœ¬ä¿¡æ¯
 	    StringBuilder sb = new StringBuilder();
-	    HttpClient client =  new DefaultHttpClient(); //CustomerHttpClient.getHttpClient(context);
+	    HttpClient client =  CustomerHttpClient.getHttpClient(context); //new DefaultHttpClient();
 
 	    HttpResponse response = client.execute(new HttpGet(url));
 	    HttpEntity entity = response.getEntity();
@@ -30,12 +28,14 @@ public class NetworkTool {
 	        boolean functionFlag = false;
 	        int flag = 0;
 	        while ((line = reader.readLine())!= null){
-	        	Log.i("NetworkTool", "--------- "+line);
 	        	if(line.length() ==0){
 	        		continue;
 	        	}
+	        	if(line.contains("address")){ 
+//	        		Constants.FormalUrl = line.substring(line.indexOf(":") + 1);
+	        	}
 	        	if(line.contains("Changes")){
-	        		//½øÈë°æ±¾Ãû³ÆĞĞ
+	        		//è¿›å…¥ç‰ˆæœ¬åç§°ï¿½?
 	        		verName.append(line.substring(line.indexOf("version") + 8, line.indexOf("(") - 1));
 	        		if(versionInfo.getVerName() == ""){
 	        			versionInfo.setVerName(verName.toString());
@@ -46,7 +46,7 @@ public class NetworkTool {
 	        			}
 	        		}
 	        	}else if(line.contains("---------") && flag < 2){
-	        		//¿ªÊ¼½âÎöµ½ĞÂÔö¹¦ÄÜĞĞ
+	        		//ï¿½?ï¿½ï¿½è§£æåˆ°æ–°å¢åŠŸèƒ½è¡Œ
 	        		flag ++;
 	        		functionFlag = !functionFlag;
 	        		functionStr.append("--------------------------" + "\n");

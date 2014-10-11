@@ -113,6 +113,10 @@ public class PayDialog extends Activity{
 		if(serverType.equals("充值")){
 			accountPayLayout.setVisibility(View.GONE);
 		}
+		if(serverType.equals("充值") || serverType.equals("包月")){
+			accountPayLayout.setVisibility(View.GONE);
+			activityPayLayout.setVisibility(View.GONE);
+		}
 		sureBtn.setOnClickListener(new View.OnClickListener() {
 			
 			@Override

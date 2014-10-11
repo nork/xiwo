@@ -294,4 +294,8 @@ Wash Me为保障会员安全地使用其提供的网络服务，将建立保护�
     
     <string name="clean_in">清洗内饰</string>
     <string name="price_title">订单价格</string>
+    
+    <string name="abouttxt">上海喜沃汽车服务是一家专门从事于汽车洗护服务的有限责任公司。在沪上推出的Wash Me品牌首先提出了手机移动互联与汽车养护服务相结合的服务模式。同时，采用人车分离,社区化的经营理念。让您在轻松自在之中，完成对您爱车的洗护服务。
+							\n我们的宗旨就是让洗车变得更轻松！
+	</string>
 </resources>
