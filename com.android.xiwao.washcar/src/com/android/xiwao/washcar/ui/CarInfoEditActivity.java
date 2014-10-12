@@ -491,7 +491,7 @@ public class CarInfoEditActivity extends Activity {
 				choiceAddress.setAddressDetail(lastAddressQuery.address);
 				choiceAddress.setAddressId(lastAddressQuery.addressId);
 			} else {
-				dialogUtils.showToast(lastAddressQuery.errorMessage);
+//				dialogUtils.showToast(lastAddressQuery.errorMessage);
 			}
 		}
 	}
