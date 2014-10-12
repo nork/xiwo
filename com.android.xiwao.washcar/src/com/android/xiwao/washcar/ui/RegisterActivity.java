@@ -218,7 +218,7 @@ public class RegisterActivity extends Activity {
 				} 
 
 				//此处验证码暂时使用服务器返回的值
-				doRegister(code, phonenumber, EncryDecryUtils.str2Md5(psw2), nickNameStr); // 对密码进行加密
+				doRegister(codestr, phonenumber, EncryDecryUtils.str2Md5(psw2), nickNameStr); // 对密码进行加密
 			}
 		});
 

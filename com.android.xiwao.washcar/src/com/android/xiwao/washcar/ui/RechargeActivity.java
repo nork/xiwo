@@ -291,7 +291,7 @@ public class RechargeActivity extends Activity {
 				onAccountQuerySuccess(accountQueryRsp.accountInfo);
 				// dialogUtils.showToast(accountQueryRsp.errorMessage);
 			} else {
-				dialogUtils.showToast(accountQueryRsp.errorMessage);
+//				dialogUtils.showToast(accountQueryRsp.errorMessage);
 			}
 		}
 	}

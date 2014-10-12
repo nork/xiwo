@@ -234,7 +234,7 @@ public class AddressActivity extends Activity {
 				}
 //				dialogUtils.showToast(addressQueryRsp.errorMessage);
 			} else {
-				dialogUtils.showToast(addressQueryRsp.errorMessage);
+//				dialogUtils.showToast(addressQueryRsp.errorMessage);
 				addressListData.clear();
 				fetchListAdapter(addressListData);
 			}

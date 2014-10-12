@@ -46,12 +46,18 @@ public class MonthlyDetailActivity extends Activity{
 		TextView monthlyTime = (TextView) findViewById(R.id.monthly_time);
 		TextView carCode = (TextView) findViewById(R.id.car_code);
 		Button monthlyBtn = (Button) findViewById(R.id.monthly_btn);
+		TextView startTime = (TextView) findViewById(R.id.start_time);
+		TextView endTime = (TextView) findViewById(R.id.end_time);
+		TextView endTimeBottom = (TextView) findViewById(R.id.end_time_bottom);
 		
 		buffsTime.setText(monthlyCarData.getBuffTimes() + "次");
 		washTime.setText(monthlyCarData.getWashTimes() + "次");
 		cleanInTime.setText(monthlyCarData.getInteriorTimes() + "次");
 		monthlyTime.setText(monthlyCarData.getStartDate().substring(0, 10) + "—" + monthlyCarData.getEndDate().substring(0, 10));
-		carCode.setText("包月车辆：" + monthlyCarData.getCarCode());
+		startTime.setText(monthlyCarData.getStartDate().substring(0, 10));
+		endTime.setText(monthlyCarData.getEndDate().substring(0, 10));
+		endTimeBottom.setText("包月服务截止：" + monthlyCarData.getEndDate().substring(0, 10));
+		carCode.setText("我的车牌：" + monthlyCarData.getCarCode());
 		
 		monthlyBtn.setOnClickListener(new View.OnClickListener() {
 			
