@@ -42,7 +42,6 @@
 	    android:textColor="@android:color/black"
 	    android:layout_marginLeft="15dp"
 	    android:layout_marginRight="15dp"
-	    android:textSize="16sp" 
 	    android:layout_marginTop="@dimen/_50dp"/>
 
 </LinearLayout>

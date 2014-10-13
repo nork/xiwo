@@ -117,7 +117,7 @@ public class OrderManageFragment extends BaseFragment {
 		noOrder = (TextView) view.findViewById(R.id.no_order);
 
 		setListViewOnEvent();
-		title.setText(getString(R.string.order_manage)); 	
+		title.setText("订单管理"); 	
 		setSelected(closedBtn);//初次加载时已经支付按钮默认选中
 		setListDisplay(closeListView);
 		paidBtn.setOnClickListener(new View.OnClickListener() {

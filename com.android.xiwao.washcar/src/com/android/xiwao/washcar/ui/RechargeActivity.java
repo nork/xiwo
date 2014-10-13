@@ -196,7 +196,7 @@ public class RechargeActivity extends Activity {
 		sb.append("\"&body=\"");
 		sb.append("上海洗沃公司洗车服务费");
 		sb.append("\"&total_fee=\"");
-		sb.append("0.01");
+		sb.append("500");
 		sb.append("\"&notify_url=\"");
 
 		// 网址需要做URL编码

@@ -169,13 +169,14 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="20dp"
                             android:text="@string/wash_car"
-                            android:textColor="@android:color/black" />
+                            android:textColor="@android:color/black" />                               
                     </TableRow>
                     
                     <TextView android:id="@+id/clean_in_row_line"
                         android:layout_width="fill_parent"
                         android:layout_height="1dip"
-                        android:background="@color/background" />
+                        android:background="@color/background"
+                        android:visibility="gone" />
 
                     <TableRow	android:id="@+id/clean_in_row"
                         android:layout_width="fill_parent"
@@ -183,13 +184,14 @@
                         android:layout_marginTop="1dp"
                         android:background="@color/white"
                         android:paddingBottom="10dp"
-                        android:paddingTop="10dp" >
+                        android:paddingTop="10dp" 
+                        android:visibility="gone">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="20dp"
-                            android:text="是否清洗内饰"
+                            android:text="清洗内饰"
                             android:textColor="@android:color/black" />
 
                         <TextView
@@ -204,7 +206,8 @@
                     <TextView android:id="@+id/monthly_time_part_line"
                         android:layout_width="fill_parent"
                         android:layout_height="1dip"
-                        android:background="@color/background" />
+                        android:background="@color/background" 
+                        android:visibility="gone"/>
 
                     <TableRow	android:id="@+id/monthly_time_part"
                         android:layout_width="fill_parent"
@@ -212,7 +215,8 @@
                         android:layout_marginTop="1dp"
                         android:background="@color/white"
                         android:paddingBottom="10dp"
-                        android:paddingTop="10dp" >
+                        android:paddingTop="10dp" 
+                        android:visibility="gone">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -334,7 +338,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="20dp"
-                            android:text="@string/phone"
+                            android:text="联系电话"
                             android:textColor="@android:color/black" />
 
                         <TextView

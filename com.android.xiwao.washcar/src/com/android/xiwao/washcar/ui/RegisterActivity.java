@@ -8,6 +8,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -83,6 +84,7 @@ public class RegisterActivity extends Activity {
 		initExecuter();
 		initUtils();
 		setHwView();
+//		Typeface type = Typeface.createFromAsset(getContext().getAssets(), "kaiu.ttf");
 	}
 
 	@SuppressLint("CutPasteId")
@@ -488,14 +490,14 @@ public class RegisterActivity extends Activity {
 		public void onFinish() {// 计时完毕时触发
 			getaginbtn.setText("重新获取验证码");
 			getaginbtn.setClickable(true);
-			 getaginbtn.setBackgroundResource(R.drawable.orange_btn_bg);
+			 getaginbtn.setBackgroundResource(R.drawable.orange_btn_bg_little);
 		}
 
 		@Override
 		public void onTick(long millisUntilFinished) {// 计时过程显示
 			getaginbtn.setClickable(false);
 			getaginbtn.setText(millisUntilFinished / 1000 + "秒后重新发送");
-			 getaginbtn.setBackgroundResource(R.drawable.graybtn_bg);
+			 getaginbtn.setBackgroundResource(R.drawable.graybtn_bg_little);
 		}
 	}
 }

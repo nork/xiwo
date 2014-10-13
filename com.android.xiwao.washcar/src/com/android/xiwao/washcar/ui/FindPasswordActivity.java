@@ -429,14 +429,14 @@ public class FindPasswordActivity extends Activity {
 		public void onFinish() {// 计时完毕时触发
 			getaginbtn.setText("重新获取验证码");
 			getaginbtn.setClickable(true);
-			getaginbtn.setBackgroundResource(R.drawable.orange_btn_bg);
+			getaginbtn.setBackgroundResource(R.drawable.orange_btn_bg_little);
 		}
 
 		@Override
 		public void onTick(long millisUntilFinished) {// 计时过程显示
 			getaginbtn.setClickable(false);
 			getaginbtn.setText(millisUntilFinished / 1000 + "秒后重新发送");
-			getaginbtn.setBackgroundResource(R.drawable.graybtn_bg);
+			getaginbtn.setBackgroundResource(R.drawable.graybtn_bg_little);
 		}
 	}
 

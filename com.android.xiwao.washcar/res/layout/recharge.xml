@@ -93,7 +93,7 @@
         android:id="@+id/remind_title"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="本次充值金额：500元     可享受9折"
+        android:text="本次充值金额：500元     单次服务可享受9折"
         android:background="@color/orange"
         android:gravity="center_horizontal"
         android:textColor="@color/white"

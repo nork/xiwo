@@ -33,6 +33,7 @@ import com.android.xiwao.washcar.httpconnection.CarRegister;
 import com.android.xiwao.washcar.httpconnection.CommandExecuter;
 import com.android.xiwao.washcar.httpconnection.UpdateOrderStateCancel;
 import com.android.xiwao.washcar.utils.DialogUtils;
+import com.android.xiwao.washcar.utils.StringUtils;
 
 public class OrderDetailActivity extends Activity {
 	private Context mContext;
@@ -174,6 +175,9 @@ public class OrderDetailActivity extends Activity {
 		LinearLayout remindTitle = (LinearLayout) findViewById(R.id.remind_title);
 		
 		String orderStateStr = orderData.getOrderState();
+//		String saleFeeStr = orderData.getSaleFee();
+//		saleFeeStr = saleFeeStr.substring(0, saleFeeStr.length() - 2) + "." + saleFeeStr.substring(saleFeeStr.length() - 2);
+		String saleFeeStr = StringUtils.getPriceStr(Integer.parseInt(orderData.getSaleFee()));
 		if(orderStateStr.equals("01")){
 			orderStateStr = "未支付";
 			buttonGroup.setBackgroundResource(R.color.background);
@@ -184,8 +188,6 @@ public class OrderDetailActivity extends Activity {
 			doneTimeRow.setVisibility(View.GONE);
 			TableRow saleFeeRow = (TableRow) findViewById(R.id.sale_fee_row);
 			saleFeeRow.setVisibility(View.GONE);
-			String saleFeeStr = orderData.getSaleFee();
-			saleFeeStr = saleFeeStr.substring(0, saleFeeStr.length() - 2) + "." + saleFeeStr.substring(saleFeeStr.length() - 2);
 			transactionAmount.setText(orderData.getFee() + "      账户支付价格    " + saleFeeStr);
 //			String saleFeeStr = orderData.getSaleFee();
 //			saleFeeStr = saleFeeStr.substring(0, saleFeeStr.length() - 2) + "." + saleFeeStr.substring(saleFeeStr.length() - 2);
@@ -203,7 +205,7 @@ public class OrderDetailActivity extends Activity {
 			saleFeeTitle.setText("支付方式");
 			saleFee.setText(orderData.getPayType());
 
-			transactionAmount.setText(orderData.getFee());
+			transactionAmount.setText(saleFeeStr + "    支付方式    " + orderData.getPayType());
 		}else if(orderStateStr.equals("03")){
 			orderStateStr = "服务中";
 			buttonGroup.setBackgroundResource(R.color.background);
@@ -216,7 +218,7 @@ public class OrderDetailActivity extends Activity {
 			saleFeeTitle.setText("支付方式");
 			saleFee.setText(orderData.getPayType());
 			
-			transactionAmount.setText(orderData.getFee());
+			transactionAmount.setText(saleFeeStr + "    支付方式    " + orderData.getPayType());
 		}else if(orderStateStr.equals("04")){
 			orderStateStr = "已完成";
 			buttonGroup.setBackgroundResource(R.color.background);
@@ -228,7 +230,7 @@ public class OrderDetailActivity extends Activity {
 			remindTitle.setVisibility(View.GONE);
 			saleFeeTitle.setText("支付方式");
 			saleFee.setText(orderData.getPayType());
-			transactionAmount.setText(orderData.getFee());
+			transactionAmount.setText(saleFeeStr + "    支付方式    " + orderData.getPayType());
 		}else if(orderStateStr.equals("05")){
 			orderStateStr = "已取消";
 			payNowBtn.setVisibility(View.GONE);
@@ -237,17 +239,21 @@ public class OrderDetailActivity extends Activity {
 			payTimeRow.setVisibility(View.GONE);
 			doneTimeRow.setVisibility(View.GONE);
 			remindTitle.setVisibility(View.GONE);
-			transactionAmount.setText(orderData.getFee());
+			transactionAmount.setText(orderData.getSaleFee());
 		}
 		orderState.setText(orderStateStr);
 		quantity.setText(orderData.getQuantity() + "");
+		String cleanInStr = "否";
 		if(orderData.getServiceTypeMi().equals("01")){
 			ifCleanIn.setText("是");
+			cleanInStr = "是";
 		}
 		if(orderData.getServiceType().equals("包月")){
 			ifCleanInRow.setVisibility(View.GONE);		
+			serviceType.setText(orderData.getServiceType() + "    数量     " + orderData.getQuantity());
 		}else if(orderData.getServiceType().equals("打蜡") || orderData.getServiceType().equals("洗车")){
 			quantityRow.setVisibility(View.GONE);
+			serviceType.setText(orderData.getServiceType() + "    清洗内饰     " + cleanInStr);
 		}
 	}
 	public void setHwView() {

@@ -7,6 +7,9 @@ import java.util.List;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
@@ -14,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -35,6 +39,7 @@ import com.android.xiwao.washcar.httpconnection.CommandExecuter;
 import com.android.xiwao.washcar.listadapter.CarInfoListAdapter;
 import com.android.xiwao.washcar.ui.widget.SwipeListView;
 import com.android.xiwao.washcar.utils.DialogUtils;
+import com.android.xiwao.washcar.utils.FileUtil;
 
 public class CarListActivity extends Activity{
 	private static final String TAG = "CarListActivity";
@@ -45,6 +50,8 @@ public class CarListActivity extends Activity{
 
 	private TextView title;
 	private Button backBtn;
+	private TextView carInfoTitle;
+	private ImageView customerImg;
 
 	// 工具
 	private DialogUtils dialogUtils;
@@ -55,6 +62,8 @@ public class CarListActivity extends Activity{
 	// 网络访问相关对象
 	private Handler mHandler;
 	private CommandExecuter mExecuter;
+	
+	private Bitmap userHeadBitMap;
 	
 	private View mCurrentDisplayItemView;
 	private int displayHeight;
@@ -83,6 +92,20 @@ public class CarListActivity extends Activity{
 		backBtn = (Button) findViewById(R.id.backbtn);
 		title = (TextView) findViewById(R.id.title);
 		title.setText(getString(R.string.car_info));
+		
+		carInfoTitle = (TextView) findViewById(R.id.car_info_title);
+		carInfoTitle.setText(mLocalSharePref.getNickName() + getString(R.string.car_info_title));
+		customerImg = (ImageView) findViewById(R.id.custom_img);
+		
+		String userHeadBase64 = mLocalSharePref.getUserHead();
+		if(!userHeadBase64.equals("") && userHeadBase64 != null && !userHeadBase64.equals("null")){
+			AppLog.v("TAG11", userHeadBase64);
+			userHeadBitMap = FileUtil.base64ToBitmap(userHeadBase64);
+			Drawable drawable = new BitmapDrawable(userHeadBitMap);
+			customerImg.setBackgroundDrawable(drawable);
+//			customerImg.setBackground(drawable);
+		}
+		
 		backBtn.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
@@ -295,12 +318,21 @@ public class CarListActivity extends Activity{
 				LayoutParams.MATCH_PARENT,
 				(int) (displayHeight * 0.08f + 0.5f));
 		title.setLayoutParams(titleParams);
+		
+		// 头像和添加头像按钮的宽高度设置
+		RelativeLayout.LayoutParams imgParams = new RelativeLayout.LayoutParams(
+				(int) (displayHeight * 0.12f + 0.5f),
+				(int) (displayHeight * 0.12f + 0.5f));
+		customerImg.setLayoutParams(imgParams);
 	}
 	
 	@Override
 	protected void onDestroy() {
 		// TODO Auto-generated method stub
 		super.onDestroy();
+		if(userHeadBitMap != null){
+			userHeadBitMap.recycle();
+		}
 	}
 
 	@Override

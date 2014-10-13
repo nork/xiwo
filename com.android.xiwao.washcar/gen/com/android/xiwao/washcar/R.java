@@ -213,55 +213,57 @@ containing a value of this type.
         public static final int dotted_line_gray=0x7f02001b;
         public static final int fork_icon=0x7f02001c;
         public static final int graybtn_bg=0x7f02001d;
-        public static final int homepage_off=0x7f02001e;
-        public static final int homepage_on=0x7f02001f;
-        public static final int homepage_selector=0x7f020020;
-        public static final int ic_action_search=0x7f020021;
-        public static final int ic_launcher=0x7f020022;
-        public static final int icon_car=0x7f020023;
-        public static final int icon_redcar=0x7f020024;
-        public static final int line_bg=0x7f020025;
-        public static final int main_bg=0x7f020026;
-        public static final int more_off=0x7f020027;
-        public static final int more_on=0x7f020028;
-        public static final int more_selector=0x7f020029;
-        public static final int more_single_bg=0x7f02002a;
-        public static final int orange_border_bg=0x7f02002b;
-        public static final int orange_btn=0x7f02002c;
-        public static final int orange_btn_bg=0x7f02002d;
-        public static final int order_btn_group_bg=0x7f02002e;
-        public static final int order_manage_off=0x7f02002f;
-        public static final int order_manage_on=0x7f020030;
-        public static final int order_manage_selector=0x7f020031;
-        public static final int paidbtn_bg=0x7f020032;
-        public static final int pay_title_img=0x7f020033;
-        public static final int people_icon=0x7f020034;
-        public static final int popup_bg=0x7f020035;
-        public static final int pulltorefresh_down_arrow=0x7f020036;
-        public static final int pulltorefresh_up_arrow=0x7f020037;
-        public static final int queue_statu=0x7f020038;
-        public static final int recharge_btn_bg=0x7f020039;
-        public static final int refresh=0x7f02003a;
-        public static final int refresh_button=0x7f02003b;
-        public static final int refresh_push=0x7f02003c;
-        public static final int right_icon=0x7f02003d;
-        public static final int text_selector=0x7f02003e;
-        public static final int time_img=0x7f02003f;
-        public static final int title=0x7f020040;
-        public static final int title_background=0x7f020041;
-        public static final int wait_pay_btn_bg=0x7f020042;
-        public static final int wash_icon=0x7f020043;
-        public static final int wash_me_logo=0x7f020044;
-        public static final int washcar_btn=0x7f020045;
-        public static final int washwaxcar_btn=0x7f020046;
-        public static final int wax_icon=0x7f020047;
-        public static final int weibo_detail_bottom_bg=0x7f020048;
-        public static final int weibo_detail_buttombar_itembg_on=0x7f020049;
-        public static final int weibolist_bottombar_itembg_selector=0x7f02004a;
-        public static final int weibolist_global_selector=0x7f02004b;
-        public static final int xu_line_box=0x7f02004c;
-        public static final int yellow_btn_bg=0x7f02004d;
-        public static final int yes=0x7f02004e;
+        public static final int graybtn_bg_little=0x7f02001e;
+        public static final int homepage_off=0x7f02001f;
+        public static final int homepage_on=0x7f020020;
+        public static final int homepage_selector=0x7f020021;
+        public static final int ic_action_search=0x7f020022;
+        public static final int ic_launcher=0x7f020023;
+        public static final int icon_car=0x7f020024;
+        public static final int icon_redcar=0x7f020025;
+        public static final int line_bg=0x7f020026;
+        public static final int main_bg=0x7f020027;
+        public static final int more_off=0x7f020028;
+        public static final int more_on=0x7f020029;
+        public static final int more_selector=0x7f02002a;
+        public static final int more_single_bg=0x7f02002b;
+        public static final int orange_border_bg=0x7f02002c;
+        public static final int orange_btn=0x7f02002d;
+        public static final int orange_btn_bg=0x7f02002e;
+        public static final int orange_btn_bg_little=0x7f02002f;
+        public static final int order_btn_group_bg=0x7f020030;
+        public static final int order_manage_off=0x7f020031;
+        public static final int order_manage_on=0x7f020032;
+        public static final int order_manage_selector=0x7f020033;
+        public static final int paidbtn_bg=0x7f020034;
+        public static final int pay_title_img=0x7f020035;
+        public static final int people_icon=0x7f020036;
+        public static final int popup_bg=0x7f020037;
+        public static final int pulltorefresh_down_arrow=0x7f020038;
+        public static final int pulltorefresh_up_arrow=0x7f020039;
+        public static final int queue_statu=0x7f02003a;
+        public static final int recharge_btn_bg=0x7f02003b;
+        public static final int refresh=0x7f02003c;
+        public static final int refresh_button=0x7f02003d;
+        public static final int refresh_push=0x7f02003e;
+        public static final int right_icon=0x7f02003f;
+        public static final int text_selector=0x7f020040;
+        public static final int time_img=0x7f020041;
+        public static final int title=0x7f020042;
+        public static final int title_background=0x7f020043;
+        public static final int wait_pay_btn_bg=0x7f020044;
+        public static final int wash_icon=0x7f020045;
+        public static final int wash_me_logo=0x7f020046;
+        public static final int washcar_btn=0x7f020047;
+        public static final int washwaxcar_btn=0x7f020048;
+        public static final int wax_icon=0x7f020049;
+        public static final int weibo_detail_bottom_bg=0x7f02004a;
+        public static final int weibo_detail_buttombar_itembg_on=0x7f02004b;
+        public static final int weibolist_bottombar_itembg_selector=0x7f02004c;
+        public static final int weibolist_global_selector=0x7f02004d;
+        public static final int xu_line_box=0x7f02004e;
+        public static final int yellow_btn_bg=0x7f02004f;
+        public static final int yes=0x7f020050;
     }
     public static final class id {
         public static final int AlipayTitle=0x7f090037;
@@ -795,7 +797,7 @@ containing a value of this type.
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
 <p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
 "<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
-          @attr name android:adapterViewBackground
+          @attr name com.android.xiwao.washcar:adapterViewBackground
         */
         public static final int PullToRefresh_adapterViewBackground = 0;
         /**
@@ -807,7 +809,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
 <p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
 "<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
-          @attr name android:headerBackground
+          @attr name com.android.xiwao.washcar:headerBackground
         */
         public static final int PullToRefresh_headerBackground = 1;
         /**
@@ -822,7 +824,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
-          @attr name android:headerTextColor
+          @attr name com.android.xiwao.washcar:headerTextColor
         */
         public static final int PullToRefresh_headerTextColor = 2;
         /**
@@ -840,7 +842,7 @@ containing a value of this type.
 <tr><td><code>pullUpFromBottom</code></td><td>0x2</td><td></td></tr>
 <tr><td><code>both</code></td><td>0x3</td><td></td></tr>
 </table>
-          @attr name android:mode
+          @attr name com.android.xiwao.washcar:mode
         */
         public static final int PullToRefresh_mode = 3;
         /** Attributes that can be used with a swipelistviewstyle.
@@ -869,7 +871,7 @@ in (inches), mm (millimeters).
 theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
-          @attr name android:right_width
+          @attr name com.android.xiwao.washcar:right_width
         */
         public static final int swipelistviewstyle_right_width = 0;
     };

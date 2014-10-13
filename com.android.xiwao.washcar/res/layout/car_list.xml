@@ -36,6 +36,31 @@
             android:background="@color/orange" />
     </RelativeLayout>
 
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/orange" 
+        android:paddingLeft="20dp"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp">
+		
+        <ImageView android:id="@+id/custom_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/people_icon"
+            />
+        <TextView
+            android:id="@+id/car_info_title"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:paddingLeft="20dp"
+            android:textColor="@color/white"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/custom_img"
+             />
+    </RelativeLayout>
+    
     <com.android.xiwao.washcar.ui.widget.SwipeListView
         android:id="@+id/car_list"
         android:layout_width="fill_parent"
@@ -48,5 +73,6 @@
         android:layout_marginTop="@dimen/_20dp"
         android:layout_marginRight="18dp"
         android:dividerHeight="@dimen/_20dp"
+        android:layout_marginBottom="@dimen/_20dp"
         />
 </LinearLayout>

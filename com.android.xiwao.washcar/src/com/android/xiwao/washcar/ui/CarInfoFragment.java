@@ -215,7 +215,7 @@ public class CarInfoFragment extends BaseFragment {
 			if (carQueryRsp.responseType.equals("N")) {
 				carInfoListData = carQueryRsp.briefs;
 			} else {
-				dialogUtils.showToast(carQueryRsp.errorMessage);
+//				dialogUtils.showToast(carQueryRsp.errorMessage);
 			}
 			fetchList();
 		}
