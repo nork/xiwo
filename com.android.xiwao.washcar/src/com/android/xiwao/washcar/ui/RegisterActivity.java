@@ -287,7 +287,8 @@ public class RegisterActivity extends Activity {
 				(int) (displayHeight * 0.08f + 0.5f));
 		params.setMargins((int) (displayWidth * 0.03f + 0.5f),
 				(int) (displayHeight * 0.06f + 0.5f),
-				(int) (displayWidth * 0.05f + 0.3f), 0);
+				(int) (displayWidth * 0.03f + 0.5f), 0);
+
 		registerbtn.setLayoutParams(params);
 
 		LinearLayout inputPart = (LinearLayout) findViewById(R.id.input_part); // 手机号码输入框部分

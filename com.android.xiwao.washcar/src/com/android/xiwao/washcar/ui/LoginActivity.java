@@ -154,7 +154,7 @@ public class LoginActivity extends Activity {
 				(int) (displayHeight * 0.08f + 0.5f));
 		params.setMargins((int) (displayWidth * 0.03f + 0.5f),
 				(int) (displayHeight * 0.06f + 0.5f),
-				(int) (displayWidth * 0.05f + 0.3f), 0);
+				(int) (displayWidth * 0.03f + 0.5f), 0);
 		loginBtn.setLayoutParams(params);
 		// 注册按钮
 		params = new LinearLayout.LayoutParams(
@@ -162,7 +162,7 @@ public class LoginActivity extends Activity {
 				(int) (displayHeight * 0.08f + 0.5f));
 		params.setMargins((int) (displayWidth * 0.03f + 0.5f),
 				(int) (displayHeight * 0.03f + 0.5f),
-				(int) (displayWidth * 0.05f + 0.3f), 0);
+				(int) (displayWidth * 0.03f + 0.5f), 0);
 		registerBtn.setLayoutParams(params);
 		// 手机号码输入框
 		params = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT,
