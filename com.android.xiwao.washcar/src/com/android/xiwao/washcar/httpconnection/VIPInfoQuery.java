@@ -30,6 +30,7 @@ public class VIPInfoQuery extends BaseCommand{
 	public final static String JSON_BUFF_TIMES = "buff_times";
 	public final static String JSON_WASH_TIMES = "wash_times";
 	public final static String JSON_INTERIOR_TIMES = "interior_times";
+	public final static String JSON_FINAL_DATE = "final_date";
 	public final static String JSON_CAR_PIC = "car_pic";
 	
 	private long customerId;
@@ -99,6 +100,7 @@ public class VIPInfoQuery extends BaseCommand{
 				brief.setStartDate(jsonSingleInfo.getString(JSON_START_DATE));
 				brief.setWashTimes(jsonSingleInfo.getInt(JSON_WASH_TIMES));
 				brief.setCarPic(jsonSingleInfo.getString(JSON_CAR_PIC));
+				brief.setFinalDate(jsonSingleInfo.getString(JSON_FINAL_DATE));
 				
 				vipInfoQuery.monthlyCarDataList.add(brief);
 			}

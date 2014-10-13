@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.android.xiwao.washcar.R;
 import com.android.xiwao.washcar.data.OrderData;
+import com.android.xiwao.washcar.utils.StringUtils;
 
 public class OrderListAdapter extends BaseAdapter{
 	Context mContext;
@@ -77,7 +78,16 @@ public class OrderListAdapter extends BaseAdapter{
 		
 		OrderData singleOrderData = this.mList.get(position);
 		viewHolder.serialNumber.setText(Long.toString(singleOrderData.getOrderId()));
-		viewHolder.money.setText(singleOrderData.getFee());
+		
+		String saleFeeStr = singleOrderData.getSaleFee();
+		try{
+			saleFeeStr = StringUtils.getPriceStr(Integer.parseInt(singleOrderData.getSaleFee()));
+		}catch(Exception e){
+			saleFeeStr = singleOrderData.getFee();
+			e.printStackTrace();
+		}
+		
+		viewHolder.money.setText(saleFeeStr);
 		String orderState = singleOrderData.getOrderState();
 		if(orderState.equals("01")){
 			orderState = "Î´Ö§¸¶";

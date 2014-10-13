@@ -175,9 +175,14 @@ public class OrderDetailActivity extends Activity {
 		LinearLayout remindTitle = (LinearLayout) findViewById(R.id.remind_title);
 		
 		String orderStateStr = orderData.getOrderState();
-//		String saleFeeStr = orderData.getSaleFee();
+		String saleFeeStr = orderData.getSaleFee();
 //		saleFeeStr = saleFeeStr.substring(0, saleFeeStr.length() - 2) + "." + saleFeeStr.substring(saleFeeStr.length() - 2);
-		String saleFeeStr = StringUtils.getPriceStr(Integer.parseInt(orderData.getSaleFee()));
+		try{
+			saleFeeStr = StringUtils.getPriceStr(Integer.parseInt(orderData.getSaleFee()));
+		}catch(Exception e){
+			saleFeeStr = orderData.getFee();
+			e.printStackTrace();
+		}
 		if(orderStateStr.equals("01")){
 			orderStateStr = "Î´Ö§¸¶";
 			buttonGroup.setBackgroundResource(R.color.background);
@@ -239,7 +244,7 @@ public class OrderDetailActivity extends Activity {
 			payTimeRow.setVisibility(View.GONE);
 			doneTimeRow.setVisibility(View.GONE);
 			remindTitle.setVisibility(View.GONE);
-			transactionAmount.setText(orderData.getSaleFee());
+			transactionAmount.setText(saleFeeStr);
 		}
 		orderState.setText(orderStateStr);
 		quantity.setText(orderData.getQuantity() + "");

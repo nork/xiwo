@@ -282,11 +282,12 @@ public class RegisterActivity extends Activity {
 		codeInputPart.setLayoutParams(params); // 输入验证码部分
 
 		Button registerbtn = (Button) findViewById(R.id.registerbtn); // 提交按钮
-		params = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT,
+		params = new LinearLayout.LayoutParams(
+				(int) (displayWidth * 0.94f + 0.5f),
 				(int) (displayHeight * 0.08f + 0.5f));
-		params.setMargins((int) (displayWidth * 0.06f + 0.5f),
+		params.setMargins((int) (displayWidth * 0.03f + 0.5f),
 				(int) (displayHeight * 0.06f + 0.5f),
-				(int) (displayWidth * 0.06f + 0.5f), 0);
+				(int) (displayWidth * 0.05f + 0.3f), 0);
 		registerbtn.setLayoutParams(params);
 
 		LinearLayout inputPart = (LinearLayout) findViewById(R.id.input_part); // 手机号码输入框部分

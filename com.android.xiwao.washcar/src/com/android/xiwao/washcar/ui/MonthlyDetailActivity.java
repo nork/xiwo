@@ -56,7 +56,7 @@ public class MonthlyDetailActivity extends Activity{
 		monthlyTime.setText(monthlyCarData.getStartDate().substring(0, 10) + "—" + monthlyCarData.getEndDate().substring(0, 10));
 		startTime.setText(monthlyCarData.getStartDate().substring(0, 10));
 		endTime.setText(monthlyCarData.getEndDate().substring(0, 10));
-		endTimeBottom.setText("包月服务截止：" + monthlyCarData.getEndDate().substring(0, 10));
+		endTimeBottom.setText("包月服务截止：" + monthlyCarData.getFinalDate().substring(0, 10));
 		carCode.setText("我的车牌：" + monthlyCarData.getCarCode());
 		
 		monthlyBtn.setOnClickListener(new View.OnClickListener() {
