@@ -30,4 +30,15 @@ public class StringUtils {
 		}
 		return priceStr;
 	}
+	
+	public static String getPriceIntStr(int price){
+		DecimalFormat df = new DecimalFormat("###");
+		double priceDouble = ((double)price) / 100;
+		String priceStr = df.format(priceDouble);
+		AppLog.v("TAG", "¼Û¸ñ×Ö´®£º" + priceStr);
+		if(priceDouble < 1){
+			priceStr = "0" + priceStr; 
+		}
+		return priceStr;
+	}
 }

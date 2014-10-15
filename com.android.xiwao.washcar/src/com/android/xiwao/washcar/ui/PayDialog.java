@@ -240,15 +240,16 @@ public class PayDialog extends Activity{
 	}
 	
 	private String getNewOrderInfo() {
+		String alipayBodyMessage = "上海喜沃汽车服务有限公司" + serverType + "服务";
 		StringBuilder sb = new StringBuilder();
 		sb.append("partner=\"");
 		sb.append(Keys.DEFAULT_PARTNER);
 		sb.append("\"&out_trade_no=\"");
 		sb.append(orderId);
 		sb.append("\"&subject=\"");
-		sb.append("上海洗沃公司洗车服务费");
+		sb.append(alipayBodyMessage);
 		sb.append("\"&body=\"");
-		sb.append("上海洗沃公司洗车服务费");
+		sb.append(alipayBodyMessage);
 		sb.append("\"&total_fee=\"");
 		sb.append(fee);
 		sb.append("\"&notify_url=\"");

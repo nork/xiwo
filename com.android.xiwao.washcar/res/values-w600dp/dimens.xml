@@ -1,5 +1,6 @@
 <resources>
 
+    <!-- 屏幕宽   针对7寸屏      以5寸屏为准 其他尺寸适当调整-->
     <dimen name="window_width">600dp</dimen>
     
 
@@ -9,10 +10,6 @@
     <dimen name="button_margin_l_r">30dp</dimen>
 
     <dimen name="top_height">65dp</dimen>
-    
-
-    <dimen name="main_financing_rate_margin_top">55dp</dimen>
-    <dimen name="main_financing_finger_margin_top">55dp</dimen>
   
     <dimen name="deal_record_icon_margin_right">6.5dp</dimen>
     <dimen name="deal_record_line_width">1dp</dimen>
@@ -25,6 +22,7 @@
     <dimen name="_10dp">13dp</dimen>
     <dimen name="_13dp">13.5dp</dimen>
     <dimen name="_15dp">20dp</dimen>
+    <dimen name="_17dp">22dp</dimen>
     <dimen name="_20dp">27dp</dimen>
     <dimen name="_25dp">34dp</dimen>
     <dimen name="_30dp">40dp</dimen>

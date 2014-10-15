@@ -19,7 +19,7 @@ public class FragmentFactory {
 	 */
 	public static void initFragment(){
 		homePageFragment = new HomePageFragment();
-		carInfoFragment = new CarInfoFragment();
+		carInfoFragment = new ServerFragment();
 		orderManageFragment = new OrderManageFragment();
 		moreFragment = new MoreFragment();
 	}

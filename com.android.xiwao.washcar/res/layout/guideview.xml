@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" 
+    >
+       
+    <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+             >
+
+            <com.android.xiwao.washcar.ui.widget.MyGallery
+                android:id="@+id/guidegallert"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent" />
+            
+            <!-- <Button android:visibility="gone"
+                android:id="@+id/beginuse"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/experience"
+                android:layout_marginTop="350dp"
+                android:layout_centerHorizontal="true"
+               	/> -->
+
+            <LinearLayout android:visibility="gone"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal" 
+                android:layout_marginTop="450dp"
+              	android:id="@+id/note"
+              	
+                >
+
+                <ImageView
+                    android:id="@+id/img01"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/guide_note_01"
+                    android:scaleType="center" />
+
+                <ImageView
+                    android:id="@+id/img02"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/guide_note_02"
+                    android:scaleType="center" />
+
+                <ImageView
+                    android:id="@+id/img03"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/guide_note_02"
+                    android:scaleType="center" />
+
+                <ImageView
+                    android:id="@+id/img04"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/guide_note_02"
+                    android:scaleType="center" />
+
+            </LinearLayout>
+        </RelativeLayout>
+</LinearLayout>

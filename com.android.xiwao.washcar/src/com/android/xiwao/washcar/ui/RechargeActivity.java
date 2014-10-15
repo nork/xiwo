@@ -192,9 +192,9 @@ public class RechargeActivity extends Activity {
 		sb.append("\"&out_trade_no=\"");
 		sb.append(orderId);
 		sb.append("\"&subject=\"");
-		sb.append("上海洗沃公司洗车服务费");
+		sb.append("上海喜沃汽车服务有限公司充值服务");
 		sb.append("\"&body=\"");
-		sb.append("上海洗沃公司洗车服务费");
+		sb.append("上海喜沃汽车服务有限公司充值服务");
 		sb.append("\"&total_fee=\"");
 		sb.append("500");
 		sb.append("\"&notify_url=\"");

@@ -80,6 +80,7 @@ public class OrderListAdapter extends BaseAdapter{
 		viewHolder.serialNumber.setText(Long.toString(singleOrderData.getOrderId()));
 		
 		String saleFeeStr = singleOrderData.getSaleFee();
+		String feeStr = singleOrderData.getFee();
 		try{
 			saleFeeStr = StringUtils.getPriceStr(Integer.parseInt(singleOrderData.getSaleFee()));
 		}catch(Exception e){
@@ -91,6 +92,7 @@ public class OrderListAdapter extends BaseAdapter{
 		String orderState = singleOrderData.getOrderState();
 		if(orderState.equals("01")){
 			orderState = "Î´Ö§¸¶";
+			viewHolder.money.setText(feeStr);
 		}else if(orderState.equals("02")){
 			orderState = "ÒÑÖ§¸¶";
 		}else if(orderState.equals("03")){

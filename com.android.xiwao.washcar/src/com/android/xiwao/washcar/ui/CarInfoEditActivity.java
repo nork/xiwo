@@ -198,6 +198,19 @@ public class CarInfoEditActivity extends Activity {
 		
 		//ÇåÏ´ÄÚÊÎ
 		cleanInBtn = (Button) findViewById(R.id.clean_in_btn);
+		if(getIntent().getBooleanExtra("if_clean_in", false)){
+			cleanInBtn.setSelected(true);
+			int cleanInPrice = 0;
+			for(FeeData feeData : MainActivity.feeDataList){
+				if(feeData.getFeeType().equals("01")){
+					cleanInPrice = feeData.getFee();
+					break;
+				}
+			}
+			priceCount += cleanInPrice;
+			String priceStr = StringUtils.getPriceStr(priceCount);
+			price.setText(priceStr);
+		}
 		cleanInBtn.setOnClickListener(new View.OnClickListener() {
 			
 			@Override

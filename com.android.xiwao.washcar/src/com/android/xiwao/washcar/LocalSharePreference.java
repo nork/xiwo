@@ -22,6 +22,7 @@ public class LocalSharePreference {
 	public static final String USER_LAST_CAR_TYPE = "user_last_car_type";
 	public static final String USER_HEAD_BASE_64 = "user_head_base_64";
 	public static final String USER_TYPE = "user_type";
+	public static final String IF_FIRST_USE = "if_first_use";
 	private Context mCtx;
 	private SharedPreferences mSp;
 	private SharedPreferences.Editor mEditor;

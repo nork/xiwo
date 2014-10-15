@@ -34,7 +34,7 @@
             style="@style/weibo_tab"  
             android:gravity="center_horizontal"
             android:drawableTop="@drawable/car_info_selector"  
-            android:text="@string/car_info" 
+            android:text="服务" 
             />  
   
         <RadioButton  
