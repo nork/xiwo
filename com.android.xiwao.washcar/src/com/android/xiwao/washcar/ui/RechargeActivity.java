@@ -14,9 +14,12 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,11 +33,14 @@ import com.android.xiwao.washcar.XiwaoApplication;
 import com.android.xiwao.washcar.alipay.Keys;
 import com.android.xiwao.washcar.alipay.Result;
 import com.android.xiwao.washcar.alipay.Rsa;
+import com.android.xiwao.washcar.data.FeeData;
 import com.android.xiwao.washcar.httpconnection.AccountQuery;
 import com.android.xiwao.washcar.httpconnection.BaseCommand;
 import com.android.xiwao.washcar.httpconnection.BaseResponse;
 import com.android.xiwao.washcar.httpconnection.CommandExecuter;
 import com.android.xiwao.washcar.httpconnection.PlaceOrder;
+import com.android.xiwao.washcar.httpconnection.RateQuery;
+import com.android.xiwao.washcar.listadapter.RechargeAdapter;
 import com.android.xiwao.washcar.utils.DialogUtils;
 import com.android.xiwao.washcar.utils.FileUtil;
 import com.android.xiwao.washcar.utils.StringUtils;
@@ -47,6 +53,7 @@ public class RechargeActivity extends Activity {
 	private Button backBtn;
 	private ImageView userHeadImg;
 	private TextView phone;
+	private ListView rechargeServiceList;
 
 	// 工具
 	private DialogUtils dialogUtils;
@@ -83,6 +90,11 @@ public class RechargeActivity extends Activity {
 		initContentView();
 		setHwView();
 		getBalance();
+		if(MainActivity.feeDataList.size() <= 0){
+			rateQuery();
+		}else{
+			setRechargeView();
+		}
 	}
 
 	private void initContentView() {
@@ -114,15 +126,15 @@ public class RechargeActivity extends Activity {
 //			customerImg.setBackground(drawable);
 		}
 		
-		alipayLayout = (RelativeLayout) findViewById(R.id.alipay_layout);
-		alipayLayout.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				placeOrder();
-			}
-		});
+//		alipayLayout = (RelativeLayout) findViewById(R.id.alipay_layout);
+//		alipayLayout.setOnClickListener(new View.OnClickListener() {
+//			
+//			@Override
+//			public void onClick(View v) {
+//				// TODO Auto-generated method stub
+//				placeOrder();
+//			}
+//		});
 	}
 
 	private void setHwView() {
@@ -145,11 +157,11 @@ public class RechargeActivity extends Activity {
 		userHeadImg.setLayoutParams(imgParams);
 	}
 
-	private void placeOrder(){
+	private void placeOrder(FeeData feeData){
 		BaseCommand carRegister = ClientSession.getInstance().getCmdFactory()
-				.getPlaceOrder(mLocalSharePref.getUserId(), "D", mLocalSharePref.getUserName(), 0
+				.getPlaceOrder(mLocalSharePref.getUserId(), feeData.getFeeType(), mLocalSharePref.getUserName(), 0
 						, 0, 0, "00", null, null
-						, null, 50000, 1);
+						, feeData.getFeeTypeMi(), feeData.getFee(), 1);
 
 		mExecuter.execute(carRegister, mPlaceOrderRespHandler);
 
@@ -160,7 +172,7 @@ public class RechargeActivity extends Activity {
 		((XiwaoApplication)getApplication()).setIfNeedRefreshOrder(true);
 		try {	
 			Log.i("ExternalPartner", "onItemClick");
-			String info = getNewOrderInfo(orderId);
+			String info = getNewOrderInfo(orderId, saleFee);
 			String sign = Rsa.sign(info, Keys.PRIVATE);
 			sign = URLEncoder.encode(sign);
 			info += "&sign=\"" + sign + "\"&" + getSignType();
@@ -185,7 +197,7 @@ public class RechargeActivity extends Activity {
 		}
 	}
 	
-	private String getNewOrderInfo(long orderId) {
+	private String getNewOrderInfo(long orderId, int saleFee) {
 		StringBuilder sb = new StringBuilder();
 		sb.append("partner=\"");
 		sb.append(Keys.DEFAULT_PARTNER);
@@ -196,7 +208,7 @@ public class RechargeActivity extends Activity {
 		sb.append("\"&body=\"");
 		sb.append("上海喜沃汽车服务有限公司充值服务");
 		sb.append("\"&total_fee=\"");
-		sb.append("500");
+		sb.append(StringUtils.getPriceStr(saleFee));
 		sb.append("\"&notify_url=\"");
 
 		// 网址需要做URL编码
@@ -220,6 +232,53 @@ public class RechargeActivity extends Activity {
 	private String getSignType() {
 		return "sign_type=\"RSA\"";
 	}
+	
+	/**
+	 * 查询费用
+	 */
+	public void rateQuery(){
+		BaseCommand login = ClientSession.getInstance().getCmdFactory()
+				.getRateQuery();
+
+		mExecuter.execute(login, mRespHandler);
+		dialogUtils.showProgress();
+	}
+	/**
+	 * 处理服务器返回的查询结果
+	 * @param rsp 服务返回的登录信息
+	 */
+	private void onReceiveRateQueryResponse(BaseResponse rsp) {
+
+		if (!rsp.isOK()) {
+			String error = getString(R.string.protocol_error) + "(" + rsp.errno
+					+ ")";
+			dialogUtils.showToast(error);
+		} else {
+			RateQuery.Response rateQueryRsp = (RateQuery.Response) rsp;
+			if (rateQueryRsp.responseType.equals("N")) {
+				MainActivity.feeDataList = rateQueryRsp.briefs;
+				getServiceCls();
+				setRechargeView();
+			} else {
+				dialogUtils.showToast(rateQueryRsp.errorMessage);
+			}
+		}
+	}
+	
+	private CommandExecuter.ResponseHandler mRespHandler = new CommandExecuter.ResponseHandler() {
+
+		public void handleResponse(BaseResponse rsp) {
+			onReceiveRateQueryResponse(rsp);
+		}
+
+		public void handleException(IOException e) {
+			dialogUtils.showToast(getString(R.string.connection_error));
+		}
+
+		public void onEnd() {
+			dialogUtils.dismissProgress();
+		}
+	};
 	
 	/**
 	 * 处理服务器返回的车辆注册结果
@@ -312,6 +371,26 @@ public class RechargeActivity extends Activity {
 	};
 
 	/**
+	 * 服务分类
+	 */
+	private void getServiceCls(){
+		MainActivity.singleServiceList.clear();
+		MainActivity.monthlyServiceList.clear();
+		MainActivity.rechargeServiceList.clear();
+		for(FeeData feeData : MainActivity.feeDataList){
+			if(feeData.getFeeType().equals("A")){//单次服务
+				MainActivity.singleServiceList.add(feeData);
+			}
+			if(feeData.getFeeType().equals("B")){//包月服务
+				MainActivity.monthlyServiceList.add(feeData);
+			}
+			if(feeData.getFeeType().equals("C")){//充值服务
+				MainActivity.rechargeServiceList.add(feeData);
+			}
+		}
+	}
+	
+	/**
 	 * 初始化需要的工具
 	 */
 	public void initUtils() {
@@ -338,6 +417,23 @@ public class RechargeActivity extends Activity {
 		System.gc();
 	}
 
+	private void setRechargeView(){
+		rechargeServiceList = (ListView) findViewById(R.id.recharge_server_list);
+		RechargeAdapter rechargeServiceAdapter = new RechargeAdapter(this, false
+				, R.layout.recharge_adapter, MainActivity.rechargeServiceList);
+		
+		rechargeServiceList.setAdapter(rechargeServiceAdapter);
+		
+		rechargeServiceList.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+					long arg3) {
+				// TODO Auto-generated method stub
+				placeOrder(MainActivity.rechargeServiceList.get(arg2));
+			}
+		});
+	}
 	@Override
 	protected void onPause() {
 		// TODO Auto-generated method stub

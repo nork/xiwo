@@ -51,7 +51,7 @@ public class GuideActivity extends Activity {
 	private void initContentView() {
 
 		int[] images = { R.drawable.app_guide00, R.drawable.app_guide01,
-				R.drawable.app_guide02, R.drawable.app_guide03 };
+				R.drawable.app_guide02};
 		List<Map<String, Object>> gallerylist = new ArrayList<Map<String, Object>>();
 
 		for (int i = 0; i < images.length; i++) {
@@ -73,7 +73,7 @@ public class GuideActivity extends Activity {
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
 				// TODO Auto-generated method stub
-				if (arg2 == 3) {
+				if (arg2 == 2) {
 					mLocalSharePref.putBooleanPref(LocalSharePreference.IF_FIRST_USE, true);
 					finish();
 				}

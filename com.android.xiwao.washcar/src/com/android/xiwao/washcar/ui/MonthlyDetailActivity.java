@@ -3,25 +3,33 @@ package com.android.xiwao.washcar.ui;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.android.xiwao.washcar.AppLog;
 import com.android.xiwao.washcar.R;
 import com.android.xiwao.washcar.XiwaoApplication;
 import com.android.xiwao.washcar.data.CarInfo;
 import com.android.xiwao.washcar.data.MonthlyCarData;
+import com.android.xiwao.washcar.utils.FileUtil;
 
 
 public class MonthlyDetailActivity extends Activity{
 	private Context mContext;
 	private MonthlyCarData monthlyCarData;
+	private Bitmap userHeadBitMap;
+	private ImageView carPic;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -45,6 +53,9 @@ public class MonthlyDetailActivity extends Activity{
 		TextView cleanInTime = (TextView) findViewById(R.id.clean_in_time);
 		TextView monthlyTime = (TextView) findViewById(R.id.monthly_time);
 		TextView carCode = (TextView) findViewById(R.id.car_code);
+		TextView carColor = (TextView) findViewById(R.id.car_color);
+		TextView carBrand = (TextView) findViewById(R.id.car_brand);
+		carPic = (ImageView) findViewById(R.id.car_img);
 		Button monthlyBtn = (Button) findViewById(R.id.monthly_btn);
 		TextView startTime = (TextView) findViewById(R.id.start_time);
 		TextView endTime = (TextView) findViewById(R.id.end_time);
@@ -57,7 +68,17 @@ public class MonthlyDetailActivity extends Activity{
 		startTime.setText(monthlyCarData.getStartDate().substring(0, 10));
 		endTime.setText(monthlyCarData.getEndDate().substring(0, 10));
 		endTimeBottom.setText("包月服务截止：" + monthlyCarData.getFinalDate().substring(0, 10));
-		carCode.setText("我的车牌：" + monthlyCarData.getCarCode());
+		carCode.setText(monthlyCarData.getCarCode());
+		carColor.setText(monthlyCarData.getCarColor());
+		carBrand.setText(monthlyCarData.getCarBrand());
+		
+		String userHeadBase64 = monthlyCarData.getCarPic();
+		if(!userHeadBase64.equals("") && userHeadBase64 != null && !userHeadBase64.equals("null")){
+			AppLog.v("TAG11", userHeadBase64);
+			userHeadBitMap = FileUtil.base64ToBitmap(userHeadBase64);
+			Drawable drawable = new BitmapDrawable(userHeadBitMap);
+			carPic.setBackgroundDrawable(drawable);
+		}
 		
 		monthlyBtn.setOnClickListener(new View.OnClickListener() {
 			
@@ -71,7 +92,8 @@ public class MonthlyDetailActivity extends Activity{
 				carInfo.setCarId(monthlyCarData.getCarId());
 				carInfo.setCustomerId(monthlyCarData.getCustomerId());
 				Intent intent = new Intent(mContext, CarInfoEditActivity.class);
-				intent.putExtra("service_type", 2);
+				intent.putExtra("service_type", MainActivity.monthlyServiceList.get(0).getFeeType());
+				intent.putExtra("server_cls", (Parcelable)MainActivity.monthlyServiceList.get(0));
 				intent.putExtra("choice_car", (Parcelable)carInfo);
 				startActivity(intent);
 				finish();
@@ -108,6 +130,12 @@ public class MonthlyDetailActivity extends Activity{
 	protected void onDestroy() {
 		// TODO Auto-generated method stub
 		super.onDestroy();
+		carPic.setImageBitmap(null);	//此处将ImageView的背景bitmap设置为空，断开setImageBitmap对bitmap的引用，然后才能回收bitmap，否则后面回收方法将不起效果
+		if(userHeadBitMap != null && !userHeadBitMap.isRecycled()){
+			userHeadBitMap.recycle();
+			userHeadBitMap = null;
+		}
+		System.gc();
 	}
 
 	@Override

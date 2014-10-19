@@ -143,7 +143,7 @@ public class PayDetailActivity extends Activity {
 		fee.setText(feeStr + "    账户支付价格    " + saleFeeStr);
 	
 		accountPayAmt.setText(saleFeeStr);
-		if(getIntent().getStringExtra("server_type").equals("包月")){
+		if(getIntent().getStringExtra("server_type").contains("包月")){
 			TableRow ifCleanInRow = (TableRow) findViewById(R.id.clean_in_row);
 			TextView ifCleanInLine = (TextView) findViewById(R.id.clean_in_row_line);
 			ifCleanInLine.setVisibility(View.GONE);

@@ -53,6 +53,11 @@
                 android:layout_marginLeft="@dimen/_10dp"
                 android:layout_marginTop="@dimen/_20dp"
                 android:background="@drawable/single_icon" />
+            <ListView android:id="@+id/single_server_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_15dp"
+                android:layout_marginRight="@dimen/_15dp"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -60,7 +65,8 @@
                 android:layout_marginLeft="@dimen/_15dp"
                 android:layout_marginRight="@dimen/_15dp"
                 android:background="@drawable/white_radio_bg"
-                android:orientation="vertical" >
+                android:orientation="vertical" 
+                android:visibility="gone">
 
                 <RelativeLayout android:id="@+id/wash_no_in"
                     android:layout_width="fill_parent"
@@ -170,6 +176,11 @@
                 android:layout_marginLeft="@dimen/_10dp"
                 android:layout_marginTop="@dimen/_20dp"
                 android:background="@drawable/monthly_icon" />
+            <ListView android:id="@+id/monthly_server_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_15dp"
+                android:layout_marginRight="@dimen/_15dp"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -177,7 +188,8 @@
                 android:layout_marginLeft="@dimen/_15dp"
                 android:layout_marginRight="@dimen/_15dp"
                 android:background="@drawable/white_radio_bg"
-                android:orientation="vertical" >
+                android:orientation="vertical" 
+                android:visibility="gone">
 
                 <RelativeLayout	android:id="@+id/monthly"
                     android:layout_width="fill_parent"
@@ -309,6 +321,11 @@
                 android:layout_marginLeft="@dimen/_10dp"
                 android:layout_marginTop="@dimen/_20dp"
                 android:background="@drawable/recharge_icon" />
+            <ListView android:id="@+id/recharge_server_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_15dp"
+                android:layout_marginRight="@dimen/_15dp"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -316,7 +333,8 @@
                 android:layout_marginLeft="@dimen/_15dp"
                 android:layout_marginRight="@dimen/_15dp"
                 android:background="@drawable/white_radio_bg"
-                android:orientation="vertical" >
+                android:orientation="vertical" 
+                android:visibility="gone">
 
                 <RelativeLayout android:id="@+id/recharge"
                     android:layout_width="fill_parent"

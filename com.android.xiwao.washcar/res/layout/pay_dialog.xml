@@ -116,7 +116,7 @@
             android:id="@+id/account_money_pay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/account_money_pay"
+            android:text="账户支付"
             android:textSize="18sp"
             android:textColor="@android:color/black" 
             android:layout_marginLeft="10dp"

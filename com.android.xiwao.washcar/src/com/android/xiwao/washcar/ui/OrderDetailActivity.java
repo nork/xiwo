@@ -249,14 +249,14 @@ public class OrderDetailActivity extends Activity {
 		orderState.setText(orderStateStr);
 		quantity.setText(orderData.getQuantity() + "");
 		String cleanInStr = "否";
-		if(orderData.getServiceTypeMi().equals("01")){
+		if(orderData.getServiceTypeMi().contains("A3")){
 			ifCleanIn.setText("是");
 			cleanInStr = "是";
 		}
-		if(orderData.getServiceType().equals("包月")){
+		if(orderData.getServiceType().contains("包月")){
 			ifCleanInRow.setVisibility(View.GONE);		
 			serviceType.setText(orderData.getServiceType() + "    数量     " + orderData.getQuantity());
-		}else if(orderData.getServiceType().equals("打蜡") || orderData.getServiceType().equals("洗车")){
+		}else if(orderData.getServiceType().contains("打蜡") || orderData.getServiceType().contains("洗车")){
 			quantityRow.setVisibility(View.GONE);
 			serviceType.setText(orderData.getServiceType() + "    清洗内饰     " + cleanInStr);
 		}

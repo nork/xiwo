@@ -172,7 +172,8 @@ public class CarInfoActivity extends Activity{
 					break;
 				case 2:		//Ï´³µ
 					Intent intent = new Intent(mContext, CarInfoEditActivity.class);
-					intent.putExtra("service_type", 0);
+					intent.putExtra("service_type", MainActivity.singleServiceList.get(0).getFeeType());
+					intent.putExtra("server_cls", (Parcelable)MainActivity.singleServiceList.get(0));
 					intent.putExtra("choice_car", (Parcelable)carInfoListData.get(position));
 					intent.putExtra("is_need_last_car", true);
 					startActivity(intent);

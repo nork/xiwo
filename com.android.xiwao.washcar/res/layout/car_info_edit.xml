@@ -132,7 +132,9 @@
             android:layout_toRightOf="@+id/car_num_title"
             android:background="@null"
             android:textColor="@android:color/black"
-            android:textSize="18sp"  />
+            android:textSize="18sp" 
+            android:drawableRight="@drawable/right_icon" 
+            android:paddingRight="@dimen/_10dp"/>
     </RelativeLayout>
 
     <RelativeLayout
@@ -162,7 +164,9 @@
             android:layout_toRightOf="@+id/websit_edt_title"
             android:background="@null"
             android:textColor="@android:color/black"
-            android:textSize="18sp"  />
+            android:textSize="18sp"
+            android:drawableRight="@drawable/right_icon"
+            android:paddingRight="@dimen/_10dp"/>
     </RelativeLayout>
 
     <RelativeLayout

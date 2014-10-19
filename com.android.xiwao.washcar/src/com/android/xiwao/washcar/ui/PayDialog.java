@@ -110,11 +110,11 @@ public class PayDialog extends Activity{
 		alipayAmt.setText(fee);
 		accountPayAmt.setText(accountFee);
 		
-		if(serverType.equals("充值")){
+		if(serverType.contains("充值")){
 			accountPayLayout.setVisibility(View.GONE);
 			activityPayLayout.setVisibility(View.GONE);
 		}
-		if(serverType.equals("包月")){
+		if(serverType.contains("包月")){
 			activityPayLayout.setVisibility(View.GONE);
 		}
 		sureBtn.setOnClickListener(new View.OnClickListener() {
@@ -122,7 +122,7 @@ public class PayDialog extends Activity{
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
-				if(sureBtn.getText().toString().equals("充值")){
+				if(sureBtn.getText().toString().contains("充值")){
 					Intent intent = new Intent(PayDialog.this, RechargeActivity.class);
 					startActivity(intent);
 					finish();
@@ -529,7 +529,7 @@ public class PayDialog extends Activity{
 	public void finish() {
 		// TODO Auto-generated method stub
 		if(ifPaySuc){
-			if(serverType.equals("包月")){
+			if(serverType.contains("包月")){
 				mLocalSharePref.setUserType("01");
 			}
 			AppLog.v(TAG, "付款成功");

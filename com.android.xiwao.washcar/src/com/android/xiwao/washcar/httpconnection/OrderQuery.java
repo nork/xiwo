@@ -9,16 +9,18 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.android.xiwao.washcar.data.FeeData;
 import com.android.xiwao.washcar.data.OrderData;
+import com.android.xiwao.washcar.ui.MainActivity;
 
-public class OrderQuery extends BaseCommand{
+public class OrderQuery extends BaseCommand {
 	private final static String CMD = "orderQuery.do";
-	
+
 	private final static String PARAMS_CUSTOM_ID = "Customer_id";
 	private final static String PARAMS_ORDER_STATE = "Order_state";
 	private final static String PARAMS_START_INDEX = "StartIndex";
 	private final static String PARAMS_PAGE = "Page";
-	
+
 	public final static String JSON_RESPONSE_TYPE = "ResponseType";
 	public final static String JSON_ERROR_MESSAGE = "ErrorMessage";
 	public final static String JSON_COUNT = "Count";
@@ -40,14 +42,14 @@ public class OrderQuery extends BaseCommand{
 	public final static String JSON_SALE_FEE = "saleFee";
 	public final static String JSON_QUANTITY = "quantity";
 	public final static String JSON_PAY_TYPE = "pay_type";
-	
+
 	private long customerId;
 	private String orderState;
 	private int startIndex;
 	private int page;
-	
+
 	public static class Response extends BaseResponse {
-		
+
 		public static int ISSUC_FAILED = 0;
 		public static int ISSUC_SUCC = 1;
 
@@ -57,7 +59,6 @@ public class OrderQuery extends BaseCommand{
 		public List<OrderData> orderDataList;
 	}
 
-	
 	public long getCustomerId() {
 		return customerId;
 	}
@@ -105,8 +106,7 @@ public class OrderQuery extends BaseCommand{
 		nvps.add(new BasicNameValuePair(PARAMS_ORDER_STATE, orderState));
 		nvps.add(new BasicNameValuePair(PARAMS_START_INDEX, Integer
 				.toString(startIndex)));
-		nvps.add(new BasicNameValuePair(PARAMS_PAGE, Integer
-				.toString(page)));
+		nvps.add(new BasicNameValuePair(PARAMS_PAGE, Integer.toString(page)));
 		return nvps;
 	}
 
@@ -126,9 +126,9 @@ public class OrderQuery extends BaseCommand{
 			orderQuery.responseType = jsonObj.getString(JSON_RESPONSE_TYPE);
 			orderQuery.errorMessage = jsonObj.getString(JSON_ERROR_MESSAGE);
 			orderQuery.orderCount = jsonObj.getInt(JSON_COUNT);
-		
+
 			jsonArray = jsonObj.getJSONArray(JSON_ORDER_LIST);
-			for(int i = 0; i<jsonArray.length(); i++){
+			for (int i = 0; i < jsonArray.length(); i++) {
 				jsonSingleInfo = jsonArray.getJSONObject(i);
 				brief = new OrderData();
 				brief.setAddressDetail(jsonSingleInfo.getString(JSON_ADDRESS));
@@ -140,37 +140,57 @@ public class OrderQuery extends BaseCommand{
 				brief.setOrderId(jsonSingleInfo.getLong(JSON_ORDER_ID));
 				brief.setOrderState(jsonSingleInfo.getString(JSON_ORDER_STATE));
 				brief.setPayTime(jsonSingleInfo.getString(JSON_PAY_TIME));
-				String serviceType = jsonSingleInfo.getString(JSON_SERVICE_TYPE);
-				if(serviceType.equals("A")){
-					serviceType = "洗车";
-				}else if(serviceType.equals("B")){
-					serviceType = "打蜡";
-				}else if(serviceType.equals("C")){
-					serviceType = "包月";
-				}else if(serviceType.equals("D")){
+				String serviceType = jsonSingleInfo
+						.getString(JSON_SERVICE_TYPE);
+				String serviceTypeMi = jsonSingleInfo
+						.getString(JSON_SERVICE_MI);
+				String serviceTypeMiChn;
+				if (serviceType.equals("A")) {
+					// serviceType = "单次服务";
+					for (FeeData fee : MainActivity.singleServiceList) {
+						if (serviceTypeMi.contains(fee.getFeeTypeMi())
+								&& !fee.getFeeTypeMi().equals("A3")) {
+							serviceType = fee.getProductName();
+						}
+					}
+				} else if (serviceType.equals("B")) {
+					for (FeeData fee : MainActivity.monthlyServiceList) {
+						if (serviceTypeMi.contains(fee.getFeeTypeMi())) {
+							serviceType = fee.getProductName();
+						}
+					}
+				} else if (serviceType.equals("C")) {
+					for (FeeData fee : MainActivity.rechargeServiceList) {
+						if (serviceTypeMi.contains(fee.getFeeTypeMi())) {
+							serviceType = fee.getProductName();
+						}
+					}
+					brief.setCarCode("");
+				} else if (serviceType.equals("D")) {
 					serviceType = "充值";
 					brief.setCarCode("");
 				}
 				brief.setServiceType(serviceType);
-				brief.setServiceTypeMi(jsonSingleInfo.getString(JSON_SERVICE_MI));
-				brief.setWashBegin(jsonSingleInfo.getString(JSON_WASH_BEGINTIME));
+				brief.setServiceTypeMi(serviceTypeMi);
+				brief.setWashBegin(jsonSingleInfo
+						.getString(JSON_WASH_BEGINTIME));
 				brief.setWashEnd(jsonSingleInfo.getString(JSON_WASH_ENDTIME));
 				brief.setSaleFee(jsonSingleInfo.getString(JSON_SALE_FEE));
 				brief.setQuantity(jsonSingleInfo.getInt(JSON_QUANTITY));
 				int fee = 0;
-				try{
+				try {
 					fee = jsonSingleInfo.getInt(JSON_FEE);
-					brief.setFee((fee/100) + ".00");
-				}catch(Exception e){
+					brief.setFee((fee / 100) + ".00");
+				} catch (Exception e) {
 					e.printStackTrace();
 					brief.setFee("获取价格失败");
 				}
 				String payType = jsonSingleInfo.getString(JSON_PAY_TYPE);
-				if(payType.equals("00")){
+				if (payType.equals("00")) {
 					payType = "支付宝支付";
-				}else if(payType.equals("01")){
+				} else if (payType.equals("01")) {
 					payType = "账户支付";
-				}else if(payType.equals("02")){
+				} else if (payType.equals("02")) {
 					payType = "活动支付";
 				}
 				brief.setPayType(payType);

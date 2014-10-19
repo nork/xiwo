@@ -2,6 +2,7 @@ package com.android.xiwao.washcar.ui;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -72,7 +73,12 @@ public class HomePageFragment extends BaseFragment{
 					return;
 				}
 				Intent intent = new Intent(mContext, CarInfoEditActivity.class);
-				intent.putExtra("service_type", 0);
+				intent.putExtra("service_type", "A");
+				try{
+					intent.putExtra("server_cls", (Parcelable)MainActivity.singleServiceList.get(0));
+				}catch(Exception e){
+					
+				}
 				startActivity(intent);
 			}
 		});
@@ -88,7 +94,12 @@ public class HomePageFragment extends BaseFragment{
 					return;
 				}
 				Intent intent = new Intent(mContext, CarInfoEditActivity.class);
-				intent.putExtra("service_type", 2);
+				intent.putExtra("service_type", "B");
+				try{
+					intent.putExtra("server_cls", (Parcelable)MainActivity.monthlyServiceList.get(0));
+				}catch(Exception e){
+				
+				}
 				startActivity(intent);
 			}
 		});
