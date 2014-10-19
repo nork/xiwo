@@ -9,8 +9,12 @@ public class FeeData implements Parcelable, Serializable{
 
 	private static final long serialVersionUID = 1L;
 	private long feeId;
-	private String feeType;
-	private int fee;
+	private String feeType;//服务大类
+	private int fee;	//服务费用
+	private String feeTypeMi; //服务小类
+	private int productId;	//产品ID
+	private String productName;	//产品名称
+	private String productInfo; //产品描述
 
 	public long getFeeId() {
 		return feeId;
@@ -34,6 +38,38 @@ public class FeeData implements Parcelable, Serializable{
 
 	public void setFee(int fee) {
 		this.fee = fee;
+	}	
+
+	public String getFeeTypeMi() {
+		return feeTypeMi;
+	}
+
+	public void setFeeTypeMi(String feeTypeMi) {
+		this.feeTypeMi = feeTypeMi;
+	}
+
+	public int getProductId() {
+		return productId;
+	}
+
+	public void setProductId(int productId) {
+		this.productId = productId;
+	}
+
+	public String getProductName() {
+		return productName;
+	}
+
+	public void setProductName(String productName) {
+		this.productName = productName;
+	}
+
+	public String getProductInfo() {
+		return productInfo;
+	}
+
+	public void setProductInfo(String productInfo) {
+		this.productInfo = productInfo;
 	}
 
 	@Override
@@ -51,6 +87,10 @@ public class FeeData implements Parcelable, Serializable{
 		dest.writeLong(this.feeId);
 		dest.writeString(this.feeType);
 		dest.writeInt(this.fee);
+		dest.writeInt(this.productId);
+		dest.writeString(this.feeTypeMi);
+		dest.writeString(this.productName);
+		dest.writeString(this.productInfo);
 	}
 	
 	public static final Parcelable.Creator<FeeData> CREATOR = new Parcelable.Creator<FeeData>(){
@@ -60,6 +100,10 @@ public class FeeData implements Parcelable, Serializable{
 			brief.feeId = source.readLong();
 			brief.feeType = source.readString();
 			brief.fee = source.readInt();
+			brief.productId = source.readInt();
+			brief.feeTypeMi = source.readString();
+			brief.productName = source.readString();
+			brief.productInfo = source.readString();
 			return brief;
 		}
 

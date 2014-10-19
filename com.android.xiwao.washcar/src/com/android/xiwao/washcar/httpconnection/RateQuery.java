@@ -18,8 +18,12 @@ public class RateQuery extends BaseCommand{
 	public static final String JSON_ERROR_MESSAGE = "ErrorMessage";
 	public static final String JSON_FEE_LIST = "FeeList";
 	public static final String JSON_RATE_ID = "rate_id";
-	public static final String JSON_FEE_TYPE = "fee_type";
+	public static final String JSON_FEE_TYPE = "service_type";
 	public static final String JSON_FEE = "fee";
+	public static final String JSON_PRODUCT_ID = "product_id";
+	public static final String JSON_PRODUCT_NAME = "product_name";
+	public static final String JSON_SERVER_TYPE_MI = "service_type_mi";
+	public static final String JSON_PRODUCT_INFO = "product_info";
 	
 	public static class Response extends BaseResponse {
 
@@ -64,9 +68,13 @@ public class RateQuery extends BaseCommand{
 			for(int i = 0; i<jsonArray.length(); i++){
 				jsonSingleInfo = jsonArray.getJSONObject(i);
 				brief = new FeeData();
-				brief.setFeeId(jsonSingleInfo.getLong(JSON_RATE_ID));	
+//				brief.setFeeId(jsonSingleInfo.getLong(JSON_RATE_ID));	
 				brief.setFee(jsonSingleInfo.getInt(JSON_FEE));
 				brief.setFeeType(jsonSingleInfo.getString(JSON_FEE_TYPE));
+				brief.setFeeTypeMi(jsonSingleInfo.getString(JSON_SERVER_TYPE_MI));
+				brief.setProductId(jsonSingleInfo.getInt(JSON_PRODUCT_ID));
+				brief.setProductInfo(jsonSingleInfo.getString(JSON_PRODUCT_INFO));
+				brief.setProductName(jsonSingleInfo.getString(JSON_PRODUCT_NAME));
 				rateQuery.briefs.add(brief);
 			}
 

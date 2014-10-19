@@ -58,6 +58,9 @@ public class MainActivity extends FragmentActivity{
 //	private DialogUtils dialogUtils;
 	
 	public static List<FeeData> feeDataList = new ArrayList<FeeData>();
+	public static List<FeeData> singleServiceList = new ArrayList<FeeData>();
+	public static List<FeeData> monthlyServiceList = new ArrayList<FeeData>();
+	public static List<FeeData> rechargeServiceList = new ArrayList<FeeData>();
 	private long mExitTime;
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
@@ -144,6 +147,7 @@ public class MainActivity extends FragmentActivity{
 				mExitTime = System.currentTimeMillis();
 			} else {
 				finish();
+				System.exit(0);
 			}
 			return true;
 		}
@@ -221,6 +225,7 @@ public class MainActivity extends FragmentActivity{
 			RateQuery.Response rateQueryRsp = (RateQuery.Response) rsp;
 			if (rateQueryRsp.responseType.equals("N")) {
 				feeDataList = rateQueryRsp.briefs;
+				getServiceCls();
 			} else {
 //				dialogUtils.showToast(loginRsp.errorMessage);
 			}
@@ -267,6 +272,7 @@ public class MainActivity extends FragmentActivity{
 				}
 			} else {
 //				dialogUtils.showToast(vipInfoQuery.errorMessage);
+				mLocalSharePref.setUserType("00");
 			}
 //			fetchList();
 		}
@@ -332,5 +338,22 @@ public class MainActivity extends FragmentActivity{
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         ((XiwaoApplication)getApplication()).setDisplayWidth(displayMetrics.widthPixels);
         ((XiwaoApplication)getApplication()).setDisplayHeight(displayMetrics.heightPixels);
+	}
+	
+	public static void getServiceCls(){
+		singleServiceList.clear();
+		monthlyServiceList.clear();
+		rechargeServiceList.clear();
+		for(FeeData feeData : feeDataList){
+			if(feeData.getFeeType().equals("A")){//单次服务
+				singleServiceList.add(feeData);
+			}
+			if(feeData.getFeeType().equals("B")){//包月服务
+				monthlyServiceList.add(feeData);
+			}
+			if(feeData.getFeeType().equals("C")){//充值服务
+				rechargeServiceList.add(feeData);
+			}
+		}
 	}
 }
