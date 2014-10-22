@@ -7,18 +7,29 @@
 
     <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_height="@dimen/_40dp"
-        android:gravity="center_vertical" >
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:paddingTop="@dimen/_5dp"
+        android:paddingBottom="@dimen/_5dp" >
 
         <TextView android:id="@+id/server_describe"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/_15dp"
             android:gravity="center_vertical"
             android:text="洗车(仅外观)"
             android:textColor="@android:color/black"
             android:textSize="18sp" />
+        
+        <TextView android:id="@+id/server_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_15dp"
+            android:gravity="center_vertical"
+            android:text="洗车(仅外观)"  
+            android:textSize="15sp"         
+            android:layout_below="@+id/server_describe"
+             />
 
         <TextView
             android:id="@+id/server_price"

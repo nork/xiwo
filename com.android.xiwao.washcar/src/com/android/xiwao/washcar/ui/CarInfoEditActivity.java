@@ -56,6 +56,7 @@ public class CarInfoEditActivity extends Activity {
 	private TextView websitEdt;
 	private TextView price;
 	private TextView serverTypeDetail;
+	private EditText remarkEdt;
 	private EditText contactEdt;
 	private Button cleanInBtn;
 	
@@ -75,7 +76,6 @@ public class CarInfoEditActivity extends Activity {
 	private Handler mHandler;
 	private CommandExecuter mExecuter;
 	
-	private int position = 0;
 	private final int LISTDIALOG = 1;  
 	private String[] serverTypeArray;
 	private FeeData choiceFeeData;	//选中的服务种类数据
@@ -84,7 +84,8 @@ public class CarInfoEditActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		
+
+		setContentView(R.layout.car_info_edit);
 		ActivityManage.getInstance().setCurContext(this);
 		ActivityManage.getInstance().addActivity(this);
 		mLocalSharePref = new LocalSharePreference(this);
@@ -95,6 +96,12 @@ public class CarInfoEditActivity extends Activity {
 			e.printStackTrace();
 			choiceCar = null;
 		}
+		if(choiceCar == null){
+			choiceCar = new CarInfo();
+		}
+		if(choiceAddress == null){
+			choiceAddress = new AddressData();
+		}
 		try{
 			choiceFeeData = getIntent().getParcelableExtra("server_cls");
 		}catch(Exception e){
@@ -103,8 +110,6 @@ public class CarInfoEditActivity extends Activity {
 				choiceFeeData = MainActivity.singleServiceList.get(0);
 			}
 		}
-		getAddrCarInfo();
-		setContentView(R.layout.car_info_edit);
 		initExecuter();
 		initUtils();
 		initContentView();
@@ -121,15 +126,13 @@ public class CarInfoEditActivity extends Activity {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		if(position != 2){
-			try{
-				if(!getIntent().getBooleanExtra("is_need_last_car", false)){
-					getLastAddress();
-				}
-			}catch(Exception e){
-				e.printStackTrace();
+		try{
+			if(!getIntent().getBooleanExtra("is_need_last_car", false)){
 				getLastAddress();
 			}
+		}catch(Exception e){
+			e.printStackTrace();
+			getLastAddress();
 		}
 	}
 
@@ -146,15 +149,17 @@ public class CarInfoEditActivity extends Activity {
 		websitEdt = (TextView) findViewById(R.id.websit_edt);
 		contactEdt = (EditText) findViewById(R.id.contact_edt);
 		price = (TextView) findViewById(R.id.price);
-		serverTypeDetail = (TextView) findViewById(R.id.server_type_detail);
+		remarkEdt = (EditText) findViewById(R.id.remark_edt);
 		//初始化服务类型
-//		serverTypeDetail.setText(getResources().getStringArray(R.array.server_types)[getIntent().getIntExtra("service_type", 0)]);
+		serverTypeDetail = (TextView) findViewById(R.id.server_type_detail);
+
 		try{
 			serverTypeDetail.setText(choiceFeeData.getProductName());
 		}catch(Exception e){
 			serverTypeDetail.setText("");
 		}
-		position = getIntent().getIntExtra("service_type", 0);
+		carNumEdt.setText(choiceCar.getCarCode());
+		websitEdt.setText(choiceAddress.getAddressDetail());
 		
 		TextView title = (TextView) findViewById(R.id.title);
 		title.setText("订单");
@@ -208,13 +213,6 @@ public class CarInfoEditActivity extends Activity {
 				startActivityForResult(intent, Constants.CHIOCE_ADDRESS_RESULT_CODE);
 			}
 		});
-		
-		if(choiceAddress != null){
-			websitEdt.setText(choiceAddress.getBranchName() + " " + choiceAddress.getAddressDetail());
-		}
-		if(choiceCar != null){
-			carNumEdt.setText(choiceCar.getCarCode());
-		}
 		contactEdt.setText(mLocalSharePref.getUserName());
 		
 		//清洗内饰
@@ -383,7 +381,7 @@ public class CarInfoEditActivity extends Activity {
 		}
 		BaseCommand carRegister = ClientSession.getInstance().getCmdFactory()
 				.getPlaceOrder(mLocalSharePref.getUserId(), choiceFeeData.getFeeType(), contactEdt.getText().toString(), choiceCar.getCarId()
-						, choiceAddress.getDistractId(), choiceAddress.getAddressId(), "00", null, websitEdt.getText().toString()
+						, choiceAddress.getDistractId(), choiceAddress.getAddressId(), "00", remarkEdt.getText().toString(), websitEdt.getText().toString()
 						, serverTypeMi, priceCount * monthTime, monthTime);
 
 		mExecuter.execute(carRegister, mPlaceOrderRespHandler);
@@ -404,6 +402,7 @@ public class CarInfoEditActivity extends Activity {
 		intent.putExtra("address", websitEdt.getText().toString());
 		intent.putExtra("monthly_time", monthTime);	//包月数量
 		intent.putExtra("if_clean_in", cleanInBtn.isSelected());//是否清洗内饰
+		intent.putExtra("remark", remarkEdt.getText().toString());
 		startActivity(intent);
 		finish();
 	}
@@ -592,6 +591,10 @@ public class CarInfoEditActivity extends Activity {
 		//清洗内饰
 		cleanInPart.setLayoutParams(params);
 		
+		//备注
+		RelativeLayout remarkPart = (RelativeLayout) findViewById(R.id.remark);
+		remarkPart.setLayoutParams(params);
+		
 		params = new LinearLayout.LayoutParams(
 				(int) (displayWidth * 0.94f + 0.5f),
 				(int) (displayHeight * 0.08f + 0.5f));
@@ -605,44 +608,23 @@ public class CarInfoEditActivity extends Activity {
 	 */
 	private void setPriceView(){
 		try{
-		priceCount = choiceFeeData.getFee();
+			priceCount = choiceFeeData.getFee();
 		}catch(Exception e){
 			priceCount = 0;
 		}
-//		switch(position){
-//		case 0://洗车
-//			for(FeeData feeData : MainActivity.feeDataList){
-//				if(feeData.getFeeType().equals("A")){
-//					priceCount = feeData.getFee();
-//					break;
-//				}
-//			}
-//			break;
-//		case 1://打蜡
-//			for(FeeData feeData : MainActivity.feeDataList){
-//				if(feeData.getFeeType().equals("B")){
-//					priceCount = feeData.getFee();
-//					break;
-//				}
-//			}
-//			break;
-//		case 2://包月
-//			for(FeeData feeData : MainActivity.feeDataList){
-//				if(feeData.getFeeType().equals("C")){
-//					priceCount = feeData.getFee();
-//					break;
-//				}
-//			}
-//			break;
-//		}
 		if(!getIntent().getStringExtra("service_type").equals("B")){	//包月不分车型和是否清洗内饰
-			if(choiceCar.getCarType().equals("01")){
-				for(FeeData feeData : MainActivity.feeDataList){
-					if(feeData.getFeeType().equals("00")){
-						priceCount += feeData.getFee();
-						break;
+			try{
+				if(choiceCar.getCarType().equals("01")){
+					AppLog.v(TAG, "7座车辆");
+					for(FeeData feeData : MainActivity.feeDataList){
+						if(feeData.getFeeType().equals("00")){
+							priceCount += feeData.getFee();
+							break;
+						}
 					}
 				}
+			}catch(Exception e){
+				e.printStackTrace();
 			}
 			if(cleanInBtn.isSelected()){
 				for(FeeData feeData : MainActivity.feeDataList){
@@ -733,23 +715,6 @@ public class CarInfoEditActivity extends Activity {
 		mLocalSharePref.putStringPref(LocalSharePreference.USER_LAST_CAR_TYPE, choiceCar.getCarType());
 	}
 
-	private void getAddrCarInfo(){
-//		if(choiceAddress == null){
-//			choiceAddress = new AddressData();
-//		}
-		if(choiceCar != null){
-			return;
-		}
-		choiceAddress = new AddressData();
-		choiceCar = new CarInfo();
-		choiceAddress.setAddressDetail(mLocalSharePref.getStringPref(LocalSharePreference.USER_LAST_ADDRESS_DETAIL, ""));
-		choiceAddress.setAddressId(mLocalSharePref.getLongPref(LocalSharePreference.USER_LAST_ADDRESS_ID, 0));
-		choiceAddress.setDistractId(mLocalSharePref.getLongPref(LocalSharePreference.USER_LAST_DISTRACT_ID, 0));
-		choiceCar.setCarCode(mLocalSharePref.getStringPref(LocalSharePreference.USER_LAST_CAR_NUM, ""));
-		choiceCar.setCarId(mLocalSharePref.getLongPref(LocalSharePreference.USER_LAST_CAR_ID, 0));
-		choiceAddress.setBranchName(mLocalSharePref.getStringPref(LocalSharePreference.USER_LAST_BRANCH_NAME, ""));
-		choiceCar.setCarType(mLocalSharePref.getStringPref(LocalSharePreference.USER_LAST_CAR_TYPE, ""));
-	}
 	@Override
 	protected void onResume() {
 		// TODO Auto-generated method stub

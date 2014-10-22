@@ -1,6 +1,5 @@
 package com.android.xiwao.washcar.listadapter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
@@ -66,16 +65,19 @@ public class ServiceAdapter extends BaseAdapter {
 				.findViewById(R.id.server_describe);
 		viewHolder.servicePrice = (TextView) convertView
 				.findViewById(R.id.server_price);
+		viewHolder.serviceInfo = (TextView) convertView.findViewById(R.id.server_info);
 		convertView.setTag(viewHolder);
 		
 		FeeData singleFeeData = mList.get(pos);
-		viewHolder.serviceDescribe.setText(singleFeeData.getProductName() + " " + singleFeeData.getProductInfo());
+		viewHolder.serviceDescribe.setText(singleFeeData.getProductName());
 		viewHolder.servicePrice.setText(StringUtils.getPriceIntStr(singleFeeData.getFee()) + "Ԫ");
+		viewHolder.serviceInfo.setText(singleFeeData.getProductInfo());
 		return convertView;
 	}
 
 	static class ViewHolder {
 		TextView serviceDescribe;
 		TextView servicePrice;
+		TextView serviceInfo;
 	}
 }

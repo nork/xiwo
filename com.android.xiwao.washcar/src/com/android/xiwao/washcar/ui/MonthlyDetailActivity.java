@@ -95,6 +95,7 @@ public class MonthlyDetailActivity extends Activity{
 				intent.putExtra("service_type", MainActivity.monthlyServiceList.get(0).getFeeType());
 				intent.putExtra("server_cls", (Parcelable)MainActivity.monthlyServiceList.get(0));
 				intent.putExtra("choice_car", (Parcelable)carInfo);
+				intent.putExtra("is_need_last_car", true);
 				startActivity(intent);
 				finish();
 			}

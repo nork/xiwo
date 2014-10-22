@@ -128,7 +128,9 @@ public class CarListActivity extends Activity{
 		// TODO Auto-generated method stub
 		super.onActivityResult(requestCode, resultCode, data);
 		AppLog.v(TAG, " ’µΩ∑¥¿°22");
-		
+		if(resultCode != RESULT_OK){
+			return;
+		}
 		switch(requestCode){
 		case Constants.ADD_CAR_RESULT_CODE:
 //			refreshInfoList();

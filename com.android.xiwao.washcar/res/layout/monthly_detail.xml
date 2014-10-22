@@ -271,7 +271,8 @@
                     android:layout_marginTop="@dimen/_1dp"
                     android:background="@color/white"
                     android:gravity="center"
-                    android:orientation="horizontal" >
+                    android:orientation="horizontal" 
+                    android:visibility="gone">
 
                     <TextView
                         android:layout_width="0dip"
