@@ -22,7 +22,6 @@ import com.android.xiwao.washcar.Constants;
 import com.android.xiwao.washcar.R;
 import com.android.xiwao.washcar.XiwaoApplication;
 import com.android.xiwao.washcar.data.AddressData;
-import com.android.xiwao.washcar.data.WebSiteData;
 import com.android.xiwao.washcar.ui.AddAddressActivity;
 
 public class UsefulAddressListAdapter extends BaseAdapter{

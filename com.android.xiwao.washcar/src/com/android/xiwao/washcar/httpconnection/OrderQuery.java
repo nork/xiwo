@@ -144,7 +144,6 @@ public class OrderQuery extends BaseCommand {
 						.getString(JSON_SERVICE_TYPE);
 				String serviceTypeMi = jsonSingleInfo
 						.getString(JSON_SERVICE_MI);
-				String serviceTypeMiChn;
 				if (serviceType.equals("A")) {
 					// serviceType = "单次服务";
 					for (FeeData fee : MainActivity.singleServiceList) {

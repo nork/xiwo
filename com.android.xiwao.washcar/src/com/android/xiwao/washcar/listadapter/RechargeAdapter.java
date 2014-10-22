@@ -63,15 +63,17 @@ public class RechargeAdapter extends BaseAdapter {
 				R.layout.recharge_adapter, null);
 		viewHolder.serviceDescribe = (TextView) convertView
 				.findViewById(R.id.recharge_describe);
+		viewHolder.rechargeInfo = (TextView) convertView.findViewById(R.id.recharge_info);
 		convertView.setTag(viewHolder);
 		
 		FeeData singleFeeData = mList.get(pos);
-		viewHolder.serviceDescribe.setText("充值金额" + StringUtils.getPriceIntStr(singleFeeData.getFee()) + "元"
-				+ "  " + singleFeeData.getProductInfo());
+		viewHolder.serviceDescribe.setText("充值金额" + StringUtils.getPriceIntStr(singleFeeData.getFee()) + "元");
+		viewHolder.rechargeInfo.setText(singleFeeData.getProductInfo());
 		return convertView;
 	}
 
 	static class ViewHolder {
 		TextView serviceDescribe;
+		TextView rechargeInfo;
 	}
 }

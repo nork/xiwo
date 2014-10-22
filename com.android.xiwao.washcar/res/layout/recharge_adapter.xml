@@ -28,10 +28,21 @@
             android:layout_height="wrap_content"
             android:text="@string/alipay"
             android:textSize="18sp"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="@dimen/_10dp"
             android:textColor="@android:color/black" 
             android:layout_toRightOf="@+id/alipay_img"
-            android:layout_centerVertical="true"/>
+            />
+        
+        <TextView android:id="@+id/recharge_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_10dp"
+            android:gravity="center_vertical"
+            android:text="洗车(仅外观)"  
+            android:textSize="15sp"         
+            android:layout_below="@+id/recharge_describe"
+            android:layout_toRightOf="@+id/alipay_img"
+             />
         
         <ImageView android:id="@+id/right_icon"
             android:layout_width="wrap_content"

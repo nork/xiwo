@@ -1,6 +1,8 @@
 package com.android.xiwao.washcar.ui;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -38,6 +40,7 @@ import com.android.xiwao.washcar.httpconnection.CommandExecuter;
 import com.android.xiwao.washcar.httpconnection.LastAddressQuery;
 import com.android.xiwao.washcar.httpconnection.PlaceOrder;
 import com.android.xiwao.washcar.httpconnection.RateQuery;
+import com.android.xiwao.washcar.listadapter.ServiceAdapter;
 import com.android.xiwao.washcar.utils.DialogUtils;
 import com.android.xiwao.washcar.utils.StringUtils;
 
@@ -59,13 +62,13 @@ public class CarInfoEditActivity extends Activity {
 	private EditText remarkEdt;
 	private EditText contactEdt;
 	private Button cleanInBtn;
-	
+
 	private CarInfo choiceCar;
 	private AddressData choiceAddress;
-	private int priceCount;	//总价
-	private int monthTime = 1;	//包月次数
-//	private String branchName;
-	
+	private int priceCount; // 总价
+	private int monthTime = 1; // 包月次数
+	// private String branchName;
+
 	// 工具
 	private DialogUtils dialogUtils;
 
@@ -75,10 +78,11 @@ public class CarInfoEditActivity extends Activity {
 	// 网络访问相关对象
 	private Handler mHandler;
 	private CommandExecuter mExecuter;
-	
-	private final int LISTDIALOG = 1;  
-	private String[] serverTypeArray;
-	private FeeData choiceFeeData;	//选中的服务种类数据
+
+	private final int LISTDIALOG = 1;
+	// private String[] serverTypeArray;
+	private FeeData choiceFeeData; // 选中的服务种类数据
+	private List<FeeData> serviceList;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -90,23 +94,23 @@ public class CarInfoEditActivity extends Activity {
 		ActivityManage.getInstance().addActivity(this);
 		mLocalSharePref = new LocalSharePreference(this);
 		mContext = this;
-		try{
+		try {
 			choiceCar = getIntent().getParcelableExtra("choice_car");
-		}catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 			choiceCar = null;
 		}
-		if(choiceCar == null){
+		if (choiceCar == null) {
 			choiceCar = new CarInfo();
 		}
-		if(choiceAddress == null){
+		if (choiceAddress == null) {
 			choiceAddress = new AddressData();
 		}
-		try{
+		try {
 			choiceFeeData = getIntent().getParcelableExtra("server_cls");
-		}catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
-			if(getIntent().getStringExtra("service_type").equals("A")){
+			if (getIntent().getStringExtra("service_type").equals("A")) {
 				choiceFeeData = MainActivity.singleServiceList.get(0);
 			}
 		}
@@ -114,9 +118,9 @@ public class CarInfoEditActivity extends Activity {
 		initUtils();
 		initContentView();
 		setHwView();
-		if(MainActivity.feeDataList.size() <= 0){
+		if (MainActivity.feeDataList.size() <= 0) {
 			rateQuery();
-		}else{
+		} else {
 			setServerTypeView();
 			setPriceView();
 		}
@@ -126,11 +130,11 @@ public class CarInfoEditActivity extends Activity {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		try{
-			if(!getIntent().getBooleanExtra("is_need_last_car", false)){
+		try {
+			if (!getIntent().getBooleanExtra("is_need_last_car", false)) {
 				getLastAddress();
 			}
-		}catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 			getLastAddress();
 		}
@@ -150,78 +154,82 @@ public class CarInfoEditActivity extends Activity {
 		contactEdt = (EditText) findViewById(R.id.contact_edt);
 		price = (TextView) findViewById(R.id.price);
 		remarkEdt = (EditText) findViewById(R.id.remark_edt);
-		//初始化服务类型
+		// 初始化服务类型
 		serverTypeDetail = (TextView) findViewById(R.id.server_type_detail);
 
-		try{
+		try {
 			serverTypeDetail.setText(choiceFeeData.getProductName());
-		}catch(Exception e){
+		} catch (Exception e) {
 			serverTypeDetail.setText("");
 		}
 		carNumEdt.setText(choiceCar.getCarCode());
 		websitEdt.setText(choiceAddress.getAddressDetail());
-		
+
 		TextView title = (TextView) findViewById(R.id.title);
 		title.setText("订单");
-		
+
 		submitBtn.setOnClickListener(new View.OnClickListener() {
-			
+
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
 				AppLog.v(TAG, "fd" + websitEdt.getText().toString().length());
-				if(carNumEdt.getText().toString().length() <= 0){
+				if (carNumEdt.getText().toString().length() <= 0) {
 					dialogUtils.showToast("请正确输入车牌号码！");
 					return;
-				}else if(websitEdt.getText().toString().length() <= 0 || websitEdt.getText().toString().equals(" ")){
+				} else if (websitEdt.getText().toString().length() <= 0
+						|| websitEdt.getText().toString().equals(" ")) {
 					dialogUtils.showToast("请正确输入停放地点！");
 					return;
-				}else if(contactEdt.getText().toString().length() <= 0){
+				} else if (contactEdt.getText().toString().length() <= 0) {
 					dialogUtils.showToast("请正确输入电话号码！");
 					return;
 				}
 				placeOrder();
 			}
 		});
-		
-		backBtn = (Button)findViewById(R.id.backbtn);
+
+		backBtn = (Button) findViewById(R.id.backbtn);
 		backBtn.setOnClickListener(new View.OnClickListener() {
-			
+
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
 				finish();
 			}
 		});
-		
+
 		carNum.setOnClickListener(new View.OnClickListener() {
-			
+
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
-				Intent intent = new Intent(CarInfoEditActivity.this, CarListActivity.class);
+				Intent intent = new Intent(CarInfoEditActivity.this,
+						CarListActivity.class);
 				startActivityForResult(intent, Constants.CHIOCE_CAR_RESULT_CODE);
 			}
 		});
-		
+
 		website.setOnClickListener(new View.OnClickListener() {
-			
+
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
-				Intent intent = new Intent(CarInfoEditActivity.this, AddressActivity.class);
-				startActivityForResult(intent, Constants.CHIOCE_ADDRESS_RESULT_CODE);
+				Intent intent = new Intent(CarInfoEditActivity.this,
+						AddressActivity.class);
+				startActivityForResult(intent,
+						Constants.CHIOCE_ADDRESS_RESULT_CODE);
 			}
 		});
 		contactEdt.setText(mLocalSharePref.getUserName());
-		
-		//清洗内饰
+
+		// 清洗内饰
 		cleanInBtn = (Button) findViewById(R.id.clean_in_btn);
-		if(getIntent().getBooleanExtra("if_clean_in", false)){
+		if (getIntent().getBooleanExtra("if_clean_in", false)) {
 			cleanInBtn.setSelected(true);
 			int cleanInPrice = 0;
-			for(FeeData feeData : MainActivity.feeDataList){
-				if(feeData.getFeeTypeMi().equals("A3")){
+			for (FeeData feeData : MainActivity.feeDataList) {
+				if (feeData.getFeeTypeMi().equals("A3")) {
 					cleanInPrice = feeData.getFee();
 					break;
 				}
@@ -231,185 +239,199 @@ public class CarInfoEditActivity extends Activity {
 			price.setText(priceStr);
 		}
 		cleanInBtn.setOnClickListener(new View.OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				int cleanInPrice = 0;
-				for(FeeData feeData : MainActivity.feeDataList){
-					if(feeData.getFeeType().equals("01")){
+				for (FeeData feeData : MainActivity.feeDataList) {
+					if (feeData.getFeeType().equals("01")) {
 						cleanInPrice = feeData.getFee();
 						break;
 					}
 				}
-				if(v.isSelected()){
+				if (v.isSelected()) {
 					v.setSelected(false);
 					priceCount -= cleanInPrice;
-				}else{
+				} else {
 					v.setSelected(true);
 					priceCount += cleanInPrice;
 				}
-				String priceStr = StringUtils.getPriceStr(priceCount);//Integer.toString(priceCount);
-				try{
+				String priceStr = StringUtils.getPriceStr(priceCount);// Integer.toString(priceCount);
+				try {
 					price.setText(priceStr);
-				}catch(Exception e){
+				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
 		});
-		
-		//包月部分
+
+		// 包月部分
 		Button addBtn = (Button) findViewById(R.id.add_btn);
 		Button plusBtn = (Button) findViewById(R.id.plus_btn);
 		final EditText monthTimeEdt = (EditText) findViewById(R.id.all_month_time);
 		monthTimeEdt.setText(Integer.toString(monthTime));
 		monthTimeEdt.addTextChangedListener(new TextWatcher() {
-			
+
 			@Override
-			public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void beforeTextChanged(CharSequence arg0, int arg1, int arg2,
+			public void onTextChanged(CharSequence arg0, int arg1, int arg2,
 					int arg3) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
+			@Override
+			public void beforeTextChanged(CharSequence arg0, int arg1,
+					int arg2, int arg3) {
+				// TODO Auto-generated method stub
+
+			}
+
 			@Override
 			public void afterTextChanged(Editable s) {
 				// TODO Auto-generated method stub
-				try{
-					monthTime = Integer.parseInt(monthTimeEdt.getText().toString());
-				}catch(Exception e){
+				try {
+					monthTime = Integer.parseInt(monthTimeEdt.getText()
+							.toString());
+				} catch (Exception e) {
 					monthTime = 0;
-//					monthTimeEdt.setText(Integer.toString(monthTime));
+					// monthTimeEdt.setText(Integer.toString(monthTime));
 					dialogUtils.showToast("包月次数只能在1-12之间");
 					e.printStackTrace();
 				}
-				if(s.length() >= 2){
-					if(monthTime > 12 || monthTime < 1){
+				if (s.length() >= 2) {
+					if (monthTime > 12 || monthTime < 1) {
 						monthTime = 1;
 						monthTimeEdt.setText(Integer.toString(monthTime));
 						dialogUtils.showToast("包月次数只能在1-12之间");
 						monthTimeEdt.setSelection(1);
 					}
 				}
-				if(s.length() == 1){
-					if(monthTime == 0){
+				if (s.length() == 1) {
+					if (monthTime == 0) {
 						monthTime = 1;
 						monthTimeEdt.setText(Integer.toString(monthTime));
 						dialogUtils.showToast("包月次数只能在1-12之间");
 						monthTimeEdt.setSelection(1);
 					}
 				}
-//				if(9 >= monthTime && monthTime >= 2){
-//					monthTimeEdt.setText(Integer.toString(monthTime));
-//				}
-				String priceStr = StringUtils.getPriceStr(priceCount * monthTime);//Integer.toString(priceCount * monthTime);
-				try{
+				// if(9 >= monthTime && monthTime >= 2){
+				// monthTimeEdt.setText(Integer.toString(monthTime));
+				// }
+				String priceStr = StringUtils.getPriceStr(priceCount
+						* monthTime);// Integer.toString(priceCount *
+										// monthTime);
+				try {
 					price.setText(priceStr);
-				}catch(Exception e){
+				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
 		});
 		addBtn.setOnClickListener(new View.OnClickListener() {
-			
+
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
-				monthTime ++;
-				if(monthTime > 12){
+				monthTime++;
+				if (monthTime > 12) {
 					monthTime = 1;
 				}
 				monthTimeEdt.setText(Integer.toString(monthTime));
 			}
 		});
 		plusBtn.setOnClickListener(new View.OnClickListener() {
-			
+
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
-				monthTime --;
-				if(monthTime < 1){
+				monthTime--;
+				if (monthTime < 1) {
 					monthTime = 12;
 				}
 				monthTimeEdt.setText(Integer.toString(monthTime));
 			}
 		});
-		
+
 		serverTypeDetail.setOnClickListener(new View.OnClickListener() {
-			
+
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
 				showDialog(LISTDIALOG);
 			}
 		});
-	}	
+	}
 
-	private void placeOrder(){
+	private void placeOrder() {
 		String serviceType = "";
-//		switch(position){
-//		case 0:
-//			serviceType = "A";
-//			cleanInPart.setVisibility(View.VISIBLE);
-//			allMountTimePart.setVisibility(View.GONE);
-//			break;
-//		case 1:
-//			serviceType = "B";
-//			cleanInPart.setVisibility(View.VISIBLE);
-//			allMountTimePart.setVisibility(View.GONE);
-//			break;
-//		case 2:
-//			serviceType = "C";
-//			cleanInPart.setVisibility(View.GONE);
-//			allMountTimePart.setVisibility(View.VISIBLE);
-//			break;
-//		}
+		// switch(position){
+		// case 0:
+		// serviceType = "A";
+		// cleanInPart.setVisibility(View.VISIBLE);
+		// allMountTimePart.setVisibility(View.GONE);
+		// break;
+		// case 1:
+		// serviceType = "B";
+		// cleanInPart.setVisibility(View.VISIBLE);
+		// allMountTimePart.setVisibility(View.GONE);
+		// break;
+		// case 2:
+		// serviceType = "C";
+		// cleanInPart.setVisibility(View.GONE);
+		// allMountTimePart.setVisibility(View.VISIBLE);
+		// break;
+		// }
 		String serverTypeMi = choiceFeeData.getFeeTypeMi();
-		if(cleanInBtn.isSelected()){
+		if (cleanInBtn.isSelected()) {
 			serverTypeMi = choiceFeeData.getFeeTypeMi() + "A3";
 		}
-		
-		if(monthTime <= 0 || monthTime > 12){
+
+		if (monthTime <= 0 || monthTime > 12) {
 			dialogUtils.showToast("请正确填入包月数量！");
 			return;
 		}
-		BaseCommand carRegister = ClientSession.getInstance().getCmdFactory()
-				.getPlaceOrder(mLocalSharePref.getUserId(), choiceFeeData.getFeeType(), contactEdt.getText().toString(), choiceCar.getCarId()
-						, choiceAddress.getDistractId(), choiceAddress.getAddressId(), "00", remarkEdt.getText().toString(), websitEdt.getText().toString()
-						, serverTypeMi, priceCount * monthTime, monthTime);
+		BaseCommand carRegister = ClientSession
+				.getInstance()
+				.getCmdFactory()
+				.getPlaceOrder(mLocalSharePref.getUserId(),
+						choiceFeeData.getFeeType(),
+						contactEdt.getText().toString(), choiceCar.getCarId(),
+						choiceAddress.getDistractId(),
+						choiceAddress.getAddressId(), "00",
+						remarkEdt.getText().toString(),
+						websitEdt.getText().toString(), serverTypeMi,
+						priceCount * monthTime, monthTime);
 
 		mExecuter.execute(carRegister, mPlaceOrderRespHandler);
 
 		dialogUtils.showProgress();
 	}
-	
-	public void onPlaceOrderSuccess(int saleFee, long orderId){
+
+	public void onPlaceOrderSuccess(int saleFee, long orderId) {
 		saveAddrCarInfo();
-		((XiwaoApplication)getApplication()).setIfNeedRefreshOrder(true);
-		Intent intent = new Intent(CarInfoEditActivity.this, PayDetailActivity.class);
+		((XiwaoApplication) getApplication()).setIfNeedRefreshOrder(true);
+		Intent intent = new Intent(CarInfoEditActivity.this,
+				PayDetailActivity.class);
 		intent.putExtra("fee", priceCount * monthTime);
-		intent.putExtra("sale_fee", saleFee);//账户支付价格
+		intent.putExtra("sale_fee", saleFee);// 账户支付价格
 		intent.putExtra("order_id", orderId);
 		intent.putExtra("car_code", carNumEdt.getText().toString());
 		intent.putExtra("server_type", serverTypeDetail.getText().toString());
 		intent.putExtra("phone", contactEdt.getText().toString());
 		intent.putExtra("address", websitEdt.getText().toString());
-		intent.putExtra("monthly_time", monthTime);	//包月数量
-		intent.putExtra("if_clean_in", cleanInBtn.isSelected());//是否清洗内饰
+		intent.putExtra("monthly_time", monthTime); // 包月数量
+		intent.putExtra("if_clean_in", cleanInBtn.isSelected());// 是否清洗内饰
 		intent.putExtra("remark", remarkEdt.getText().toString());
 		startActivity(intent);
 		finish();
 	}
-	
+
 	/**
 	 * 处理服务器返回的车辆注册结果
-	 * @param rsp 服务返回的车辆注册结果信息
+	 * 
+	 * @param rsp
+	 *            服务返回的车辆注册结果信息
 	 */
 	private void onReceivePlaceOrderResponse(BaseResponse rsp) {
 
@@ -427,7 +449,7 @@ public class CarInfoEditActivity extends Activity {
 			}
 		}
 	}
-	
+
 	private CommandExecuter.ResponseHandler mPlaceOrderRespHandler = new CommandExecuter.ResponseHandler() {
 
 		public void handleResponse(BaseResponse rsp) {
@@ -442,21 +464,23 @@ public class CarInfoEditActivity extends Activity {
 			dialogUtils.dismissProgress();
 		}
 	};
-	
+
 	/**
 	 * 查询费用
 	 */
-	public void rateQuery(){
+	public void rateQuery() {
 		BaseCommand login = ClientSession.getInstance().getCmdFactory()
 				.getRateQuery();
 
 		mExecuter.execute(login, mRespHandler);
 		dialogUtils.showProgress();
 	}
-	
+
 	/**
 	 * 处理服务器返回的查询结果
-	 * @param rsp 服务返回的登录信息
+	 * 
+	 * @param rsp
+	 *            服务返回的登录信息
 	 */
 	private void onReceiveRateQueryResponse(BaseResponse rsp) {
 
@@ -475,7 +499,7 @@ public class CarInfoEditActivity extends Activity {
 			}
 		}
 	}
-	
+
 	private CommandExecuter.ResponseHandler mRespHandler = new CommandExecuter.ResponseHandler() {
 
 		public void handleResponse(BaseResponse rsp) {
@@ -490,20 +514,23 @@ public class CarInfoEditActivity extends Activity {
 			dialogUtils.dismissProgress();
 		}
 	};
+
 	/**
 	 * 查询上一次洗车记录
 	 */
-	public void getLastAddress(){
+	public void getLastAddress() {
 		BaseCommand login = ClientSession.getInstance().getCmdFactory()
 				.getLastAddressQuery(mLocalSharePref.getUserId());
 
 		mExecuter.execute(login, mRespLastAddressHandler);
 		dialogUtils.showProgress();
 	}
-	
+
 	/**
 	 * 处理服务器返回的查询结果
-	 * @param rsp 服务返回的登录信息
+	 * 
+	 * @param rsp
+	 *            服务返回的登录信息
 	 */
 	private void onReceiveLastAddressResponse(BaseResponse rsp) {
 
@@ -518,17 +545,17 @@ public class CarInfoEditActivity extends Activity {
 				websitEdt.setText(lastAddressQuery.address);
 				choiceCar.setCarCode(lastAddressQuery.carCode);
 				choiceCar.setCarId(lastAddressQuery.carId);
-				if(choiceAddress == null){
+				if (choiceAddress == null) {
 					choiceAddress = new AddressData();
 				}
 				choiceAddress.setAddressDetail(lastAddressQuery.address);
 				choiceAddress.setAddressId(lastAddressQuery.addressId);
 			} else {
-//				dialogUtils.showToast(lastAddressQuery.errorMessage);
+				// dialogUtils.showToast(lastAddressQuery.errorMessage);
 			}
 		}
 	}
-	
+
 	private CommandExecuter.ResponseHandler mRespLastAddressHandler = new CommandExecuter.ResponseHandler() {
 
 		public void handleResponse(BaseResponse rsp) {
@@ -543,6 +570,7 @@ public class CarInfoEditActivity extends Activity {
 			dialogUtils.dismissProgress();
 		}
 	};
+
 	/**
 	 * 初始化需要的工具
 	 */
@@ -557,30 +585,29 @@ public class CarInfoEditActivity extends Activity {
 		mExecuter = new CommandExecuter();
 		mExecuter.setHandler(mHandler);
 	}
-	
+
 	private void setHwView() {
-		int displayHeight = ((XiwaoApplication)getApplication()).getDisplayHeight();
-		int displayWidth = ((XiwaoApplication)getApplication()).getDisplayWidth();
-		//title高度
+		int displayHeight = ((XiwaoApplication) getApplication())
+				.getDisplayHeight();
+		int displayWidth = ((XiwaoApplication) getApplication())
+				.getDisplayWidth();
+		// title高度
 		RelativeLayout title = (RelativeLayout) findViewById(R.id.header);
-		LinearLayout.LayoutParams titleParams = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT
-				, (int)(displayHeight * 0.08f + 0.5f));
+		LinearLayout.LayoutParams titleParams = new LinearLayout.LayoutParams(
+				LayoutParams.MATCH_PARENT, (int) (displayHeight * 0.08f + 0.5f));
 		title.setLayoutParams(titleParams);
 		// 价格
 		LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-				LayoutParams.MATCH_PARENT,
-				(int) (displayHeight * 0.08f + 0.5f));
-		params.setMargins(0, (int) (displayHeight * 0.04f + 0.5f), 0,
-				0);
-		
+				LayoutParams.MATCH_PARENT, (int) (displayHeight * 0.08f + 0.5f));
+		params.setMargins(0, (int) (displayHeight * 0.04f + 0.5f), 0, 0);
+
 		RelativeLayout pricePart = (RelativeLayout) findViewById(R.id.price_part);
 		pricePart.setLayoutParams(params);
-//		serverType.setLayoutParams(params);
+		// serverType.setLayoutParams(params);
 		// 车牌号码
 		params = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT,
 				(int) (displayHeight * 0.08f + 0.5f));
-		params.setMargins(0, (int) (displayHeight * 0.001f + 0.5f),
-				0, 0);
+		params.setMargins(0, (int) (displayHeight * 0.001f + 0.5f), 0, 0);
 		serverType.setLayoutParams(params);
 		carNum.setLayoutParams(params);
 		// 所在网点
@@ -588,13 +615,13 @@ public class CarInfoEditActivity extends Activity {
 		// 联系电话
 		contactNum.setLayoutParams(params);
 		allMountTimePart.setLayoutParams(params);
-		//清洗内饰
+		// 清洗内饰
 		cleanInPart.setLayoutParams(params);
-		
-		//备注
+
+		// 备注
 		RelativeLayout remarkPart = (RelativeLayout) findViewById(R.id.remark);
 		remarkPart.setLayoutParams(params);
-		
+
 		params = new LinearLayout.LayoutParams(
 				(int) (displayWidth * 0.94f + 0.5f),
 				(int) (displayHeight * 0.08f + 0.5f));
@@ -602,94 +629,116 @@ public class CarInfoEditActivity extends Activity {
 				(int) (displayHeight * 0.1f + 0.5f),
 				(int) (displayWidth * 0.03f + 0.5f), 0);
 		submitBtn.setLayoutParams(params);
-	}	
+	}
+
 	/**
 	 * 设置价格
 	 */
-	private void setPriceView(){
-		try{
+	private void setPriceView() {
+		try {
 			priceCount = choiceFeeData.getFee();
-		}catch(Exception e){
+		} catch (Exception e) {
 			priceCount = 0;
 		}
-		if(!getIntent().getStringExtra("service_type").equals("B")){	//包月不分车型和是否清洗内饰
-			try{
-				if(choiceCar.getCarType().equals("01")){
+		if (!getIntent().getStringExtra("service_type").equals("B")) { // 包月不分车型和是否清洗内饰
+			try {
+				if (choiceCar.getCarType().equals("01")) {
 					AppLog.v(TAG, "7座车辆");
-					for(FeeData feeData : MainActivity.feeDataList){
-						if(feeData.getFeeType().equals("00")){
+					for (FeeData feeData : MainActivity.feeDataList) {
+						if (feeData.getFeeType().equals("00")) {
 							priceCount += feeData.getFee();
 							break;
 						}
 					}
 				}
-			}catch(Exception e){
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			if(cleanInBtn.isSelected()){
-				for(FeeData feeData : MainActivity.feeDataList){
-					if(feeData.getFeeTypeMi().equals("A3")){
+			if (cleanInBtn.isSelected()) {
+				for (FeeData feeData : MainActivity.feeDataList) {
+					if (feeData.getFeeTypeMi().equals("A3")) {
 						priceCount += feeData.getFee();
 						break;
 					}
 				}
 			}
 		}
-		String priceStr = StringUtils.getPriceStr(priceCount);//Integer.toString(priceCount);
-		try{
+		String priceStr = StringUtils.getPriceStr(priceCount);// Integer.toString(priceCount);
+		try {
 			price.setText(priceStr);
-		}catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
-	private void setServerTypeView(){
-		if(getIntent().getStringExtra("service_type").equals("A")){
-			int i = 0;
-			int serverTypeArrayLen = MainActivity.singleServiceList.size();
-			for(FeeData feeData : MainActivity.singleServiceList){
-				if(feeData.getFeeTypeMi().equals("A3")){
-					serverTypeArrayLen--;
-					break;
+
+	private void setServerTypeView() {
+		if (getIntent().getStringExtra("service_type").equals("A")) {
+			// for (FeeData feeData : MainActivity.singleServiceList) {
+			// if (feeData.getFeeTypeMi().equals("A3")) {
+			// serverTypeArrayLen--;
+			// break;
+			// }
+			// }
+			serviceList = new ArrayList<FeeData>();
+			// serviceList = MainActivity.singleServiceList;
+			for (int i = 0; i < MainActivity.singleServiceList.size(); i++) {
+				if (!MainActivity.singleServiceList.get(i).getFeeTypeMi()
+						.equals("A3")) {
+					FeeData feeData = new FeeData();
+					feeData.setFee(MainActivity.singleServiceList.get(i)
+							.getFee());
+					feeData.setFeeId(MainActivity.singleServiceList.get(i)
+							.getFeeId());
+					feeData.setFeeType(MainActivity.singleServiceList.get(i)
+							.getFeeType());
+					feeData.setFeeTypeMi(MainActivity.singleServiceList.get(i)
+							.getFeeTypeMi());
+					feeData.setProductId(MainActivity.singleServiceList.get(i)
+							.getProductId());
+					feeData.setProductInfo("no info");
+					feeData.setProductName(MainActivity.singleServiceList
+							.get(i).getProductName());
+					serviceList.add(feeData);
 				}
 			}
-			serverTypeArray = new String[serverTypeArrayLen];
-			for(FeeData feeData : MainActivity.singleServiceList){
-				if(!feeData.getFeeTypeMi().equals("A3")){
-					serverTypeArray[i] = feeData.getProductName();
-					i++;
+			// serverTypeArray = new String[serverTypeArrayLen];
+			for (FeeData feeData : serviceList) {
+				feeData.setProductInfo("no info");
+				if (feeData.getFeeTypeMi().equals("A3")) {
+					serviceList.remove(feeData);
 				}
 			}
-		}else if(getIntent().getStringExtra("service_type").equals("B")){
-			int i = 0;
-			serverTypeArray = new String[MainActivity.monthlyServiceList.size()];
-			for(FeeData feeData : MainActivity.monthlyServiceList){
-				serverTypeArray[i] = feeData.getProductName();
-				i++;
-			}
+		} else if (getIntent().getStringExtra("service_type").equals("B")) {
+			serviceList = MainActivity.monthlyServiceList;
+			// serverTypeArray = new
+			// String[MainActivity.monthlyServiceList.size()];
+			// for (FeeData feeData : MainActivity.monthlyServiceList) {
+			// serverTypeArray[i] = feeData.getProductName();
+			// i++;
+			// }
 		}
 	}
-	
-	private void setDisView() throws Exception{
-		if(choiceFeeData.getFeeType().equals("A")){
+
+	private void setDisView() throws Exception {
+		if (choiceFeeData.getFeeType().equals("A")) {
 			cleanInPart.setVisibility(View.VISIBLE);
 			allMountTimePart.setVisibility(View.GONE);
-		}else if(choiceFeeData.getFeeType().equals("B")){
+		} else if (choiceFeeData.getFeeType().equals("B")) {
 			cleanInPart.setVisibility(View.GONE);
 			allMountTimePart.setVisibility(View.VISIBLE);
 		}
 	}
-	
+
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		// TODO Auto-generated method stub
 		super.onActivityResult(requestCode, resultCode, data);
 		AppLog.v(TAG, "收到反馈22");
-		
-		if(resultCode != RESULT_OK){
+
+		if (resultCode != RESULT_OK) {
 			return;
 		}
-		switch(requestCode){
+		switch (requestCode) {
 		case Constants.CHIOCE_CAR_RESULT_CODE:
 			choiceCar = data.getParcelableExtra("choice_car");
 			AppLog.v(TAG, "car id:" + choiceCar.getCarCode());
@@ -698,21 +747,32 @@ public class CarInfoEditActivity extends Activity {
 			break;
 		case Constants.CHIOCE_ADDRESS_RESULT_CODE:
 			choiceAddress = data.getParcelableExtra("choice_address");
-			websitEdt.setText(choiceAddress.getBranchName() + " " + choiceAddress.getAddressDetail());
+			websitEdt.setText(choiceAddress.getBranchName() + " "
+					+ choiceAddress.getAddressDetail());
 			break;
 		}
 	}
+
 	/**
 	 * 保存车辆和地址信息
 	 */
-	private void saveAddrCarInfo(){
-		mLocalSharePref.putStringPref(LocalSharePreference.USER_LAST_ADDRESS_DETAIL, choiceAddress.getAddressDetail());
-		mLocalSharePref.putStringPref(LocalSharePreference.USER_LAST_BRANCH_NAME, choiceAddress.getBranchName());
-		mLocalSharePref.putStringPref(LocalSharePreference.USER_LAST_CAR_NUM, choiceCar.getCarCode());
-		mLocalSharePref.putLongPref(LocalSharePreference.USER_LAST_ADDRESS_ID, choiceAddress.getAddressId());
-		mLocalSharePref.putLongPref(LocalSharePreference.USER_LAST_CAR_ID, choiceCar.getCarId());
-		mLocalSharePref.putLongPref(LocalSharePreference.USER_LAST_DISTRACT_ID, choiceAddress.getDistractId());
-		mLocalSharePref.putStringPref(LocalSharePreference.USER_LAST_CAR_TYPE, choiceCar.getCarType());
+	private void saveAddrCarInfo() {
+		mLocalSharePref.putStringPref(
+				LocalSharePreference.USER_LAST_ADDRESS_DETAIL,
+				choiceAddress.getAddressDetail());
+		mLocalSharePref.putStringPref(
+				LocalSharePreference.USER_LAST_BRANCH_NAME,
+				choiceAddress.getBranchName());
+		mLocalSharePref.putStringPref(LocalSharePreference.USER_LAST_CAR_NUM,
+				choiceCar.getCarCode());
+		mLocalSharePref.putLongPref(LocalSharePreference.USER_LAST_ADDRESS_ID,
+				choiceAddress.getAddressId());
+		mLocalSharePref.putLongPref(LocalSharePreference.USER_LAST_CAR_ID,
+				choiceCar.getCarId());
+		mLocalSharePref.putLongPref(LocalSharePreference.USER_LAST_DISTRACT_ID,
+				choiceAddress.getDistractId());
+		mLocalSharePref.putStringPref(LocalSharePreference.USER_LAST_CAR_TYPE,
+				choiceCar.getCarType());
 	}
 
 	@Override
@@ -722,47 +782,57 @@ public class CarInfoEditActivity extends Activity {
 		ActivityManage.getInstance().setCurContext(this);
 	}
 
-	@Override  
-    protected Dialog onCreateDialog(int id) {  
-        Dialog dialog = null;  
-        switch(id) {  
-            case LISTDIALOG:  
-                Builder builder = new AlertDialog.Builder(this);  
-                DialogInterface.OnClickListener listener =   
-                    new DialogInterface.OnClickListener() {  
-                          
-                        @Override  
-                        public void onClick(DialogInterface dialogInterface,   
-                                int which) {  
-                        	serverTypeDetail.setText(serverTypeArray[which]);
-                        	if(getIntent().getStringExtra("service_type").equals("A")){
-                        		for(FeeData fee : MainActivity.singleServiceList){
-                        			if(fee.getProductName().equals(serverTypeArray[which])){
-                        				choiceFeeData = fee;
-                        			}
-                        		}
-                        	}else if(getIntent().getStringExtra("service_type").equals("B")){
-                        		for(FeeData fee : MainActivity.monthlyServiceList){
-                        			if(fee.getProductName().equals(serverTypeArray[which])){
-                        				choiceFeeData = fee;
-                        			}
-                        		}
-                        	}
-                        	setPriceView();
-        
-								try {
-									setDisView();
-								} catch (Exception e) {
-									// TODO Auto-generated catch block
-									e.printStackTrace();
-								}
-							
-                        }  
-                    };  
-                builder.setItems(serverTypeArray, listener);  
-                dialog = builder.create();  
-                break;  
-        }  
-        return dialog;  
-    }
+	@Override
+	protected Dialog onCreateDialog(int id) {
+		Dialog dialog = null;
+		switch (id) {
+		case LISTDIALOG:
+			Builder builder = new AlertDialog.Builder(this);
+			DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener() {
+
+				@Override
+				public void onClick(DialogInterface dialogInterface, int which) {
+					// serverTypeDetail.setText(serverTypeArray[which]);
+					serverTypeDetail.setText(serviceList.get(which)
+							.getProductName());
+					// if
+					// (getIntent().getStringExtra("service_type").equals("A"))
+					// {
+					// for (FeeData fee : MainActivity.singleServiceList) {
+					// if (fee.getProductName().equals(
+					// serverTypeArray[which])) {
+					// choiceFeeData = fee;
+					// }
+					// }
+					// } else if (getIntent().getStringExtra("service_type")
+					// .equals("B")) {
+					// for (FeeData fee : MainActivity.monthlyServiceList) {
+					// if (fee.getProductName().equals(
+					// serverTypeArray[which])) {
+					// choiceFeeData = fee;
+					// }
+					// }
+					// }
+					choiceFeeData = serviceList.get(which);
+					setPriceView();
+
+					try {
+						setDisView();
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+
+				}
+			};
+			// builder.setItems(serverTypeArray, listener);
+			// builder.setItems(R.layout.service_adapter, listener);
+			ServiceAdapter rechargeServiceAdapter = new ServiceAdapter(
+					mContext, true, R.layout.service_adapter, serviceList);
+			builder.setAdapter(rechargeServiceAdapter, listener);
+			dialog = builder.create();
+			break;
+		}
+		return dialog;
+	}
 }

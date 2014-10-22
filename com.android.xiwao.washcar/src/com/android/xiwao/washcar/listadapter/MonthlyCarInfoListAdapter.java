@@ -9,7 +9,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -25,10 +24,7 @@ import android.widget.Toast;
 
 import com.android.xiwao.washcar.Constants;
 import com.android.xiwao.washcar.R;
-import com.android.xiwao.washcar.data.CarInfo;
 import com.android.xiwao.washcar.data.MonthlyCarData;
-import com.android.xiwao.washcar.ui.AddCarActivity;
-import com.android.xiwao.washcar.ui.ModifyCarActivity;
 import com.android.xiwao.washcar.ui.MonthlyDetailActivity;
 import com.android.xiwao.washcar.utils.FileUtil;
 

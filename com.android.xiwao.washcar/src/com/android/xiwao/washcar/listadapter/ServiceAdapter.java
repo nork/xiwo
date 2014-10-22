@@ -16,7 +16,7 @@ import com.android.xiwao.washcar.utils.StringUtils;
 public class ServiceAdapter extends BaseAdapter {
 
 	Context mContext;
-	Boolean mInternetpic;
+	Boolean mInternetpic;	//判断是否为弹出框adapter
 	public List<FeeData> mList;
 	int mlayout;
 
@@ -72,6 +72,12 @@ public class ServiceAdapter extends BaseAdapter {
 		viewHolder.serviceDescribe.setText(singleFeeData.getProductName());
 		viewHolder.servicePrice.setText(StringUtils.getPriceIntStr(singleFeeData.getFee()) + "元");
 		viewHolder.serviceInfo.setText(singleFeeData.getProductInfo());
+		if(mInternetpic){
+			viewHolder.servicePrice.setVisibility(View.GONE);
+			if(singleFeeData.getProductInfo().equals("no info")){
+				viewHolder.serviceInfo.setVisibility(View.GONE);
+			}
+		}
 		return convertView;
 	}
 
