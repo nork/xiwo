@@ -48,7 +48,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/washcar_btn"
-            android:text="@string/wash_car"
+            android:text="单次\n服务"
             android:textColor="@color/white"
             android:textSize="18sp"
             android:textStyle="bold" >
@@ -60,7 +60,7 @@
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/wash_car"
             android:background="@drawable/washwaxcar_btn"
-            android:text="包月"
+            android:text="包月\n服务"
             android:textColor="@color/white"
             android:textStyle="bold" 
             android:textSize="18sp">

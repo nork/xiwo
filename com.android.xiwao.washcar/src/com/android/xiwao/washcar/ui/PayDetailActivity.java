@@ -136,6 +136,7 @@ public class PayDetailActivity extends Activity {
 		TextView accountPayAmt = (TextView) findViewById(R.id.account_pay_amt);
 		TextView ifCleanIn = (TextView) findViewById(R.id.ifclean_in);
 		TextView monthlyTime = (TextView) findViewById(R.id.monthly_time);
+		TextView remark = (TextView) findViewById(R.id.remark);
 
 		carNum.setText(getIntent().getStringExtra("car_code"));
 		webCenter.setText(getIntent().getStringExtra("address"));
@@ -162,6 +163,8 @@ public class PayDetailActivity extends Activity {
 				serverType.setText(getIntent().getStringExtra("server_type") + "    ÇåÏ´ÄÚÊÎ     ·ñ");
 			}
 		}
+		
+		remark.setText(getIntent().getStringExtra("remark"));
 	}
 	
 	public void setHwView() {

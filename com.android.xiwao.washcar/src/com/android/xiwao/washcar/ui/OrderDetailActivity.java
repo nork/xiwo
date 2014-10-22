@@ -119,6 +119,8 @@ public class OrderDetailActivity extends Activity {
 		quantity = (TextView) findViewById(R.id.quantity);
 		ifCleanInRow = (TableRow) findViewById(R.id.if_clean_row);
 		quantityRow = (TableRow) findViewById(R.id.quantity_row);
+		TextView remark = (TextView) findViewById(R.id.remark);
+		remark.setText(orderData.getNote());
 		
 		payNowBtn.setOnClickListener(new View.OnClickListener() {
 
