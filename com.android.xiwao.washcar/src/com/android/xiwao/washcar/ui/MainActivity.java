@@ -354,6 +354,10 @@ public class MainActivity extends FragmentActivity{
 			if(feeData.getFeeType().equals("C")){//充值服务
 				rechargeServiceList.add(feeData);
 			}
+			if(feeData.getFeeType().equals("0") || feeData.getFeeTypeMi().equals("00") 
+					|| feeData.getFeeTypeMi().equals("01")){//额外增加额度
+				
+			}
 		}
 	}
 }

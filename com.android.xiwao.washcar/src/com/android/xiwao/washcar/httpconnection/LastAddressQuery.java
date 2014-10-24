@@ -19,6 +19,7 @@ private final static String CMD = "lastAddressQuery.do";
 	public final static String JSON_ADDRESS_ID = "Address_id";
 	public final static String JSON_CAR_CODE = "Car_code";
 	public final static String JSON_ADDRESS = "Address";
+	public final static String JSON_CAR_TYPE = "Car_type";
 	
 	private long customerId;
 	
@@ -41,6 +42,7 @@ private final static String CMD = "lastAddressQuery.do";
 		public int addressId;
 		public String carCode;
 		public String address;
+		public String carType;
 	}
 
 	@Override
@@ -73,6 +75,7 @@ private final static String CMD = "lastAddressQuery.do";
 			lastAddressQuery.addressId = jsonObj.getInt(JSON_ADDRESS_ID);
 			lastAddressQuery.carCode = jsonObj.getString(JSON_CAR_CODE);
 			lastAddressQuery.carId = jsonObj.getInt(JSON_CAR_ID);
+			lastAddressQuery.carType = jsonObj.getString(JSON_CAR_TYPE);
 			
 		} catch (JSONException e) {
 			e.printStackTrace();

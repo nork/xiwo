@@ -147,10 +147,11 @@ public class OrderQuery extends BaseCommand {
 				if (serviceType.equals("A")) {
 					// serviceType = "单次服务";
 					for (FeeData fee : MainActivity.singleServiceList) {
-						if (serviceTypeMi.contains(fee.getFeeTypeMi())
-								&& !fee.getFeeTypeMi().equals("A3")) {
-							serviceType = fee.getProductName();
-						}
+//						if (serviceTypeMi.contains(fee.getFeeTypeMi())
+//								&& !fee.getFeeTypeMi().equals("A3")) {
+//							serviceType = fee.getProductName();
+//						}
+						serviceType = fee.getProductName();
 					}
 				} else if (serviceType.equals("B")) {
 					for (FeeData fee : MainActivity.monthlyServiceList) {

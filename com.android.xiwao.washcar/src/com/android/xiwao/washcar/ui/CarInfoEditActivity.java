@@ -229,7 +229,7 @@ public class CarInfoEditActivity extends Activity {
 			cleanInBtn.setSelected(true);
 			int cleanInPrice = 0;
 			for (FeeData feeData : MainActivity.feeDataList) {
-				if (feeData.getFeeTypeMi().equals("A3")) {
+				if (feeData.getFeeTypeMi().equals("01")) {
 					cleanInPrice = feeData.getFee();
 					break;
 				}
@@ -245,8 +245,9 @@ public class CarInfoEditActivity extends Activity {
 				// TODO Auto-generated method stub
 				int cleanInPrice = 0;
 				for (FeeData feeData : MainActivity.feeDataList) {
-					if (feeData.getFeeType().equals("01")) {
+					if (feeData.getFeeTypeMi().equals("01")) {
 						cleanInPrice = feeData.getFee();
+						AppLog.v(TAG, "cleanInPrice1:" + cleanInPrice);
 						break;
 					}
 				}
@@ -257,6 +258,7 @@ public class CarInfoEditActivity extends Activity {
 					v.setSelected(true);
 					priceCount += cleanInPrice;
 				}
+				AppLog.v(TAG, "cleanInPrice:" + cleanInPrice);
 				String priceStr = StringUtils.getPriceStr(priceCount);// Integer.toString(priceCount);
 				try {
 					price.setText(priceStr);
@@ -384,7 +386,7 @@ public class CarInfoEditActivity extends Activity {
 		// }
 		String serverTypeMi = choiceFeeData.getFeeTypeMi();
 		if (cleanInBtn.isSelected()) {
-			serverTypeMi = choiceFeeData.getFeeTypeMi() + "A3";
+			serverTypeMi = choiceFeeData.getFeeTypeMi() + "|01";
 		}
 
 		if (monthTime <= 0 || monthTime > 12) {
@@ -545,11 +547,13 @@ public class CarInfoEditActivity extends Activity {
 				websitEdt.setText(lastAddressQuery.address);
 				choiceCar.setCarCode(lastAddressQuery.carCode);
 				choiceCar.setCarId(lastAddressQuery.carId);
+				choiceCar.setCarType(lastAddressQuery.carType);
 				if (choiceAddress == null) {
 					choiceAddress = new AddressData();
 				}
 				choiceAddress.setAddressDetail(lastAddressQuery.address);
 				choiceAddress.setAddressId(lastAddressQuery.addressId);
+				setPriceView();
 			} else {
 				// dialogUtils.showToast(lastAddressQuery.errorMessage);
 			}
@@ -645,7 +649,7 @@ public class CarInfoEditActivity extends Activity {
 				if (choiceCar.getCarType().equals("01")) {
 					AppLog.v(TAG, "7×ù³µÁ¾");
 					for (FeeData feeData : MainActivity.feeDataList) {
-						if (feeData.getFeeType().equals("00")) {
+						if (feeData.getFeeTypeMi().equals("00")) {
 							priceCount += feeData.getFee();
 							break;
 						}
@@ -656,7 +660,7 @@ public class CarInfoEditActivity extends Activity {
 			}
 			if (cleanInBtn.isSelected()) {
 				for (FeeData feeData : MainActivity.feeDataList) {
-					if (feeData.getFeeTypeMi().equals("A3")) {
+					if (feeData.getFeeTypeMi().equals("01")) {
 						priceCount += feeData.getFee();
 						break;
 					}
@@ -682,8 +686,7 @@ public class CarInfoEditActivity extends Activity {
 			serviceList = new ArrayList<FeeData>();
 			// serviceList = MainActivity.singleServiceList;
 			for (int i = 0; i < MainActivity.singleServiceList.size(); i++) {
-				if (!MainActivity.singleServiceList.get(i).getFeeTypeMi()
-						.equals("A3")) {
+	
 					FeeData feeData = new FeeData();
 					feeData.setFee(MainActivity.singleServiceList.get(i)
 							.getFee());
@@ -699,15 +702,12 @@ public class CarInfoEditActivity extends Activity {
 					feeData.setProductName(MainActivity.singleServiceList
 							.get(i).getProductName());
 					serviceList.add(feeData);
-				}
 			}
 			// serverTypeArray = new String[serverTypeArrayLen];
-			for (FeeData feeData : serviceList) {
-				feeData.setProductInfo("no info");
-				if (feeData.getFeeTypeMi().equals("A3")) {
-					serviceList.remove(feeData);
-				}
-			}
+//			for (FeeData feeData : serviceList) {
+//				feeData.setProductInfo("no info");
+//			}
+//			serviceList = MainActivity.singleServiceList;
 		} else if (getIntent().getStringExtra("service_type").equals("B")) {
 			serviceList = MainActivity.monthlyServiceList;
 			// serverTypeArray = new
