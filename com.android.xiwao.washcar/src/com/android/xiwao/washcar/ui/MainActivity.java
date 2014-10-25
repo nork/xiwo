@@ -84,7 +84,7 @@ public class MainActivity extends FragmentActivity{
         rateQuery();
         
         if(!mLocalSharePref.getBooleanPref(LocalSharePreference.IF_FIRST_USE, false)){
-        	Intent intent = new Intent(this, GuideActivity.class);
+        	Intent intent = new Intent(this, GuidePageActivity.class);
 			startActivity(intent);
         }
         if(mLocalSharePref.getUserType().equals("01") && mLocalSharePref.getLoginState()){
