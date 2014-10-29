@@ -255,12 +255,12 @@ public class OrderDetailActivity extends Activity {
 			ifCleanIn.setText("是");
 			cleanInStr = "是";
 		}
-		if(orderData.getServiceType().contains("包月")){
+		if(orderData.getServiceType().contains("B")){
 			ifCleanInRow.setVisibility(View.GONE);		
-			serviceType.setText(orderData.getServiceType() + "    数量     " + orderData.getQuantity());
+			serviceType.setText(orderData.getServiceType().subSequence(0, orderData.getServiceType().length() - 1) + "    数量     " + orderData.getQuantity());
 		}else if(orderData.getServiceType().contains("打蜡") || orderData.getServiceType().contains("洗车")){
 			quantityRow.setVisibility(View.GONE);
-			serviceType.setText(orderData.getServiceType() + "    清洗内饰     " + cleanInStr);
+			serviceType.setText(orderData.getServiceType().subSequence(0, orderData.getServiceType().length() - 1) + "    清洗内饰     " + cleanInStr);
 		}
 	}
 	public void setHwView() {

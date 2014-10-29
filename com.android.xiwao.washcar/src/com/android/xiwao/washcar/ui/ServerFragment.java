@@ -189,10 +189,15 @@ public class ServerFragment extends BaseFragment{
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
 				// TODO Auto-generated method stub
-				Intent intent = new Intent(mContext, CarInfoEditActivity.class);
-				intent.putExtra("service_type", MainActivity.singleServiceList.get(arg2).getFeeType());
-				intent.putExtra("server_cls", (Parcelable)MainActivity.singleServiceList.get(arg2));
-				startActivity(intent);
+				if(!mLocalSharePref.getLoginState()){
+        			Intent intent = new Intent(mContext, LoginActivity.class);
+        			startActivity(intent);
+        		}else{
+        			Intent intent = new Intent(mContext, CarInfoEditActivity.class);
+        			intent.putExtra("service_type", MainActivity.singleServiceList.get(arg2).getFeeType());
+        			intent.putExtra("server_cls", (Parcelable)MainActivity.singleServiceList.get(arg2));
+        			startActivity(intent);
+        		}
 			}
 		});
 		
@@ -202,10 +207,15 @@ public class ServerFragment extends BaseFragment{
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
 				// TODO Auto-generated method stub
-				Intent intent = new Intent(mContext, CarInfoEditActivity.class);
-				intent.putExtra("service_type", "B");
-				intent.putExtra("server_cls", (Parcelable)MainActivity.monthlyServiceList.get(arg2));
-				startActivity(intent);
+				if(!mLocalSharePref.getLoginState()){
+        			Intent intent = new Intent(mContext, LoginActivity.class);
+        			startActivity(intent);
+        		}else{
+        			Intent intent = new Intent(mContext, CarInfoEditActivity.class);
+        			intent.putExtra("service_type", "B");
+        			intent.putExtra("server_cls", (Parcelable)MainActivity.monthlyServiceList.get(arg2));
+        			startActivity(intent);
+        		}
 			}
 		});
 		
@@ -215,7 +225,12 @@ public class ServerFragment extends BaseFragment{
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
 				// TODO Auto-generated method stub
-				placeOrder(MainActivity.rechargeServiceList.get(arg2));
+				if(!mLocalSharePref.getLoginState()){
+        			Intent intent = new Intent(mContext, LoginActivity.class);
+        			startActivity(intent);
+        		}else{
+        			placeOrder(MainActivity.rechargeServiceList.get(arg2));
+        		}
 			}
 		});
 	}

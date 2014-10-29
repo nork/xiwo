@@ -419,7 +419,7 @@ public class CarInfoEditActivity extends Activity {
 		intent.putExtra("sale_fee", saleFee);// 账户支付价格
 		intent.putExtra("order_id", orderId);
 		intent.putExtra("car_code", carNumEdt.getText().toString());
-		intent.putExtra("server_type", serverTypeDetail.getText().toString());
+		intent.putExtra("server_type", serverTypeDetail.getText().toString() + choiceFeeData.getFeeType());
 		intent.putExtra("phone", contactEdt.getText().toString());
 		intent.putExtra("address", websitEdt.getText().toString());
 		intent.putExtra("monthly_time", monthTime); // 包月数量

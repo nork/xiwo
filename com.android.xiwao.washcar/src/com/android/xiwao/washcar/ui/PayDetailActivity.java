@@ -144,13 +144,14 @@ public class PayDetailActivity extends Activity {
 		fee.setText(feeStr + "    账户支付价格    " + saleFeeStr);
 	
 		accountPayAmt.setText(saleFeeStr);
-		if(getIntent().getStringExtra("server_type").contains("包月")){
+		String serverTypeStr = getIntent().getStringExtra("server_type");
+		if(getIntent().getStringExtra("server_type").contains("B")){
 			TableRow ifCleanInRow = (TableRow) findViewById(R.id.clean_in_row);
 			TextView ifCleanInLine = (TextView) findViewById(R.id.clean_in_row_line);
 			ifCleanInLine.setVisibility(View.GONE);
 			ifCleanInRow.setVisibility(View.GONE);
 			monthlyTime.setText(getIntent().getIntExtra("monthly_time", 0) + " ");
-			serverType.setText(getIntent().getStringExtra("server_type") + "    数量     " + getIntent().getIntExtra("monthly_time", 0));
+			serverType.setText(serverTypeStr.substring(0, serverTypeStr.length() - 1) + "    数量     " + getIntent().getIntExtra("monthly_time", 0));
 		}else{
 			TableRow monthlyTimeRow = (TableRow) findViewById(R.id.monthly_time_part);
 			TextView ifCleanInLine = (TextView) findViewById(R.id.monthly_time_part_line);
@@ -158,9 +159,9 @@ public class PayDetailActivity extends Activity {
 			monthlyTimeRow.setVisibility(View.GONE);
 			if(getIntent().getBooleanExtra("if_clean_in", false)){
 				ifCleanIn.setText("是");
-				serverType.setText(getIntent().getStringExtra("server_type") + "    清洗内饰     是");
+				serverType.setText(serverTypeStr.substring(0, serverTypeStr.length() - 1) + "    清洗内饰     是");
 			}else{
-				serverType.setText(getIntent().getStringExtra("server_type") + "    清洗内饰     否");
+				serverType.setText(serverTypeStr.substring(0, serverTypeStr.length() - 1) + "    清洗内饰     否");
 			}
 		}
 		

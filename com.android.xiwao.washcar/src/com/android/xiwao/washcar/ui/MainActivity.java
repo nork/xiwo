@@ -114,8 +114,7 @@ public class MainActivity extends FragmentActivity{
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 transaction = fragmentManager.beginTransaction();
         		
-        		if(!mLocalSharePref.getLoginState() && (checkedId == R.id.order_manager
-        				|| checkedId == R.id.car_info)){
+        		if(!mLocalSharePref.getLoginState() && (checkedId == R.id.order_manager)){
         			Intent intent = new Intent(MainActivity.this, LoginActivity.class);
         			startActivity(intent);
         			return;

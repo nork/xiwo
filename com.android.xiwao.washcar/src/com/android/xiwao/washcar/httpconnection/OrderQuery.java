@@ -148,19 +148,19 @@ public class OrderQuery extends BaseCommand {
 					// serviceType = "单次服务";
 					for (FeeData fee : MainActivity.singleServiceList) {
 						if (serviceTypeMi.contains(fee.getFeeTypeMi())) {
-							serviceType = fee.getProductName();
+							serviceType = fee.getProductName() + "A";
 						}
 					}
 				} else if (serviceType.equals("B")) {
 					for (FeeData fee : MainActivity.monthlyServiceList) {
 						if (serviceTypeMi.contains(fee.getFeeTypeMi())) {
-							serviceType = fee.getProductName();
+							serviceType = fee.getProductName() + "B";
 						}
 					}
 				} else if (serviceType.equals("C")) {
 					for (FeeData fee : MainActivity.rechargeServiceList) {
 						if (serviceTypeMi.contains(fee.getFeeTypeMi())) {
-							serviceType = fee.getProductName();
+							serviceType = fee.getProductName() + "C";
 						}
 					}
 					brief.setCarCode("");

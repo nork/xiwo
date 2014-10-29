@@ -862,7 +862,7 @@ containing a value of this type.
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
 <p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
 "<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
-          @attr name android:adapterViewBackground
+          @attr name com.android.xiwao.washcar:adapterViewBackground
         */
         public static final int PullToRefresh_adapterViewBackground = 0;
         /**
@@ -874,7 +874,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
 <p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
 "<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
-          @attr name android:headerBackground
+          @attr name com.android.xiwao.washcar:headerBackground
         */
         public static final int PullToRefresh_headerBackground = 1;
         /**
@@ -889,7 +889,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
-          @attr name android:headerTextColor
+          @attr name com.android.xiwao.washcar:headerTextColor
         */
         public static final int PullToRefresh_headerTextColor = 2;
         /**
@@ -907,7 +907,7 @@ containing a value of this type.
 <tr><td><code>pullUpFromBottom</code></td><td>0x2</td><td></td></tr>
 <tr><td><code>both</code></td><td>0x3</td><td></td></tr>
 </table>
-          @attr name android:mode
+          @attr name com.android.xiwao.washcar:mode
         */
         public static final int PullToRefresh_mode = 3;
         /** Attributes that can be used with a swipelistviewstyle.
@@ -936,7 +936,7 @@ in (inches), mm (millimeters).
 theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
-          @attr name android:right_width
+          @attr name com.android.xiwao.washcar:right_width
         */
         public static final int swipelistviewstyle_right_width = 0;
     };
