@@ -17,7 +17,7 @@ public class OrderData implements Parcelable{
 	private String washEnd;
 	private String OrderState;
 	private String note;
-	private String fee;
+	private int fee;
 	private String saleFee;
 	private int quantity;
 	private String payType;
@@ -95,10 +95,10 @@ public class OrderData implements Parcelable{
 		this.note = note;
 	}
 	
-	public String getFee() {
+	public int getFee() {
 		return fee;
 	}
-	public void setFee(String fee) {
+	public void setFee(int fee) {
 		this.fee = fee;
 	}
 	public String getServiceTypeMi() {
@@ -149,7 +149,7 @@ public class OrderData implements Parcelable{
 		dest.writeString(this.payTime);
 		dest.writeString(this.washBegin);
 		dest.writeString(this.washEnd);
-		dest.writeString(this.fee);
+		dest.writeInt(this.fee);
 		dest.writeString(this.serviceTypeMi);
 		dest.writeString(this.saleFee);
 		dest.writeInt(this.quantity);
@@ -172,7 +172,7 @@ public class OrderData implements Parcelable{
 			brief.payTime = source.readString();
 			brief.washBegin = source.readString();
 			brief.washEnd = source.readString();
-			brief.fee = source.readString();
+			brief.fee = source.readInt();
 			brief.serviceTypeMi = source.readString();
 			brief.saleFee = source.readString();
 			brief.quantity = source.readInt();

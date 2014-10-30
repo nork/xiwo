@@ -24,6 +24,7 @@ public class MonthlyCarData implements Parcelable, Serializable{
 	private int interiorTimes;
 	private String finalDate;
 	private String carPic;
+	private String monthlyType;
 	
 	public int getCarId() {
 		return carId;
@@ -129,6 +130,14 @@ public class MonthlyCarData implements Parcelable, Serializable{
 		this.finalDate = finalDate;
 	}
 
+	public String getMonthlyType() {
+		return monthlyType;
+	}
+
+	public void setMonthlyType(String monthlyType) {
+		this.monthlyType = monthlyType;
+	}
+
 	@Override
 	public int describeContents() {
 		// TODO Auto-generated method stub
@@ -154,6 +163,7 @@ public class MonthlyCarData implements Parcelable, Serializable{
 		dest.writeInt(this.interiorTimes);
 		dest.writeString(this.carPic);
 		dest.writeString(this.finalDate);
+		dest.writeString(this.monthlyType);
 	}
 	
 	public static final Parcelable.Creator<MonthlyCarData> CREATOR = new Parcelable.Creator<MonthlyCarData>(){
@@ -173,6 +183,7 @@ public class MonthlyCarData implements Parcelable, Serializable{
 			brief.interiorTimes = source.readInt();
 			brief.carPic = source.readString();
 			brief.finalDate = source.readString();
+			brief.monthlyType = source.readString();
 			return brief;
 		}
 

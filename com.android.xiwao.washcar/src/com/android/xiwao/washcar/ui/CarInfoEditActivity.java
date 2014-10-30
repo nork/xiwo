@@ -624,13 +624,16 @@ public class CarInfoEditActivity extends Activity {
 
 		// ±¸×¢
 		RelativeLayout remarkPart = (RelativeLayout) findViewById(R.id.remark);
+		params = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT,
+				(int) (displayHeight * 0.12f + 0.5f));
+		params.setMargins(0, (int) (displayHeight * 0.001f + 0.5f), 0, 0);
 		remarkPart.setLayoutParams(params);
 
 		params = new LinearLayout.LayoutParams(
 				(int) (displayWidth * 0.94f + 0.5f),
 				(int) (displayHeight * 0.08f + 0.5f));
 		params.setMargins((int) (displayWidth * 0.03f + 0.5f),
-				(int) (displayHeight * 0.1f + 0.5f),
+				(int) (displayHeight * 0.05f + 0.5f),
 				(int) (displayWidth * 0.03f + 0.5f), 0);
 		submitBtn.setLayoutParams(params);
 	}

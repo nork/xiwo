@@ -175,14 +175,15 @@ public class OrderQuery extends BaseCommand {
 				brief.setWashEnd(jsonSingleInfo.getString(JSON_WASH_ENDTIME));
 				brief.setSaleFee(jsonSingleInfo.getString(JSON_SALE_FEE));
 				brief.setQuantity(jsonSingleInfo.getInt(JSON_QUANTITY));
-				int fee = 0;
-				try {
-					fee = jsonSingleInfo.getInt(JSON_FEE);
-					brief.setFee((fee / 100) + ".00");
-				} catch (Exception e) {
-					e.printStackTrace();
-					brief.setFee("获取价格失败");
-				}
+//				int fee = 0;
+//				try {
+//					fee = jsonSingleInfo.getInt(JSON_FEE);
+//					brief.setFee((fee / 100) + ".00");
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//					brief.setFee("获取价格失败");
+//				}
+				brief.setFee(jsonSingleInfo.getInt(JSON_FEE));
 				String payType = jsonSingleInfo.getString(JSON_PAY_TYPE);
 				if (payType.equals("00")) {
 					payType = "支付宝支付";

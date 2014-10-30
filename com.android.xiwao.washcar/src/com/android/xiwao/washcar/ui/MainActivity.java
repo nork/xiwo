@@ -61,6 +61,7 @@ public class MainActivity extends FragmentActivity{
 	public static List<FeeData> singleServiceList = new ArrayList<FeeData>();
 	public static List<FeeData> monthlyServiceList = new ArrayList<FeeData>();
 	public static List<FeeData> rechargeServiceList = new ArrayList<FeeData>();
+	public static boolean ifNeedRefreshMore = false;
 	private long mExitTime;
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
@@ -131,6 +132,12 @@ public class MainActivity extends FragmentActivity{
                 	FragmentUtils.switchContent(fragment, transaction);
                 	fragment.onActivityResult(Constants.REFRESH_HEAD_IMG, RESULT_OK, null);
                 	((XiwaoApplication)getApplication()).setIfNeedRefreshHeadImg(false);
+                }else if(ifNeedRefreshMore && checkedId == R.id.more){
+                	FragmentUtils.removeFragment(fragment, transaction);
+                	FragmentFactory.moreFragment = new MoreFragment();
+                	fragment = FragmentFactory.getInstanceByIndex(checkedId);;
+                	FragmentUtils.refershContent(fragment, transaction);
+                	ifNeedRefreshMore = false;
                 }else{
                 	FragmentUtils.switchContent(fragment, transaction);
                 }  

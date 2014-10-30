@@ -32,8 +32,9 @@ public class StringUtils {
 	}
 	
 	public static String getPriceIntStr(int price){
-		DecimalFormat df = new DecimalFormat("###");
+		DecimalFormat df = new DecimalFormat("###.00");
 		double priceDouble = ((double)price) / 100;
+		AppLog.v("TAG", "价格字串1：" + priceDouble);
 		String priceStr = df.format(priceDouble);
 		AppLog.v("TAG", "价格字串：" + priceStr);
 		if(priceDouble < 1){

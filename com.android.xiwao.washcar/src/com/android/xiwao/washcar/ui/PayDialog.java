@@ -65,8 +65,8 @@ public class PayDialog extends Activity{
 	
 	private int payWay;	//付款方式，1为活动付款，2为余额付款
 //	private OrderData orderData;
-	private String fee; //订单原价
-	private String accountFee;//余额支付价格
+	private int fee; //订单原价
+	private int accountFee;//余额支付价格
 	private long orderId;
 	private String serverType;//服务类型
 	private boolean ifPaySuc = false;
@@ -83,8 +83,8 @@ public class PayDialog extends Activity{
 		mLocalSharePref = new LocalSharePreference(this);
 		mContext = this;
 //		orderData = getIntent().getParcelableExtra("order_detail");
-		fee = getIntent().getStringExtra("order_fee");
-		accountFee = getIntent().getStringExtra("order_account_fee");
+		fee = getIntent().getIntExtra("order_fee", 0);
+		accountFee = getIntent().getIntExtra("order_account_fee", 0);
 		orderId = getIntent().getLongExtra("order_id", 0);
 		serverType = getIntent().getStringExtra("server_type");
 		setContentView(R.layout.pay_dialog);
@@ -103,18 +103,18 @@ public class PayDialog extends Activity{
 		sureBtn = (Button)findViewById(R.id.sure_btn);
 		cancelBtn = (Button) findViewById(R.id.cannel_btn);
 		payMoneyTxt = (TextView) findViewById(R.id.pay_money);
-		payMoneyTxt.setText(fee);
+		payMoneyTxt.setText(StringUtils.getPriceIntStr(fee));
 		
 		TextView alipayAmt = (TextView) findViewById(R.id.alipay_amt);
 		TextView accountPayAmt = (TextView) findViewById(R.id.account_pay_amt);
-		alipayAmt.setText(fee);
-		accountPayAmt.setText(accountFee);
+		alipayAmt.setText(StringUtils.getPriceIntStr(fee));
+		accountPayAmt.setText(StringUtils.getPriceIntStr(accountFee));
 		
-		if(serverType.contains("充值")){
+		if(serverType.contains("C")){
 			accountPayLayout.setVisibility(View.GONE);
 			activityPayLayout.setVisibility(View.GONE);
 		}
-		if(serverType.contains("包月")){
+		if(serverType.contains("B")){
 			activityPayLayout.setVisibility(View.GONE);
 		}
 		sureBtn.setOnClickListener(new View.OnClickListener() {
@@ -190,8 +190,9 @@ public class PayDialog extends Activity{
 //				}
 				payMoneyTxt.setText("您的当前余额:  " + accountBalanceStr);
 				payWay = 2;
-				int feeInt = Integer.parseInt(fee.replace(".", ""));
-				if(accountBalance < feeInt){
+//				int feeInt = Integer.parseInt(fee.replace(".", ""));
+				AppLog.v(TAG, "accountFee" + accountFee);
+				if(accountBalance < accountFee){
 					payMoneyTxt.setText("您的当前余额:  " + accountBalanceStr + "\n余额不足\n请充值或者使用其他付款方式");
 //					sureBtn.setVisibility(View.GONE);
 					sureBtn.setText("充值");
@@ -240,7 +241,7 @@ public class PayDialog extends Activity{
 	}
 	
 	private String getNewOrderInfo() {
-		String alipayBodyMessage = "上海喜沃汽车服务有限公司" + serverType + "服务";
+		String alipayBodyMessage = "上海喜沃汽车服务有限公司" + serverType.substring(0, serverType.length() - 1) + "服务";
 		StringBuilder sb = new StringBuilder();
 		sb.append("partner=\"");
 		sb.append(Keys.DEFAULT_PARTNER);
@@ -251,7 +252,7 @@ public class PayDialog extends Activity{
 		sb.append("\"&body=\"");
 		sb.append(alipayBodyMessage);
 		sb.append("\"&total_fee=\"");
-		sb.append(fee);
+		sb.append(StringUtils.getPriceIntStr(fee));
 		sb.append("\"&notify_url=\"");
 
 		// 网址需要做URL编码
@@ -338,7 +339,7 @@ public class PayDialog extends Activity{
 //		String fee = orderData.getFee();
 		
 		BaseCommand carRegister = ClientSession.getInstance().getCmdFactory()
-				.getAccountConsume(mLocalSharePref.getUserId(), Integer.parseInt(accountFee.replace(".", "")), orderId);
+				.getAccountConsume(mLocalSharePref.getUserId(), accountFee, orderId);
 
 		mExecuter.execute(carRegister, mAccountConsumeRespHandler);
 
@@ -529,8 +530,9 @@ public class PayDialog extends Activity{
 	public void finish() {
 		// TODO Auto-generated method stub
 		if(ifPaySuc){
-			if(serverType.contains("包月")){
+			if(serverType.contains("B")){
 				mLocalSharePref.setUserType("01");
+				MainActivity.ifNeedRefreshMore = true;
 			}
 			AppLog.v(TAG, "付款成功");
 			setResult(RESULT_OK);

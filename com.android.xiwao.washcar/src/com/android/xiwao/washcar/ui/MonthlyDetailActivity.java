@@ -21,6 +21,7 @@ import com.android.xiwao.washcar.AppLog;
 import com.android.xiwao.washcar.R;
 import com.android.xiwao.washcar.XiwaoApplication;
 import com.android.xiwao.washcar.data.CarInfo;
+import com.android.xiwao.washcar.data.FeeData;
 import com.android.xiwao.washcar.data.MonthlyCarData;
 import com.android.xiwao.washcar.utils.FileUtil;
 
@@ -91,9 +92,18 @@ public class MonthlyDetailActivity extends Activity{
 				carInfo.setCarColor(monthlyCarData.getCarColor());
 				carInfo.setCarId(monthlyCarData.getCarId());
 				carInfo.setCustomerId(monthlyCarData.getCustomerId());
+				FeeData feeData = new FeeData();
+				for(FeeData fee : MainActivity.monthlyServiceList){
+					AppLog.v("getFeeTypeMi", fee.getFeeTypeMi());
+					AppLog.v("getMonthlyType", monthlyCarData.getCustomerId());
+					if(fee.getFeeTypeMi().equals(monthlyCarData.getMonthlyType())){
+						feeData = fee;
+						break;
+					}
+				}
 				Intent intent = new Intent(mContext, CarInfoEditActivity.class);
-				intent.putExtra("service_type", MainActivity.monthlyServiceList.get(0).getFeeType());
-				intent.putExtra("server_cls", (Parcelable)MainActivity.monthlyServiceList.get(0));
+				intent.putExtra("service_type", feeData.getFeeType());
+				intent.putExtra("server_cls", (Parcelable)feeData);
 				intent.putExtra("choice_car", (Parcelable)carInfo);
 				intent.putExtra("is_need_last_car", true);
 				startActivity(intent);

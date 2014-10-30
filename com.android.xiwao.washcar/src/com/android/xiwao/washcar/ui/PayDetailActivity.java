@@ -102,8 +102,8 @@ public class PayDetailActivity extends Activity {
 				String feeStr = Integer.toString(fee / 100) + ".00";
 				Intent intent = new Intent(mContext, PayDialog.class);
 				intent.putExtra("order_id", orderId);
-				intent.putExtra("order_fee", feeStr);
-				intent.putExtra("order_account_fee", saleFeeStr);
+				intent.putExtra("order_fee", fee);
+				intent.putExtra("order_account_fee", saleFee);
 				intent.putExtra("server_type", getIntent().getStringExtra("server_type"));
 				startActivityForResult(intent, Constants.PAY_ORDER_RESULT_CODE);
 			}

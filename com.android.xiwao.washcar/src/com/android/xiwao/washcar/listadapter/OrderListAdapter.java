@@ -80,11 +80,11 @@ public class OrderListAdapter extends BaseAdapter{
 		viewHolder.serialNumber.setText(Long.toString(singleOrderData.getOrderId()));
 		
 		String saleFeeStr = singleOrderData.getSaleFee();
-		String feeStr = singleOrderData.getFee();
+		String feeStr = StringUtils.getPriceStr(singleOrderData.getFee());
 		try{
 			saleFeeStr = StringUtils.getPriceStr(Integer.parseInt(singleOrderData.getSaleFee()));
 		}catch(Exception e){
-			saleFeeStr = singleOrderData.getFee();
+			saleFeeStr = feeStr;
 			e.printStackTrace();
 		}
 		
@@ -105,7 +105,7 @@ public class OrderListAdapter extends BaseAdapter{
 		viewHolder.payState.setText(orderState);
 		viewHolder.orderDate.setText(singleOrderData.getCreateTime().substring(0, 10));
 		viewHolder.carNum.setText(singleOrderData.getCarCode());
-		viewHolder.serverType.setText(singleOrderData.getServiceType());	
+		viewHolder.serverType.setText(singleOrderData.getServiceType().substring(0, singleOrderData.getServiceType().length() - 1));	
 		if(singleOrderData.getServiceType().contains("≥‰÷µ")){
 			viewHolder.carNum.setVisibility(View.GONE);
 		}else{

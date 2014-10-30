@@ -131,10 +131,7 @@ public class OrderDetailActivity extends Activity {
 //				intent.putExtra("order_detail", orderData);
 				intent.putExtra("order_id", orderData.getOrderId());
 				intent.putExtra("order_fee", orderData.getFee());
-				String saleFeeStr = orderData.getSaleFee();
-				saleFeeStr = saleFeeStr.substring(0, saleFeeStr.length() - 2) + "." 
-						+ saleFeeStr.substring(saleFeeStr.length() - 2);
-				intent.putExtra("order_account_fee", saleFeeStr);
+				intent.putExtra("order_account_fee", Integer.parseInt(orderData.getSaleFee()));
 				intent.putExtra("server_type", orderData.getServiceType());
 				startActivityForResult(intent, Constants.PAY_ORDER_RESULT_CODE);
 			}
@@ -162,7 +159,7 @@ public class OrderDetailActivity extends Activity {
 
 	private void fetchOrderData(){
 		orderId.setText(Long.toString(orderData.getOrderId()));
-		serviceType.setText(orderData.getServiceType());
+		serviceType.setText(orderData.getServiceType().substring(0, orderData.getServiceType().length() - 1));
 		carNum.setText(orderData.getCarCode());
 		phone.setText(orderData.getMobileNum());
 		vipCustomer.setText(mLocalSharePref.getNickName());
@@ -182,7 +179,7 @@ public class OrderDetailActivity extends Activity {
 		try{
 			saleFeeStr = StringUtils.getPriceStr(Integer.parseInt(orderData.getSaleFee()));
 		}catch(Exception e){
-			saleFeeStr = orderData.getFee();
+			saleFeeStr = StringUtils.getPriceStr(orderData.getFee());
 			e.printStackTrace();
 		}
 		if(orderStateStr.equals("01")){
@@ -195,7 +192,7 @@ public class OrderDetailActivity extends Activity {
 			doneTimeRow.setVisibility(View.GONE);
 			TableRow saleFeeRow = (TableRow) findViewById(R.id.sale_fee_row);
 			saleFeeRow.setVisibility(View.GONE);
-			transactionAmount.setText(orderData.getFee() + "      账户支付价格    " + saleFeeStr);
+			transactionAmount.setText(StringUtils.getPriceStr(orderData.getFee()) + "      账户支付价格    " + saleFeeStr);
 //			String saleFeeStr = orderData.getSaleFee();
 //			saleFeeStr = saleFeeStr.substring(0, saleFeeStr.length() - 2) + "." + saleFeeStr.substring(saleFeeStr.length() - 2);
 //			saleFee.setText(saleFeeStr);
@@ -251,14 +248,14 @@ public class OrderDetailActivity extends Activity {
 		orderState.setText(orderStateStr);
 		quantity.setText(orderData.getQuantity() + "");
 		String cleanInStr = "否";
-		if(orderData.getServiceTypeMi().contains("A3")){
+		if(orderData.getServiceTypeMi().contains("01")){
 			ifCleanIn.setText("是");
 			cleanInStr = "是";
 		}
 		if(orderData.getServiceType().contains("B")){
 			ifCleanInRow.setVisibility(View.GONE);		
 			serviceType.setText(orderData.getServiceType().subSequence(0, orderData.getServiceType().length() - 1) + "    数量     " + orderData.getQuantity());
-		}else if(orderData.getServiceType().contains("打蜡") || orderData.getServiceType().contains("洗车")){
+		}else if(orderData.getServiceType().contains("A") || orderData.getServiceType().contains("打蜡") || orderData.getServiceType().contains("洗车")){
 			quantityRow.setVisibility(View.GONE);
 			serviceType.setText(orderData.getServiceType().subSequence(0, orderData.getServiceType().length() - 1) + "    清洗内饰     " + cleanInStr);
 		}

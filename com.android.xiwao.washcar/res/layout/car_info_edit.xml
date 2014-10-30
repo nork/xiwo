@@ -286,7 +286,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="15dp"
-            android:text="备&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;注"
+            android:text="留&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;言"
             android:textColor="@android:color/black"
             android:textSize="18sp" />
 
@@ -301,7 +301,10 @@
             android:maxLength="120"
             android:paddingTop="@dimen/_2dp"
             android:paddingBottom="@dimen/_2dp"
-            android:textSize="18sp"  />
+            android:textSize="18sp"  
+            android:inputType="textMultiLine"
+			android:gravity="left|center_vertical"
+			android:minLines="3" />
     </RelativeLayout>
 
     <Button

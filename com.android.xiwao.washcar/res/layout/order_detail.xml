@@ -415,7 +415,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:text="备&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;注"
+                android:text="留&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;言"
                 android:textColor="@android:color/black" />
 
             <TextView
