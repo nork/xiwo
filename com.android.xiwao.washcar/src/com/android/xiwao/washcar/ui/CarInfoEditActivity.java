@@ -553,6 +553,7 @@ public class CarInfoEditActivity extends Activity {
 				}
 				choiceAddress.setAddressDetail(lastAddressQuery.address);
 				choiceAddress.setAddressId(lastAddressQuery.addressId);
+				choiceAddress.setDistractId(lastAddressQuery.carDistractFirstId);
 				setPriceView();
 			} else {
 				// dialogUtils.showToast(lastAddressQuery.errorMessage);

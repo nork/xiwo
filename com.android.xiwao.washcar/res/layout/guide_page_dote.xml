@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/_120dp"
+    android:layout_height="wrap_content" >
+
+    <RelativeLayout
+        android:id="@+id/choice_part"
+        android:layout_width="@dimen/_120dp"
+        android:layout_height="wrap_content" >
+
+        <ImageView android:id="@+id/choice_one"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:background="@drawable/guide_note_01" 
+            android:layout_marginLeft="@dimen/_17dp"/>
+
+        <ImageView android:id="@+id/choice_two"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/guide_note_01" />
+
+        <ImageView android:id="@+id/choice_three"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/guide_note_01" 
+            android:layout_marginRight="@dimen/_17dp"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/bottom_part"
+        android:layout_width="@dimen/_120dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/choice_part" >
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:background="@drawable/guide_note_line" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:background="@drawable/guide_note_02" 
+            android:layout_marginLeft="@dimen/_20dp"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/guide_note_02" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/guide_note_02" 
+            android:layout_marginRight="@dimen/_20dp"/>
+    </RelativeLayout>
+</RelativeLayout>

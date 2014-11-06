@@ -15,6 +15,7 @@
         android:layout_gravity="bottom"
         android:layout_marginBottom="@dimen/_50dp"
         android:gravity="center"
+        android:visibility="gone"
         >
     </LinearLayout>
 
